@@ -7,7 +7,8 @@ Todo
 
 Then...
 
-- Generate typescript definitions that I can use to define request/response API messages
+- Generate typescript definitions that I can use to define request/response API
+  messages
 - Generate parsing functions that I can use to parse inbound JSON payloads
 
 And then...
@@ -18,4 +19,5 @@ And then...
 
 And finally...
 
-- A utility that can parse an OpenAPI definition and create a fetch-based client that I'm happy with!
+- A utility that can parse an OpenAPI definition and create a fetch-based client
+  that I'm happy with!
