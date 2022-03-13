@@ -2,7 +2,7 @@
 
 Todo
 
-- Generate typescript validation functions.
+- Reject records with additional unknown properties?
 - Write a test to verify the string & record test cases.
 - Generate typescript definitions that I can use to define request/response API
   messages

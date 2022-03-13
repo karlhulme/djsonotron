@@ -32,6 +32,17 @@ export function test(value: any) {
         }    
       
       
+    for (const key of Object.keys(value)) {
+      if (!["first", "second", "third"].includes(key)) {
+        errors.push({
+          valuePath: `value`,
+          msg: `Contains unrecognised property: ${key}.`,
+          type: "std/testRecord1",
+        })
+      }
+    }
+  
+      
       if (typeof value.first !== 'undefined') {
         
         
@@ -45,39 +56,39 @@ export function test(value: any) {
       
 
 
-        for (let i = 0; i < value.first.length; i++) {
+        for (let idx_value_first = 0; idx_value_first < value.first.length; idx_value_first++) {
           
     
-    if (typeof value.first[i] !== "number") {
+    if (typeof value.first[idx_value_first] !== "number") {
       errors.push({
-        valuePath: `value.first[${i}]`,
+        valuePath: `value.first[${idx_value_first}]`,
         msg: "Should be a number.",
         type: "std/positiveInteger",
       })
     }
    else {
       
-    if (!Number.isInteger(value.first[i])) {
+    if (!Number.isInteger(value.first[idx_value_first])) {
       errors.push({
-        valuePath: `value.first[${i}]`,
+        valuePath: `value.first[${idx_value_first}]`,
         msg: "Should be a whole number.",
         type: "std/positiveInteger",
       })        
     }
   
       
-    if (value.first[i] < 1) {
+    if (value.first[idx_value_first] < 1) {
       errors.push({
-        valuePath: `value.first[${i}]`,
+        valuePath: `value.first[${idx_value_first}]`,
         msg: "Should be greater than or equal to 1.",
         type: "std/positiveInteger",
       })
     }
   
       
-  if (value.first[i] > 2147483647) {
+  if (value.first[idx_value_first] > 2147483647) {
     errors.push({
-      valuePath: `value.first[${i}]`,
+      valuePath: `value.first[${idx_value_first}]`,
       msg: "Should be less than or equal to 2147483647.",
       type: "std/positiveInteger",
     })

@@ -2,6 +2,7 @@ import { JsonotronTypeDef, RecordTypeDef } from "../interfaces/index.ts";
 import { getSystemFromTypeString } from "./getSystemFromTypeString.ts";
 import { getTypeFromTypeString } from "./getTypeFromTypeString.ts";
 import { generateRecordTypePropertyValidation } from "./generateRecordTypePropertyValidation.ts";
+import { getSafeValuePath } from './getSafeValuePath.ts';
 
 interface RecordTypeValidationProps {
   valuePath: string;
@@ -38,6 +39,22 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
       requiredPropsChecks.push(requiredPropCheck);
     }
   }
+
+  const recognisedProperties = props.def.properties
+    .map(p => `"${p.name}"`)
+    .join(", ")
+
+  const additionalPropsCheck = `
+    for (const key of Object.keys(${props.valuePath})) {
+      if (![${recognisedProperties}].includes(key)) {
+        errors.push({
+          valuePath: \`${props.valueDisplayPath}\`,
+          msg: \`Contains unrecognised property: \${key}.\`,
+          type: "${props.def.system}/${props.def.name}",
+        })
+      }
+    }
+  `
 
   const propertyChecks: string[] = [];
 
@@ -82,12 +99,14 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
 
       propertyValueChecks.push(arrayCheck);
 
+      const indexVar = 'idx_' + getSafeValuePath(`${props.valuePath}.${property.name}`)
+
       const arrayElementsCheck = `
-        for (let i = 0; i < ${props.valuePath}.${property.name}.length; i++) {
+        for (let ${indexVar} = 0; ${indexVar} < ${props.valuePath}.${property.name}.length; ${indexVar}++) {
           ${
         generateRecordTypePropertyValidation({
-          valuePath: `${props.valuePath}.${property.name}[i]`,
-          valueDisplayPath: `${props.valueDisplayPath}.${property.name}[\${i}]`,
+          valuePath: `${props.valuePath}.${property.name}[${indexVar}]`,
+          valueDisplayPath: `${props.valueDisplayPath}.${property.name}[\${${indexVar}}]`,
           def: propertyValueTypeDef,
           types: props.types,
         })
@@ -120,6 +139,7 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
   return `
     ${typeCheck} else {
       ${requiredPropsChecks.join("\n\n")}
+      ${additionalPropsCheck}
       ${propertyChecks.join("\n\n")}
     }
   `;
