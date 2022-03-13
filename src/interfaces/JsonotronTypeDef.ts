@@ -1,5 +1,5 @@
 import { LabelDef } from "./LabelDef.ts";
-import { JsonotronTypeKind } from './JsonotronTypeKind.ts'
+import { JsonotronTypeKind } from "./JsonotronTypeKind.ts";
 
 /**
  * Represents the properties that every resource definition must present.

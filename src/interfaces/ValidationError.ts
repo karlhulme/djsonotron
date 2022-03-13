@@ -5,22 +5,22 @@ export interface ValidationError {
   /**
    * The dotted path to the property that failed validation.
    */
-  valuePath: string,
+  valuePath: string;
 
   /**
    * A message describing the failure.
    */
-  msg: string,
+  msg: string;
 
   /**
    * The system for the type definition that described
    * the validation that failed.
    */
-  typeSystem: string,
+  typeSystem: string;
 
   /**
    * The name of the type definition that described
    * the validation that failed.
    */
-  typeName: string
+  typeName: string;
 }

@@ -50,6 +50,6 @@ Deno.test("Fail to validate an integer that is out of range.", () => {
     msg: "Should be greater than or equal to 5.",
     valuePath: "value",
     typeSystem: "test",
-    typeName: "simpleInt"
+    typeName: "simpleInt",
   }]);
 });

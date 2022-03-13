@@ -15,7 +15,8 @@ export function generateStringTypeValidation(props: StringTypeValidationProps) {
         typeName: '${props.def.name}'
       })
     } else {
-      ${typeof props.def.minimumLength === 'number' && `
+      ${
+    typeof props.def.minimumLength === "number" && `
       if (${props.valuePath}.length < ${props.def.minimumLength}) {
         errors.push({
           valuePath: '${props.valuePath}',
@@ -24,7 +25,8 @@ export function generateStringTypeValidation(props: StringTypeValidationProps) {
           typeName: '${props.def.name}'
         })
       }      
-      `}
+      `
+  }
 
       if (${props.valuePath}.length > ${props.def.maximumLength}) {
         errors.push({
@@ -35,7 +37,8 @@ export function generateStringTypeValidation(props: StringTypeValidationProps) {
         })
       }  
 
-      ${typeof props.def.regex === 'string' && `
+      ${
+    typeof props.def.regex === "string" && `
       if (!/${props.def.regex}/.test(${props.valuePath}) {
         errors.push({
           valuePath: '${props.valuePath}',
@@ -44,7 +47,8 @@ export function generateStringTypeValidation(props: StringTypeValidationProps) {
           typeName: '${props.def.name}'
         })
       }      
-      `}
+      `
+  }
     }
   `;
 }

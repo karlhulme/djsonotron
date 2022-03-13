@@ -15,10 +15,14 @@ export function generateEnumTypeValidation(props: EnumTypeValidationProps) {
         typeName: '${props.def.name}'
       })
     } else {
-      if (![${props.def.items.map(item => item.value).join(', ')}].includes(${props.valuePath})) {
+      if (![${
+    props.def.items.map((item) => item.value).join(", ")
+  }].includes(${props.valuePath})) {
         errors.push({
           valuePath: '${props.valuePath}',
-          msg: 'Should be one of the enum values: ${props.def.items.map(item => item.value).join(', ')}.',
+          msg: 'Should be one of the enum values: ${
+    props.def.items.map((item) => item.value).join(", ")
+  }.',
           typeSystem: '${props.def.system}',
           typeName: '${props.def.name}'
         })

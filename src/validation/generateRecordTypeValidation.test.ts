@@ -26,12 +26,12 @@ Deno.test("Reject a record that does not have the required fields.", () => {
     return errors
   `;
 
-  const fn = new Function("value", fnBody)
+  const fn = new Function("value", fnBody);
 
   assertEquals(fn({ first: "1st" }), [{
     msg: "Is a required property.",
     valuePath: "value.second",
     typeSystem: "test",
-    typeName: "simpleRecord"
+    typeName: "simpleRecord",
   }]);
 });

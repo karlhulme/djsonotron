@@ -1,4 +1,4 @@
-import { ValidationError } from './ValidationError.ts'
+import { ValidationError } from "./ValidationError.ts";
 
 /**
  * Describes the result of a validation.
@@ -9,5 +9,5 @@ export interface ValidationResult {
   /**
    * An array of the validation errors that were identified.
    */
-  errors: ValidationError[]
+  errors: ValidationError[];
 }
