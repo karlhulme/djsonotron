@@ -2,11 +2,14 @@
 
 Todo
 
-- Reject records with additional unknown properties?
-- Write a test to verify the string & record test cases.
-- Generate typescript definitions that I can use to define request/response API
-  messages
-- Generate parsing functions that I can use to parse inbound JSON payloads
+- Improve error messages where appropriate? e.g Record requires "" property.
+  Integer (5) must be greater than 10.
+- Write tests to check production of validation code
+- Write a test to verify type system (which means checking valid/invalid test
+  cases of string/record)
+- Generate typescript definitions from records
+- Generate parsing functions for records that I can use to parse inbound JSON
+  payloads
 
 And then...
 

@@ -1,3 +1,3 @@
-export function getSafeValuePath (valuePath: string) {
-  return valuePath.replace(/[^a-zA-Z]/g, "_")
+export function getSafeValuePath(valuePath: string) {
+  return valuePath.replace(/[^a-zA-Z]/g, "_");
 }

@@ -18,10 +18,10 @@ Deno.test("Reject a record that does not have the required fields.", () => {
     return errors
   `;
 
-  Deno.writeTextFileSync(
-    "./test/fn.ts",
-    `export function test(value: any) {\n${fnBody}\n}`,
-  );
+  // Deno.writeTextFileSync(
+  //   "./test/fn.ts",
+  //   `export function test(value: any) {\n${fnBody}\n}`,
+  // );
 
   const fn = new Function("value", fnBody);
 
