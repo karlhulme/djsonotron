@@ -20,16 +20,40 @@ import {
 } from "./intTypes/index.ts";
 import { plainObject } from "./objectTypes/index.ts";
 import { longLat } from "./recordTypes/index.ts";
+import {
+  date,
+  dateTimeTz,
+  dateTimeUtc,
+  emailAddress,
+  hugeString,
+  ipv4,
+  ipv6,
+  longString,
+  mediumString,
+  shortString,
+  time,
+  uuid,
+  webAddress,
+} from "./stringTypes/index.ts";
 import { testEnum1, testRecord1 } from "./testTypes/index.ts";
 
 export const stdSystemTypes: JsonotronTypeDef[] = [
   bool,
-  float,
   dayOfWeek,
+  date,
+  dateTimeTz,
+  dateTimeUtc,
+  emailAddress,
+  float,
+  hugeString,
+  ipv4,
+  ipv6,
+  longString,
   integer,
   latitudeFloat,
   longitudeFloat,
   longLat,
+  mediumString,
   monthOfYear,
   negativeFloat,
   negativeFloatOrZero,
@@ -40,8 +64,12 @@ export const stdSystemTypes: JsonotronTypeDef[] = [
   positiveFloatOrZero,
   positiveInteger,
   positiveIntegerOrZero,
+  shortString,
   testEnum1,
   testRecord1,
+  time,
   timestamp,
+  uuid,
+  webAddress,
   yesNo,
 ];

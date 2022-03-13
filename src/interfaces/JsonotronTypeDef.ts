@@ -1,4 +1,5 @@
 import { LabelDef } from "./LabelDef.ts";
+import { JsonotronTypeKind } from './JsonotronTypeKind.ts'
 
 /**
  * Represents the properties that every resource definition must present.
@@ -7,7 +8,7 @@ export interface JsonotronTypeDef {
   /**
    * The kind of type.
    */
-  kind: "bool" | "enum" | "int" | "float" | "string" | "record" | "object";
+  kind: JsonotronTypeKind;
 
   /**
    * The name of the system to which this type belongs.

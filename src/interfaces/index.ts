@@ -9,3 +9,6 @@ export * from "./RecordTypeDefProperty.ts";
 export * from "./StringTypeDef.ts";
 export * from "./TestCase.ts";
 export * from "./TypeLibraryDef.ts";
+export * from './ValidationError.ts'
+export * from './ValidationFunction.ts'
+export * from './ValidationResult.ts'

@@ -20,7 +20,7 @@ export interface RecordTypeDef extends JsonotronTypeDef {
    * An array of values that can be represented by this type.
    * Some of these cases may also serve as example usages of the type.
    */
-  validTestCases: TestCase<unknown>[];
+  validTestCases?: TestCase<unknown>[];
 
   /**
    * An array of values that cannot be represented by this type.
