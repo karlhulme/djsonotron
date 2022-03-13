@@ -19,6 +19,7 @@ Deno.test("Validate an integer that is in range.", () => {
     generateIntTypeValidation({
       def: simpleInt,
       valuePath: "value",
+      valueDisplayPath: "value",
     })
   }
 
@@ -38,6 +39,7 @@ Deno.test("Fail to validate an integer that is out of range.", () => {
     generateIntTypeValidation({
       def: simpleInt,
       valuePath: "value",
+      valueDisplayPath: "value",
     })
   }
 
@@ -49,7 +51,6 @@ Deno.test("Fail to validate an integer that is out of range.", () => {
   assertEquals(fn(4), [{
     msg: "Should be greater than or equal to 5.",
     valuePath: "value",
-    typeSystem: "test",
-    typeName: "simpleInt",
+    type: "test/simpleInt",
   }]);
 });

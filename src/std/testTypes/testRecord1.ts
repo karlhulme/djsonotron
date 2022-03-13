@@ -8,28 +8,26 @@ export const testRecord1: RecordTypeDef = {
   summary: `A record for testing the records and deprecations.`,
   deprecated: "This record is only used for testing.",
   properties: [{
-    name: "theFirst",
-    summary: "The first property.",
-    propertyType: "shortString",
+    name: "first",
+    propertyType: "std/positiveInteger",
+    isArray: true,
+    summary: "The first value.",
   }, {
-    name: "theSecond",
-    summary: "The second property.",
-    propertyType: "shortString",
+    name: "second",
+    propertyType: "std/dateTimeUtc",
+    summary: "The second value.",
   }, {
-    name: "theThird",
-    summary: "The third property.",
-    propertyType: "shortString",
-    deprecated:
-      "This third property is not used, please refer to theSecond instead.",
+    name: "third",
+    propertyType: "std/shortString",
+    constant: "333",
+    summary: "The third value.",
   }],
-  required: [
-    "theFirst",
-    "theSecond",
-  ],
+  required: ["first", "second"],
   validTestCases: [{
     value: {
-      theFirst: "one",
-      theSecond: "two",
+      first: "one",
+      second: "two",
+      third: "333",
     },
   }],
 };

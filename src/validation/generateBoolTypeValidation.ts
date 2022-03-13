@@ -2,18 +2,22 @@ import { JsonotronTypeDef } from "../interfaces/index.ts";
 
 interface BoolTypeValidationProps {
   valuePath: string;
+  valueDisplayPath: string;
   def: JsonotronTypeDef;
 }
 
 export function generateBoolTypeValidation(props: BoolTypeValidationProps) {
-  return `
-    if (typeof ${props.valuePath} !== 'boolean') {
+  const typeCheck = `
+    if (typeof ${props.valuePath} !== "boolean") {
       errors.push({
-        valuePath: '${props.valuePath}',
-        msg: 'Should be a boolean',
-        typeSystem: '${props.def.system}',
-        typeName: '${props.def.name}'
+        valuePath: \`${props.valueDisplayPath}\`,
+        msg: "Should be a boolean.",
+        type: "${props.def.system}/${props.def.name}",
       })
     }
+  `;
+
+  return `
+    ${typeCheck}
   `;
 }

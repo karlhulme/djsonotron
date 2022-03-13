@@ -1,16 +1,6 @@
-import { RecordTypeDef } from "../interfaces/index.ts";
+import { stdSystemTypes, testRecord1 } from "../std/index.ts";
 import { generateRecordTypeValidation } from "./generateRecordTypeValidation.ts";
 import { assertEquals } from "../../deps.ts";
-
-const simpleRecord: RecordTypeDef = {
-  kind: "int",
-  system: "test",
-  name: "simpleRecord",
-  summary: "A simple integer used for testing",
-  properties: [],
-  required: ["first", "second"],
-  validTestCases: [],
-};
 
 Deno.test("Reject a record that does not have the required fields.", () => {
   const fnBody = `
@@ -18,20 +8,26 @@ Deno.test("Reject a record that does not have the required fields.", () => {
     
     ${
     generateRecordTypeValidation({
-      def: simpleRecord,
+      def: testRecord1,
       valuePath: "value",
+      valueDisplayPath: "value",
+      types: stdSystemTypes,
     })
   }
 
     return errors
   `;
 
+  Deno.writeTextFileSync(
+    "./test/fn.ts",
+    `export function test(value: any) {\n${fnBody}\n}`,
+  );
+
   const fn = new Function("value", fnBody);
 
-  assertEquals(fn({ first: "1st" }), [{
+  assertEquals(fn({ first: [11, 22] }), [{
     msg: "Is a required property.",
     valuePath: "value.second",
-    typeSystem: "test",
-    typeName: "simpleRecord",
+    type: "std/testRecord1",
   }]);
 });
