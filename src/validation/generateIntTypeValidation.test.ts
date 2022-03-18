@@ -1,6 +1,10 @@
+import { assertEquals } from "../../deps.ts";
 import { IntTypeDef } from "../interfaces/index.ts";
 import { generateIntTypeValidation } from "./generateIntTypeValidation.ts";
-import { assertEquals } from "../../deps.ts";
+import {
+  assertValidationErrorMessage,
+  createValidationFunction,
+} from "./shared.test.ts";
 
 const simpleInt: IntTypeDef = {
   kind: "int",
@@ -11,46 +15,22 @@ const simpleInt: IntTypeDef = {
   maximum: 8,
 };
 
+function generateIntValidationFunction(def: IntTypeDef) {
+  const fnBody = generateIntTypeValidation({
+    def,
+    valuePath: "value",
+    valueDisplayPath: "value",
+  });
+
+  return createValidationFunction(fnBody);
+}
+
 Deno.test("Validate an integer that is in range.", () => {
-  const fnBody = `
-    const errors = []
-    
-    ${
-    generateIntTypeValidation({
-      def: simpleInt,
-      valuePath: "value",
-      valueDisplayPath: "value",
-    })
-  }
-
-    return errors
-  `;
-
-  const fn = new Function("value", fnBody);
-
+  const fn = generateIntValidationFunction(simpleInt);
   assertEquals(fn(6), []);
 });
 
-Deno.test("Fail to validate an integer that is out of range.", () => {
-  const fnBody = `
-    const errors = []
-    
-    ${
-    generateIntTypeValidation({
-      def: simpleInt,
-      valuePath: "value",
-      valueDisplayPath: "value",
-    })
-  }
-
-    return errors
-  `;
-
-  const fn = new Function("value", fnBody);
-
-  assertEquals(fn(4), [{
-    msg: "Should be greater than or equal to 5.",
-    valuePath: "value",
-    type: "test/simpleInt",
-  }]);
+Deno.test("Fail to validate if value is not integer.", () => {
+  const fn = generateIntValidationFunction(simpleInt);
+  assertValidationErrorMessage(fn("not an int"), "must be a number");
 });

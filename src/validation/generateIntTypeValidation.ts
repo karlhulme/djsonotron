@@ -11,7 +11,8 @@ export function generateIntTypeValidation(props: IntTypeValidationProps) {
     if (typeof ${props.valuePath} !== "number") {
       errors.push({
         valuePath: \`${props.valueDisplayPath}\`,
-        msg: "Should be a number.",
+        value: ${props.valuePath},
+        msg: "Value must be a number.",
         type: "${props.def.system}/${props.def.name}",
       })
     }
@@ -21,7 +22,8 @@ export function generateIntTypeValidation(props: IntTypeValidationProps) {
     if (!Number.isInteger(${props.valuePath})) {
       errors.push({
         valuePath: \`${props.valueDisplayPath}\`,
-        msg: "Should be a whole number.",
+        value: ${props.valuePath},
+        msg: "Value must be a whole number.",
         type: "${props.def.system}/${props.def.name}",
       })        
     }
@@ -31,7 +33,8 @@ export function generateIntTypeValidation(props: IntTypeValidationProps) {
     if (${props.valuePath} < ${props.def.minimum}) {
       errors.push({
         valuePath: \`${props.valueDisplayPath}\`,
-        msg: "Should be greater than or equal to ${props.def.minimum}.",
+        value: ${props.valuePath},
+        msg: "Value must be greater than or equal to ${props.def.minimum}.",
         type: "${props.def.system}/${props.def.name}",
       })
     }
@@ -41,7 +44,8 @@ export function generateIntTypeValidation(props: IntTypeValidationProps) {
   if (${props.valuePath} > ${props.def.maximum}) {
     errors.push({
       valuePath: \`${props.valueDisplayPath}\`,
-      msg: "Should be less than or equal to ${props.def.maximum}.",
+      value: ${props.valuePath},
+      msg: "Values must be less than or equal to ${props.def.maximum}.",
       type: "${props.def.system}/${props.def.name}",
     })
   }

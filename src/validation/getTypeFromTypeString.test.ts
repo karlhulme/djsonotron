@@ -1,14 +1,17 @@
 import { getTypeFromTypeString } from "./getTypeFromTypeString.ts";
-import { assertEquals } from "../../deps.ts";
+import { assertStrictEquals } from "../../deps.ts";
 
 Deno.test("Type string with no system is returned.", () => {
-  assertEquals(getTypeFromTypeString("testType"), "testType");
+  assertStrictEquals(getTypeFromTypeString("testType"), "testType");
 });
 
 Deno.test("Type string with system is extracted.", () => {
-  assertEquals(getTypeFromTypeString("sys/testType"), "testType");
+  assertStrictEquals(getTypeFromTypeString("sys/testType"), "testType");
 });
 
 Deno.test("Type string system is based on first forward slash.", () => {
-  assertEquals(getTypeFromTypeString("sys/sys2/testType"), "sys2/testType");
+  assertStrictEquals(
+    getTypeFromTypeString("sys/sys2/testType"),
+    "sys2/testType",
+  );
 });

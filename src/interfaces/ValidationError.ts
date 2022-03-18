@@ -11,6 +11,11 @@ export interface ValidationError {
   valuePath: string;
 
   /**
+   * The value that failed validation.
+   */
+  value: unknown;
+
+  /**
    * A message describing the failure.
    */
   msg: string;
