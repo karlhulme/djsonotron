@@ -21,14 +21,7 @@ export interface ValidationError {
   msg: string;
 
   /**
-   * The system for the type definition that described
-   * the validation that failed.
+   * The fully qualified name of the type, e.g. std/positiveInteger.
    */
-  typeSystem: string;
-
-  /**
-   * The name of the type definition that described
-   * the validation that failed.
-   */
-  typeName: string;
+  type: string;
 }

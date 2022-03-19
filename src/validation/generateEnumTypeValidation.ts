@@ -11,7 +11,8 @@ export function generateEnumTypeValidation(props: EnumTypeValidationProps) {
     if (typeof ${props.valuePath} !== "string") {
       errors.push({
         valuePath: \`${props.valueDisplayPath}\`,
-        msg: "Should be a string.",
+        value: ${props.valuePath},
+        msg: "Value must be a string.",
         type: "${props.def.system}/${props.def.name}",
       })
     } 
@@ -27,12 +28,12 @@ export function generateEnumTypeValidation(props: EnumTypeValidationProps) {
 
   const oneOfEnumValuesCheck = `
     if (![${enumValuesDec}].includes(${props.valuePath})) {
-        errors.push({
-          valuePath: \`${props.valueDisplayPath}\`,
-          msg: "Should be one of the enum values: ${enumValuesText}.",
-          type: "${props.def.system}/${props.def.name}",
-        })
-      }
+      errors.push({
+        valuePath: \`${props.valueDisplayPath}\`,
+        value: ${props.valuePath},
+        msg: "Value must be one of the enum values: ${enumValuesText}.",
+        type: "${props.def.system}/${props.def.name}",
+      })
     }
   `;
 

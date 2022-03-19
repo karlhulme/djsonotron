@@ -16,7 +16,8 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
     if (typeof ${props.valuePath} !== "object" || ${props.valuePath} === null || Array.isArray(${props.valuePath})) {
       errors.push({
         valuePath: \`${props.valueDisplayPath}\`,
-        msg: "Should be an object (non null and not an array).",
+        value: ${props.valuePath},
+        msg: "Value must be an object (non null and not an array).",
         type: "${props.def.system}/${props.def.name}",
       })
     }
@@ -30,7 +31,8 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
         if (typeof ${props.valuePath}.${reqPropName} === "undefined" || ${props.valuePath}.${reqPropName} === null) {
           errors.push({
             valuePath: \`${props.valueDisplayPath}.${reqPropName}\`,
-            msg: "Is a required property.",
+            value: ${props.valuePath}.${reqPropName},
+            msg: "Value is a required property and cannot be undefined or null.",
             type: "${props.def.system}/${props.def.name}",
           })
         }    
@@ -49,7 +51,8 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
       if (![${recognisedProperties}].includes(key)) {
         errors.push({
           valuePath: \`${props.valueDisplayPath}\`,
-          msg: \`Contains unrecognised property: \${key}.\`,
+          value: ${props.valuePath},
+          msg: \`Value must not contain unrecognised property: \${key}.\`,
           type: "${props.def.system}/${props.def.name}",
         })
       }
@@ -64,7 +67,8 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
         if (${props.valuePath}.${property.name} !== "${property.constant}") {
           errors.push({
             valuePath: \`${props.valueDisplayPath}.${property.name}\`,
-            msg: "Must be constant value: ${property.constant}.",
+            value: ${props.valuePath}.${property.name},
+            msg: "Value must be ${property.constant}.",
             type: "${props.def.system}/${props.def.name}",
           })
         }
@@ -91,7 +95,8 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
         if (!Array.isArray(${props.valuePath}.${property.name})) {
           errors.push({
             valuePath: \`${props.valueDisplayPath}.${property.name}\`,
-            msg: "Must be an array.",
+            value: ${props.valuePath}.${property.name},
+            msg: "Value must be an array.",
             type: "${props.def.system}/${props.def.name}",
           })
         }

@@ -11,7 +11,8 @@ export function generateBoolTypeValidation(props: BoolTypeValidationProps) {
     if (typeof ${props.valuePath} !== "boolean") {
       errors.push({
         valuePath: \`${props.valueDisplayPath}\`,
-        msg: "Should be a boolean.",
+        value: ${props.valuePath},
+        msg: "Value must be a boolean.",
         type: "${props.def.system}/${props.def.name}",
       })
     }

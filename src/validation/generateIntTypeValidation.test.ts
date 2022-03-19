@@ -2,7 +2,7 @@ import { assertEquals } from "../../deps.ts";
 import { IntTypeDef } from "../interfaces/index.ts";
 import { generateIntTypeValidation } from "./generateIntTypeValidation.ts";
 import {
-  assertValidationErrorMessage,
+  assertValidationErrorFirstMessage,
   createValidationFunction,
 } from "./shared.test.ts";
 
@@ -10,7 +10,7 @@ const simpleInt: IntTypeDef = {
   kind: "int",
   system: "test",
   name: "simpleInt",
-  summary: "A simple integer used for testing",
+  summary: "A type used for testing.",
   minimum: 5,
   maximum: 8,
 };
@@ -25,12 +25,29 @@ function generateIntValidationFunction(def: IntTypeDef) {
   return createValidationFunction(fnBody);
 }
 
-Deno.test("Validate an integer that is in range.", () => {
+Deno.test("Validate a valid integer.", () => {
   const fn = generateIntValidationFunction(simpleInt);
-  assertEquals(fn(6), []);
+  assertEquals(fn(5), []);
+  assertEquals(fn(8), []);
 });
 
-Deno.test("Fail to validate if value is not integer.", () => {
+Deno.test("Fail to validate if value is not a number.", () => {
   const fn = generateIntValidationFunction(simpleInt);
-  assertValidationErrorMessage(fn("not an int"), "must be a number");
+  assertValidationErrorFirstMessage(fn("not an int"), "must be a number");
+  assertValidationErrorFirstMessage(fn(), "must be a number");
+});
+
+Deno.test("Fail to validate if value is not a whole number.", () => {
+  const fn = generateIntValidationFunction(simpleInt);
+  assertValidationErrorFirstMessage(fn(6.5), "must be a whole number");
+});
+
+Deno.test("Fail to validate if value is below minimum.", () => {
+  const fn = generateIntValidationFunction(simpleInt);
+  assertValidationErrorFirstMessage(fn(4), "must be greater than or equal to 5");
+});
+
+Deno.test("Fail to validate if value is above maximum.", () => {
+  const fn = generateIntValidationFunction(simpleInt);
+  assertValidationErrorFirstMessage(fn(9), "must be less than or equal to 8");
 });

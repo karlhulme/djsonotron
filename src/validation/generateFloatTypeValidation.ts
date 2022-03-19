@@ -11,14 +11,15 @@ export function generateFloatTypeValidation(props: FloatTypeValidationProps) {
     if (typeof ${props.valuePath} !== "number") {
       errors.push({
         valuePath: \`${props.valueDisplayPath}\`,
-        msg: "Should be a number.",
+        value: ${props.valuePath},
+        msg: "Value must be a number.",
         type: "${props.def.system}/${props.def.name}",
       })
     }
   `;
 
   const minimumEqualitySymbol = props.def.isMinimumExclusive ? "<=" : "<";
-  const minimumMessage = `Should be greater than${
+  const minimumMessage = `Value must be greater than${
     props.def.isMinimumExclusive ? "" : " or equal to"
   } ${props.def.minimum}.`;
 
@@ -26,6 +27,7 @@ export function generateFloatTypeValidation(props: FloatTypeValidationProps) {
     if (${props.valuePath} ${minimumEqualitySymbol} ${props.def.minimum}) {
         errors.push({
           valuePath: \`${props.valueDisplayPath}\`,
+          value: ${props.valuePath},
           msg: "${minimumMessage}",
           type: "${props.def.system}/${props.def.name}",
         })
@@ -33,7 +35,7 @@ export function generateFloatTypeValidation(props: FloatTypeValidationProps) {
   `;
 
   const maximumEqualitySymbol = props.def.isMaximumExclusive ? ">=" : ">";
-  const maximumMessage = `Should be less than${
+  const maximumMessage = `Value must be less than${
     props.def.isMaximumExclusive ? "" : " or equal to"
   } ${props.def.maximum}.`;
 
@@ -41,6 +43,7 @@ export function generateFloatTypeValidation(props: FloatTypeValidationProps) {
     if (${props.valuePath} ${maximumEqualitySymbol} ${props.def.maximum}) {
         errors.push({
           valuePath: \`${props.valueDisplayPath}\`,
+          value: ${props.valuePath},
           msg: "${maximumMessage}",
           type: "${props.def.system}/${props.def.name}",
         })

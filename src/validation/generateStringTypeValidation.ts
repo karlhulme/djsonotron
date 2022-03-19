@@ -11,7 +11,7 @@ export function generateStringTypeValidation(props: StringTypeValidationProps) {
     if (typeof ${props.valuePath} !== "string") {
       errors.push({
         valuePath: \`${props.valueDisplayPath}\`,
-        msg: "Should be a string.",
+        msg: "Value must be a string.",
         type: "${props.def.system}/${props.def.name}",
       })
     }
@@ -22,7 +22,7 @@ export function generateStringTypeValidation(props: StringTypeValidationProps) {
       if (${props.valuePath}.length < ${props.def.minimumLength}) {
         errors.push({
           valuePath: \`${props.valueDisplayPath}\`,
-          msg: "Should have ${props.def.minimumLength} or more characters.",
+          msg: "Value must have ${props.def.minimumLength} or more characters.",
           type: "${props.def.system}/${props.def.name}",
         })
       }     
@@ -33,7 +33,7 @@ export function generateStringTypeValidation(props: StringTypeValidationProps) {
     if (${props.valuePath}.length > ${props.def.maximumLength}) {
       errors.push({
         valuePath: \`${props.valueDisplayPath}\`,
-        msg: "Should have ${props.def.maximumLength} or less characters.",
+        msg: "Value must have ${props.def.maximumLength} or less characters.",
         type: "${props.def.system}/${props.def.name}",
       })
     }    
@@ -44,7 +44,7 @@ export function generateStringTypeValidation(props: StringTypeValidationProps) {
       if (!/${props.def.regex}/.test(${props.valuePath})) {
         errors.push({
           valuePath: \`${props.valueDisplayPath}\`,
-          msg: "Should match regex pattern ${props.def.regex}.",
+          msg: "Value must match regex pattern ${props.def.regex}.",
           type: "${props.def.system}/${props.def.name}",
         })
       }      

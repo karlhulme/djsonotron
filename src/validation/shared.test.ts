@@ -13,28 +13,40 @@ export function createValidationFunction(body: string) {
   return fn;
 }
 
-export function assertValidationErrorMessage(
-  actual: ValidationError[],
-  expectedMessage: string,
+export function assertValidationErrorFirstMessage(
+  errors: ValidationError[],
+  firstMessage: string,
   msg?: string,
 ): void {
-  if (!Array.isArray(actual)) {
+  if (!Array.isArray(errors)) {
     throw new AssertionError("Test value was not an array.");
   }
 
-  if (actual.length !== 1) {
+  if (errors.length !== 1) {
     throw new AssertionError("Test value array did not have length of 1.");
   }
 
-  if (typeof actual[0].msg !== "string") {
-    throw new AssertionError("First error does not have msg property.");
+  for (let errorNo = 0; errorNo < errors.length; errorNo++) {
+    const error = errors[errorNo]
+
+    if (typeof error.valuePath !== "string") {
+      throw new AssertionError(`Error ${errorNo} does not have valuePath property.`);
+    }
+
+    if (typeof error.type !== "string") {
+      throw new AssertionError(`Error ${errorNo} does not have typeSystem property.`);
+    }
+
+    if (typeof error.msg !== "string") {
+      throw new AssertionError(`Error ${errorNo} does not have msg property.`);
+    }
   }
 
-  if (!actual[0].msg.includes(expectedMessage)) {
+  if (!errors[0].msg.includes(firstMessage)) {
     throw new AssertionError(
       msg ||
-        `Expected msg property to include '${expectedMessage}' but received '${
-          actual[0].msg
+        `Expected msg property of first error to include '${firstMessage}' but received '${
+          errors[0].msg
         }'`,
     );
   }
