@@ -6,5 +6,3 @@ export * from "./generateIntTypeValidation.ts";
 export * from "./generateObjectTypeValidation.ts";
 export * from "./generateRecordTypeValidation.ts";
 export * from "./generateStringTypeValidation.ts";
-export * from "./getSystemFromTypeString.ts";
-export * from "./getTypeFromTypeString.ts";

@@ -1,6 +1,8 @@
 import { JsonotronTypeDef, RecordTypeDef } from "../interfaces/index.ts";
-import { getSystemFromTypeString } from "./getSystemFromTypeString.ts";
-import { getTypeFromTypeString } from "./getTypeFromTypeString.ts";
+import {
+  getSystemFromTypeString,
+  getTypeFromTypeString,
+} from "../utils/index.ts";
 import { generateRecordTypePropertyValidation } from "./generateRecordTypePropertyValidation.ts";
 import { getSafeValuePath } from "./getSafeValuePath.ts";
 

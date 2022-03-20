@@ -1,5 +1,10 @@
-import { EnumTypeDef, JsonotronTypeDef } from "../interfaces/index.ts";
+import {
+  EnumTypeDef,
+  JsonotronTypeDef,
+  RecordTypeDef,
+} from "../interfaces/index.ts";
 import { generateTypescriptForEnum } from "./generateTypescriptForEnum.ts";
+import { generateTypescriptForRecord } from "./generateTypescriptForRecord.ts";
 
 export function generateTypescriptForJsonotronTypes(types: JsonotronTypeDef[]) {
   const declarations = [];
@@ -8,7 +13,9 @@ export function generateTypescriptForJsonotronTypes(types: JsonotronTypeDef[]) {
     if (type.kind === "enum") {
       declarations.push(generateTypescriptForEnum(type as EnumTypeDef));
     } else if (type.kind === "record") {
-      // generate typescript for reord
+      declarations.push(
+        generateTypescriptForRecord(type as RecordTypeDef, types),
+      );
     }
   }
 

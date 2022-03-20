@@ -3,5 +3,5 @@ import { assertStrictEquals } from "../deps.ts";
 
 Deno.test("Produce typescript output for standard system.", () => {
   const tsFileContents = generateTypescriptForJsonotronTypes(stdSystemTypes);
-  assertStrictEquals(tsFileContents.length, 1107);
+  assertStrictEquals(tsFileContents.length, 1354);
 });

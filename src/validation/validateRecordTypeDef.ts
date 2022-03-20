@@ -4,10 +4,12 @@ import {
   TypeDefValidationError,
 } from "../interfaces/index.ts";
 import {
-  createValidationFunction,
-  generateRecordTypeValidation,
   getSystemFromTypeString,
   getTypeFromTypeString,
+} from "../utils/index.ts";
+import {
+  createValidationFunction,
+  generateRecordTypeValidation,
 } from "../codegen/index.ts";
 
 export function validateRecordTypeDef(
