@@ -2,9 +2,7 @@
 
 Todo
 
-- Generate typescript definitions from records
-- Generate parsing functions for records that I can use to parse inbound JSON
-  payloads
+- Generate parsing functions for records that I can use to parse inbound JSON payloads
 
 And then...
 
