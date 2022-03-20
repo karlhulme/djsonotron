@@ -35,7 +35,6 @@ import {
   uuid,
   webAddress,
 } from "./stringTypes/index.ts";
-import { testEnum1, testRecord1 } from "./testTypes/index.ts";
 
 export const stdSystemTypes: JsonotronTypeDef[] = [
   bool,
@@ -65,8 +64,6 @@ export const stdSystemTypes: JsonotronTypeDef[] = [
   positiveInteger,
   positiveIntegerOrZero,
   shortString,
-  testEnum1,
-  testRecord1,
   time,
   timestamp,
   uuid,

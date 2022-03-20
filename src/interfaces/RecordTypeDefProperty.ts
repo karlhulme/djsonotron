@@ -28,6 +28,17 @@ export interface RecordTypeDefProperty {
   isArray?: boolean;
 
   /**
+   * Specifies if a value must be suppplied for this property
+   * or whether it can be undefined.
+   */
+  isRequired?: boolean;
+
+  /**
+   * Specifies if null is a valid value for the property.
+   */
+  isNullable?: boolean;
+
+  /**
    * If populated, this value explains why the property was deprecated
    * and/or which property to use instead.
    */

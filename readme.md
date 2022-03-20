@@ -2,11 +2,6 @@
 
 Todo
 
-- Improve error messages where appropriate? e.g Record requires "" property.
-  Integer (5) must be greater than 10.
-- Write tests to check production of validation code
-- Write a test to verify type system (which means checking valid/invalid test
-  cases of string/record)
 - Generate typescript definitions from records
 - Generate parsing functions for records that I can use to parse inbound JSON
   payloads
@@ -20,7 +15,9 @@ And then...
 And finally...
 
 - A utility that can parse an OpenAPI definition and create a fetch-based client
-  that I'm happy with!
+  that I'm happy with! Might not need much more than the definitions and a
+  simple wrapper that allows all non-success codes to be handled as thrown
+  errors.
 
 ## Commands
 

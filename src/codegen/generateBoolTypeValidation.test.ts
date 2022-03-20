@@ -1,16 +1,14 @@
 import { assertEquals } from "../../deps.ts";
 import { JsonotronTypeDef } from "../interfaces/index.ts";
 import { generateBoolTypeValidation } from "./generateBoolTypeValidation.ts";
-import {
-  assertValidationErrorFirstMessage,
-  createValidationFunction,
-} from "./shared.test.ts";
+import { createValidationFunction } from "./createValidationFunction.ts";
+import { assertValidationErrorFirstMessage } from "./shared.test.ts";
 
 const simpleBool: JsonotronTypeDef = {
   kind: "bool",
   system: "test",
   name: "simpleBool",
-  summary: "A type used for testing."
+  summary: "A type used for testing.",
 };
 
 function generateBoolValidationFunction(def: JsonotronTypeDef) {

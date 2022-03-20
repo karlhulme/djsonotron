@@ -8,16 +8,15 @@ export const ipv6: StringTypeDef = {
   summary:
     `A string of digits that identify a computer on a network in IP v4 format.
     The regex is an approximation and further validation may be desired.`,
-  minimumLength: 5,
-  maximumLength: 15,
+  maximumLength: 45,
   regex:
-    "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+    "^([0-9A-Fa-f]{0,4}:){2,7}([0-9A-Fa-f]{1,4}$|((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.|$)){4})$",
   validTestCases: [{
-    value: "192.168.0.1",
+    value: "2a00:23c5:1ab0:3001:1776:5ae:499f:114a",
+  }, {
+    value: "::1",
   }],
   invalidTestCases: [{
-    value: "255.255.255.256",
-  }, {
-    value: "1.1.1",
+    value: "2a00:23c5",
   }],
 };

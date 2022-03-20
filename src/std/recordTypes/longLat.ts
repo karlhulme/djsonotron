@@ -11,15 +11,13 @@ export const longLat: RecordTypeDef = {
     name: "longitude",
     summary: "The longitudinal position",
     propertyType: "longitudeFloat",
+    isRequired: true,
   }, {
     name: "latitude",
     summary: "The latitudinal position",
     propertyType: "latitudeFloat",
+    isRequired: true,
   }],
-  required: [
-    "longitude",
-    "latitude",
-  ],
   validTestCases: [{
     value: {
       longitude: 1.45764854,

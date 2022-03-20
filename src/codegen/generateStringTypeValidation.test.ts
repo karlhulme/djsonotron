@@ -1,10 +1,8 @@
 import { assertEquals } from "../../deps.ts";
 import { StringTypeDef } from "../interfaces/index.ts";
 import { generateStringTypeValidation } from "./generateStringTypeValidation.ts";
-import {
-  assertValidationErrorFirstMessage,
-  createValidationFunction,
-} from "./shared.test.ts";
+import { createValidationFunction } from "./createValidationFunction.ts";
+import { assertValidationErrorFirstMessage } from "./shared.test.ts";
 
 const simpleString: StringTypeDef = {
   kind: "string",
@@ -13,7 +11,7 @@ const simpleString: StringTypeDef = {
   summary: "A type used for testing.",
   maximumLength: 10,
   minimumLength: 5,
-  regex: "^[a-z]+$"
+  regex: "^[a-z]+$",
 };
 
 function generateStringValidationFunction(def: StringTypeDef) {
@@ -39,12 +37,18 @@ Deno.test("Fail to validate if value is not a string.", () => {
 
 Deno.test("Fail to validate if value is too short.", () => {
   const fn = generateStringValidationFunction(simpleString);
-  assertValidationErrorFirstMessage(fn("abcd"), "must have 5 or more characters");
+  assertValidationErrorFirstMessage(
+    fn("abcd"),
+    "must have 5 or more characters",
+  );
 });
 
 Deno.test("Fail to validate if value is too long.", () => {
   const fn = generateStringValidationFunction(simpleString);
-  assertValidationErrorFirstMessage(fn("abcdefghijk"), "must have 10 or less characters");
+  assertValidationErrorFirstMessage(
+    fn("abcdefghijk"),
+    "must have 10 or less characters",
+  );
 });
 
 Deno.test("Fail to validate if value does not match regex pattern.", () => {

@@ -1,10 +1,8 @@
 import { assertEquals } from "../../deps.ts";
 import { FloatTypeDef } from "../interfaces/index.ts";
 import { generateFloatTypeValidation } from "./generateFloatTypeValidation.ts";
-import {
-  assertValidationErrorFirstMessage,
-  createValidationFunction,
-} from "./shared.test.ts";
+import { createValidationFunction } from "./createValidationFunction.ts";
+import { assertValidationErrorFirstMessage } from "./shared.test.ts";
 
 const simpleFloat: FloatTypeDef = {
   kind: "float",
@@ -12,7 +10,7 @@ const simpleFloat: FloatTypeDef = {
   name: "simpleFloat",
   summary: "A type used for testing.",
   minimum: 10,
-  maximum: 12
+  maximum: 12,
 };
 
 const simpleFloatExclusive: FloatTypeDef = {
@@ -23,7 +21,7 @@ const simpleFloatExclusive: FloatTypeDef = {
   minimum: 10,
   isMinimumExclusive: true,
   maximum: 12,
-  isMaximumExclusive: true
+  isMaximumExclusive: true,
 };
 
 function generateFloatValidationFunction(def: FloatTypeDef) {
@@ -50,12 +48,18 @@ Deno.test("Fail to validate if value is not a number.", () => {
 
 Deno.test("Fail to validate if value is less than minimum.", () => {
   const fn = generateFloatValidationFunction(simpleFloat);
-  assertValidationErrorFirstMessage(fn(9.9), "must be greater than or equal to 10");
+  assertValidationErrorFirstMessage(
+    fn(9.9),
+    "must be greater than or equal to 10",
+  );
 });
 
 Deno.test("Fail to validate if value is more than maximum.", () => {
   const fn = generateFloatValidationFunction(simpleFloat);
-  assertValidationErrorFirstMessage(fn(12.1), "must be less than or equal to 12");
+  assertValidationErrorFirstMessage(
+    fn(12.1),
+    "must be less than or equal to 12",
+  );
 });
 
 Deno.test("Fail to validate if value is at minimum but float definition is exclusive.", () => {

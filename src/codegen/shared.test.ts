@@ -1,8 +1,8 @@
 import { AssertionError } from "../../deps.ts";
-import { TypeDefValidationError } from "../interfaces/index.ts";
+import { ValidationError } from "../interfaces/index.ts";
 
-export function assertTypeDefValidationErrorFirstMessage(
-  errors: TypeDefValidationError[],
+export function assertValidationErrorFirstMessage(
+  errors: ValidationError[],
   firstMessage: string,
   msg?: string,
 ): void {
@@ -17,9 +17,9 @@ export function assertTypeDefValidationErrorFirstMessage(
   for (let errorNo = 0; errorNo < errors.length; errorNo++) {
     const error = errors[errorNo];
 
-    if (typeof error.kind !== "string") {
+    if (typeof error.valuePath !== "string") {
       throw new AssertionError(
-        `Error ${errorNo} does not have kind property.`,
+        `Error ${errorNo} does not have valuePath property.`,
       );
     }
 
@@ -37,7 +37,7 @@ export function assertTypeDefValidationErrorFirstMessage(
   if (!errors[0].msg.includes(firstMessage)) {
     throw new AssertionError(
       msg ||
-        `Expected msg property of first type def error to include '${firstMessage}' but received '${
+        `Expected msg property of first error to include '${firstMessage}' but received '${
           errors[0].msg
         }'`,
     );

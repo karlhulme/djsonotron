@@ -1,10 +1,8 @@
 import { assertEquals } from "../../deps.ts";
 import { EnumTypeDef } from "../interfaces/index.ts";
 import { generateEnumTypeValidation } from "./generateEnumTypeValidation.ts";
-import {
-  assertValidationErrorFirstMessage,
-  createValidationFunction,
-} from "./shared.test.ts";
+import { createValidationFunction } from "./createValidationFunction.ts";
+import { assertValidationErrorFirstMessage } from "./shared.test.ts";
 
 const simpleEnum: EnumTypeDef = {
   kind: "enum",
@@ -12,10 +10,10 @@ const simpleEnum: EnumTypeDef = {
   name: "simpleEnum",
   summary: "A type used for testing.",
   items: [{
-    value: "first"
+    value: "first",
   }, {
-    value: "second"
-  }]
+    value: "second",
+  }],
 };
 
 function generateEnumValidationFunction(def: EnumTypeDef) {
