@@ -13,33 +13,33 @@ export function generateTypescriptForRecord(
   def: RecordTypeDef,
   types: JsonotronTypeDef[],
 ) {
-  const propertyStrings = def.properties
-    .map((property) => {
-      const propertySystem = getSystemFromTypeString(
-        property.propertyType,
-        def.system,
-      );
-      const propertyTypeName = getTypeFromTypeString(property.propertyType);
-      const propertyValueTypeDef = types.find((t) =>
-        t.system === propertySystem && t.name === propertyTypeName
-      );
+  const propertyStrings: string[] = [];
 
-      if (propertyValueTypeDef) {
-        return `  /**\n   * ${property.summary}\n   */\n  ${
+  for (const property of def.properties) {
+    const propertySystem = getSystemFromTypeString(
+      property.propertyType,
+      def.system,
+    );
+    const propertyTypeName = getTypeFromTypeString(property.propertyType);
+    const propertyValueTypeDef = types.find((t) =>
+      t.system === propertySystem && t.name === propertyTypeName
+    );
+
+    if (propertyValueTypeDef) {
+      propertyStrings.push(
+        `  /**\n   * ${property.summary}\n   */\n  ${
           generateTypescriptForRecordProperty(property, propertyValueTypeDef)
-        }`;
-      } else {
-        return "";
-      }
-    })
-    .join("\n\n");
+        }`,
+      );
+    }
+  }
 
   return `
 /**
  * ${def.summary}
  */
 export interface ${def.system}${capitalizeFirstLetter(def.name)} {
-${propertyStrings}
+${propertyStrings.join("\n\n")}
 }
 `;
 }
@@ -49,10 +49,11 @@ function generateTypescriptForRecordProperty(
   propertyType: JsonotronTypeDef,
 ) {
   const requiredness = property.isRequired ? "" : "?";
+  const arrayness = property.isArray ? "[]" : "";
   const nullness = property.isNullable ? "|null" : "";
   const typeName = getTypescriptTypeForJsonotronTypeDef(propertyType);
 
-  return `${property.name}${requiredness}: ${typeName}${nullness}`;
+  return `${property.name}${requiredness}: ${typeName}${arrayness}${nullness}`;
 }
 
 function getTypescriptTypeForJsonotronTypeDef(def: JsonotronTypeDef) {
