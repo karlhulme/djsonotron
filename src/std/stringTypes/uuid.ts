@@ -8,7 +8,6 @@ export const uuid: StringTypeDef = {
   summary:
     `A universally unique 128 bit number formatted as 32 alphanumeric characters
     and defined by RFC 4122.`,
-  minimumLength: 36,
   maximumLength: 36,
   regex: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
   validTestCases: [{
@@ -16,5 +15,9 @@ export const uuid: StringTypeDef = {
   }],
   invalidTestCases: [{
     value: "00000000-0000-0000-0000-00000000000n",
+  }, {
+    value: "00000000-0000-0000-0000-00000000000", // too short
+  }, {
+    value: "00000000-0000-0000-0000-0000000000000", // too long
   }],
 };
