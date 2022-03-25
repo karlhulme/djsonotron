@@ -1,7 +1,14 @@
 /**
+ * Returns the shared types, enums and/or interfaces
+ * that are used by the typescript definitions.
+ */
+export function generateTypescriptSharedTypes() {
+  return `
+// deno-lint-ignore-file no-explicit-any
+// This file was automatically generated.
+
+/**
  * Describes a validation error.
- * This interface definition needs to be emitted by the typescript
- * generation functions as well.
  */
 export interface ValidationError {
   /**
@@ -26,4 +33,6 @@ export interface ValidationError {
    * The value that failed validation.
    */
   value: unknown;
+}
+`;
 }

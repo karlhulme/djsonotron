@@ -3,6 +3,7 @@ import {
   RecordTypeDef,
   RecordTypeDefProperty,
 } from "../interfaces/index.ts";
+import { generateRecordTypeValidation } from "../codegen/index.ts";
 import {
   capitalizeFirstLetter,
   getSystemFromTypeString,
@@ -38,8 +39,28 @@ export function generateTypescriptForRecord(
 /**
  * ${def.summary}
  */
-export interface ${def.system}${capitalizeFirstLetter(def.name)} {
+export interface ${capitalizeFirstLetter(def.system)}${
+    capitalizeFirstLetter(def.name)
+  } {
 ${propertyStrings.join("\n\n")}
+}
+
+/**
+ * Validate the given object to ensure it is a valid ${def.system}/${def.name} record.
+ */
+export function validate${capitalizeFirstLetter(def.system)}${
+    capitalizeFirstLetter(def.name)
+  } (value: any): ValidationError[] {
+  const errors: ValidationError[] = [];
+  ${
+    generateRecordTypeValidation({
+      def,
+      types,
+      valueDisplayPath: "value",
+      valuePath: "value",
+    })
+  }
+  return errors;
 }
 `;
 }
@@ -61,7 +82,9 @@ function getTypescriptTypeForJsonotronTypeDef(def: JsonotronTypeDef) {
     case "bool":
       return "boolean";
     case "enum":
-      return `${def.system}${capitalizeFirstLetter(def.name)}`;
+      return `${capitalizeFirstLetter(def.system)}${
+        capitalizeFirstLetter(def.name)
+      }`;
     case "float":
       return "number";
     case "int":
@@ -69,7 +92,9 @@ function getTypescriptTypeForJsonotronTypeDef(def: JsonotronTypeDef) {
     case "object":
       return "unknown";
     case "record":
-      return `${def.system}${capitalizeFirstLetter(def.name)}`;
+      return `${capitalizeFirstLetter(def.system)}${
+        capitalizeFirstLetter(def.name)
+      }`;
     case "string":
       return "string";
     default:

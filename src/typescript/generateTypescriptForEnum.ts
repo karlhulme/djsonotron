@@ -21,7 +21,7 @@ ${enumValues}
 /**
  * ${def.summary}
  */
-export type ${def.system}${
+export type ${capitalizeFirstLetter(def.system)}${
     capitalizeFirstLetter(def.name)
   } = typeof ${def.system}${
     capitalizeFirstLetter(def.name)

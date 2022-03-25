@@ -1,4 +1,4 @@
-import { assertStringIncludes } from "../../deps.ts";
+import { assertStringIncludes, assertThrows } from "../../deps.ts";
 import {
   EnumTypeDef,
   FloatTypeDef,
@@ -115,15 +115,17 @@ Deno.test("Generate typescript for a set of types.", () => {
   ];
 
   const output = generateTypescriptForJsonotronTypes(types);
+  assertStringIncludes(output, "export interface ValidationError");
   assertStringIncludes(output, "export const testSimpleEnumValues");
-  assertStringIncludes(output, "export interface testFullRecord");
+  assertStringIncludes(output, "export interface TestFullRecord");
   assertStringIncludes(output, "boolProp: boolean");
-  assertStringIncludes(output, "enumProp?: testSimpleEnum");
+  assertStringIncludes(output, "enumProp?: TestSimpleEnum");
   assertStringIncludes(output, "floatProp?: number");
   assertStringIncludes(output, "intProp?: number");
   assertStringIncludes(output, "objProp?: unknown");
-  assertStringIncludes(output, "recordProp?: testFullRecord|null");
+  assertStringIncludes(output, "recordProp?: TestFullRecord|null");
   assertStringIncludes(output, "stringProp?: string[]");
+  assertStringIncludes(output, "export function validateTestFullRecord");
 });
 
 Deno.test("Generate typescript where a referenced type is missing.", () => {
@@ -133,9 +135,10 @@ Deno.test("Generate typescript where a referenced type is missing.", () => {
   ];
 
   const output = generateTypescriptForJsonotronTypes(types);
-  assertStringIncludes(output, "export interface testFullRecord");
-  assertStringIncludes(output, "recordProp?: testFullRecord|null");
+  assertStringIncludes(output, "export interface TestFullRecord");
+  assertStringIncludes(output, "recordProp?: TestFullRecord|null");
   assertStringIncludes(output, "stringProp?: string[]");
+  assertStringIncludes(output, "cannot conform to unknown type");
 });
 
 Deno.test("Generate typescript for invalid type.", () => {
@@ -146,9 +149,9 @@ Deno.test("Generate typescript for invalid type.", () => {
     summary: "A test type",
   };
 
-  const invalidRecordType: RecordTypeDef = {
+  const recordWithPropertyOfInvalidType: RecordTypeDef = {
     system: "test",
-    name: "invalidType",
+    name: "recordWithPropertyOfInvalidType",
     kind: "record",
     summary: "A test type",
     properties: [{
@@ -158,10 +161,13 @@ Deno.test("Generate typescript for invalid type.", () => {
     }],
   };
 
-  const output = generateTypescriptForJsonotronTypes([
-    invalidType,
-    invalidRecordType,
-  ]);
-  assertStringIncludes(output, "export interface testInvalidType");
-  assertStringIncludes(output, "invalidProp?: never");
+  assertThrows(
+    () =>
+      generateTypescriptForJsonotronTypes([
+        invalidType,
+        recordWithPropertyOfInvalidType,
+      ]),
+    Error,
+    "Unrecognised type kind",
+  );
 });

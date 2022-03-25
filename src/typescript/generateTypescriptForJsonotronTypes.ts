@@ -5,9 +5,12 @@ import {
 } from "../interfaces/index.ts";
 import { generateTypescriptForEnum } from "./generateTypescriptForEnum.ts";
 import { generateTypescriptForRecord } from "./generateTypescriptForRecord.ts";
+import { generateTypescriptSharedTypes } from "./generateTypescriptSharedTypes.ts";
 
 export function generateTypescriptForJsonotronTypes(types: JsonotronTypeDef[]) {
   const declarations = [];
+
+  declarations.push(generateTypescriptSharedTypes());
 
   for (const type of types) {
     if (type.kind === "enum") {

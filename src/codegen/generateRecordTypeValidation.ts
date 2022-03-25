@@ -131,7 +131,7 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
       propertyValueChecks.push(arrayElementsCheck);
     } else {
       const valueCheck = `
-        if (typeof ${props.valuePath}.${property.name} !== "undefined" && ${props.valuePath}.${property.name} !== null) {
+        if (${props.valuePath}.${property.name} !== null) {
           ${
         generateRecordTypePropertyValidation({
           valuePath: `${props.valuePath}.${property.name}`,

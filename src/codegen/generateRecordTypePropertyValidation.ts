@@ -3,15 +3,14 @@ import {
   FloatTypeDef,
   IntTypeDef,
   JsonotronTypeDef,
-  RecordTypeDef,
   StringTypeDef,
 } from "../interfaces/index.ts";
+import { capitalizeFirstLetter } from "../utils/index.ts";
 import { generateBoolTypeValidation } from "./generateBoolTypeValidation.ts";
 import { generateEnumTypeValidation } from "./generateEnumTypeValidation.ts";
 import { generateFloatTypeValidation } from "./generateFloatTypeValidation.ts";
 import { generateIntTypeValidation } from "./generateIntTypeValidation.ts";
 import { generateObjectTypeValidation } from "./generateObjectTypeValidation.ts";
-import { generateRecordTypeValidation } from "./generateRecordTypeValidation.ts";
 import { generateStringTypeValidation } from "./generateStringTypeValidation.ts";
 
 interface RecordTypePropertyValidationProps {
@@ -56,12 +55,12 @@ export function generateRecordTypePropertyValidation(
         valueDisplayPath: props.valueDisplayPath,
       });
     case "record":
-      return generateRecordTypeValidation({
-        def: props.def as RecordTypeDef,
-        valuePath: props.valuePath,
-        valueDisplayPath: props.valueDisplayPath,
-        types: props.types,
-      });
+      return `
+        errors.push(
+          ...validate${capitalizeFirstLetter(props.def.system)}${
+        capitalizeFirstLetter(props.def.name)
+      }(${props.valuePath})
+        );`;
     case "string":
       return generateStringTypeValidation({
         def: props.def as StringTypeDef,
