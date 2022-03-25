@@ -115,6 +115,7 @@ Deno.test("Generate typescript for a set of types.", () => {
   ];
 
   const output = generateTypescriptForJsonotronTypes(types);
+  // console.log(output)
   assertStringIncludes(output, "export interface ValidationError");
   assertStringIncludes(output, "export const testSimpleEnumValues");
   assertStringIncludes(output, "export interface TestFullRecord");

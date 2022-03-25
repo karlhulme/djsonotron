@@ -28,7 +28,7 @@ export function generateTypescriptForRecord(
 
     if (propertyValueTypeDef) {
       propertyStrings.push(
-        `  /**\n   * ${property.summary}\n   */\n  ${
+        `  /**\n   * ${property.summary}\n   * (${propertyValueTypeDef.system}/${propertyValueTypeDef.name})\n   */\n  ${
           generateTypescriptForRecordProperty(property, propertyValueTypeDef)
         }`,
       );
