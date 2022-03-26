@@ -5,6 +5,11 @@ import { JsonotronTypeDef } from "./JsonotronTypeDef.ts";
  */
 export interface IntTypeDef extends JsonotronTypeDef {
   /**
+   * Tags the type as an int.
+   */
+  kind: "int"
+
+  /**
    * Specifies the minimum value of the integer.
    */
   minimum: number;

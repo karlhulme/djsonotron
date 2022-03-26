@@ -6,6 +6,11 @@ import { TestCase } from "./TestCase.ts";
  */
 export interface StringTypeDef extends JsonotronTypeDef {
   /**
+   * Tags the type as a string.
+   */
+  kind: "string"
+
+  /**
    * Specifies the regular expression string that can be used
    * to validate the string.
    */

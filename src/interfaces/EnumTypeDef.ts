@@ -6,6 +6,10 @@ import { JsonotronTypeDef } from "./JsonotronTypeDef.ts";
  */
 export interface EnumTypeDef extends JsonotronTypeDef {
   /**
+   * Tags the type as an enum.
+   */
+  kind: "enum"
+  /**
    * An array of items that make up this enumeration.
    */
   items: EnumTypeDefItem[];
