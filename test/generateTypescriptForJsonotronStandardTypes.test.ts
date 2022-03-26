@@ -1,7 +1,7 @@
 import { generateTypescriptForJsonotronTypes, stdSystemTypes } from "../mod.ts";
 import { assertStringIncludes } from "../deps.ts";
 
-Deno.test("Produce typescript output for standard system.", () => {
+Deno.test("Generate typescript for jsonotron standard types.", () => {
   const tsFileContents = generateTypescriptForJsonotronTypes(stdSystemTypes);
   assertStringIncludes(tsFileContents, "export interface ValidationError");
   assertStringIncludes(tsFileContents, "export const stdDayOfWeekValues");
