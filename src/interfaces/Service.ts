@@ -1,6 +1,6 @@
 import { ServiceInfo } from "./ServiceInfo.ts";
 import { ServiceServer } from "./ServiceServer.ts";
-import { ServicePath } from './ServicePath.ts';
+import { ServicePath } from "./ServicePath.ts";
 
 /**
  * Defines an API.
