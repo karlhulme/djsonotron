@@ -10,7 +10,7 @@ import {
 import {
   createValidationFunction,
   generateRecordTypeValidation,
-} from "../codegen/index.ts";
+} from "../codegenValidationFuncs/index.ts";
 
 export function validateRecordTypeDef(
   def: RecordTypeDef,

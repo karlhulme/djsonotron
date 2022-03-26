@@ -2,11 +2,6 @@
 
 Todo
 
-- Generate parsing functions for records that I can use to parse inbound JSON
-  payloads
-
-And then...
-
 - Ability to define an API surface (operations, inputs, outputs)
 - Generate an oak-based web server scaffold
 - Generate an OpenAPI compliant definition that is served by the web server
