@@ -7,7 +7,7 @@ export interface FloatTypeDef extends JsonotronTypeDef {
   /**
    * Tags the type as a float.
    */
-  kind: "float"
+  kind: "float";
 
   /**
    * Specifies the minimum value of the float.

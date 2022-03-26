@@ -7,7 +7,7 @@ export interface IntTypeDef extends JsonotronTypeDef {
   /**
    * Tags the type as an int.
    */
-  kind: "int"
+  kind: "int";
 
   /**
    * Specifies the minimum value of the integer.

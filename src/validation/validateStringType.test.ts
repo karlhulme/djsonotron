@@ -6,7 +6,7 @@ import { assertTypeDefValidationErrorFirstMessage } from "./shared.test.ts";
 Deno.test("Validate a valid string type.", () => {
   const errors: TypeDefValidationError[] = [];
   validateStringTypeDef({
-    kind: "int",
+    kind: "string",
     system: "testSystem",
     name: "testType",
     summary: "A type for testing.",
@@ -26,7 +26,7 @@ Deno.test("Validate a valid string type.", () => {
 Deno.test("Fail to validate a string type with inverted minimum and maximum length values.", () => {
   const errors: TypeDefValidationError[] = [];
   validateStringTypeDef({
-    kind: "int",
+    kind: "string",
     system: "testSystem",
     name: "testType",
     summary: "A type for testing.",
@@ -42,7 +42,7 @@ Deno.test("Fail to validate a string type with inverted minimum and maximum leng
 Deno.test("Fail to validate a string type with valid test case that is rejected.", () => {
   const errors: TypeDefValidationError[] = [];
   validateStringTypeDef({
-    kind: "int",
+    kind: "string",
     system: "testSystem",
     name: "testType",
     summary: "A type for testing.",
@@ -58,7 +58,7 @@ Deno.test("Fail to validate a string type with valid test case that is rejected.
 Deno.test("Fail to validate a string type with an invalid test case that is accepted.", () => {
   const errors: TypeDefValidationError[] = [];
   validateStringTypeDef({
-    kind: "int",
+    kind: "string",
     system: "testSystem",
     name: "testType",
     summary: "A type for testing.",
@@ -74,7 +74,7 @@ Deno.test("Fail to validate a string type with an invalid test case that is acce
 Deno.test("Fail to validate a string type with an invalid regex expression.", () => {
   const errors: TypeDefValidationError[] = [];
   validateStringTypeDef({
-    kind: "int",
+    kind: "string",
     system: "testSystem",
     name: "testType",
     summary: "A type for testing.",

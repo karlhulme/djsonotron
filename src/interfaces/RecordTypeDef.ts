@@ -9,7 +9,7 @@ export interface RecordTypeDef extends JsonotronTypeDef {
   /**
    * Tags the type as a record.
    */
-  kind: "record"
+  kind: "record";
 
   /**
    * An array of properties that can appear in this record.
