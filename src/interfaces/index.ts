@@ -11,7 +11,6 @@ export * from "./Service.ts";
 export * from "./ServiceInfo.ts";
 export * from "./ServicePath.ts";
 export * from "./ServicePathOperation.ts";
-export * from "./ServicePathOperationParameter.ts";
 export * from "./ServiceServer.ts";
 export * from "./StringTypeDef.ts";
 export * from "./TestCase.ts";

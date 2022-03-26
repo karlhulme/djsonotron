@@ -1,5 +1,3 @@
-import { ServicePathOperationParameter } from "./ServicePathOperationParameter.ts";
-
 /**
  * Describes an operation that can be invoked on a service path.
  */
@@ -15,14 +13,19 @@ export interface ServicePathOperation {
   operationName: string;
 
   /**
-   * The fully-qualified type of the request.
+   * The fully-qualified type of the request body.
+   * This will typically be supplied for POST and PUT requests but
+   * undefined for GET requests.
    */
   requestBodyType?: string;
 
   /**
-   * An array of the operation parameters.
+   * The fully-qualified type that describes the operations
+   * query parameters.
+   * This may be defined for GET requests but will typically be
+   * undefined for POST and PUT requests.
    */
-  requestParameters?: ServicePathOperationParameter[];
+  requestQueryType?: string;
 
   /**
    * The fully-qualified type of the response if successful.
