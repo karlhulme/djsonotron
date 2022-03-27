@@ -3,7 +3,7 @@ import {
   RecordTypeDef,
   RecordTypeDefProperty,
 } from "../interfaces/index.ts";
-import { generateRecordTypeValidation } from "../codegenValidationFuncs/index.ts";
+import { generateRecordTypeValidation } from "../codegenValidationClauses/index.ts";
 import {
   capitalizeFirstLetter,
   getSystemFromTypeString,
@@ -50,13 +50,13 @@ ${propertyStrings.join("\n\n")}
  */
 export function validate${capitalizeFirstLetter(def.system)}${
     capitalizeFirstLetter(def.name)
-  } (value: any): ValidationError[] {
+  } (value: any, valueDisplayPath: string): ValidationError[] {
   const errors: ValidationError[] = [];
   ${
     generateRecordTypeValidation({
       def,
       types,
-      valueDisplayPath: "value",
+      valueDisplayPath: "${valueDisplayPath}",
       valuePath: "value",
     })
   }

@@ -1,6 +1,6 @@
 import { StringTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
-import { generateStringTypeValidation } from "../codegenValidationFuncs/index.ts";
+import { generateStringTypeValidation } from "../codegenValidationClauses/index.ts";
 
 export function generateTypescriptForString(
   def: StringTypeDef,
@@ -11,12 +11,12 @@ export function generateTypescriptForString(
  */
 export function validate${capitalizeFirstLetter(def.system)}${
     capitalizeFirstLetter(def.name)
-  } (value: any): ValidationError[] {
+  } (value: any, valueDisplayPath: string): ValidationError[] {
 const errors: ValidationError[] = [];
 ${
     generateStringTypeValidation({
       def,
-      valueDisplayPath: "value",
+      valueDisplayPath: "${valueDisplayPath}",
       valuePath: "value",
     })
   }

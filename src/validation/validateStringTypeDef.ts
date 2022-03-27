@@ -3,7 +3,7 @@ import { isValidRegex } from "../utils/index.ts";
 import {
   createValidationFunction,
   generateStringTypeValidation,
-} from "../codegenValidationFuncs/index.ts";
+} from "../codegenValidationClauses/index.ts";
 
 export function validateStringTypeDef(
   def: StringTypeDef,

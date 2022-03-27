@@ -1,6 +1,6 @@
 import { IntTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
-import { generateIntTypeValidation } from "../codegenValidationFuncs/index.ts";
+import { generateIntTypeValidation } from "../codegenValidationClauses/index.ts";
 
 export function generateTypescriptForInt(
   def: IntTypeDef,
@@ -11,12 +11,12 @@ export function generateTypescriptForInt(
  */
 export function validate${capitalizeFirstLetter(def.system)}${
     capitalizeFirstLetter(def.name)
-  } (value: any): ValidationError[] {
+  } (value: any, valueDisplayPath: string): ValidationError[] {
 const errors: ValidationError[] = [];
 ${
     generateIntTypeValidation({
       def,
-      valueDisplayPath: "value",
+      valueDisplayPath: "${valueDisplayPath}",
       valuePath: "value",
     })
   }

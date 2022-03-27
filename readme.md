@@ -2,7 +2,8 @@
 
 Todo
 
-- Ability to define an API surface (operations, inputs, outputs)
+- Allow the "value" to be specified in the validate functions
+- Delete surplus properties on validate (optional)
 - Generate an oak-based web server scaffold
 - Generate an OpenAPI compliant definition that is served by the web server
 

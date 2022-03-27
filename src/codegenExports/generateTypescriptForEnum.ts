@@ -1,6 +1,6 @@
 import { EnumTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
-import { generateEnumTypeValidation } from "../codegenValidationFuncs/index.ts";
+import { generateEnumTypeValidation } from "../codegenValidationClauses/index.ts";
 
 export function generateTypescriptForEnum(
   def: EnumTypeDef,
@@ -33,12 +33,12 @@ export type ${capitalizeFirstLetter(def.system)}${
  */
 export function validate${capitalizeFirstLetter(def.system)}${
     capitalizeFirstLetter(def.name)
-  } (value: any): ValidationError[] {
+  } (value: any, valueDisplayPath: string): ValidationError[] {
 const errors: ValidationError[] = [];
 ${
     generateEnumTypeValidation({
       def,
-      valueDisplayPath: "value",
+      valueDisplayPath: "${valueDisplayPath}",
       valuePath: "value",
     })
   }

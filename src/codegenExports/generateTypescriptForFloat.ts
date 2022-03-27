@@ -1,6 +1,6 @@
 import { FloatTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
-import { generateFloatTypeValidation } from "../codegenValidationFuncs/index.ts";
+import { generateFloatTypeValidation } from "../codegenValidationClauses/index.ts";
 
 export function generateTypescriptForFloat(
   def: FloatTypeDef,
@@ -11,12 +11,12 @@ export function generateTypescriptForFloat(
  */
 export function validate${capitalizeFirstLetter(def.system)}${
     capitalizeFirstLetter(def.name)
-  } (value: any): ValidationError[] {
+  } (value: any, valueDisplayPath: string): ValidationError[] {
 const errors: ValidationError[] = [];
 ${
     generateFloatTypeValidation({
       def,
-      valueDisplayPath: "value",
+      valueDisplayPath: "${valueDisplayPath}",
       valuePath: "value",
     })
   }

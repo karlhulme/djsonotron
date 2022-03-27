@@ -1,22 +1,22 @@
 import { JsonotronTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
-import { generateObjectTypeValidation } from "../codegenValidationFuncs/index.ts";
+import { generateBoolTypeValidation } from "../codegenValidationClauses/index.ts";
 
-export function generateTypescriptForObject(
+export function generateTypescriptForBool(
   def: JsonotronTypeDef,
 ) {
   return `
 /**
- * Validate the given value to ensure it is a valid ${def.system}/${def.name} object.
+ * Validate the given value to ensure it is a valid ${def.system}/${def.name} bool.
  */
 export function validate${capitalizeFirstLetter(def.system)}${
     capitalizeFirstLetter(def.name)
-  } (value: any): ValidationError[] {
+  } (value: any, valueDisplayPath: string): ValidationError[] {
 const errors: ValidationError[] = [];
 ${
-    generateObjectTypeValidation({
+    generateBoolTypeValidation({
       def,
-      valueDisplayPath: "value",
+      valueDisplayPath: "${valueDisplayPath}",
       valuePath: "value",
     })
   }

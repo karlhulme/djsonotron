@@ -161,12 +161,7 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
   const additionalPropsCheck = `
     for (const key of Object.keys(${props.valuePath})) {
       if (![${recognisedProperties}].includes(key)) {
-        errors.push({
-          valuePath: \`${props.valueDisplayPath}\`,
-          value: ${props.valuePath},
-          msg: \`Value must not contain unrecognised property: \${key}.\`,
-          type: "${props.def.system}/${props.def.name}",
-        })
+        delete ${props.valuePath}[key]
       }
     }
   `;
