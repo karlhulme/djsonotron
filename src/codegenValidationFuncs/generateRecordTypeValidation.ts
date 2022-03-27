@@ -135,7 +135,7 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
           ${
         generateRecordTypePropertyValidation({
           valuePath: `${props.valuePath}.${property.name}`,
-          valueDisplayPath: props.valueDisplayPath,
+          valueDisplayPath: `${props.valueDisplayPath}.${property.name}`,
           def: propertyValueTypeDef,
           types: props.types,
         })
