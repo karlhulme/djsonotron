@@ -59,7 +59,7 @@ export function generateRecordTypePropertyValidation(
         errors.push(
           ...validate${capitalizeFirstLetter(props.def.system)}${
         capitalizeFirstLetter(props.def.name)
-      }(${props.valuePath}, ${props.valueDisplayPath}.${props.def.name})
+      }(${props.valuePath}, ${props.valueDisplayPath})
         );`;
     case "string":
       return generateStringTypeValidation({
