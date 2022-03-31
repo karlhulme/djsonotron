@@ -1,5 +1,6 @@
 import {
   JsonotronTypeDef,
+  RecordTypeDef,
   Service,
   ServicePath,
   ServicePathOperation,
@@ -80,6 +81,10 @@ export function generateOakRouterOperation(
   // check for url params and parse those out first
 
   if (op.requestQueryType) {
+    const queryTypeName = convertRecordTypeNameToInterfaceName(
+      op.requestQueryType,
+    );
+
     lines.push(`
       // deno-lint-ignore no-explicit-any
       const query: any = {};`);
@@ -96,7 +101,61 @@ export function generateOakRouterOperation(
       );
     }
 
-    // loads of code to parse the query params
+    if (queryTypeDef.kind !== "record") {
+      throw new Error(
+        `Type ${op.requestQueryType} used for ${method} operation of "${path.path}" must be a record.`,
+      );
+    }
+
+    const queryTypeDefRecord = queryTypeDef as RecordTypeDef;
+
+    for (const prop of queryTypeDefRecord.properties) {
+      const propSystem = getSystemFromTypeString(prop.propertyType);
+      const propTypeName = getTypeFromTypeString(prop.propertyType);
+      const propTypeDef = types.find((t) =>
+        t.system === propSystem && t.name === propTypeName
+      );
+
+      if (!propTypeDef) {
+        throw new Error(
+          `Type ${prop.propertyType} used for ${prop.name} property of ${queryTypeDefRecord.name} record could not be resolved.`,
+        );
+      }
+
+      lines.push(`if (ctx.request.url.searchParams.has("${prop.name}")) {`);
+
+      if (propTypeDef.kind === "bool") {
+        lines.push(`
+          const rawValue = ctx.request.url.searchParams.get("${prop.name}") as string;
+          const boolValue = rawValue.toLowerCase();
+
+          if (boolValue === "true" || boolValue === "1") {
+            query.on = true;
+          } else if (boolValue === "false" || boolValue === "0") {
+            query.on = false;
+          } else {
+            query.on = boolValue;
+          }
+        `);
+      }
+
+      lines.push(`}`);
+    }
+
+    lines.push(`
+      const queryValidationErrors = validate${queryTypeName}(
+        query,
+        "query",
+      );
+
+      if (queryValidationErrors.length > 0) {
+        ctx.throw(Status.BadRequest, "Validation of request query failed.", {
+          data: {
+            queryValidationErrors,
+          },
+        });
+      }
+    `);
   }
 
   if (op.requestBodyType) {

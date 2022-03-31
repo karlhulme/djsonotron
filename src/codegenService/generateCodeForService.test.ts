@@ -68,7 +68,7 @@ Deno.test("Generate the code for a service with a path with all ops defined.", (
     depsPath: "../../deps.ts",
   });
 
-  // console.log(code);
+  console.log(code);
   assertStrictEquals(typeof code, "string");
 });
 
