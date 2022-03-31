@@ -1,4 +1,4 @@
-import { Service } from "../interfaces/index.ts";
+import { JsonotronTypeDef, Service } from "../interfaces/index.ts";
 import { generateImports } from "./generateImports.ts";
 import { generateUtilityFunctions } from "./generateUtilityFunctions.ts";
 import { generateOakRouter } from "./generateOakRouter.ts";
@@ -6,6 +6,7 @@ import { getTypeNamesReferencedByService } from "./getTypeNamesReferencedByServi
 
 interface GenerateCodeForServiceProps {
   service: Service;
+  types: JsonotronTypeDef[];
   typesPath: string;
   depsPath: string;
 }
@@ -13,14 +14,15 @@ interface GenerateCodeForServiceProps {
 export function generateCodeForService(props: GenerateCodeForServiceProps) {
   const typeNames = getTypeNamesReferencedByService(props.service);
 
-  return `${
-    generateImports({
-      depsPath: props.depsPath,
-      typesPath: props.typesPath,
-      typeNames,
-    })
-  }
-${generateUtilityFunctions()}
-${generateOakRouter(props.service)}
-`;
+  const importLines = generateImports({
+    depsPath: props.depsPath,
+    typesPath: props.typesPath,
+    typeNames,
+  });
+
+  return `
+    ${importLines}
+    ${generateUtilityFunctions()}
+    ${generateOakRouter(props.service, props.types)}
+  `;
 }

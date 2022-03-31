@@ -5,6 +5,8 @@ interface GenerateImportsProps {
 }
 
 export function generateImports(props: GenerateImportsProps) {
-  return `import { ${props.typeNames.join(", ")} } from "${props.typesPath}";
-import { Request, Router, Status } from "${props.depsPath}";`;
+  return `
+    import { ${props.typeNames.join(", ")} } from "${props.typesPath}";
+    import { Context, isHttpError, Request, Router, Status } from "${props.depsPath}";
+  `;
 }

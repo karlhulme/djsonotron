@@ -27,7 +27,7 @@ export function hasDataProp(value: any): value is { data: unknown } {
   return (typeof value === "object" && typeof value.data !== "undefined");
 }
 
-async function errorHandler(ctx: Context, next: () => Promise<unknown>) {
+export async function errorHandler(ctx: Context, next: () => Promise<unknown>) {
   try {
     await next();
   } catch (err) {
