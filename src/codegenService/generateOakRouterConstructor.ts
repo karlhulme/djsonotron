@@ -143,7 +143,7 @@ export function generateOakRouterOperation(
             "${prop.name}",
           ) as string;
           query.${prop.name} = decodeURIComponent(rawValue);
-        `)
+        `);
       } else if (propTypeDef.kind === "float" || propTypeDef.kind === "int") {
         lines.push(`
           const rawValue = ctx.request.url.searchParams.get("${prop.name}") as string;
@@ -153,18 +153,20 @@ export function generateOakRouterOperation(
           } else {
             query.${prop.name} = numValue;
           }
-        `)
-      } else if (propTypeDef.kind === "object" || propTypeDef.kind === "record") {
+        `);
+      } else if (
+        propTypeDef.kind === "object" || propTypeDef.kind === "record"
+      ) {
         lines.push(`
           const rawValue = ctx.request.url.searchParams.get("${prop.name}") as string;
           const objValue = safeJsonParse(decodeURIComponent(rawValue));
           query.${prop.name} = objValue === null ? rawValue : objValue;
-        `)
+        `);
       } else { // strings (and default/catch-all)
         lines.push(`
           const rawValue = ctx.request.url.searchParams.get("${prop.name}") as string;
           query.${prop.name} = decodeURIComponent(rawValue);
-        `)
+        `);
       }
 
       lines.push(`}`);
