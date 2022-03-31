@@ -10,7 +10,7 @@ import {
   getTypeFromTypeString,
 } from "../utils/index.ts";
 
-export function generateTypescriptForRecord(
+export function generateValidateRecordTypeFunc(
   def: RecordTypeDef,
   types: JsonotronTypeDef[],
 ) {
@@ -29,7 +29,7 @@ export function generateTypescriptForRecord(
     if (propertyValueTypeDef) {
       propertyStrings.push(
         `  /**\n   * ${property.summary}\n   * (${propertyValueTypeDef.system}/${propertyValueTypeDef.name})\n   */\n  ${
-          generateTypescriptForRecordProperty(property, propertyValueTypeDef)
+          generateRecordPropertyDeclaration(property, propertyValueTypeDef)
         }`,
       );
     }
@@ -65,19 +65,19 @@ export function validate${capitalizeFirstLetter(def.system)}${
 `;
 }
 
-function generateTypescriptForRecordProperty(
+function generateRecordPropertyDeclaration(
   property: RecordTypeDefProperty,
   propertyType: JsonotronTypeDef,
 ) {
   const requiredness = property.isRequired ? "" : "?";
   const arrayness = property.isArray ? "[]" : "";
   const nullness = property.isNullable ? "|null" : "";
-  const typeName = getTypescriptTypeForJsonotronTypeDef(propertyType);
+  const typeName = getTypeForJsonotronTypeDef(propertyType);
 
   return `${property.name}${requiredness}: ${typeName}${arrayness}${nullness}`;
 }
 
-function getTypescriptTypeForJsonotronTypeDef(def: JsonotronTypeDef) {
+function getTypeForJsonotronTypeDef(def: JsonotronTypeDef) {
   switch (def.kind) {
     case "bool":
       return "boolean";

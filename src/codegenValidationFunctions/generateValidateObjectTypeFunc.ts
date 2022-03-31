@@ -1,20 +1,20 @@
-import { FloatTypeDef } from "../interfaces/index.ts";
+import { JsonotronTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
-import { generateFloatTypeValidation } from "../codegenValidationClauses/index.ts";
+import { generateObjectTypeValidation } from "../codegenValidationClauses/index.ts";
 
-export function generateTypescriptForFloat(
-  def: FloatTypeDef,
+export function generateValidateObjectTypeFunc(
+  def: JsonotronTypeDef,
 ) {
   return `
 /**
- * Validate the given value to ensure it is a valid ${def.system}/${def.name} float.
+ * Validate the given value to ensure it is a valid ${def.system}/${def.name} object.
  */
 export function validate${capitalizeFirstLetter(def.system)}${
     capitalizeFirstLetter(def.name)
   } (value: any, valueDisplayPath: string): ValidationError[] {
 const errors: ValidationError[] = [];
 ${
-    generateFloatTypeValidation({
+    generateObjectTypeValidation({
       def,
       valueDisplayPath: "${valueDisplayPath}",
       valuePath: "value",

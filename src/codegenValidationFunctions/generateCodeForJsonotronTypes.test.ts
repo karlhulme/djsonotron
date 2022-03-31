@@ -8,7 +8,7 @@ import {
   RecordTypeDef,
   StringTypeDef,
 } from "../interfaces/index.ts";
-import { generateTypescriptForJsonotronTypes } from "./generateTypescriptForJsonotronTypes.ts";
+import { generateCodeForJsonotronTypes } from "./generateCodeForJsonotronTypes.ts";
 
 const simpleBool: JsonotronTypeDef = {
   kind: "bool",
@@ -114,7 +114,7 @@ Deno.test("Generate typescript for a set of types.", () => {
     fullRecord,
   ];
 
-  const output = generateTypescriptForJsonotronTypes(types);
+  const output = generateCodeForJsonotronTypes(types);
   // console.log(output)
   assertStringIncludes(output, "export interface ValidationError");
   assertStringIncludes(output, "export const testSimpleEnumValues");
@@ -135,7 +135,7 @@ Deno.test("Generate typescript where a referenced type is missing.", () => {
     fullRecord,
   ];
 
-  const output = generateTypescriptForJsonotronTypes(types);
+  const output = generateCodeForJsonotronTypes(types);
   assertStringIncludes(output, "export interface TestFullRecord");
   assertStringIncludes(output, "recordProp?: TestFullRecord|null");
   assertStringIncludes(output, "stringProp?: string[]");
@@ -164,7 +164,7 @@ Deno.test("Generate typescript for invalid type.", () => {
 
   assertThrows(
     () =>
-      generateTypescriptForJsonotronTypes([
+      generateCodeForJsonotronTypes([
         invalidType,
         recordWithPropertyOfInvalidType,
       ]),

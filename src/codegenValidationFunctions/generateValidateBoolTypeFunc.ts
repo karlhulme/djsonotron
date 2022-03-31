@@ -1,20 +1,20 @@
-import { IntTypeDef } from "../interfaces/index.ts";
+import { JsonotronTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
-import { generateIntTypeValidation } from "../codegenValidationClauses/index.ts";
+import { generateBoolTypeValidation } from "../codegenValidationClauses/index.ts";
 
-export function generateTypescriptForInt(
-  def: IntTypeDef,
+export function generateValidateBoolTypeFunc(
+  def: JsonotronTypeDef,
 ) {
   return `
 /**
- * Validate the given value to ensure it is a valid ${def.system}/${def.name} int.
+ * Validate the given value to ensure it is a valid ${def.system}/${def.name} bool.
  */
 export function validate${capitalizeFirstLetter(def.system)}${
     capitalizeFirstLetter(def.name)
   } (value: any, valueDisplayPath: string): ValidationError[] {
 const errors: ValidationError[] = [];
 ${
-    generateIntTypeValidation({
+    generateBoolTypeValidation({
       def,
       valueDisplayPath: "${valueDisplayPath}",
       valuePath: "value",

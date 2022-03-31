@@ -2,9 +2,7 @@
 
 Todo
 
-- Allow the "value" to be specified in the validate functions
-- Delete surplus properties on validate (optional)
-- Generate an oak-based web server scaffold
+- Generate a router for the oak web server
 - Generate an OpenAPI compliant definition that is served by the web server
 
 And finally...

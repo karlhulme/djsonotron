@@ -1,1 +1,1 @@
-// code here
+export * from "./generateCodeForService.ts";
