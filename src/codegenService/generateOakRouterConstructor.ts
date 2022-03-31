@@ -25,7 +25,7 @@ export function generateOakRouterConstructor(
     router
     ${lines.join("\n")}
     return router
-  `];
+  }`];
 }
 
 export function generateOakRouterPath(
@@ -75,7 +75,7 @@ export function generateOakRouterOperation(
 ) {
   const lines: string[] = [];
 
-  lines.push(`.${method}("${path.path}"), async (ctx) => {`);
+  lines.push(`.${method}("${path.path}", async (ctx) => {`);
 
   // check for url params and parse those out first
 
@@ -179,7 +179,7 @@ export function generateOakRouterOperation(
     }
   `);
 
-  lines.push("}");
+  lines.push("})");
 
   return lines;
 }

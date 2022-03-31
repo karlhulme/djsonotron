@@ -12,12 +12,12 @@ interface GenerateCodeForServiceProps {
 }
 
 export function generateCodeForService(props: GenerateCodeForServiceProps) {
-  const typeNames = getTypeNamesReferencedByService(props.service);
+  const referencedTypeNames = getTypeNamesReferencedByService(props.service);
 
   const importLines = generateImports({
     depsPath: props.depsPath,
     typesPath: props.typesPath,
-    typeNames,
+    referencedTypeNames,
   });
 
   return `

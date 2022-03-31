@@ -1,12 +1,19 @@
 interface GenerateImportsProps {
   typesPath: string;
-  typeNames: string[];
+  referencedTypeNames: string[];
   depsPath: string;
 }
 
 export function generateImports(props: GenerateImportsProps) {
+  const typeImports: string[] = [];
+
+  for (const typeName of props.referencedTypeNames) {
+    typeImports.push(typeName);
+    typeImports.push(`validate${typeName}`);
+  }
+
   return `
-    import { ${props.typeNames.join(", ")} } from "${props.typesPath}";
+    import { ${typeImports.join(", ")} } from "${props.typesPath}";
     import { Context, isHttpError, Request, Router, Status } from "${props.depsPath}";
   `;
 }
