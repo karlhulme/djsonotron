@@ -130,13 +130,41 @@ export function generateOakRouterOperation(
           const boolValue = rawValue.toLowerCase();
 
           if (boolValue === "true" || boolValue === "1") {
-            query.on = true;
+            query.${prop.name} = true;
           } else if (boolValue === "false" || boolValue === "0") {
-            query.on = false;
+            query.${prop.name} = false;
           } else {
-            query.on = boolValue;
+            query.${prop.name} = boolValue;
           }
         `);
+      } else if (propTypeDef.kind === "enum") {
+        lines.push(`
+          const rawValue = ctx.request.url.searchParams.get(
+            "${prop.name}",
+          ) as string;
+          query.${prop.name} = decodeURIComponent(rawValue);
+        `)
+      } else if (propTypeDef.kind === "float" || propTypeDef.kind === "int") {
+        lines.push(`
+          const rawValue = ctx.request.url.searchParams.get("${prop.name}") as string;
+          const numValue = parseFloat(rawValue);
+          if (isNaN(numValue)) {
+            query.${prop.name} = rawValue;
+          } else {
+            query.${prop.name} = numValue;
+          }
+        `)
+      } else if (propTypeDef.kind === "object" || propTypeDef.kind === "record") {
+        lines.push(`
+          const rawValue = ctx.request.url.searchParams.get("${prop.name}") as string;
+          const objValue = safeJsonParse(decodeURIComponent(rawValue));
+          query.${prop.name} = objValue === null ? rawValue : objValue;
+        `)
+      } else { // strings (and default/catch-all)
+        lines.push(`
+          const rawValue = ctx.request.url.searchParams.get("${prop.name}") as string;
+          query.${prop.name} = decodeURIComponent(rawValue);
+        `)
       }
 
       lines.push(`}`);
