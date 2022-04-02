@@ -39,9 +39,11 @@ export function generateOakRouterOperation(
     }
 
     if (urlParamTypeDef.kind === "float" || urlParamTypeDef.kind === "int") {
-      lines.push(
-        `const ${urlParam.name}Param = parseFloat(ctx.params["${urlParam.name}"]);`,
-      );
+      lines.push(`
+        const ${urlParam.name}ParamTemp = parseFloat(ctx.params["${urlParam.name}"]);
+        const ${urlParam.name}Param = isNaN(${urlParam.name}ParamTemp)
+          ? ctx.params["${urlParam.name}"]
+          : ${urlParam.name}ParamTemp`);
     } else {
       lines.push(
         `const ${urlParam.name}Param = ctx.params["${urlParam.name}"];`,
