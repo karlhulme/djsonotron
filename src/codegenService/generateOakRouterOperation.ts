@@ -67,9 +67,10 @@ export function generateOakRouterOperation(
       }
     `);
 
-    const urlParamTypeCast = urlParamTypeDef.kind === 'float' || urlParamTypeDef.kind === 'int'
-      ? " as number"
-      : ""
+    const urlParamTypeCast =
+      urlParamTypeDef.kind === "float" || urlParamTypeDef.kind === "int"
+        ? " as number"
+        : "";
 
     urlParamInvocationParameters.push(
       `    ${urlParam.name}: ${urlParam.name}Param${urlParamTypeCast},`,
