@@ -10,7 +10,9 @@ export function generateOakRouter(service: Service, types: JsonotronTypeDef[]) {
 
   declarations.push(...generateOakRouterConstructor(service, types));
 
-  declarations.push(...generateOakRouterOperationInputOutputTypes(service, types));
+  declarations.push(
+    ...generateOakRouterOperationInputOutputTypes(service, types),
+  );
 
   return declarations.join("\n\n");
 }

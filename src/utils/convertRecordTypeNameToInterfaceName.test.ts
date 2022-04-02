@@ -1,5 +1,5 @@
-import { convertRecordTypeNameToInterfaceName } from "./convertRecordTypeNameToInterfaceName.ts";
 import { assertStrictEquals } from "../../deps.ts";
+import { convertRecordTypeNameToInterfaceName } from "./convertRecordTypeNameToInterfaceName.ts";
 
 Deno.test("Type string with no system is assumed to be std.", () => {
   assertStrictEquals(

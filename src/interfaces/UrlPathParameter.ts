@@ -5,10 +5,10 @@ export interface UrlPathParameter {
   /**
    * The name of the parameter.
    */
-  name: string
+  name: string;
 
   /**
    * The type of the parameter.
    */
-  type: string
+  type: string;
 }

@@ -1,5 +1,5 @@
-export function convertJsonotronPathToOakPath (path: string) {
+export function convertJsonotronPathToOakPath(path: string) {
   return path.replaceAll(/{[^:{}]+:[^:{}]+}/g, (subString) => {
-    return ':' + subString.slice(1).split(':')[0]
-  })
+    return ":" + subString.slice(1).split(":")[0];
+  });
 }
