@@ -1,11 +1,15 @@
 # djsonotron
 
-Todo
+Webservice Server
 
-- Generate a router for the oak web server
+- validate url params as either float/int or string (support nothing else)
+- pass as operation props, e.g. props.id
+
+OpenAPI Server
+
 - Generate an OpenAPI compliant definition that is served by the web server
 
-And finally...
+OpenAPI Client
 
 - A utility that can parse an OpenAPI definition and create a fetch-based client
   that I'm happy with! Might not need much more than the definitions and a

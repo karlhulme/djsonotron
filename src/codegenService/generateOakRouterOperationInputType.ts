@@ -1,11 +1,13 @@
-import { ServicePathOperation } from "../interfaces/index.ts";
+import { JsonotronTypeDef, ServicePath, ServicePathOperation } from "../interfaces/index.ts";
 import {
   capitalizeFirstLetter,
+  getPathParameters,
   getSystemFromTypeString,
   getTypeFromTypeString,
+  resolveJsonotronType
 } from "../utils/index.ts";
 
-export function generateOakRouterOperationInputType(op: ServicePathOperation) {
+export function generateOakRouterOperationInputType(path: ServicePath, op: ServicePathOperation, types: JsonotronTypeDef[]) {
   const declarations: string[] = [];
 
   const reqQuerySystem = op.requestQueryType
@@ -24,22 +26,39 @@ export function generateOakRouterOperationInputType(op: ServicePathOperation) {
     ? getTypeFromTypeString(op.requestBodyType)
     : null;
 
+  const pathParamDeclarations = getPathParameters(path.path).map(param => {
+    const type = resolveJsonotronType(param.type, types)
+
+    if (!type) {
+      throw new Error(
+        `Unable to resolve type ${param.type} for parameter ${param.name} on path ${path.path}.`
+      )
+    }
+
+    const underlyingType = type.kind === 'float' || type.kind === 'int'
+      ? 'number'
+      : 'string'
+
+    return `${param.name}: ${underlyingType}`
+  })
+
+  const queryPropertyDeclaration = reqQuerySystem && reqQueryType
+    ? `query: ${capitalizeFirstLetter(reqQuerySystem)}${
+      capitalizeFirstLetter(reqQueryType)
+    }`
+    : ""
+
+  const bodyPropertyDeclaration = reqBodySystem && reqBodyType
+    ? `body: ${capitalizeFirstLetter(reqBodySystem)}${
+      capitalizeFirstLetter(reqBodyType)
+    }`
+    : ""
+
   const propsInterface = `
   export interface ${capitalizeFirstLetter(op.operationName)}Props {
-    ${
-    reqQuerySystem && reqQueryType
-      ? `query: ${capitalizeFirstLetter(reqQuerySystem)}${
-        capitalizeFirstLetter(reqQueryType)
-      }`
-      : ""
-  }
-    ${
-    reqBodySystem && reqBodyType
-      ? `body: ${capitalizeFirstLetter(reqBodySystem)}${
-        capitalizeFirstLetter(reqBodyType)
-      }`
-      : ""
-  }
+    ${pathParamDeclarations.join("\n    ")}
+    ${queryPropertyDeclaration}
+    ${bodyPropertyDeclaration}
     getHeader: (name: string) => string|null
     getCookie: (name: string) => Promise<string|undefined>
   } 

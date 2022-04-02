@@ -7,7 +7,8 @@ export interface ServicePath {
   /**
    * The service path.  It must begin with a forward slash
    * and any variables should be enclosed in curly braces,
-   * e.g. /pets/{petId}
+   * followed by a colon and the expected type.
+   * e.g. /pets/{petId:std/uuid}
    */
   path: string;
 

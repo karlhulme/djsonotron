@@ -24,7 +24,7 @@ Deno.test("Generate the code for a service with a path with all ops defined.", (
       },
       servers: [],
       paths: [{
-        path: "/example",
+        path: "/example/{id:uuid}/{pageSize:std/positiveInteger}",
         summary: "An example path",
         delete: {
           operationName: "deleteExample",
