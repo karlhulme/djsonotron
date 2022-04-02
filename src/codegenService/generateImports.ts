@@ -1,15 +1,24 @@
+import { JsonotronTypeDef } from "../interfaces/index.ts";
+import {
+  getJsonotronTypeInterfaceName,
+  getJsonotronTypeValidationFuncName,
+} from "../utils/index.ts";
+
 interface GenerateImportsProps {
   typesPath: string;
-  referencedTypeNames: string[];
+  referencedTypes: JsonotronTypeDef[];
   depsPath: string;
 }
 
 export function generateImports(props: GenerateImportsProps) {
   const typeImports: string[] = [];
 
-  for (const typeName of props.referencedTypeNames) {
-    typeImports.push(typeName);
-    typeImports.push(`validate${typeName}`);
+  for (const type of props.referencedTypes) {
+    if (type.kind === "record") {
+      typeImports.push(getJsonotronTypeInterfaceName(type));
+    }
+
+    typeImports.push(getJsonotronTypeValidationFuncName(type));
   }
 
   return `
