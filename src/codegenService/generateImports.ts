@@ -22,6 +22,7 @@ export function generateImports(props: GenerateImportsProps) {
   }
 
   return `
+    // deno-lint-ignore-file no-unused-vars
     import { ${typeImports.join(", ")} } from "${props.typesPath}";
     import { Context, isHttpError, Request, Router, Status } from "${props.depsPath}";
   `;
