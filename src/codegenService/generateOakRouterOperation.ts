@@ -271,7 +271,7 @@ export function generateOakRouterOperation(
   } else {
     lines.push(`
       ctx.response.status = 200;
-    `)
+    `);
   }
 
   lines.push(`
