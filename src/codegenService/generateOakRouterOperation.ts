@@ -268,6 +268,10 @@ export function generateOakRouterOperation(
 
       ctx.response.body = result.body;
     `);
+  } else {
+    lines.push(`
+      ctx.response.status = 200;
+    `)
   }
 
   lines.push(`
