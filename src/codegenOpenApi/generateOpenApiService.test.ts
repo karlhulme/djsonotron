@@ -1,7 +1,7 @@
 import { assertStrictEquals } from "../../deps.ts";
 import { RecordTypeDef } from "../interfaces/index.ts";
 import { stdSystemTypes } from "../std/index.ts";
-import { generateCodeForService } from "./generateCodeForService.ts";
+import { generateOpenApiService } from "./generateOpenApiService.ts";
 
 const exampleType: RecordTypeDef = {
   kind: "record",
@@ -15,8 +15,8 @@ const exampleType: RecordTypeDef = {
   }],
 };
 
-Deno.test("Generate the code for a service with a path with all ops defined.", () => {
-  const code = generateCodeForService({
+Deno.test("Generate an openapi service definition for a service with a path with all ops defined.", () => {
+  const openApiService = generateOpenApiService({
     service: {
       info: {
         title: "Test service",
@@ -63,52 +63,9 @@ Deno.test("Generate the code for a service with a path with all ops defined.", (
         },
       }],
     },
-    typesPath: "./types.autogen.ts",
     types: [exampleType, ...stdSystemTypes],
-    depsPath: "../../deps.ts",
   });
 
-  // console.log(code);
-  assertStrictEquals(typeof code, "string");
-});
-
-Deno.test("Generate the code for a service with a path with no types required.", () => {
-  const code = generateCodeForService({
-    service: {
-      info: {
-        title: "Test service",
-        version: "1.0.0",
-      },
-      servers: [],
-      paths: [{
-        relativeUrl: "/example",
-        summary: "An example path",
-        delete: {
-          operationName: "deleteExample",
-          summary: "Deletes an example.",
-        },
-        get: {
-          operationName: "getExample",
-          summary: "Retrieves an example.",
-        },
-        patch: {
-          operationName: "patchExample",
-          summary: "Patch an example.",
-        },
-        post: {
-          operationName: "postExample",
-          summary: "Create an example.",
-        },
-        put: {
-          operationName: "putExample",
-          summary: "Insert an example.",
-        },
-      }],
-    },
-    typesPath: "./types.autogen.ts",
-    types: [],
-    depsPath: "../../deps.ts",
-  });
-
-  assertStrictEquals(typeof code, "string");
+  console.log(JSON.stringify(openApiService, null, 2));
+  assertStrictEquals(typeof openApiService, "object");
 });

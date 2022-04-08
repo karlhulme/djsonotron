@@ -5,10 +5,10 @@ import {
   ServicePathOperation,
 } from "../interfaces/index.ts";
 import {
-  convertJsonotronPathToOakPath,
-  getJsonotronTypeInterfaceName,
+  convertServicePathToOakPath,
+  getJsonotronTypeFormalName,
   getJsonotronTypeValidationFuncName,
-  getPathParameters,
+  getServicePathParameters,
   resolveJsonotronType,
 } from "../utils/index.ts";
 
@@ -20,7 +20,7 @@ export function generateOakRouterOperation(
 ) {
   const lines: string[] = [];
 
-  const oakPath = convertJsonotronPathToOakPath(path.path);
+  const oakPath = convertServicePathToOakPath(path.relativeUrl);
 
   const urlParamInvocationParameters: string[] = [];
   let queryInvocationParameter = "";
@@ -28,13 +28,13 @@ export function generateOakRouterOperation(
 
   lines.push(`.${method}("${oakPath}", async (ctx) => {`);
 
-  for (const urlParam of getPathParameters(path.path)) {
+  for (const urlParam of getServicePathParameters(path.relativeUrl)) {
     const urlParamTypeDef = resolveJsonotronType(urlParam.type, types);
 
     if (!urlParamTypeDef) {
       throw new Error(
         `Type ${urlParam.type} of url param ${urlParam.name} used
-        for ${method} operation of "${path.path}" could not be resolved.`,
+        for ${method} operation of "${path.relativeUrl}" could not be resolved.`,
       );
     }
 
@@ -83,13 +83,13 @@ export function generateOakRouterOperation(
     if (!queryTypeDef) {
       throw new Error(
         `Query type ${op.requestQueryType} used for ${method} operation
-        of "${path.path}" could not be resolved.`,
+        of "${path.relativeUrl}" could not be resolved.`,
       );
     }
 
     if (queryTypeDef.kind !== "record") {
       throw new Error(
-        `Query type ${op.requestQueryType} used for ${method} operation of "${path.path}" must be a record.`,
+        `Query type ${op.requestQueryType} used for ${method} operation of "${path.relativeUrl}" must be a record.`,
       );
     }
 
@@ -176,7 +176,7 @@ export function generateOakRouterOperation(
     `);
 
     queryInvocationParameter = `query: query as ${
-      getJsonotronTypeInterfaceName(queryTypeDef)
+      getJsonotronTypeFormalName(queryTypeDef)
     },`;
   }
 
@@ -186,13 +186,13 @@ export function generateOakRouterOperation(
     if (!bodyTypeDef) {
       throw new Error(
         `Body type ${op.requestBodyType} used for ${method} operation
-        of "${path.path}" could not be resolved.`,
+        of "${path.relativeUrl}" could not be resolved.`,
       );
     }
 
     if (bodyTypeDef.kind !== "record") {
       throw new Error(
-        `Body type ${op.requestBodyType} used for ${method} operation of "${path.path}" must be a record.`,
+        `Body type ${op.requestBodyType} used for ${method} operation of "${path.relativeUrl}" must be a record.`,
       );
     }
 
@@ -216,7 +216,7 @@ export function generateOakRouterOperation(
       }`);
 
     bodyInvocationParameter = `body: body as ${
-      getJsonotronTypeInterfaceName(bodyTypeDef)
+      getJsonotronTypeFormalName(bodyTypeDef)
     },`;
   }
 
@@ -236,13 +236,13 @@ export function generateOakRouterOperation(
     if (!resultTypeDef) {
       throw new Error(
         `Result type ${op.responseBodyType} used for ${method} operation
-        of "${path.path}" could not be resolved.`,
+        of "${path.relativeUrl}" could not be resolved.`,
       );
     }
 
     if (resultTypeDef.kind !== "record") {
       throw new Error(
-        `Result type ${op.responseBodyType} used for ${method} operation of "${path.path}" must be a record.`,
+        `Result type ${op.responseBodyType} used for ${method} operation of "${path.relativeUrl}" must be a record.`,
       );
     }
 

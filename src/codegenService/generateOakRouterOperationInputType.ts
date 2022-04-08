@@ -5,7 +5,7 @@ import {
 } from "../interfaces/index.ts";
 import {
   capitalizeFirstLetter,
-  getPathParameters,
+  getServicePathParameters,
   getSystemFromTypeString,
   getTypeFromTypeString,
   resolveJsonotronType,
@@ -34,21 +34,23 @@ export function generateOakRouterOperationInputType(
     ? getTypeFromTypeString(op.requestBodyType)
     : null;
 
-  const pathParamDeclarations = getPathParameters(path.path).map((param) => {
-    const type = resolveJsonotronType(param.type, types);
+  const pathParamDeclarations = getServicePathParameters(path.relativeUrl).map(
+    (param) => {
+      const type = resolveJsonotronType(param.type, types);
 
-    if (!type) {
-      throw new Error(
-        `Unable to resolve type ${param.type} for parameter ${param.name} on path ${path.path}.`,
-      );
-    }
+      if (!type) {
+        throw new Error(
+          `Unable to resolve type ${param.type} for parameter ${param.name} on path ${path.relativeUrl}.`,
+        );
+      }
 
-    const underlyingType = type.kind === "float" || type.kind === "int"
-      ? "number"
-      : "string";
+      const underlyingType = type.kind === "float" || type.kind === "int"
+        ? "number"
+        : "string";
 
-    return `${param.name}: ${underlyingType}`;
-  });
+      return `${param.name}: ${underlyingType}`;
+    },
+  );
 
   const queryPropertyDeclaration = reqQuerySystem && reqQueryType
     ? `query: ${capitalizeFirstLetter(reqQuerySystem)}${

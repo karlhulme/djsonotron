@@ -1,14 +1,21 @@
-import { JsonotronTypeDef, Service } from "../interfaces/index.ts";
-import { getPathParameters, resolveJsonotronType } from "../utils/index.ts";
+import {
+  JsonotronTypeDef,
+  RecordTypeDef,
+  Service,
+} from "../interfaces/index.ts";
+import {
+  getServicePathParameters,
+  resolveJsonotronType,
+} from "../utils/index.ts";
 
-export function getTypeReferencedByService(
+export function getTypesReferencedByServiceDeep(
   service: Service,
   types: JsonotronTypeDef[],
 ) {
   const typeNames: string[] = [];
 
   for (const path of service.paths) {
-    for (const param of getPathParameters(path.path)) {
+    for (const param of getServicePathParameters(path.relativeUrl)) {
       typeNames.push(param.type);
     }
 
@@ -85,12 +92,27 @@ export function getTypeReferencedByService(
 
   const referencedTypes: JsonotronTypeDef[] = [];
 
-  for (const typeName of typeNames) {
+  let typeNamesIndex = 0;
+
+  while (typeNamesIndex < typeNames.length) {
+    const typeName = typeNames[typeNamesIndex];
     const resolvedType = resolveJsonotronType(typeName, types);
 
     if (resolvedType && !referencedTypes.includes(resolvedType)) {
       referencedTypes.push(resolvedType);
     }
+
+    if (resolvedType?.kind === "record") {
+      const resolvedTypeRecord = resolvedType as RecordTypeDef;
+
+      for (const resolvedTypeRecordProp of resolvedTypeRecord.properties) {
+        if (!typeNames.includes(resolvedTypeRecordProp.propertyType)) {
+          typeNames.push(resolvedTypeRecordProp.propertyType);
+        }
+      }
+    }
+
+    typeNamesIndex++
   }
 
   return referencedTypes;

@@ -1,7 +1,7 @@
 /**
  * Represents a paraneter within a path such as /path/{id:std/uuid}/more
  */
-export interface UrlPathParameter {
+export interface ServicePathParameter {
   /**
    * The name of the parameter.
    */

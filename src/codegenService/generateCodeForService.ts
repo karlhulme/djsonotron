@@ -2,7 +2,7 @@ import { JsonotronTypeDef, Service } from "../interfaces/index.ts";
 import { generateImports } from "./generateImports.ts";
 import { generateUtilityFunctions } from "./generateUtilityFunctions.ts";
 import { generateOakRouter } from "./generateOakRouter.ts";
-import { getTypeReferencedByService } from "./getTypeReferencedByService.ts";
+import { getTypesReferencedByServiceShallow } from "./getTypesReferencedByServiceShallow.ts";
 
 interface GenerateCodeForServiceProps {
   service: Service;
@@ -12,7 +12,7 @@ interface GenerateCodeForServiceProps {
 }
 
 export function generateCodeForService(props: GenerateCodeForServiceProps) {
-  const referencedTypes = getTypeReferencedByService(
+  const referencedTypes = getTypesReferencedByServiceShallow(
     props.service,
     props.types,
   );

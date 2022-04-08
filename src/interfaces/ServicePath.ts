@@ -5,12 +5,12 @@ import { ServicePathOperation } from "./ServicePathOperation.ts";
  */
 export interface ServicePath {
   /**
-   * The service path.  It must begin with a forward slash
+   * The relative pathname.  It must begin with a forward slash
    * and any variables should be enclosed in curly braces,
    * followed by a colon and the expected type.
    * e.g. /pets/{petId:std/uuid}
    */
-  path: string;
+  relativeUrl: string;
 
   /**
    * Describes the resource available at the path.

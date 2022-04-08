@@ -1,7 +1,7 @@
-import { UrlPathParameter } from "../interfaces/index.ts";
+import { ServicePathParameter } from "../interfaces/index.ts";
 
-export function getPathParameters(path: string) {
-  const params: UrlPathParameter[] = [];
+export function getServicePathParameters(path: string) {
+  const params: ServicePathParameter[] = [];
 
   for (const pathMatch of path.matchAll(/{[^:{}]+:[^:{}]+}/g)) {
     // Remove the outer braces and split based on the colon.
