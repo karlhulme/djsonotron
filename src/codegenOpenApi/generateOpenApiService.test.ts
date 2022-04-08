@@ -66,6 +66,6 @@ Deno.test("Generate an openapi service definition for a service with a path with
     types: [exampleType, ...stdSystemTypes],
   });
 
-  console.log(JSON.stringify(openApiService, null, 2));
+  // console.log(JSON.stringify(openApiService, null, 2));
   assertStrictEquals(typeof openApiService, "object");
 });
