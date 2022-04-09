@@ -17,7 +17,9 @@ Deno.test("Get single parameter from path with long type name.", () => {
 
 Deno.test("Get multiple parameters from path.", () => {
   assertEquals(
-    getServicePathParameters("/path/{first:std/uuid}/path/{second:shortString}"),
+    getServicePathParameters(
+      "/path/{first:std/uuid}/path/{second:shortString}",
+    ),
     [{
       name: "first",
       type: "std/uuid",

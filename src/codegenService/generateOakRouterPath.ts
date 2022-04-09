@@ -1,8 +1,5 @@
-import {
-  JsonotronTypeDef,
-  ServicePath
-} from '../interfaces/index.ts'
-import { generateOakRouterOperation } from './generateOakRouterOperation.ts'
+import { JsonotronTypeDef, ServicePath } from "../interfaces/index.ts";
+import { generateOakRouterOperation } from "./generateOakRouterOperation.ts";
 
 export function generateOakRouterPath(
   path: ServicePath,

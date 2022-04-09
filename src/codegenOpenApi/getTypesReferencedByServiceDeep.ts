@@ -112,7 +112,7 @@ export function getTypesReferencedByServiceDeep(
       }
     }
 
-    typeNamesIndex++
+    typeNamesIndex++;
   }
 
   return referencedTypes;

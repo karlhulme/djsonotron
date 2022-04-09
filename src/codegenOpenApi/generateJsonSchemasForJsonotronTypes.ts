@@ -3,9 +3,7 @@ import {
   JsonotronTypeDef,
   RecordTypeDef,
 } from "../interfaces/index.ts";
-import {
-  getJsonotronTypeFormalName
-} from '../utils/index.ts';
+import { getJsonotronTypeFormalName } from "../utils/index.ts";
 import { generateJsonSchemaForEnumType } from "./generateJsonSchemaForEnumType.ts";
 import { generateJsonSchemaForRecordType } from "./generateJsonSchemaForRecordType.ts";
 
@@ -35,7 +33,7 @@ export function generateJsonSchemasForJsonotronTypes(
     );
   }
 
-  schemas["Empty"] = { type: "string" }
+  schemas["Empty"] = { type: "string" };
 
   return schemas;
 }
