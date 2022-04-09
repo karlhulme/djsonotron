@@ -1,6 +1,7 @@
 import { JsonotronTypeDef, OpenApiSpec, Service } from "../interfaces/index.ts";
 import { generateOpenApiServicePathsNode } from "./generateOpenApiServicePathsNode.ts";
 import { generateJsonSchemasForJsonotronTypes } from "./generateJsonSchemasForJsonotronTypes.ts";
+import { generateRequestBodiesForOperations } from "./generateRequestBodiesForOperations.ts";
 import { getTypesReferencedByServiceDeep } from "./getTypesReferencedByServiceDeep.ts";
 
 interface GenerateOpenApiServiceProps {
@@ -29,9 +30,13 @@ export function generateOpenApiService(
     })),
     paths: generateOpenApiServicePathsNode(props.service, props.types),
     components: {
+      requestBodies: generateRequestBodiesForOperations(
+        props.service,
+        props.types,
+      ),
       schemas: generateJsonSchemasForJsonotronTypes(referencedTypes),
     },
   };
-
+  console.log(JSON.stringify(openApiSpec, null, 2));
   return openApiSpec;
 }

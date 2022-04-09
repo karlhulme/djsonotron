@@ -51,5 +51,6 @@ export interface OpenApiSpecReference {
 }
 
 export interface OpenApiSpecComponents {
+  requestBodies: Record<string, unknown>;
   schemas: Record<string, unknown>;
 }

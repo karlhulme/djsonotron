@@ -5,6 +5,7 @@ import {
   ServicePathOperation,
 } from "../interfaces/index.ts";
 import {
+  capitalizeFirstLetter,
   getJsonotronTypeFormalName,
   resolveJsonotronType,
 } from "../utils/index.ts";
@@ -21,8 +22,8 @@ export function generateOpenApiServicePathOperation(
     ? reqQueryType as RecordTypeDef
     : null;
 
-  const reqBodyType = op.requestBodyType
-    ? resolveJsonotronType(op.requestBodyType, types)
+  const reqBodyName = op.requestBodyType
+    ? `${capitalizeFirstLetter(op.operationName)}RequestBody`
     : null;
 
   const resBodyType = op.responseBodyType
@@ -32,9 +33,9 @@ export function generateOpenApiServicePathOperation(
   return {
     operationId: op.operationName,
     summary: op.summary,
-    requestBody: reqBodyType
+    requestBody: reqBodyName
       ? {
-        $ref: `#/components/${getJsonotronTypeFormalName(reqBodyType)}`,
+        $ref: `#/components/requestBodies/${reqBodyName}`,
       }
       : undefined,
     parameters: reqQueryTypeRecord
@@ -48,10 +49,12 @@ export function generateOpenApiServicePathOperation(
     responses: {
       "2XX": resBodyType
         ? {
-          $ref: `#/components/${getJsonotronTypeFormalName(resBodyType)}`,
+          $ref: `#/components/schemas/${
+            getJsonotronTypeFormalName(resBodyType)
+          }`,
         }
         : {
-          $ref: `#/components/Empty`,
+          $ref: `#/components/schemas/Empty`,
         },
     },
   };
