@@ -11,14 +11,14 @@ export function generateOakRouterOpenApiPath(
     types,
   }) as unknown as Record<string, unknown>;
 
+  const openApiServiceYaml = stringifyYaml(openApiService, {
+    skipInvalid: true,
+  });
+
   const lines: string[] = [];
 
   lines.push(`  .get("/openapi", (ctx) => {
-    ctx.response.body = \`${
-    stringifyYaml(openApiService, {
-      skipInvalid: true,
-    })
-  }\`
+    ctx.response.body = \`${openApiServiceYaml}\`
   })`);
 
   return lines;
