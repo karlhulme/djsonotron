@@ -37,6 +37,6 @@ export function generateOpenApiService(
       schemas: generateJsonSchemasForJsonotronTypes(referencedTypes),
     },
   };
-  console.log(JSON.stringify(openApiSpec, null, 2));
+  // console.log(JSON.stringify(openApiSpec, null, 2));
   return openApiSpec;
 }
