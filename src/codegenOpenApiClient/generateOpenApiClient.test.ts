@@ -71,6 +71,6 @@ Deno.test("Generate client code for an openapi service definition.", () => {
     openApiDefinition: yaml,
   });
 
-  console.log(code);
+  // console.log(code);
   assertStrictEquals(typeof code, "string");
 });
