@@ -34,7 +34,7 @@ export function generateUrlBuilders(openApi: OpenApiSpec) {
     }
   }
 
-  return lines.join("\n\n");
+  return lines.join("\n");
 }
 
 function generateUrlBuilder(
@@ -46,14 +46,14 @@ function generateUrlBuilder(
 
   const capitalizedOpId = capitalizeFirstLetter(op.operationId);
 
+  const openApiParams = op.parameters
+    .concat(pathNode.parameters)
+    .filter((p) => p.in === "query" || p.in === "path");
+
   lines.push(`export interface ${capitalizedOpId}UrlProps {`);
   lines.push("  host: string");
 
-  for (const param of pathNode.parameters) {
-    lines.push(`  ${param.name}: string`);
-  }
-
-  for (const param of op.parameters) {
+  for (const param of openApiParams) {
     const reqSymbol = param.required ? "" : "?";
     lines.push(`  ${param.name}${reqSymbol}: string`);
   }

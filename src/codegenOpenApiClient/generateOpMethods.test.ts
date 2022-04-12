@@ -39,6 +39,6 @@ const exampleOpenApi: OpenApiSpec = {
 Deno.test("Generate operation methods for openapi spec.", () => {
   const code = generateOpMethods(exampleOpenApi);
 
-  assertStringIncludes(code, "export function getSomethingMethod {");
+  assertStringIncludes(code, "export function getSomethingMethod () {");
   assertStringIncludes(code, `return "get";`);
 });

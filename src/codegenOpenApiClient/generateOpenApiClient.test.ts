@@ -26,12 +26,25 @@ const exampleOpenApi: OpenApiSpec = {
           name: "bar",
           required: false,
         }],
+        requestBody: {
+          $ref: "#/components/requestBodies/GetSomethingRequestBody",
+        },
         responses: {},
       },
     },
   },
   components: {
-    requestBodies: {},
+    requestBodies: {
+      GetSomethingRequestBody: {
+        content: {
+          "application/json": {
+            schema: {
+              $ref: "#/components/schemas/SvcExampleType",
+            },
+          },
+        },
+      },
+    },
     schemas: {
       SvcExampleType: {
         type: "object",
@@ -71,6 +84,6 @@ Deno.test("Generate client code for an openapi service definition.", () => {
     openApiDefinition: yaml,
   });
 
-  // console.log(code);
+  console.log(code);
   assertStrictEquals(typeof code, "string");
 });

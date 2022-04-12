@@ -39,9 +39,11 @@ export function generateSchemaInterfaces(openApi: OpenApiSpec) {
 
       lines.push("}\n");
 
-      lines.push(`export function stringify${typeName} (value: ${typeName}) {`);
+      lines.push(
+        `export function queryParam${typeName} (value: ${typeName}) {`,
+      );
 
-      lines.push(`  return JSON.stringify(value);`);
+      lines.push(`  return encodeURIComponent(JSON.stringify(value));`);
 
       lines.push("}\n");
     }

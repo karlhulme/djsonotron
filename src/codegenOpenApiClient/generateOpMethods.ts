@@ -29,15 +29,15 @@ export function generateOpMethods(openApi: OpenApiSpec) {
     }
   }
 
-  return lines.join("\n\n");
+  return lines.join("\n");
 }
 
 function generateOpMethod(method: string, op: OpenApiSpecPathOperation) {
   const lines: string[] = [];
 
-  lines.push(`export function ${op.operationId}Method {`);
+  lines.push(`export function ${op.operationId}Method () {`);
   lines.push(`  return "${method}";`);
-  lines.push("}");
+  lines.push("}\n");
 
   return lines;
 }

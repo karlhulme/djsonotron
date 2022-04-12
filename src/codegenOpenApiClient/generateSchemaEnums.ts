@@ -20,13 +20,13 @@ export function generateSchemaEnums(openApi: OpenApiSpec) {
 
       lines.push(`export const ${enumValuesName} = [
         ${enumValues}
-        ] as const`);
+        ] as const\n`);
 
       lines.push(
-        `export type ${enumName} = typeof ${enumValuesName}[keyof typeof ${enumValuesName}]`,
+        `export type ${enumName} = typeof ${enumValuesName}[keyof typeof ${enumValuesName}]\n`,
       );
     }
   }
 
-  return lines.join("\n\n");
+  return lines.join("\n");
 }
