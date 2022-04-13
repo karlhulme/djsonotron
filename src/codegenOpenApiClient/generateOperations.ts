@@ -40,6 +40,7 @@ function generateOperation(op: OpenApiSpecPathOperation) {
 
   lines.push(`export interface ${propsType} {`);
   lines.push(`  url: ${capitalizeFirstLetter(op.operationId)}UrlProps`);
+  lines.push(`  headers?: Record<string, string>`);
 
   const hasRefBody = typeof op.requestBody === "object" &&
     typeof op.requestBody.$ref === "string" &&
@@ -63,17 +64,34 @@ function generateOperation(op: OpenApiSpecPathOperation) {
     `  const response = await fetch(${urlFunc}(props.url), {`,
   );
   lines.push(`    method: ${methodFunc}(),`);
+  lines.push(`    headers: props.headers || {},`);
 
   if (bodyType) {
     lines.push(`    body: stringify${bodyType}(props.body)`);
   }
 
   lines.push(`  })\n`);
-  lines.push(`  const result = await response.json();`);
 
-  // determine if there is an actual response type or if it's just empty.
+  // Check for 503/429 so we can throw RetryableErrors.
+  // Otherwise throw 4XX client error, 5XX server error, or allow NetworkError to propogate.
+  lines.push(`  if (!response.ok) {`);
+  lines.push(
+    `    throw new Error("Request rejected: " + await response.text())`,
+  );
+  lines.push("  }");
 
-  lines.push(`  return result as string`);
+  const hasResult = op.responses["2XX"] &&
+    typeof op.responses["2XX"].$ref === "string" &&
+    !op.responses["2XX"].$ref.endsWith("/schemas/Empty");
+
+  if (hasResult) {
+    const lastSepIndex = op.responses["2XX"].$ref.lastIndexOf("/");
+    const resultType = op.responses["2XX"].$ref.slice(lastSepIndex + 1);
+
+    lines.push(`  const result = await response.json();`);
+    lines.push(`  return result as ${resultType}`);
+  }
+
   lines.push(`}\n`);
 
   return lines;
