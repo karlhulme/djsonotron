@@ -6,6 +6,7 @@ export * from "./hugeString.ts";
 export * from "./ipv4.ts";
 export * from "./ipv6.ts";
 export * from "./longString.ts";
+export * from "./maxString.ts";
 export * from "./mediumString.ts";
 export * from "./shortString.ts";
 export * from "./time.ts";
