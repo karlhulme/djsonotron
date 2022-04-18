@@ -39,8 +39,9 @@ export function generateOpenApiServicePathsNode(
       post: path.post
         ? generateOpenApiServicePathOperation(path.post, types)
         : undefined,
-      put: path.put ? generateOpenApiServicePathOperation(path.put, types)
-      : undefined,
+      put: path.put
+        ? generateOpenApiServicePathOperation(path.put, types)
+        : undefined,
     };
   }
 
