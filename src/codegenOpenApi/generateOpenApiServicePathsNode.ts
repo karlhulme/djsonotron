@@ -24,6 +24,9 @@ export function generateOpenApiServicePathsNode(
       description: path.description,
       parameters: pathParams.map((p) => ({
         in: "path",
+        schema: {
+          type: "string",
+        },
         name: p.name,
         required: true,
       })),
