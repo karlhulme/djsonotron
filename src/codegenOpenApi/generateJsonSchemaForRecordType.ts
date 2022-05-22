@@ -12,8 +12,15 @@ export function generateJsonSchemaForRecordType(
     const recordPropType = resolveJsonotronType(recordProp.propertyType, types);
 
     if (recordPropType) {
-      objectProperties[recordProp.name] =
-        determineJsonSchemaTypeForJsonotronType(recordPropType);
+      if (recordProp.isArray) {
+        objectProperties[recordProp.name] = {
+          type: "array",
+          items: determineJsonSchemaTypeForJsonotronType(recordPropType),
+        };
+      } else {
+        objectProperties[recordProp.name] =
+          determineJsonSchemaTypeForJsonotronType(recordPropType);
+      }
     }
   }
 

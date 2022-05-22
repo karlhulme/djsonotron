@@ -41,9 +41,14 @@ export function generateOpenApiServicePathOperation(
     parameters: reqQueryTypeRecord
       ? reqQueryTypeRecord.properties.map((p) => ({
         in: "query",
+        schema: {
+          type: "string",
+        },
         name: p.name,
         required: Boolean(p.isRequired),
-        description: p.summary,
+        description: p.isArray
+          ? "Cannot deserialize arrays in top-level query objects.  Change type to non-array or wrap it in an object."
+          : p.summary,
       }))
       : [],
     responses: {
