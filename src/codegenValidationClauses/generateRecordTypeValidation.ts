@@ -35,7 +35,7 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
               valuePath: \`${props.valueDisplayPath}.${property.name}\`,
               value: ${props.valuePath}.${property.name},
               msg: "Value is a required property and cannot be undefined.",
-              type: "${property.propertyType}",
+              type: "${property.propertyType}${property.isArray ? "[]" : ""}",
             })
           }    
         `;
