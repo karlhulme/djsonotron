@@ -287,13 +287,11 @@ export function generateOakRouterOperation(
   lines.push(`
   } catch (err) {
     const errorResult = props.interpretError(err as Error);
-    ctx.throw(errorResult.status, errorResult.messaage, errorResult.data
+    ctx.throw(errorResult.status, errorResult.message, errorResult.data
       ? {
-        data: {
-          errorResult.data
-        },
+        data: errorResult.data,
       } : undefined,
-    });
+    );
   }`);
 
   lines.push("})");
