@@ -27,6 +27,7 @@ export function generateOakRouterOperation(
   let bodyInvocationParameter = "";
 
   lines.push(`.${method}("${oakPath}", async (ctx) => {`);
+  lines.push("try {");
 
   for (const urlParam of getServicePathParameters(path.relativeUrl)) {
     const urlParamTypeDef = resolveJsonotronType(urlParam.type, types);
@@ -284,6 +285,12 @@ export function generateOakRouterOperation(
   `);
 
   lines.push("})");
+
+  lines.push(`
+  } catch (err) {
+    const failedResult = await props.handleError(err as Error);
+    return failedResult;
+  }`);
 
   return lines;
 }
