@@ -35,13 +35,15 @@ export async function errorHandler(ctx: Context, next: () => Promise<unknown>) {
       const includeData = hasDataProp(err);
       ctx.response.status = err.status;
       ctx.response.body = {
-        message: err.expose ? err.message : "Internal Server Errror",
+        message: err.expose ? err.message : "Internal Server Error",
         data: includeData && err.expose ? err.data : undefined,
       };
     } else {
-      // rethrow if you can't handle the error
-      // although probably just console.log and soldier on.
-      throw err;
+      console.log(err)
+      ctx.response.status = Status.InternalServerError;
+      ctx.response.body = {
+        message: "Unhandled Internal Server Error"
+      }
     }
   }
 }
