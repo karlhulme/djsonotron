@@ -60,8 +60,9 @@ export function generateOakRouterConstructorProps(service: Service) {
 
   const operationFailedResult = `
   export interface OperationFailedResult {
-    body: unknown;
-    headers: HeaderNameValue[];
+    status: ErrorStatus;
+    message: string
+    data?: Record<string, unknown>
   }`;
 
   declarations.push(operationFailedResult);
@@ -69,7 +70,7 @@ export function generateOakRouterConstructorProps(service: Service) {
   const resultInterface = `
   export interface CreateRouterProps {
     ${interfaceLines.join("\n")}
-    handleError: (err: Error) => Promise<OperationFailedResult>
+    interpretError: (err: Error) => OperationFailedResult
   }
   `;
 

@@ -286,8 +286,14 @@ export function generateOakRouterOperation(
 
   lines.push(`
   } catch (err) {
-    const failedResult = await props.handleError(err as Error);
-    return failedResult;
+    const errorResult = props.interpretError(err as Error);
+    ctx.throw(errorResult.status, errorResult.messaage, errorResult.data
+      ? {
+        data: {
+          errorResult.data
+        },
+      } : undefined,
+    });
   }`);
 
   lines.push("})");
