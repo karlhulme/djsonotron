@@ -50,7 +50,7 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
               valuePath: \`${props.valueDisplayPath}.${property.name}\`,
               value: ${props.valuePath}.${property.name},
               msg: "Value must not be null.",
-              type: "${property.propertyType}",
+              type: "${property.propertyType}${property.isArray ? "[]" : ""}",
             })
           }    
         `;
@@ -90,7 +90,7 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
           valuePath: \`${props.valueDisplayPath}.${property.name}\`,
           value: ${props.valuePath}.${property.name},
           msg: "Value cannot conform to unknown type.",
-          type: "${property.propertyType}",
+          type: "${property.propertyType}${property.isArray ? "[]" : ""}",
         })
       `;
 
