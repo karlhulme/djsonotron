@@ -20,9 +20,11 @@ export function getTypesReferencedByServiceShallow(
         typeNames.push(path.delete.requestBodyType);
       }
 
-      if (path.delete.requestQueryType) {
-        typeNames.push(path.delete.requestQueryType);
-      }
+      // Query types are expressed as a series of top level parameters
+      // so we don't need it to appear as a separate schema.
+      // if (path.delete.requestQueryType) {
+      //   typeNames.push(path.delete.requestQueryType);
+      // }
 
       if (path.delete.responseBodyType) {
         typeNames.push(path.delete.responseBodyType);
