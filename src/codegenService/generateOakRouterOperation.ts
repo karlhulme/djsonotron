@@ -284,13 +284,13 @@ export function generateOakRouterOperation(
     }
   `);
 
-  lines.push("})");
-
   lines.push(`
   } catch (err) {
     const failedResult = await props.handleError(err as Error);
     return failedResult;
   }`);
+
+  lines.push("})");
 
   return lines;
 }
