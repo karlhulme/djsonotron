@@ -27,7 +27,6 @@ export function generateOakRouterOperation(
   let bodyInvocationParameter = "";
 
   lines.push(`.${method}("${oakPath}", async (ctx) => {`);
-  lines.push("try {");
 
   for (const urlParam of getServicePathParameters(path.relativeUrl)) {
     const urlParamTypeDef = resolveJsonotronType(urlParam.type, types);
@@ -60,11 +59,9 @@ export function generateOakRouterOperation(
       );
 
       if (${urlParam.name}ValidationErrors.length > 0) {
-        ctx.throw(Status.BadRequest, "Validation of url parameters failed.", {
-          data: {
-            urlParameterValidationErrors: ${urlParam.name}ValidationErrors,
-          },
-        });
+        throw new ServiceInputValidationError("Validation of url parameter ${urlParam.name} failed.", {
+          validationErrors: ${urlParam.name}ValidationErrors,
+        })
       }
     `);
 
@@ -168,11 +165,9 @@ export function generateOakRouterOperation(
       );
 
       if (queryValidationErrors.length > 0) {
-        ctx.throw(Status.BadRequest, "Validation of request query failed.", {
-          data: {
-            queryValidationErrors,
-          },
-        });
+        throw new ServiceInputValidationError("Validation of request query failed.", {
+          validationErrors: queryValidationErrors,
+        })
       }
     `);
 
@@ -201,7 +196,7 @@ export function generateOakRouterOperation(
       const body = await getJsonBody(ctx.request);
 
       if (!body) {
-        ctx.throw(Status.BadRequest, "Unable to parse JSON body.");
+        throw new ServiceInputValidationError("Unable to parse JSON body.")
       }
 
       const bodyValidationErrors = ${
@@ -209,11 +204,9 @@ export function generateOakRouterOperation(
     }(body, "body");
 
       if (bodyValidationErrors.length > 0) {
-        ctx.throw(Status.BadRequest, "Validation of request body failed.", {
-          data: {
-            bodyValidationErrors,
-          },
-        });
+        throw new ServiceInputValidationError("Validation of request body failed.", {
+          validationErrors: bodyValidationErrors
+        })
       }`);
 
     bodyInvocationParameter = `body: body as ${
@@ -256,15 +249,9 @@ export function generateOakRouterOperation(
       );
 
       if (resultValidationErrors.length > 0) {
-        ctx.throw(
-          Status.InternalServerError,
-          "Validation of result failed.",
-          {
-            data: {
-              resultValidationErrors,
-            },
-          },
-        );
+        throw new ServiceOutputValidationError("Validation of response body failed.", {
+          validationErrors: resultValidationErrors
+        })
       }
 
       ctx.response.body = result.body;
@@ -283,17 +270,7 @@ export function generateOakRouterOperation(
       );
     }
   `);
-
-  lines.push(`
-  } catch (err) {
-    const errorResult = props.interpretError(err as Error);
-    ctx.throw(errorResult.status, errorResult.message, errorResult.data
-      ? {
-        data: errorResult.data,
-      } : undefined,
-    );
-  }`);
-
+  
   lines.push("})");
 
   return lines;

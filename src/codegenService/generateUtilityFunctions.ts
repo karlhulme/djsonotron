@@ -27,24 +27,27 @@ export function hasDataProp(value: any): value is { data: unknown } {
   return (typeof value === "object" && typeof value.data !== "undefined");
 }
 
-export async function errorHandler(ctx: Context, next: () => Promise<unknown>) {
-  try {
-    await next();
-  } catch (err) {
-    if (isHttpError(err)) {
-      const includeData = hasDataProp(err);
-      ctx.response.status = err.status;
-      ctx.response.body = {
-        message: err.expose ? err.message : "Internal Server Error",
-        data: includeData && err.expose ? err.data : undefined,
-      };
-    } else {
-      console.log(err)
-      ctx.response.status = Status.InternalServerError;
-      ctx.response.body = {
-        message: "Unhandled Internal Server Error"
-      }
-    }
+/**
+ * Raised when the validation of client input fails.
+ */
+export class ServiceInputValidationError extends Error {
+  constructor(readonly message: string, readonly data?: unknown) {
+    super(message);
+    Object.setPrototypeOf(this, new.target.prototype);
+    this.name = this.constructor.name;
+    this.data = data
+  }
+}
+
+/**
+ * Raised when the validation of service output fails.
+ */
+export class ServiceOutputValidationError extends Error {
+  constructor(readonly message: string, readonly data?: unknown) {
+    super(message);
+    Object.setPrototypeOf(this, new.target.prototype);
+    this.name = this.constructor.name;
+    this.data = data
   }
 }
   `;
