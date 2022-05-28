@@ -270,7 +270,7 @@ export function generateOakRouterOperation(
       );
     }
   `);
-  
+
   lines.push("})");
 
   return lines;
