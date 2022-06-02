@@ -219,8 +219,8 @@ export function generateOakRouterOperation(
       ${urlParamInvocationParameters.join("\n")}
       ${queryInvocationParameter}
       ${bodyInvocationParameter}
-      getHeader: ctx.request.headers.get,
-      getCookie: ctx.cookies.get,
+      getHeader: (name: string) => ctx.request.headers.get(name),
+      getCookie: (name: string) => ctx.cookies.get(name),
     });
   `);
 
