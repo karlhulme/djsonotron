@@ -33,6 +33,7 @@ export function generateOpenApiServicePathOperation(
   return {
     operationId: op.operationName,
     summary: op.summary,
+    tags: op.tags || [],
     requestBody: reqBodyName
       ? {
         $ref: `#/components/requestBodies/${reqBodyName}`,

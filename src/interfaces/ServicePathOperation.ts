@@ -13,6 +13,11 @@ export interface ServicePathOperation {
   operationName: string;
 
   /**
+   * An array of tags assigned to the service path.
+   */
+  tags: string[];
+
+  /**
    * The fully-qualified type of the request body.
    * This will typically be supplied for POST and PUT requests but
    * undefined for GET requests.
