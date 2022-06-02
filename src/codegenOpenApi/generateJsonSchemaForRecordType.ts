@@ -24,11 +24,17 @@ export function generateJsonSchemaForRecordType(
     }
   }
 
+  // OpenApi expects the required property to have at least
+  // one element, otherwise it should be omitted.
+  const requiredPropertyNames = recordType.properties
+    .filter((p) => p.isRequired)
+    .map((p) => p.name);
+
   return {
     type: "object",
     properties: objectProperties,
-    required: recordType.properties
-      .filter((p) => p.isRequired)
-      .map((p) => p.name),
+    required: requiredPropertyNames.length > 0
+      ? requiredPropertyNames
+      : undefined,
   };
 }
