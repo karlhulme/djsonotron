@@ -80,13 +80,14 @@ function generateOperation(op: OpenApiSpecPathOperation) {
   );
   lines.push("  }");
 
-  const hasResult = op.responses["2XX"] &&
-    typeof op.responses["2XX"].$ref === "string" &&
-    !op.responses["2XX"].$ref.endsWith("/schemas/Empty");
-
-  if (hasResult) {
-    const lastSepIndex = op.responses["2XX"].$ref.lastIndexOf("/");
-    const resultType = op.responses["2XX"].$ref.slice(lastSepIndex + 1);
+  if (
+    op.responses["2XX"] &&
+    typeof op.responses["2XX"].content === "object" &&
+    typeof op.responses["2XX"].content["application/json"] === "object"
+  ) {
+    const refType = op.responses["2XX"].content["application/json"].schema.$ref;
+    const lastSepIndex = refType.lastIndexOf("/");
+    const resultType = refType.slice(lastSepIndex + 1);
 
     lines.push(`  const result = await response.json();`);
     lines.push(`  return result as ${resultType}`);

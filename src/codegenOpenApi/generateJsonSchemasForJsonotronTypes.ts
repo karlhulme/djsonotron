@@ -33,7 +33,5 @@ export function generateJsonSchemasForJsonotronTypes(
     );
   }
 
-  schemas["Empty"] = { type: "string" };
-
   return schemas;
 }

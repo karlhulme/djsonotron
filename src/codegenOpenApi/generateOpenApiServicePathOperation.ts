@@ -54,12 +54,19 @@ export function generateOpenApiServicePathOperation(
     responses: {
       "2XX": resBodyType
         ? {
-          $ref: `#/components/schemas/${
-            getJsonotronTypeFormalName(resBodyType)
-          }`,
+          description: "Success",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: `#/components/schemas/${
+                  getJsonotronTypeFormalName(resBodyType)
+                }`,
+              },
+            },
+          },
         }
         : {
-          $ref: `#/components/schemas/Empty`,
+          description: "Success",
         },
     },
   };

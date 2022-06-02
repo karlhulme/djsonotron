@@ -43,7 +43,16 @@ export interface OpenApiSpecPathOperation {
   operationId: string;
   parameters: OpenApiSpecParameter[];
   requestBody?: OpenApiSpecReference;
-  responses: Record<string, OpenApiSpecReference>;
+  responses: Record<string, OpenApiSpecPathResponse>;
+}
+
+export interface OpenApiSpecPathResponse {
+  description: string;
+  content?: Record<string, OpenApiSpecPathResponseContent>;
+}
+
+export interface OpenApiSpecPathResponseContent {
+  schema: OpenApiSpecReference;
 }
 
 export interface OpenApiSpecReference {
