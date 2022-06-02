@@ -87,8 +87,10 @@ function generateOperation(op: OpenApiSpecPathOperation) {
     op.responses["2XX"] &&
     typeof op.responses["2XX"].content === "object" &&
     typeof op.responses["2XX"].content["application/json"] === "object" &&
-    typeof op.responses["2XX"].content["application/json"].schema === "object" &&
-    typeof op.responses["2XX"].content["application/json"].schema.$ref === "string"
+    typeof op.responses["2XX"].content["application/json"].schema ===
+      "object" &&
+    typeof op.responses["2XX"].content["application/json"].schema.$ref ===
+      "string"
   ) {
     const refType = op.responses["2XX"].content["application/json"].schema.$ref;
     const lastSepIndex = refType.lastIndexOf("/");
