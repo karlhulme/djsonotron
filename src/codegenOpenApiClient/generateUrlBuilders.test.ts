@@ -17,6 +17,7 @@ const exampleOpenApi: OpenApiSpec = {
       }],
       get: {
         operationId: "getSomething",
+        tags: [],
         parameters: [{
           in: "query",
           name: "foo",

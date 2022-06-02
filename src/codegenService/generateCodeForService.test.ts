@@ -29,6 +29,7 @@ Deno.test("Generate the code for a service with a path with all ops defined.", (
         delete: {
           operationName: "deleteExample",
           summary: "Deletes an example.",
+          tags: [],
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",
@@ -36,6 +37,7 @@ Deno.test("Generate the code for a service with a path with all ops defined.", (
         get: {
           operationName: "getExample",
           summary: "Retrieves an example.",
+          tags: [],
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",
@@ -43,6 +45,7 @@ Deno.test("Generate the code for a service with a path with all ops defined.", (
         patch: {
           operationName: "patchExample",
           summary: "Patch an example.",
+          tags: [],
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",
@@ -50,6 +53,7 @@ Deno.test("Generate the code for a service with a path with all ops defined.", (
         post: {
           operationName: "postExample",
           summary: "Create an example.",
+          tags: [],
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",
@@ -57,6 +61,7 @@ Deno.test("Generate the code for a service with a path with all ops defined.", (
         put: {
           operationName: "putExample",
           summary: "Insert an example.",
+          tags: [],
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",
@@ -86,22 +91,27 @@ Deno.test("Generate the code for a service with a path with no types required.",
         delete: {
           operationName: "deleteExample",
           summary: "Deletes an example.",
+          tags: [],
         },
         get: {
           operationName: "getExample",
           summary: "Retrieves an example.",
+          tags: [],
         },
         patch: {
           operationName: "patchExample",
           summary: "Patch an example.",
+          tags: [],
         },
         post: {
           operationName: "postExample",
           summary: "Create an example.",
+          tags: [],
         },
         put: {
           operationName: "putExample",
           summary: "Insert an example.",
+          tags: [],
         },
       }],
     },

@@ -40,7 +40,7 @@ export interface OpenApiSpecParameter {
 export interface OpenApiSpecPathOperation {
   summary?: string;
   description?: string;
-  tags: string[]
+  tags: string[];
   operationId: string;
   parameters: OpenApiSpecParameter[];
   requestBody?: OpenApiSpecReference;

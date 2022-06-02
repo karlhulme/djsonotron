@@ -29,6 +29,7 @@ Deno.test("Generate an openapi service definition for a service with a path with
         delete: {
           operationName: "deleteExample",
           summary: "Deletes an example.",
+          tags: [],
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",
@@ -36,6 +37,7 @@ Deno.test("Generate an openapi service definition for a service with a path with
         get: {
           operationName: "getExample",
           summary: "Retrieves an example.",
+          tags: [],
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",
@@ -43,6 +45,7 @@ Deno.test("Generate an openapi service definition for a service with a path with
         patch: {
           operationName: "patchExample",
           summary: "Patch an example.",
+          tags: [],
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",
@@ -50,6 +53,7 @@ Deno.test("Generate an openapi service definition for a service with a path with
         post: {
           operationName: "postExample",
           summary: "Create an example.",
+          tags: [],
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",
@@ -57,6 +61,7 @@ Deno.test("Generate an openapi service definition for a service with a path with
         put: {
           operationName: "putExample",
           summary: "Insert an example.",
+          tags: [],
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",

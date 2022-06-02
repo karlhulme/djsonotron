@@ -80,10 +80,15 @@ function generateOperation(op: OpenApiSpecPathOperation) {
   );
   lines.push("  }");
 
+  // Should aways return an object, since this allows us to return the status code
+  // and any headers (that are perhaps requested in the original request) as well
+  // as the body of the response.
   if (
     op.responses["2XX"] &&
     typeof op.responses["2XX"].content === "object" &&
-    typeof op.responses["2XX"].content["application/json"] === "object"
+    typeof op.responses["2XX"].content["application/json"] === "object" &&
+    typeof op.responses["2XX"].content["application/json"].schema === "object" &&
+    typeof op.responses["2XX"].content["application/json"].schema.$ref === "string"
   ) {
     const refType = op.responses["2XX"].content["application/json"].schema.$ref;
     const lastSepIndex = refType.lastIndexOf("/");
