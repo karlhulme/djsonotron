@@ -1,30 +1,32 @@
-import { SengiSeedDocType } from './SengiSeedDocType.ts'
-import { capitalizeFirstLetter } from '../utils/index.ts'
+import { SengiSeedDocType } from "./SengiSeedDocType.ts";
+import { capitalizeFirstLetter } from "../utils/index.ts";
 
 interface GenerateSengiAdapterImportsCodeProps {
-  system: string
+  system: string;
   seedDocTypes: SengiSeedDocType[];
   typesPath: string;
   servicesPath: string;
   depsPath: string;
 }
 
-export function generateSengiAdapterImportsCode (props: GenerateSengiAdapterImportsCodeProps) {
+export function generateSengiAdapterImportsCode(
+  props: GenerateSengiAdapterImportsCodeProps,
+) {
   const importTypeNames = props.seedDocTypes
-    .map(sdt => `${capitalizeFirstLetter(props.system)}${sdt.name}Record`)
-    .join(', ');
+    .map((sdt) => `${capitalizeFirstLetter(props.system)}${sdt.name}Record`)
+    .join(", ");
 
   const importServiceNames = props.seedDocTypes
-    .map(sdt => [
+    .map((sdt) => [
       `SelectAll${capitalizeFirstLetter(sdt.pluralName)}Props`,
-      `SelectAll${capitalizeFirstLetter(sdt.pluralName)}Result`
+      `SelectAll${capitalizeFirstLetter(sdt.pluralName)}Result`,
     ])
-    .flat()
+    .flat();
 
   return `
     // deno-lint-ignore-file no-explicit-any
     import { Sengi } from ${props.depsPath}
     import { ${importTypeNames} } from ${props.typesPath}
     import { ${importServiceNames} } from ${props.servicesPath}
-  `
+  `;
 }
