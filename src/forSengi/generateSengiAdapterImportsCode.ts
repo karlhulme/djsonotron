@@ -33,7 +33,7 @@ export function generateSengiAdapterImportsCode(
 
   return `
     // deno-lint-ignore-file no-explicit-any
-    import { Sengi } from "${props.depsPath}"
+    import { DocRecord, Sengi } from "${props.depsPath}"
     import { ${importTypeNames} } from "${props.typesPath}"
     import { ${importServiceNames} } from "${props.servicesPath}"
   `;
