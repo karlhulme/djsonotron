@@ -109,7 +109,7 @@ export function generateSengiServiceSignatures(
           isRequired: true,
         },
         {
-          name: "filter",
+          name: "filterParams",
           summary:
             "A JSON-stringified and url-encoded object that provides the parameters required for the filter.",
           propertyType: "std/longString",
