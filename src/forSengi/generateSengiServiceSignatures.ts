@@ -8,17 +8,11 @@ import { SengiSeedDocType } from "./SengiSeedDocType.ts";
  * @param system The name of the system to which the signatures will be assigned.
  * @param seedDocType A seed docType for which signatures are required.
  * @param userType The name of the type that represents a user.
- * @param statements An array of Typescript statements that will be populated
- * by this function.
- * @param exportedTypes An array of the Typescript types that are created by
- * this function.
  */
 export function generateSengiServiceSignatures(
   system: string,
   seedDocType: SengiSeedDocType,
   userType: string,
-  statements: string[],
-  exportedTypes: string[],
 ) {
   const selectAllRequestQuery: RecordTypeDef = {
     kind: "record",
@@ -52,17 +46,6 @@ export function generateSengiServiceSignatures(
     ],
   };
 
-  statements.push(
-    `export const selectAll${
-      capitalizeFirstLetter(seedDocType.pluralName)
-    }RequestQuery: RecordTypeDef = ${
-      JSON.stringify(selectAllRequestQuery, null, 2)
-    }`,
-  );
-  exportedTypes.push(
-    `selectAll${capitalizeFirstLetter(seedDocType.pluralName)}RequestQuery`,
-  );
-
   const selectResponse: RecordTypeDef = {
     kind: "record",
     system: system,
@@ -79,12 +62,8 @@ export function generateSengiServiceSignatures(
     ],
   };
 
-  statements.push(
-    `export const select${
-      capitalizeFirstLetter(seedDocType.pluralName)
-    }Response: RecordTypeDef = ${JSON.stringify(selectResponse, null, 2)}`,
-  );
-  exportedTypes.push(
-    `select${capitalizeFirstLetter(seedDocType.pluralName)}Response`,
-  );
+  return [
+    selectAllRequestQuery,
+    selectResponse,
+  ];
 }
