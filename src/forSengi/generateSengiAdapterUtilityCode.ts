@@ -27,9 +27,9 @@ export function generateSengiAdapterUtilityCode() {
   }
   
   /**
-   * The options that can be passed to the createSengiStandardOperations function.
+   * The options that can be passed to the createSengiAdapterOperations function.
    */
-  interface CreateSengiStandardOperationsOptions {
+  interface CreateSengiAdapterOperationsOptions {
     /**
      * The partition to use when a partition is not supplied with a request.
      */  

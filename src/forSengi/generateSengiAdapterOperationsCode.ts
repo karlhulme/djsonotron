@@ -6,7 +6,7 @@ import { SengiSeedDocType } from "./SengiSeedDocType.ts";
  * bodies that connects an HTTP interface to Sengi.
  * @param seedDocTypes An array of seed doc types.
  */
-export function generateSengiStandardOperationsCode(
+export function generateSengiAdapterOperationsCode(
   seedDocTypes: SengiSeedDocType[],
 ) {
   const ops: string[] = [];
@@ -107,7 +107,13 @@ export function generateSengiStandardOperationsCode(
   }
 
   return `
-    export function createSengiStandardOperations (sengi: Sengi<any, any, any, any, any>, options: CreateSengiStandardOperationsOptions) {
+    /**
+     * Returns an object with a key for each standard operation
+     * that connects to the given sengi instance.
+     * @param sengi A sengi instance
+     * @param options A property bag that describes
+     */ 
+    export function createSengiAdapterOperations (sengi: Sengi<any, any, any, any, any>, options: CreateSengiAdapterOperationsOptions) {
       return {
         ${ops.join(", ")}
       }
