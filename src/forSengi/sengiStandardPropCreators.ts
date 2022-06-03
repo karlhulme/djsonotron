@@ -4,7 +4,7 @@ import { RecordTypeDefProperty } from "../interfaces/index.ts";
  * Returns a Sengi id property definition.
  * @param isRequired True if the property is to be marked required.
  */
-export function createIdProperty(isRequired: boolean): RecordTypeDefProperty {
+export function generateIdProperty(isRequired: boolean): RecordTypeDefProperty {
   return {
     name: "id",
     summary: "The globally unique id for the document.",
@@ -20,7 +20,7 @@ export function createIdProperty(isRequired: boolean): RecordTypeDefProperty {
  * will be applied.  It is used as the only accepted constant value
  * of this property.
  */
-export function createDocTypeProperty(
+export function generateDocTypeProperty(
   isRequired: boolean,
   docTypeName: string,
 ): RecordTypeDefProperty {
@@ -37,7 +37,7 @@ export function createDocTypeProperty(
  * Returns a Sengi docOpIds property definition.
  * @param isRequired True if the property is to be marked required.
  */
-export function createDocOpIdsProperty(
+export function generateDocOpIdsProperty(
   isRequired: boolean,
 ): RecordTypeDefProperty {
   return {
@@ -53,7 +53,7 @@ export function createDocOpIdsProperty(
  * Returns a Sengi docVersion property definition.
  * @param isRequired True if the property is to be marked required.
  */
-export function createDocVersionProperty(
+export function generateDocVersionProperty(
   isRequired: boolean,
 ): RecordTypeDefProperty {
   return {
@@ -68,7 +68,7 @@ export function createDocVersionProperty(
  * Returns a Sengi createdByUserId property definition.
  * @param isRequired True if the property is to be marked required.
  */
-export function createDocCreatedByUserId(
+export function generateDocCreatedByUserId(
   isRequired: boolean,
 ): RecordTypeDefProperty {
   return {
@@ -83,7 +83,7 @@ export function createDocCreatedByUserId(
  * Returns a Sengi createdByMillisecondsSinceEpoch property definition.
  * @param isRequired True if the property is to be marked required.
  */
-export function createDocCreatedByMillisecondsSinceEpoch(
+export function generateDocCreatedByMillisecondsSinceEpoch(
   isRequired: boolean,
 ): RecordTypeDefProperty {
   return {
@@ -99,7 +99,7 @@ export function createDocCreatedByMillisecondsSinceEpoch(
  * Returns a Sengi lastUpdatedByUserId property definition.
  * @param isRequired True if the property is to be marked required.
  */
-export function createDocLastUpdatedByUserId(
+export function generateDocLastUpdatedByUserId(
   isRequired: boolean,
 ): RecordTypeDefProperty {
   return {
@@ -114,7 +114,7 @@ export function createDocLastUpdatedByUserId(
  * Returns a Sengi lastUpdatedByMillisecondsSinceEpoch property definition.
  * @param isRequired True if the property is to be marked required.
  */
-export function createDocLastUpdatedByMillisecondsSinceEpoch(
+export function generateDocLastUpdatedByMillisecondsSinceEpoch(
   isRequired: boolean,
 ): RecordTypeDefProperty {
   return {

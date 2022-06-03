@@ -12,7 +12,7 @@ import { SengiSeedDocType } from "./SengiSeedDocType.ts";
  * @param exportedServicePaths An array of the Typescript service paths that
  * have been created by this function.
  */
-export function createSengiServicePaths(
+export function generateSengiServicePaths(
   system: string,
   seedDocType: SengiSeedDocType,
   statements: string[],

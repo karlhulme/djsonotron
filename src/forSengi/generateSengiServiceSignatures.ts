@@ -13,7 +13,7 @@ import { SengiSeedDocType } from "./SengiSeedDocType.ts";
  * @param exportedTypes An array of the Typescript types that are created by
  * this function.
  */
-export function createSengiServiceSignatures(
+export function generateSengiServiceSignatures(
   system: string,
   seedDocType: SengiSeedDocType,
   userType: string,

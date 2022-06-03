@@ -1,4 +1,4 @@
-export * from "./createSengiDocTypeInputOutputVariants.ts";
-export * from "./createSengiServicePaths.ts";
-export * from "./createSengiServiceSignatures.ts";
+export * from "./generateSengiDocTypeInputOutputVariants.ts";
+export * from "./generateSengiServicePaths.ts";
+export * from "./generateSengiServiceSignatures.ts";
 export * from "./SengiSeedDocType.ts";

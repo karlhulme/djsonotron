@@ -2,14 +2,14 @@ import { RecordTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
 import { SengiSeedDocType } from "./SengiSeedDocType.ts";
 import {
-  createDocCreatedByMillisecondsSinceEpoch,
-  createDocCreatedByUserId,
-  createDocLastUpdatedByMillisecondsSinceEpoch,
-  createDocLastUpdatedByUserId,
-  createDocOpIdsProperty,
-  createDocTypeProperty,
-  createDocVersionProperty,
-  createIdProperty,
+  generateDocCreatedByMillisecondsSinceEpoch,
+  generateDocCreatedByUserId,
+  generateDocLastUpdatedByMillisecondsSinceEpoch,
+  generateDocLastUpdatedByUserId,
+  generateDocOpIdsProperty,
+  generateDocTypeProperty,
+  generateDocVersionProperty,
+  generateIdProperty,
 } from "./sengiStandardPropCreators.ts";
 
 /**
@@ -34,14 +34,14 @@ export function generateSengiDocTypeInputOutputVariants(
     name: `${seedDocType.name}Record`,
     summary: seedDocType.summary,
     properties: [
-      createIdProperty(false),
-      createDocTypeProperty(false, seedDocType.name),
-      createDocOpIdsProperty(false),
-      createDocVersionProperty(false),
-      createDocCreatedByUserId(false),
-      createDocCreatedByMillisecondsSinceEpoch(false),
-      createDocLastUpdatedByUserId(false),
-      createDocLastUpdatedByMillisecondsSinceEpoch(false),
+      generateIdProperty(false),
+      generateDocTypeProperty(false, seedDocType.name),
+      generateDocOpIdsProperty(false),
+      generateDocVersionProperty(false),
+      generateDocCreatedByUserId(false),
+      generateDocCreatedByMillisecondsSinceEpoch(false),
+      generateDocLastUpdatedByUserId(false),
+      generateDocLastUpdatedByMillisecondsSinceEpoch(false),
       ...seedDocType.properties.map((prop) => ({
         ...prop,
         isRequired: false,
@@ -99,8 +99,8 @@ export function generateSengiDocTypeInputOutputVariants(
     name: `${seedDocType.name}Replacement`,
     summary: `A document to replace an existing ${seedDocType.name} record.`,
     properties: [
-      createIdProperty(true),
-      createDocTypeProperty(true, seedDocType.name),
+      generateIdProperty(true),
+      generateDocTypeProperty(true, seedDocType.name),
       ...seedDocType.properties,
     ],
   };
