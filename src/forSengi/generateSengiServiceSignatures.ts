@@ -129,8 +129,8 @@ export function generateSengiServiceSignatures(
         isRequired: true,
       },
       {
-        name: "template",
-        summary: "The template for the new document.",
+        name: "doc",
+        summary: "The contents for the new document.",
         propertyType: `${system}/${seedDocType.name}Template`,
         isRequired: true,
       },
