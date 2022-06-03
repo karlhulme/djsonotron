@@ -23,10 +23,12 @@ export function generateSengiAdapterImportsCode(
   const importServiceNames = props.seedDocTypes
     .map((sdt) => [
       `SelectAll${capitalizeFirstLetter(sdt.pluralName)}Props`,
+      ...(sdt.filters.map((filter) =>
+        `Select${capitalizeFirstLetter(sdt.pluralName)}${
+          capitalizeFirstLetter(filter.name)
+        }Props`
+      )),
       `SelectAll${capitalizeFirstLetter(sdt.pluralName)}Result`,
-
-      ...(sdt.filters.map(filter => `Select${capitalizeFirstLetter(sdt.pluralName)}${capitalizeFirstLetter(filter.name)}Props`)),
-      ...(sdt.filters.map(filter => `Select${capitalizeFirstLetter(sdt.pluralName)}${capitalizeFirstLetter(filter.name)}Result`)),
 
       `New${capitalizeFirstLetter(sdt.name)}Props`,
       `New${capitalizeFirstLetter(sdt.name)}Result`,
