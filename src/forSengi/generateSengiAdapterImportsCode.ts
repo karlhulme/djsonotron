@@ -13,7 +13,7 @@ export function generateSengiAdapterImportsCode(
   props: GenerateSengiAdapterImportsCodeProps,
 ) {
   const importTypeNames = props.seedDocTypes
-    .map((sdt) => `${capitalizeFirstLetter(props.system)}${sdt.name}Record`)
+    .map((sdt) => `${capitalizeFirstLetter(props.system)}${capitalizeFirstLetter(sdt.name)}Record`)
     .join(", ");
 
   const importServiceNames = props.seedDocTypes
@@ -21,12 +21,13 @@ export function generateSengiAdapterImportsCode(
       `SelectAll${capitalizeFirstLetter(sdt.pluralName)}Props`,
       `SelectAll${capitalizeFirstLetter(sdt.pluralName)}Result`,
     ])
-    .flat();
+    .flat()
+    .join(", ");
 
   return `
     // deno-lint-ignore-file no-explicit-any
-    import { Sengi } from ${props.depsPath}
-    import { ${importTypeNames} } from ${props.typesPath}
-    import { ${importServiceNames} } from ${props.servicesPath}
+    import { Sengi } from "${props.depsPath}"
+    import { ${importTypeNames} } from "${props.typesPath}"
+    import { ${importServiceNames} } from "${props.servicesPath}"
   `;
 }
