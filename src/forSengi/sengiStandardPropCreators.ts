@@ -87,7 +87,7 @@ export function generateDocCreatedByMillisecondsSinceEpoch(
   isRequired: boolean,
 ): RecordTypeDefProperty {
   return {
-    name: "docCreatedByMillisecondsSinceEpoch",
+    name: "docCreatedMillisecondsSinceEpoch",
     summary:
       "The number of milliseconds since the epoch when the document was created.",
     propertyType: "std/timestamp",
