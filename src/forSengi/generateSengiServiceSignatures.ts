@@ -65,7 +65,7 @@ export function generateSengiServiceSignatures(
         name: "fieldNames",
         summary:
           "A comma-separated list of field names to be included on each record in the response.",
-        propertyType: "std/mediumString",
+        propertyType: "std/longString",
         isRequired: true,
       },
       {
@@ -113,13 +113,11 @@ export function generateSengiServiceSignatures(
         summary:
           "The name of the partition where the new document should be stored.",
         propertyType: "std/shortString",
-        isRequired: true,
       },
       {
         name: "fieldNames",
         summary: "An array of field names to be included on the response.",
         propertyType: "std/mediumString",
-        isRequired: true,
         isArray: true,
       },
       {
@@ -159,7 +157,7 @@ export function generateSengiServiceSignatures(
         name: "isNew",
         summary:
           "True if a document was created, or false if the document already existed.",
-        propertyType: "std/boolean",
+        propertyType: "std/bool",
         isRequired: true,
       },
     ],
