@@ -13,7 +13,11 @@ export function generateSengiAdapterImportsCode(
   props: GenerateSengiAdapterImportsCodeProps,
 ) {
   const importTypeNames = props.seedDocTypes
-    .map((sdt) => `${capitalizeFirstLetter(props.system)}${capitalizeFirstLetter(sdt.name)}Record`)
+    .map((sdt) =>
+      `${capitalizeFirstLetter(props.system)}${
+        capitalizeFirstLetter(sdt.name)
+      }Record`
+    )
     .join(", ");
 
   const importServiceNames = props.seedDocTypes
