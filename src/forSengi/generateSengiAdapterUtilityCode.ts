@@ -2,7 +2,7 @@
  * Returns utility types, errors and functions that are used for
  * bridging jsonotron and sengi.
  */
-export function generateSengiUtilityCode() {
+export function generateSengiAdapterUtilityCode() {
   return `
   /**
    * Raised when the api key is missing.
