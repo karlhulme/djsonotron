@@ -61,7 +61,7 @@ export function generateSengiServicePaths(
           capitalizeFirstLetter(seedDocType.pluralName)
         }Response`,
       },
-    })
+    }),
   );
 
   return [

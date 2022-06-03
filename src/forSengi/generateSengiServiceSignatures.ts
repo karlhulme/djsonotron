@@ -123,7 +123,7 @@ export function generateSengiServiceSignatures(
           isRequired: true,
         },
       ],
-    })
+    }),
   );
 
   const selectResponse: RecordTypeDef = {
