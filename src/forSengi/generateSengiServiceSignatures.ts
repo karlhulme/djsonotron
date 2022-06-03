@@ -129,7 +129,9 @@ export function generateSengiServiceSignatures(
       {
         name: "doc",
         summary: "The contents for the new document.",
-        propertyType: `${system}/new${capitalizeFirstLetter(seedDocType.name)}Template`,
+        propertyType: `${system}/new${
+          capitalizeFirstLetter(seedDocType.name)
+        }Template`,
         isRequired: true,
       },
       {
