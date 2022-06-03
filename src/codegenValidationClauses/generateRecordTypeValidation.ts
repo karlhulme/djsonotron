@@ -60,7 +60,7 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
 
     if (typeof property.constant === "string") {
       const constantCheck = `
-          if (${props.valuePath}.${property.name} !== "${property.constant}") {
+          if (typeof ${props.valuePath}.${property.name} === "string" && ${props.valuePath}.${property.name} !== "${property.constant}") {
             errors.push({
               valuePath: \`${props.valueDisplayPath}.${property.name}\`,
               value: ${props.valuePath}.${property.name},
