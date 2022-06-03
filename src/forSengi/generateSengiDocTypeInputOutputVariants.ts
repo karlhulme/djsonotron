@@ -22,6 +22,18 @@ export function generateSengiDocTypeInputOutputVariants(
   system: string,
   seedDocType: SengiSeedDocType,
 ) {
+  const doc: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `${seedDocType.name}`,
+    summary: seedDocType.summary,
+    properties: [
+      generateIdProperty(true),
+      generateDocTypeProperty(true, seedDocType.name),
+      ...seedDocType.properties,
+    ],
+  };
+
   const docRecord: RecordTypeDef = {
     kind: "record",
     system: system,
@@ -79,6 +91,7 @@ export function generateSengiDocTypeInputOutputVariants(
   };
 
   return [
+    doc,
     docRecord,
     docTemplate,
     docPatch,
