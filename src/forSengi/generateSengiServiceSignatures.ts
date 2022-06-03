@@ -55,7 +55,7 @@ export function generateSengiServiceSignatures(
       {
         name: "docs",
         summary: `A collection of ${seedDocType.name} records.`,
-        propertyType: `${system}/${seedDocType.name}`,
+        propertyType: `${system}/${seedDocType.name}Record`,
         isRequired: true,
         isArray: true,
       },
