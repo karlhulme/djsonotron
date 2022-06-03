@@ -15,6 +15,7 @@ export function generateSengiServicePaths(
   const docTypeRootPath: ServicePath = {
     relativeUrl: `/records/${seedDocType.pluralName}`,
     summary: seedDocType.summary,
+
     get: {
       operationName: `selectAll${
         capitalizeFirstLetter(seedDocType.pluralName)
@@ -26,6 +27,18 @@ export function generateSengiServicePaths(
       }RequestQuery`,
       responseBodyType: `${system}/select${
         capitalizeFirstLetter(seedDocType.pluralName)
+      }Response`,
+    },
+
+    post: {
+      operationName: `new${capitalizeFirstLetter(seedDocType.name)}`,
+      summary: `Create a new ${seedDocType.name} record.`,
+      tags: [seedDocType.pluralTitle],
+      requestBodyType: `${system}/new${
+        capitalizeFirstLetter(seedDocType.name)
+      }RequestBody`,
+      responseBodyType: `${system}/new${
+        capitalizeFirstLetter(seedDocType.name)
       }Response`,
     },
   };

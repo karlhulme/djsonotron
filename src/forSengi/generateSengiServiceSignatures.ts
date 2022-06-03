@@ -46,6 +46,45 @@ export function generateSengiServiceSignatures(
     ],
   };
 
+  const selectByIdsRequestQuery: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `select${
+      capitalizeFirstLetter(seedDocType.pluralName)
+    }ByIdsRequestQuery`,
+    summary:
+      `The query parameters for requesting ${seedDocType.name} records by ids.`,
+    properties: [
+      {
+        name: "partition",
+        summary:
+          "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
+        propertyType: "std/shortString",
+      },
+      {
+        name: "fieldNames",
+        summary:
+          "A comma-separated list of field names to be included on each record in the response.",
+        propertyType: "std/mediumString",
+        isRequired: true,
+      },
+      {
+        name: "ids",
+        summary:
+          "A comma-separated list of ids that determine which records are included in the response.",
+        propertyType: "std/longString",
+        isRequired: true,
+      },
+      {
+        name: "user",
+        summary:
+          "A JSON-stringified and url-encoded object that defines the user making the request.",
+        propertyType: `${system}/${userType}`,
+        isRequired: true,
+      },
+    ],
+  };
+
   const selectResponse: RecordTypeDef = {
     kind: "record",
     system: system,
@@ -62,8 +101,76 @@ export function generateSengiServiceSignatures(
     ],
   };
 
+  const newRequestBody: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `new${capitalizeFirstLetter(seedDocType.name)}RequestBody`,
+    summary:
+      `The body parameters for creating a new ${seedDocType.name} record.`,
+    properties: [
+      {
+        name: "partition",
+        summary:
+          "The name of the partition where the new document should be stored.",
+        propertyType: "std/shortString",
+        isRequired: true,
+      },
+      {
+        name: "fieldNames",
+        summary: "An array of field names to be included on the response.",
+        propertyType: "std/mediumString",
+        isRequired: true,
+        isArray: true,
+      },
+      {
+        name: "id",
+        summary: "The id to be assigned to the new document.",
+        propertyType: "std/uuid",
+        isRequired: true,
+      },
+      {
+        name: "template",
+        summary: "The template for the new document.",
+        propertyType: `${system}/${seedDocType.name}Template`,
+        isRequired: true,
+      },
+      {
+        name: "user",
+        summary: "The user that is creating the new record.",
+        propertyType: `${system}/${userType}`,
+        isRequired: true,
+      },
+    ],
+  };
+
+  const newRequestResponse: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `new${capitalizeFirstLetter(seedDocType.name)}Response`,
+    summary: `A response that contains the new record.`,
+    properties: [
+      {
+        name: "doc",
+        summary: "The newly created record.",
+        propertyType: `${system}/${seedDocType.name}Record`,
+        isRequired: true,
+      },
+      {
+        name: "isNew",
+        summary:
+          "True if a document was created, or false if the document already existed.",
+        propertyType: "std/boolean",
+        isRequired: true,
+      },
+    ],
+  };
+
   return [
     selectAllRequestQuery,
+    selectByIdsRequestQuery,
     selectResponse,
+
+    newRequestBody,
+    newRequestResponse,
   ];
 }

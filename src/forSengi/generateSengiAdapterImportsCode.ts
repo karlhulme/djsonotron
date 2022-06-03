@@ -24,6 +24,9 @@ export function generateSengiAdapterImportsCode(
     .map((sdt) => [
       `SelectAll${capitalizeFirstLetter(sdt.pluralName)}Props`,
       `SelectAll${capitalizeFirstLetter(sdt.pluralName)}Result`,
+
+      `New${capitalizeFirstLetter(sdt.name)}Props`,
+      `New${capitalizeFirstLetter(sdt.name)}Result`,
     ])
     .flat()
     .join(", ");
