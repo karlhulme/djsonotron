@@ -43,7 +43,29 @@ export function generateSengiServicePaths(
     },
   };
 
+  const docTypeFilterPaths: ServicePath[] = seedDocType.filters.map(
+    (filter) => ({
+      relativeUrl: `/records/${seedDocType.pluralName}:${filter.name}`,
+      summary: filter.summary,
+      get: {
+        operationName: `select${capitalizeFirstLetter(seedDocType.pluralName)}${
+          capitalizeFirstLetter(filter.name)
+        }`,
+        summary:
+          `Retrieve ${seedDocType.name} records using the ${filter.name} filter.`,
+        tags: [seedDocType.pluralTitle],
+        requestQueryType: `${system}/select${
+          capitalizeFirstLetter(seedDocType.pluralName)
+        }${capitalizeFirstLetter(filter.name)}RequestQuery`,
+        responseBodyType: `${system}/select${
+          capitalizeFirstLetter(seedDocType.pluralName)
+        }Response`,
+      },
+    })
+  );
+
   return [
     docTypeRootPath,
+    ...docTypeFilterPaths,
   ];
 }

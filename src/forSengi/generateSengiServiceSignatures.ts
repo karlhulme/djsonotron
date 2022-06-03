@@ -85,6 +85,47 @@ export function generateSengiServiceSignatures(
     ],
   };
 
+  const selectByFilterRequestQueries: RecordTypeDef[] = seedDocType.filters.map(
+    (filter) => ({
+      kind: "record",
+      system: system,
+      name: `select${
+        capitalizeFirstLetter(seedDocType.pluralName)
+      }capitalizeFirstLetter(${filter.name})RequestQuery`,
+      summary:
+        `The query parameters for requesting ${seedDocType.name} records using the ${filter.name} filter.`,
+      properties: [
+        {
+          name: "partition",
+          summary:
+            "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
+          propertyType: "std/shortString",
+        },
+        {
+          name: "fieldNames",
+          summary:
+            "A comma-separated list of field names to be included on each record in the response.",
+          propertyType: "std/longString",
+          isRequired: true,
+        },
+        {
+          name: "filter",
+          summary:
+            "A JSON-stringified and url-encoded object that provides the parameters required for the filter.",
+          propertyType: "std/longString",
+          isRequired: true,
+        },
+        {
+          name: "user",
+          summary:
+            "A JSON-stringified and url-encoded object that defines the user making the request.",
+          propertyType: `${system}/${userType}`,
+          isRequired: true,
+        },
+      ],
+    })
+  );
+
   const selectResponse: RecordTypeDef = {
     kind: "record",
     system: system,
@@ -168,6 +209,7 @@ export function generateSengiServiceSignatures(
   return [
     selectAllRequestQuery,
     selectByIdsRequestQuery,
+    ...selectByFilterRequestQueries,
     selectResponse,
 
     newRequestBody,
