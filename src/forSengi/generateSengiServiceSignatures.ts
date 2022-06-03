@@ -89,9 +89,9 @@ export function generateSengiServiceSignatures(
     (filter) => ({
       kind: "record",
       system: system,
-      name: `select${
-        capitalizeFirstLetter(seedDocType.pluralName)
-      }capitalizeFirstLetter(${filter.name})RequestQuery`,
+      name: `select${capitalizeFirstLetter(seedDocType.pluralName)}${
+        capitalizeFirstLetter(filter.name)
+      }RequestQuery`,
       summary:
         `The query parameters for requesting ${seedDocType.name} records using the ${filter.name} filter.`,
       properties: [
