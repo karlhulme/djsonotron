@@ -82,6 +82,6 @@ export function generateSengiDocTypeInputOutputVariants(
     docRecord,
     docTemplate,
     docPatch,
-    docReplacement
-  ]
+    docReplacement,
+  ];
 }
