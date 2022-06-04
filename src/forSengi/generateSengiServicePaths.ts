@@ -51,9 +51,9 @@ export function generateSengiServicePaths(
       operationName: `delete${capitalizeFirstLetter(seedDocType.name)}`,
       summary: `Delete a ${seedDocType.name} record.`,
       tags: [seedDocType.pluralTitle],
-      requestQueryType: `${system}/delete${
+      requestBodyType: `${system}/delete${
         capitalizeFirstLetter(seedDocType.name)
-      }RequestQuery`,
+      }RequestBody`,
       responseBodyType: `${system}/delete${
         capitalizeFirstLetter(seedDocType.name)
       }Response`,
