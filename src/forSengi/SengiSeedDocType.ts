@@ -42,4 +42,6 @@ export interface SengiSeedDocType {
    * for records of this doc type.
    */
   filters: SengiSeedDocTypeFilter[];
+
+  // constructors, operations and queries...
 }

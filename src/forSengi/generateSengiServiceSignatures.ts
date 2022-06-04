@@ -148,13 +148,6 @@ export function generateSengiServiceSignatures(
           isRequired: true,
         },
         {
-          name: "filterParams",
-          summary:
-            "A JSON-stringified and url-encoded object that provides the parameters required for the filter.",
-          propertyType: filter.parametersType,
-          isRequired: true,
-        },
-        {
           name: "partition",
           summary:
             "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
@@ -167,6 +160,13 @@ export function generateSengiServiceSignatures(
           propertyType: `${system}/${userType}`,
           isRequired: true,
         },
+        ...filter.parameters.map((filterParam) => ({
+          name: filterParam.name,
+          summary: filterParam.summary,
+          propertyType: filterParam.type,
+          isRequired: filterParam.isRequired,
+          isDeprecated: filterParam.isDeprecated,
+        })),
       ],
     }),
   );

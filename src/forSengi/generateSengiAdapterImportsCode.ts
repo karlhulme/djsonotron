@@ -46,14 +46,19 @@ export function generateSengiAdapterImportsCode(
       `New${capitalizeFirstLetter(sdt.name)}Props`,
       `New${capitalizeFirstLetter(sdt.name)}Result`,
 
+      // parameterised constructors
+
       `Patch${capitalizeFirstLetter(sdt.name)}Props`,
       `Patch${capitalizeFirstLetter(sdt.name)}Result`,
+
+      // operations
 
       `Replace${capitalizeFirstLetter(sdt.name)}Props`,
       `Replace${capitalizeFirstLetter(sdt.name)}Result`,
 
       `Delete${capitalizeFirstLetter(sdt.name)}Props`,
       `Delete${capitalizeFirstLetter(sdt.name)}Result`,
+      // queries
     ])
     .flat()
     .join(", ");

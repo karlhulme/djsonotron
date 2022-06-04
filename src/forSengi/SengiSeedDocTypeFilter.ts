@@ -1,3 +1,5 @@
+import { SengiSeedDocTypeFilterParameter } from "./SengiSeedDocTypeFilterParameter.ts";
+
 /**
  * Represents a filter for a seed doc type.
  */
@@ -13,8 +15,7 @@ export interface SengiSeedDocTypeFilter {
   summary: string;
 
   /**
-   * The name of the jsonotron type that describes the parameters
-   * of the filter.
+   * An array of parameter fields.
    */
-  parametersType: string;
+  parameters: SengiSeedDocTypeFilterParameter[];
 }
