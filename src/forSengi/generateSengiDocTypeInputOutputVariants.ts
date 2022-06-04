@@ -22,6 +22,9 @@ export function generateSengiDocTypeInputOutputVariants(
   system: string,
   seedDocType: SengiSeedDocType,
 ) {
+  // The 'Native' variant is used on the server side to ensure that documents
+  // are valid as they are saved.  We require all system fields to be set
+  // and all required non-system fields too.
   const doc: RecordTypeDef = {
     kind: "record",
     system: system,
@@ -30,6 +33,11 @@ export function generateSengiDocTypeInputOutputVariants(
     properties: [
       generateIdProperty(true),
       generateDocTypeProperty(true, seedDocType.name),
+      generateDocOpIdsProperty(true),
+      generateDocCreatedByUserId(true),
+      generateDocCreatedByMillisecondsSinceEpoch(true),
+      generateDocLastUpdatedByUserId(true),
+      generateDocLastUpdatedByMillisecondsSinceEpoch(true),
       ...seedDocType.properties,
     ],
   };
