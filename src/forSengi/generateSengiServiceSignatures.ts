@@ -367,8 +367,7 @@ export function generateSengiServiceSignatures(
     kind: "record",
     system: system,
     name: `delete${capitalizeFirstLetter(seedDocType.name)}RequestBody`,
-    summary:
-      `The body parameters for deleting a ${seedDocType.name} record.`,
+    summary: `The body parameters for deleting a ${seedDocType.name} record.`,
     properties: [
       {
         name: "partition",
@@ -420,6 +419,6 @@ export function generateSengiServiceSignatures(
     replaceRequestResponse,
 
     deleteRequestBody,
-    deleteRequestResponse
+    deleteRequestResponse,
   ];
 }
