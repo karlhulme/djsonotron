@@ -14,9 +14,7 @@ export function generateSengiAdapterOperationsCode(
   for (const seedDocType of seedDocTypes) {
     // The Select adapter.
     ops.push(`
-      select${
-      capitalizeFirstLetter(seedDocType.name)
-    }: async (props: Select${
+      select${capitalizeFirstLetter(seedDocType.name)}: async (props: Select${
       capitalizeFirstLetter(seedDocType.name)
     }Props): Promise<Select${
       capitalizeFirstLetter(seedDocType.name)

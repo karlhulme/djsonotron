@@ -48,9 +48,7 @@ export function generateSengiServicePaths(
     summary: seedDocType.summary,
 
     get: {
-      operationName: `select${
-        capitalizeFirstLetter(seedDocType.name)
-      }`,
+      operationName: `select${capitalizeFirstLetter(seedDocType.name)}`,
       summary: `Retrieve a ${seedDocType.name} record.`,
       tags: [seedDocType.pluralTitle],
       requestQueryType: `${system}/select${
