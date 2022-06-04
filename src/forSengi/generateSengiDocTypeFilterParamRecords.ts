@@ -11,7 +11,7 @@ export function generateSengiDocTypeFilterParamRecords(
     filterRecords.push({
       kind: "record",
       system: system,
-      name: filter.name,
+      name: `${filter.name}Filter`,
       summary: `The parameters for the ${filter.name} filter.`,
       properties: filter.parameters.map((param) => ({
         name: param.name,
