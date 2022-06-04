@@ -8,9 +8,11 @@ import { SengiSeedDocType } from "./SengiSeedDocType.ts";
 /**
  * Returns the code for a function that generates the operation
  * bodies that connects an HTTP interface to Sengi.
+ * @param system The system that houses the seed doc type variants.
  * @param seedDocTypes An array of seed doc types.
  */
 export function generateSengiAdapterOperationsCode(
+  system: string,
   seedDocTypes: SengiSeedDocType[],
 ) {
   const ops: string[] = [];
@@ -41,7 +43,7 @@ export function generateSengiAdapterOperationsCode(
         return {
           headers: [],
           body: {
-            doc: result.docs[0] as unknown as Svc${
+            doc: result.docs[0] as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record,
           },
@@ -71,7 +73,7 @@ export function generateSengiAdapterOperationsCode(
         return {
           headers: [],
           body: {
-            docs: result.docs as unknown as Svc${
+            docs: result.docs as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record[],
           },
@@ -102,7 +104,7 @@ export function generateSengiAdapterOperationsCode(
         return {
           headers: [],
           body: {
-            docs: result.docs as unknown as Svc${
+            docs: result.docs as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record[],
           },
@@ -141,7 +143,7 @@ export function generateSengiAdapterOperationsCode(
         return {
           headers: [],
           body: {
-            docs: result.docs as unknown as Svc${
+            docs: result.docs as unknown as ${capitalizeFirstLetter(system)}${
         capitalizeFirstLetter(seedDocType.name)
       }Record[],
           },
@@ -168,7 +170,7 @@ export function generateSengiAdapterOperationsCode(
         return {
           headers: [],
           body: {
-            doc: result.doc as unknown as Svc${
+            doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record,
             isNew: result.isNew,
@@ -198,7 +200,7 @@ export function generateSengiAdapterOperationsCode(
         return {
           headers: [],
           body: {
-            doc: result.doc as unknown as Svc${
+            doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record,
             isUpdated: result.isUpdated,
@@ -232,7 +234,7 @@ export function generateSengiAdapterOperationsCode(
         return {
           headers: [],
           body: {
-            doc: result.doc as unknown as Svc${
+            doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record,
             isNew: result.isNew,
@@ -293,7 +295,7 @@ export function generateSengiAdapterOperationsCode(
         return {
           headers: [],
           body: {
-            doc: result.doc as unknown as Svc${
+            doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
         capitalizeFirstLetter(seedDocType.name)
       }Record,
             isNew: result.isNew
@@ -330,7 +332,7 @@ export function generateSengiAdapterOperationsCode(
         return {
           headers: [],
           body: {
-            doc: result.doc as unknown as Svc${
+            doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
         capitalizeFirstLetter(seedDocType.name)
       }Record,
             isUpdated: result.isUpdated
