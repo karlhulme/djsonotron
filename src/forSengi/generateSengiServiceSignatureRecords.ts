@@ -9,7 +9,7 @@ import { SengiSeedDocType } from "./SengiSeedDocType.ts";
  * @param seedDocType A seed docType for which signatures are required.
  * @param userType The name of the type that represents a user.
  */
-export function generateSengiServiceSignatures(
+export function generateSengiServiceSignatureRecords(
   system: string,
   seedDocType: SengiSeedDocType,
   userType: string,
@@ -165,7 +165,7 @@ export function generateSengiServiceSignatures(
           summary: filterParam.summary,
           propertyType: filterParam.propertyType,
           isRequired: filterParam.isRequired,
-          isDeprecated: filterParam.isDeprecated,
+          deprecated: filterParam.deprecated,
         })),
       ],
     }),

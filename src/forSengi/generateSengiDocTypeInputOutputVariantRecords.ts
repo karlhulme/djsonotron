@@ -18,7 +18,7 @@ import {
  * @param system The name of the system to which docType variants will be assigned.
  * @param seedDocType A seed doc type that can be expanded.
  */
-export function generateSengiDocTypeInputOutputVariants(
+export function generateSengiDocTypeInputOutputVariantRecords(
   system: string,
   seedDocType: SengiSeedDocType,
 ) {

@@ -26,5 +26,5 @@ export interface SengiSeedDocTypeFilterParameter {
    * If populated, this value will describe the field to use
    * instead of this one.
    */
-  isDeprecated?: string;
+  deprecated?: string;
 }
