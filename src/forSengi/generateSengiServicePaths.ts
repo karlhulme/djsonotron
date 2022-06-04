@@ -97,7 +97,7 @@ export function generateSengiServicePaths(
   };
 
   const docTypeByIdsPath: ServicePath = {
-    relativeUrl: `/records/${seedDocType.pluralName}\\\\:byIds`,
+    relativeUrl: `/records/${seedDocType.pluralName}\\:byIds`,
     summary: seedDocType.summary,
 
     get: {
@@ -138,7 +138,7 @@ export function generateSengiServicePaths(
 
   const docTypeCtorPaths: ServicePath[] = seedDocType.constructors.map(
     (ctor) => ({
-      relativeUrl: `/records/${seedDocType.pluralName}\\\\:${ctor.name}`,
+      relativeUrl: `/records/${seedDocType.pluralName}\\:${ctor.name}`,
       summary: ctor.summary,
       post: {
         operationName: `create${capitalizeFirstLetter(seedDocType.name)}${
@@ -160,7 +160,7 @@ export function generateSengiServicePaths(
   const docTypeOpPaths: ServicePath[] = seedDocType.operations.map(
     (op) => ({
       relativeUrl:
-        `/records/${seedDocType.pluralName}/{id:std/uuid}\\\\:${op.name}`,
+        `/records/${seedDocType.pluralName}/{id:std/uuid}\\:${op.name}`,
       summary: op.summary,
       post: {
         operationName: `operateOn${capitalizeFirstLetter(seedDocType.name)}${
@@ -181,7 +181,7 @@ export function generateSengiServicePaths(
 
   const docTypeQueryPaths: ServicePath[] = seedDocType.queries.map(
     (query) => ({
-      relativeUrl: `/records/${seedDocType.pluralName}\\\\:${query.name}`,
+      relativeUrl: `/records/${seedDocType.pluralName}\\:${query.name}`,
       summary: query.summary,
       get: {
         operationName: `query${capitalizeFirstLetter(seedDocType.pluralName)}${

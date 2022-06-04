@@ -20,7 +20,10 @@ export function generateOakRouterOperation(
 ) {
   const lines: string[] = [];
 
-  const oakPath = convertServicePathToOakPath(path.relativeUrl);
+  const oakPath = convertServicePathToOakPath(path.relativeUrl).replaceAll(
+    "\\",
+    "\\\\",
+  );
 
   const urlParamInvocationParameters: string[] = [];
   let queryInvocationParameter = "";

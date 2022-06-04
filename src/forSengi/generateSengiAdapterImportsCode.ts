@@ -43,8 +43,6 @@ export function generateSengiAdapterImportsCode(
         }Result`
       )),
 
-      `Select${capitalizeFirstLetter(sdt.pluralName)}Result`,
-
       `New${capitalizeFirstLetter(sdt.name)}Props`,
       `New${capitalizeFirstLetter(sdt.name)}Result`,
 
