@@ -126,7 +126,22 @@ export function generateSengiServiceSignatures(
     }),
   );
 
-  const selectResponse: RecordTypeDef = {
+  const selectSingularResponse: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `select${capitalizeFirstLetter(seedDocType.name)}Response`,
+    summary: `A response that contains a ${seedDocType.name} record.`,
+    properties: [
+      {
+        name: "doc",
+        summary: `A ${seedDocType.name} record.`,
+        propertyType: `${system}/${seedDocType.name}Record`,
+        isRequired: true,
+      },
+    ],
+  };
+
+  const selectPluralResponse: RecordTypeDef = {
     kind: "record",
     system: system,
     name: `select${capitalizeFirstLetter(seedDocType.pluralName)}Response`,
@@ -219,12 +234,6 @@ export function generateSengiServiceSignatures(
         isArray: true,
       },
       {
-        name: "id",
-        summary: "The id to be assigned to the new document.",
-        propertyType: "std/uuid",
-        isRequired: true,
-      },
-      {
         name: "operationId",
         summary:
           "The id for the operation.  This operation will only be applied once.",
@@ -294,12 +303,6 @@ export function generateSengiServiceSignatures(
         isArray: true,
       },
       {
-        name: "id",
-        summary: "The id to be assigned to the new document.",
-        propertyType: "std/uuid",
-        isRequired: true,
-      },
-      {
         name: "partition",
         summary:
           "The name of the partition where the new document should be stored.",
@@ -340,7 +343,8 @@ export function generateSengiServiceSignatures(
     selectAllRequestQuery,
     selectByIdsRequestQuery,
     ...selectByFilterRequestQueries,
-    selectResponse,
+    selectSingularResponse,
+    selectPluralResponse,
 
     newRequestBody,
     newRequestResponse,

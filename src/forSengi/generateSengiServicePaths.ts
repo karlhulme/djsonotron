@@ -30,18 +30,6 @@ export function generateSengiServicePaths(
       }Response`,
     },
 
-    patch: {
-      operationName: `patch${capitalizeFirstLetter(seedDocType.name)}`,
-      summary: `Patch a ${seedDocType.name} record.`,
-      tags: [seedDocType.pluralTitle],
-      requestBodyType: `${system}/patch${
-        capitalizeFirstLetter(seedDocType.name)
-      }RequestBody`,
-      responseBodyType: `${system}/patch${
-        capitalizeFirstLetter(seedDocType.name)
-      }Response`,
-    },
-
     post: {
       operationName: `new${capitalizeFirstLetter(seedDocType.name)}`,
       summary: `Create a new ${seedDocType.name} record.`,
@@ -50,6 +38,37 @@ export function generateSengiServicePaths(
         capitalizeFirstLetter(seedDocType.name)
       }RequestBody`,
       responseBodyType: `${system}/new${
+        capitalizeFirstLetter(seedDocType.name)
+      }Response`,
+    },
+  };
+
+  const docTypeRecordPath: ServicePath = {
+    relativeUrl: `/records/${seedDocType.pluralName}/{id:std/uuid}`,
+    summary: seedDocType.summary,
+
+    get: {
+      operationName: `select${
+        capitalizeFirstLetter(seedDocType.name)
+      }`,
+      summary: `Retrieve a ${seedDocType.name} record.`,
+      tags: [seedDocType.pluralTitle],
+      requestQueryType: `${system}/select${
+        capitalizeFirstLetter(seedDocType.name)
+      }RequestQuery`,
+      responseBodyType: `${system}/select${
+        capitalizeFirstLetter(seedDocType.name)
+      }Response`,
+    },
+
+    patch: {
+      operationName: `patch${capitalizeFirstLetter(seedDocType.name)}`,
+      summary: `Patch a ${seedDocType.name} record.`,
+      tags: [seedDocType.pluralTitle],
+      requestBodyType: `${system}/patch${
+        capitalizeFirstLetter(seedDocType.name)
+      }RequestBody`,
+      responseBodyType: `${system}/patch${
         capitalizeFirstLetter(seedDocType.name)
       }Response`,
     },
@@ -109,6 +128,7 @@ export function generateSengiServicePaths(
 
   return [
     docTypeRootPath,
+    docTypeRecordPath,
     docTypeByIdsPath,
     ...docTypeFilterPaths,
   ];

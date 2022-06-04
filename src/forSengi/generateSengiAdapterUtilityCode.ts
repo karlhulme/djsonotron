@@ -16,6 +16,17 @@ export function generateSengiAdapterUtilityCode() {
   }
 
   /**
+   * Raised when a requested document was not found.
+   */
+  export class ServiceDocNotFoundError extends Error {
+    constructor() {
+      super("A requested document was not found.");
+      Object.setPrototypeOf(this, new.target.prototype);
+      this.name = this.constructor.name;
+    }
+  }
+
+  /**
    * Raises an error if the given value is not a non-zero length string.
    */
   function ensureApiKeyHeaderValue (value: string|null): string {

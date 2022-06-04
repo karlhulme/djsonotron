@@ -12,6 +12,41 @@ export function generateSengiAdapterOperationsCode(
   const ops: string[] = [];
 
   for (const seedDocType of seedDocTypes) {
+    // The Select adapter.
+    ops.push(`
+      select${
+      capitalizeFirstLetter(seedDocType.name)
+    }: async (props: Select${
+      capitalizeFirstLetter(seedDocType.name)
+    }Props): Promise<Select${
+      capitalizeFirstLetter(seedDocType.name)
+    }Result> => {
+        const result = await sengi.selectDocumentsByIds({
+          apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
+          docStoreOptions: {},
+          docTypeName: "${seedDocType.name}",
+          fieldNames: props.query.fieldNames.split(","),
+          ids: [props.id],
+          partition: props.query.partition || options.defaultPartition,
+          reqProps: {},
+          user: props.query.user,
+        });
+
+        if (result.docs.length === 0) {
+          throw new ServiceDocNotFoundError()
+        }
+
+        return {
+          headers: [],
+          body: {
+            doc: result.doc[0] as unknown as Svc${
+      capitalizeFirstLetter(seedDocType.name)
+    }Record,
+          },
+        };
+      }
+    `);
+
     // The SelectAll adapter.
     ops.push(`
       selectAll${
@@ -146,7 +181,7 @@ export function generateSengiAdapterOperationsCode(
         docStoreOptions: {},
         docTypeName: "${seedDocType.name}",
         fieldNames: props.body.fieldNames || ["id"],
-        id: props.body.id,
+        id: props.id,
         operationId: props.getHeader("x-request-id") || crypto.randomUUID(),
         partition: props.body.partition || options.defaultPartition,
         patch: props.body.patch as unknown as DocPatch,
