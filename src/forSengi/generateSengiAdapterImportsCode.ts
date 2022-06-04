@@ -46,19 +46,39 @@ export function generateSengiAdapterImportsCode(
       `New${capitalizeFirstLetter(sdt.name)}Props`,
       `New${capitalizeFirstLetter(sdt.name)}Result`,
 
-      // parameterised constructors
+      ...(sdt.constructors.map((ctor) =>
+        `Create${capitalizeFirstLetter(sdt.name)}${
+          capitalizeFirstLetter(ctor.name)
+        }Props`
+      )),
+      `Create${capitalizeFirstLetter(sdt.name)}Result`,
 
       `Patch${capitalizeFirstLetter(sdt.name)}Props`,
       `Patch${capitalizeFirstLetter(sdt.name)}Result`,
 
-      // operations
+      ...(sdt.operations.map((op) =>
+        `OperateOn${capitalizeFirstLetter(sdt.name)}${
+          capitalizeFirstLetter(op.name)
+        }Props`
+      )),
+      `OperateOn${capitalizeFirstLetter(sdt.name)}Result`,
 
       `Replace${capitalizeFirstLetter(sdt.name)}Props`,
       `Replace${capitalizeFirstLetter(sdt.name)}Result`,
 
       `Delete${capitalizeFirstLetter(sdt.name)}Props`,
       `Delete${capitalizeFirstLetter(sdt.name)}Result`,
-      // queries
+
+      ...(sdt.queries.map((query) =>
+        `Query${capitalizeFirstLetter(sdt.pluralName)}${
+          capitalizeFirstLetter(query.name)
+        }Props`
+      )),
+      ...(sdt.queries.map((query) =>
+        `Query${capitalizeFirstLetter(sdt.pluralName)}${
+          capitalizeFirstLetter(query.name)
+        }Result`
+      )),
     ])
     .flat()
     .join(", ");

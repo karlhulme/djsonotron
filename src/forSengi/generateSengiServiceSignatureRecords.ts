@@ -44,7 +44,7 @@ export function generateSengiServiceSignatureRecords(
     ],
   };
 
-  const selectSingularResponse: RecordTypeDef = {
+  const selectSingularResponseBody: RecordTypeDef = {
     kind: "record",
     system: system,
     name: `select${capitalizeFirstLetter(seedDocType.name)}Response`,
@@ -171,7 +171,7 @@ export function generateSengiServiceSignatureRecords(
     }),
   );
 
-  const selectPluralResponse: RecordTypeDef = {
+  const selectPluralResponseBody: RecordTypeDef = {
     kind: "record",
     system: system,
     name: `select${capitalizeFirstLetter(seedDocType.pluralName)}Response`,
@@ -223,7 +223,7 @@ export function generateSengiServiceSignatureRecords(
     ],
   };
 
-  const newRequestResponse: RecordTypeDef = {
+  const newResponseBody: RecordTypeDef = {
     kind: "record",
     system: system,
     name: `new${capitalizeFirstLetter(seedDocType.name)}Response`,
@@ -284,7 +284,7 @@ export function generateSengiServiceSignatureRecords(
     ],
   };
 
-  const patchRequestResponse: RecordTypeDef = {
+  const patchResponseBody: RecordTypeDef = {
     kind: "record",
     system: system,
     name: `patch${capitalizeFirstLetter(seedDocType.name)}Response`,
@@ -341,7 +341,7 @@ export function generateSengiServiceSignatureRecords(
     ],
   };
 
-  const replaceRequestResponse: RecordTypeDef = {
+  const replaceResponseBody: RecordTypeDef = {
     kind: "record",
     system: system,
     name: `replace${capitalizeFirstLetter(seedDocType.name)}Response`,
@@ -384,7 +384,7 @@ export function generateSengiServiceSignatureRecords(
     ],
   };
 
-  const deleteRequestResponse: RecordTypeDef = {
+  const deleteResponseBody: RecordTypeDef = {
     kind: "record",
     system: system,
     name: `delete${capitalizeFirstLetter(seedDocType.name)}Response`,
@@ -400,25 +400,235 @@ export function generateSengiServiceSignatureRecords(
     ],
   };
 
+  const createRequestBodies: RecordTypeDef[] = seedDocType.constructors.map(
+    (ctor) => ({
+      kind: "record",
+      system: system,
+      name: `create${capitalizeFirstLetter(seedDocType.name)}${
+        capitalizeFirstLetter(ctor.name)
+      }RequestBody`,
+      summary:
+        `The parameters for creating a new ${seedDocType.name} record using the ${ctor.name} constructor.`,
+      properties: [
+        {
+          name: "fieldNames",
+          summary:
+            "A comma-separated list of field names to be included on each record in the response.",
+          propertyType: "std/longString",
+          isRequired: true,
+        },
+        {
+          name: "id",
+          summary: "The id to be assigned to the newly created document.",
+          propertyType: "std/uuid",
+          isRequired: true,
+        },
+        {
+          name: "partition",
+          summary:
+            "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
+          propertyType: "std/shortString",
+        },
+        {
+          name: "user",
+          summary:
+            "A JSON-stringified and url-encoded object that defines the user making the request.",
+          propertyType: `${system}/${userType}`,
+          isRequired: true,
+        },
+        {
+          name: "constructorParams",
+          summary: "The constructor parameters.",
+          propertyType: ctor.parametersType,
+          isRequired: true,
+        },
+      ],
+    }),
+  );
+
+  const createResponseBody: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `create${capitalizeFirstLetter(seedDocType.name)}Response`,
+    summary: `A response that contains the created record.`,
+    properties: [
+      {
+        name: "doc",
+        summary: "The newly created record.",
+        propertyType: `${system}/${seedDocType.name}Record`,
+        isRequired: true,
+      },
+      {
+        name: "isNew",
+        summary:
+          "True if a document was created, or false if the document already existed.",
+        propertyType: "std/bool",
+        isRequired: true,
+      },
+    ],
+  };
+
+  const operationRequestBodies: RecordTypeDef[] = seedDocType.operations.map(
+    (op) => ({
+      kind: "record",
+      system: system,
+      name: `operateOn${capitalizeFirstLetter(seedDocType.name)}${
+        capitalizeFirstLetter(op.name)
+      }RequestBody`,
+      summary:
+        `The parameters for operating on the ${seedDocType.name} record using the ${op.name} operation.`,
+      properties: [
+        {
+          name: "fieldNames",
+          summary:
+            "A comma-separated list of field names to be included on each record in the response.",
+          propertyType: "std/longString",
+          isRequired: true,
+        },
+        {
+          name: "id",
+          summary: "The id to be assigned to the newly created document.",
+          propertyType: "std/uuid",
+          isRequired: true,
+        },
+        {
+          name: "operationId",
+          summary: "The id of the operation.",
+          propertyType: "std/uuid",
+          isRequired: true,
+        },
+        {
+          name: "operationParams",
+          summary: "The parameters of the operation.",
+          propertyType: op.parametersType,
+          isRequired: true,
+        },
+        {
+          name: "partition",
+          summary:
+            "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
+          propertyType: "std/shortString",
+        },
+        {
+          name: "reqVersion",
+          summary:
+            "If populated, then the retrieved record must have the stated version or the operation is rejected.",
+          propertyType: "std/mediumString",
+        },
+        {
+          name: "user",
+          summary:
+            "A JSON-stringified and url-encoded object that defines the user making the request.",
+          propertyType: `${system}/${userType}`,
+          isRequired: true,
+        },
+        {
+          name: "operationParams",
+          summary: "The operation parameters.",
+          propertyType: op.parametersType,
+          isRequired: true,
+        },
+      ],
+    }),
+  );
+
+  const operationResponseBody: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `operateOn${capitalizeFirstLetter(seedDocType.name)}Response`,
+    summary: `A response that contains the mutated record.`,
+    properties: [
+      {
+        name: "doc",
+        summary: "The recently mutated record.",
+        propertyType: `${system}/${seedDocType.name}Record`,
+        isRequired: true,
+      },
+      {
+        name: "isUpdated",
+        summary:
+          "True if the document was updated, or false if the document was not updated.",
+        propertyType: "std/bool",
+        isRequired: true,
+      },
+    ],
+  };
+
+  const queryRequestQueries: RecordTypeDef[] = seedDocType.queries.map(
+    (query) => ({
+      kind: "record",
+      system: system,
+      name: `query${capitalizeFirstLetter(seedDocType.pluralName)}${
+        capitalizeFirstLetter(query.name)
+      }RequestQuery`,
+      summary:
+        `The parameters for querying ${seedDocType.name} records using the ${query.name} query.`,
+      properties: [
+        {
+          name: "user",
+          summary:
+            "A JSON-stringified and url-encoded object that defines the user making the request.",
+          propertyType: `${system}/${userType}`,
+          isRequired: true,
+        },
+        ...query.parameters.map((queryParam) => ({
+          name: queryParam.name,
+          summary: queryParam.summary,
+          propertyType: queryParam.propertyType,
+          isRequired: queryParam.isRequired,
+          deprecated: queryParam.deprecated,
+        })),
+      ],
+    }),
+  );
+
+  const queryResponseBodies: RecordTypeDef[] = seedDocType.queries.map(
+    (query) => ({
+      kind: "record",
+      system: system,
+      name: `query${capitalizeFirstLetter(seedDocType.pluralName)}${
+        capitalizeFirstLetter(query.name)
+      }Response`,
+      summary: `A response that contains the result of executing the query.`,
+      properties: [
+        {
+          name: "data",
+          summary: "The result of executing the query.",
+          propertyType: query.resultType,
+          isRequired: true,
+        },
+      ],
+    }),
+  );
+
   return [
     selectRequestQuery,
-    selectSingularResponse,
+    selectSingularResponseBody,
 
     selectAllRequestQuery,
     selectByIdsRequestQuery,
     ...selectByFilterRequestQueries,
-    selectPluralResponse,
+    selectPluralResponseBody,
 
     newRequestBody,
-    newRequestResponse,
+    newResponseBody,
 
     patchRequestBody,
-    patchRequestResponse,
+    patchResponseBody,
 
     replaceRequestBody,
-    replaceRequestResponse,
+    replaceResponseBody,
 
     deleteRequestBody,
-    deleteRequestResponse,
+    deleteResponseBody,
+
+    ...createRequestBodies,
+    createResponseBody,
+
+    ...operationRequestBodies,
+    operationResponseBody,
+
+    ...queryRequestQueries,
+    ...queryResponseBodies,
   ];
 }

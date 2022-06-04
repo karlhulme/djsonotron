@@ -106,16 +106,15 @@ export function generateSengiAdapterOperationsCode(
       }
     `);
 
-    // The SelectByFilters adapter
+    // The SelectByFilters adapters
     for (const filter of seedDocType.filters) {
-      // The New adapter.
       ops.push(`
         select${capitalizeFirstLetter(seedDocType.pluralName)}${
         capitalizeFirstLetter(filter.name)
       }: async (props: Select${capitalizeFirstLetter(seedDocType.pluralName)}${
         capitalizeFirstLetter(filter.name)
-      }Props): Promise<Select${capitalizeFirstLetter(seedDocType.pluralName)}${
-        capitalizeFirstLetter(filter.name)
+      }Props): Promise<Select${
+        capitalizeFirstLetter(seedDocType.pluralName)
       }Result> => {
         const result = await sengi.selectDocumentsByFilter({
           apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
@@ -148,61 +147,61 @@ export function generateSengiAdapterOperationsCode(
 
     // The New adapter.
     ops.push(`
-     new${capitalizeFirstLetter(seedDocType.name)}: async (props: New${
+      new${capitalizeFirstLetter(seedDocType.name)}: async (props: New${
       capitalizeFirstLetter(seedDocType.name)
     }Props): Promise<New${capitalizeFirstLetter(seedDocType.name)}Result> => {
-       const result = await sengi.newDocument({
-         apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
-         docStoreOptions: {},
-         docTypeName: "${seedDocType.name}",
-         fieldNames: props.body.fieldNames || ["id"],
-         doc: props.body.doc as unknown as DocRecord,
-         partition: props.body.partition || options.defaultPartition,
-         reqProps: {},
-         user: props.body.user,
-       });
+        const result = await sengi.newDocument({
+          apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
+          docStoreOptions: {},
+          docTypeName: "${seedDocType.name}",
+          fieldNames: props.body.fieldNames || ["id"],
+          doc: props.body.doc as unknown as DocRecord,
+          partition: props.body.partition || options.defaultPartition,
+          reqProps: {},
+          user: props.body.user,
+        });
 
-       return {
-         headers: [],
-         body: {
-           doc: result.doc as unknown as Svc${
+        return {
+          headers: [],
+          body: {
+            doc: result.doc as unknown as Svc${
       capitalizeFirstLetter(seedDocType.name)
     }Record,
-           isNew: result.isNew,
-         },
-       };
-     }
+            isNew: result.isNew,
+          },
+        };
+      }
    `);
 
     // The Patch adapter.
     ops.push(`
-    patch${capitalizeFirstLetter(seedDocType.name)}: async (props: Patch${
+      patch${capitalizeFirstLetter(seedDocType.name)}: async (props: Patch${
       capitalizeFirstLetter(seedDocType.name)
     }Props): Promise<Patch${capitalizeFirstLetter(seedDocType.name)}Result> => {
-      const result = await sengi.patchDocument({
-        apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
-        docStoreOptions: {},
-        docTypeName: "${seedDocType.name}",
-        fieldNames: props.body.fieldNames || ["id"],
-        id: props.id,
-        operationId: props.getHeader("x-request-id") || crypto.randomUUID(),
-        partition: props.body.partition || options.defaultPartition,
-        patch: props.body.patch as unknown as DocPatch,
-        reqProps: {},
-        user: props.body.user,
-      });
+        const result = await sengi.patchDocument({
+          apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
+          docStoreOptions: {},
+          docTypeName: "${seedDocType.name}",
+          fieldNames: props.body.fieldNames || ["id"],
+          id: props.id,
+          operationId: props.getHeader("x-request-id") || crypto.randomUUID(),
+          partition: props.body.partition || options.defaultPartition,
+          patch: props.body.patch as unknown as DocPatch,
+          reqProps: {},
+          user: props.body.user,
+        });
 
-      return {
-        headers: [],
-        body: {
-          doc: result.doc as unknown as Svc${
+        return {
+          headers: [],
+          body: {
+            doc: result.doc as unknown as Svc${
       capitalizeFirstLetter(seedDocType.name)
     }Record,
-          isUpdated: result.isUpdated,
-        },
-      };
-    }
-  `);
+            isUpdated: result.isUpdated,
+          },
+        };
+      }
+    `);
 
     // The Replace adapter.
     ops.push(`
@@ -263,6 +262,113 @@ export function generateSengiAdapterOperationsCode(
         };
       }
     `);
+
+    // The Create adapters
+    for (const ctor of seedDocType.constructors) {
+      ops.push(`
+        create${capitalizeFirstLetter(seedDocType.name)}${
+        capitalizeFirstLetter(ctor.name)
+      }: async (props: Create${capitalizeFirstLetter(seedDocType.name)}${
+        capitalizeFirstLetter(ctor.name)
+      }Props): Promise<Create${
+        capitalizeFirstLetter(seedDocType.name)
+      }Result> => {
+        const result = await sengi.createDocument({
+          apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
+          constructorName: "${ctor.name}",
+          constructorParams: props.body.constructorParams,
+          docStoreOptions: {},
+          docTypeName: "${seedDocType.name}",
+          fieldNames: props.body.fieldNames.split(","),
+          id: props.body.id,
+          partition: props.body.partition || options.defaultPartition,
+          reqProps: {},
+          user: props.body.user,
+        });
+
+        return {
+          headers: [],
+          body: {
+            doc: result.doc as unknown as Svc${
+        capitalizeFirstLetter(seedDocType.name)
+      }Record,
+            isNew: result.isNew
+          },
+        };
+      }`);
+    }
+
+    // The Operation adapters
+    for (const op of seedDocType.operations) {
+      ops.push(`
+        operateOn${capitalizeFirstLetter(seedDocType.name)}${
+        capitalizeFirstLetter(op.name)
+      }: async (props: OperateOn${capitalizeFirstLetter(seedDocType.name)}${
+        capitalizeFirstLetter(op.name)
+      }Props): Promise<OperateOn${
+        capitalizeFirstLetter(seedDocType.name)
+      }Result> => {
+        const result = await sengi.operateOnDocument({
+          apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
+          docStoreOptions: {},
+          docTypeName: "${seedDocType.name}",
+          fieldNames: props.body.fieldNames.split(","),
+          id: props.body.id,
+          operationId: props.body.operationId,
+          operationName: "${op.name}",
+          operationParams: props.body.operationParams,
+          partition: props.body.partition || options.defaultPartition,
+          reqProps: {},
+          user: props.body.user,
+          reqVersion: props.body.reqVersion
+        });
+
+        return {
+          headers: [],
+          body: {
+            doc: result.doc as unknown as Svc${
+        capitalizeFirstLetter(seedDocType.name)
+      }Record,
+            isUpdated: result.isUpdated
+          },
+        };
+      }`);
+    }
+
+    // The Queries adapters
+    for (const query of seedDocType.queries) {
+      ops.push(`
+        query${capitalizeFirstLetter(seedDocType.pluralName)}${
+        capitalizeFirstLetter(query.name)
+      }: async (props: Query${capitalizeFirstLetter(seedDocType.pluralName)}${
+        capitalizeFirstLetter(query.name)
+      }Props): Promise<Query${capitalizeFirstLetter(seedDocType.pluralName)}${
+        capitalizeFirstLetter(query.name)
+      }Result> => {
+        const result = await sengi.queryDocuments({
+          apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
+          docStoreOptions: {},
+          docTypeName: "${seedDocType.name}",
+          queryName: "${query.name}",
+          queryParams: {
+            ${
+        query.parameters.map((p) => `
+              ${p.name}: props.query.${p.name}
+            `)
+      }
+          },
+          reqProps: {},
+          user: props.query.user,
+        });
+
+        return {
+          headers: [],
+          body: {
+            data: result.data
+          },
+        };
+      }`);
+    }
   }
 
   return `
@@ -277,5 +383,5 @@ export function generateSengiAdapterOperationsCode(
         ${ops.join(", ")}
       }
     }
-`;
+  `;
 }

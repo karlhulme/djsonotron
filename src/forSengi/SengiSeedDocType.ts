@@ -1,5 +1,8 @@
 import { RecordTypeDefProperty } from "../interfaces/index.ts";
 import { SengiSeedDocTypeFilter } from "./SengiSeedDocTypeFilter.ts";
+import { SengiSeedDocTypeConstructor } from "./SengiSeedDocTypeConstructor.ts";
+import { SengiSeedDocTypeOperation } from "./SengiSeedDocTypeOperation.ts";
+import { SengiSeedDocTypeQuery } from "./SengiSeedDocTypeQuery.ts";
 
 /**
  * Defines the properties of a document that can be
@@ -43,5 +46,21 @@ export interface SengiSeedDocType {
    */
   filters: SengiSeedDocTypeFilter[];
 
-  // constructors, operations and queries...
+  /**
+   * An array of constructors that can be used to create
+   * a record of this doc type.
+   */
+  constructors: SengiSeedDocTypeConstructor[];
+
+  /**
+   * An array of operations that can mutate a record of this
+   * doc type.
+   */
+  operations: SengiSeedDocTypeOperation[];
+
+  /**
+   * An array of queries that can be executed against
+   * a container of records of this doc type.
+   */
+  queries: SengiSeedDocTypeQuery[];
 }

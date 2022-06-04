@@ -136,10 +136,77 @@ export function generateSengiServicePaths(
     }),
   );
 
+  const docTypeCtorPaths: ServicePath[] = seedDocType.constructors.map(
+    (ctor) => ({
+      relativeUrl: `/records/${seedDocType.pluralName}\\\\:${ctor.name}`,
+      summary: ctor.summary,
+      post: {
+        operationName: `create${capitalizeFirstLetter(seedDocType.name)}${
+          capitalizeFirstLetter(ctor.name)
+        }`,
+        summary:
+          `Create a new ${seedDocType.name} record using the ${ctor.name} specialised constructor.`,
+        tags: [seedDocType.pluralTitle],
+        requestBodyType: `${system}/create${
+          capitalizeFirstLetter(seedDocType.name)
+        }${capitalizeFirstLetter(ctor.name)}RequestBody`,
+        responseBodyType: `${system}/create${
+          capitalizeFirstLetter(seedDocType.name)
+        }Response`,
+      },
+    }),
+  );
+
+  const docTypeOpPaths: ServicePath[] = seedDocType.operations.map(
+    (op) => ({
+      relativeUrl:
+        `/records/${seedDocType.pluralName}/{id:std/uuid}\\\\:${op.name}`,
+      summary: op.summary,
+      post: {
+        operationName: `operateOn${capitalizeFirstLetter(seedDocType.name)}${
+          capitalizeFirstLetter(op.name)
+        }`,
+        summary:
+          `Operate on the ${seedDocType.name} record using the ${op.name} operator.`,
+        tags: [seedDocType.pluralTitle],
+        requestBodyType: `${system}/operateOn${
+          capitalizeFirstLetter(seedDocType.name)
+        }${capitalizeFirstLetter(op.name)}RequestBody`,
+        responseBodyType: `${system}/operateOn${
+          capitalizeFirstLetter(seedDocType.name)
+        }Response`,
+      },
+    }),
+  );
+
+  const docTypeQueryPaths: ServicePath[] = seedDocType.queries.map(
+    (query) => ({
+      relativeUrl: `/records/${seedDocType.pluralName}\\\\:${query.name}`,
+      summary: query.summary,
+      get: {
+        operationName: `query${capitalizeFirstLetter(seedDocType.pluralName)}${
+          capitalizeFirstLetter(query.name)
+        }`,
+        summary:
+          `Perform a query on the ${seedDocType.name} records using the ${query.name} query.`,
+        tags: [seedDocType.pluralTitle],
+        requestQueryType: `${system}/query${
+          capitalizeFirstLetter(seedDocType.pluralName)
+        }${capitalizeFirstLetter(query.name)}RequestQuery`,
+        responseBodyType: `${system}/query${
+          capitalizeFirstLetter(seedDocType.pluralName)
+        }${capitalizeFirstLetter(query.name)}Response`,
+      },
+    }),
+  );
+
   return [
     docTypeRootPath,
     docTypeRecordPath,
     docTypeByIdsPath,
     ...docTypeFilterPaths,
+    ...docTypeCtorPaths,
+    ...docTypeOpPaths,
+    ...docTypeQueryPaths,
   ];
 }
