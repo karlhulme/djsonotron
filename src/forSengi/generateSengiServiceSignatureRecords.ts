@@ -522,12 +522,6 @@ export function generateSengiServiceSignatureRecords(
           propertyType: `${system}/${userType}`,
           isRequired: true,
         },
-        {
-          name: "operationParams",
-          summary: "The operation parameters.",
-          propertyType: op.parametersType,
-          isRequired: true,
-        },
       ],
     }),
   );
