@@ -51,6 +51,9 @@ export function generateSengiAdapterImportsCode(
 
       `Replace${capitalizeFirstLetter(sdt.name)}Props`,
       `Replace${capitalizeFirstLetter(sdt.name)}Result`,
+
+      `Delete${capitalizeFirstLetter(sdt.name)}Props`,
+      `Delete${capitalizeFirstLetter(sdt.name)}Result`,
     ])
     .flat()
     .join(", ");

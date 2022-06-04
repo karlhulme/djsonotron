@@ -231,6 +231,32 @@ export function generateSengiAdapterOperationsCode(
         };
       }
     `);
+
+    // The Delete adapter.
+    ops.push(`
+      delete${capitalizeFirstLetter(seedDocType.name)}: async (props: Delete${
+      capitalizeFirstLetter(seedDocType.name)
+    }Props): Promise<Delete${
+      capitalizeFirstLetter(seedDocType.name)
+    }Result> => {
+        const result = await sengi.deleteDocument({
+          apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
+          docStoreOptions: {},
+          docTypeName: "${seedDocType.name}",
+          id: props.id,
+          partition: props.body.partition || options.defaultPartition,
+          reqProps: {},
+          user: props.body.user,
+        });
+  
+        return {
+          headers: [],
+          body: {
+            isDeleted: result.isDeleted,
+          },
+        };
+      }
+    `);
   }
 
   return `

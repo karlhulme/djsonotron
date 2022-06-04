@@ -363,6 +363,44 @@ export function generateSengiServiceSignatures(
     ],
   };
 
+  const deleteRequestBody: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `delete${capitalizeFirstLetter(seedDocType.name)}RequestBody`,
+    summary:
+      `The body parameters for deleting a ${seedDocType.name} record.`,
+    properties: [
+      {
+        name: "partition",
+        summary:
+          "The name of the partition where the new document should be stored.",
+        propertyType: "std/shortString",
+      },
+      {
+        name: "user",
+        summary: "The user that is creating the new record.",
+        propertyType: `${system}/${userType}`,
+        isRequired: true,
+      },
+    ],
+  };
+
+  const deleteRequestResponse: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `delete${capitalizeFirstLetter(seedDocType.name)}Response`,
+    summary: `A response that indicates if a record was deleted.`,
+    properties: [
+      {
+        name: "isDeleted",
+        summary:
+          "True if a document was deleted, or false if a document was not deleted.",
+        propertyType: "std/bool",
+        isRequired: true,
+      },
+    ],
+  };
+
   return [
     selectRequestQuery,
     selectSingularResponse,
@@ -380,5 +418,8 @@ export function generateSengiServiceSignatures(
 
     replaceRequestBody,
     replaceRequestResponse,
+
+    deleteRequestBody,
+    deleteRequestResponse
   ];
 }

@@ -47,6 +47,18 @@ export function generateSengiServicePaths(
     relativeUrl: `/records/${seedDocType.pluralName}/{id:std/uuid}`,
     summary: seedDocType.summary,
 
+    delete: {
+      operationName: `delete${capitalizeFirstLetter(seedDocType.name)}`,
+      summary: `Delete a ${seedDocType.name} record.`,
+      tags: [seedDocType.pluralTitle],
+      requestQueryType: `${system}/delete${
+        capitalizeFirstLetter(seedDocType.name)
+      }RequestQuery`,
+      responseBodyType: `${system}/delete${
+        capitalizeFirstLetter(seedDocType.name)
+      }Response`,
+    },
+
     get: {
       operationName: `select${capitalizeFirstLetter(seedDocType.name)}`,
       summary: `Retrieve a ${seedDocType.name} record.`,
