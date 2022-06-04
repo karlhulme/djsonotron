@@ -37,7 +37,7 @@ export function generateSengiAdapterOperationsCode(
         return {
           headers: [],
           body: {
-            doc: result.doc[0] as unknown as Svc${
+            doc: result.docs[0] as unknown as Svc${
       capitalizeFirstLetter(seedDocType.name)
     }Record,
           },

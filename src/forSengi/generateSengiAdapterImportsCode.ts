@@ -12,7 +12,7 @@ interface GenerateSengiAdapterImportsCodeProps {
 export function generateSengiAdapterImportsCode(
   props: GenerateSengiAdapterImportsCodeProps,
 ) {
-  const importTypeNames = props.seedDocTypes
+  const importSeedDocTypeInputOutputTypes = props.seedDocTypes
     .map((sdt) => [
       `${capitalizeFirstLetter(props.system)}${
         capitalizeFirstLetter(sdt.name)
@@ -21,8 +21,11 @@ export function generateSengiAdapterImportsCode(
     .flat()
     .join(", ");
 
-  const importServiceNames = props.seedDocTypes
+  const importServiceInputOutputTypes = props.seedDocTypes
     .map((sdt) => [
+      `Select${capitalizeFirstLetter(sdt.name)}Props`,
+      `Select${capitalizeFirstLetter(sdt.name)}Result`,
+
       `SelectAll${capitalizeFirstLetter(sdt.pluralName)}Props`,
       `SelectAll${capitalizeFirstLetter(sdt.pluralName)}Result`,
 
@@ -55,7 +58,7 @@ export function generateSengiAdapterImportsCode(
   return `
     // deno-lint-ignore-file no-explicit-any
     import { DocPatch, DocRecord, Sengi } from "${props.depsPath}"
-    import { ${importTypeNames} } from "${props.typesPath}"
-    import { ${importServiceNames} } from "${props.servicesPath}"
+    import { ${importSeedDocTypeInputOutputTypes} } from "${props.typesPath}"
+    import { ${importServiceInputOutputTypes} } from "${props.servicesPath}"
   `;
 }
