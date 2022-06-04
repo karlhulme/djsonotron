@@ -97,7 +97,7 @@ export function generateSengiServicePaths(
   };
 
   const docTypeByIdsPath: ServicePath = {
-    relativeUrl: `/records/${seedDocType.pluralName}:byIds`,
+    relativeUrl: `/records/${seedDocType.pluralName}\\\\:byIds`,
     summary: seedDocType.summary,
 
     get: {
@@ -117,7 +117,7 @@ export function generateSengiServicePaths(
 
   const docTypeFilterPaths: ServicePath[] = seedDocType.filters.map(
     (filter) => ({
-      relativeUrl: `/records/${seedDocType.pluralName}\\:${filter.name}`,
+      relativeUrl: `/records/${seedDocType.pluralName}\\\\:${filter.name}`,
       summary: filter.summary,
       get: {
         operationName: `select${capitalizeFirstLetter(seedDocType.pluralName)}${
