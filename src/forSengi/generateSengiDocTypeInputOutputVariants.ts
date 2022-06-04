@@ -67,14 +67,15 @@ export function generateSengiDocTypeInputOutputVariants(
   };
 
   // The 'Template' variant is used when a new document is created
-  // without an explicit constructor.  We want the non-system fields
-  // here and we honour the required flags.
+  // without an explicit constructor.  We want an id for the new doc
+  // and the non-system fields where we will honour the required flags.
   const docTemplate: RecordTypeDef = {
     kind: "record",
     system: system,
     name: `new${capitalizeFirstLetter(seedDocType.name)}Template`,
     summary: `The template to create a new ${seedDocType.name}.`,
     properties: [
+      generateIdProperty(true),
       ...seedDocType.properties,
     ],
   };
