@@ -117,7 +117,7 @@ export function generateSengiServicePaths(
 
   const docTypeFilterPaths: ServicePath[] = seedDocType.filters.map(
     (filter) => ({
-      relativeUrl: `/records/${seedDocType.pluralName}:${filter.name}`,
+      relativeUrl: `/records/${seedDocType.pluralName}\\:${filter.name}`,
       summary: filter.summary,
       get: {
         operationName: `select${capitalizeFirstLetter(seedDocType.pluralName)}${

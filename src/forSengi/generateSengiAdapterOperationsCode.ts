@@ -123,7 +123,13 @@ export function generateSengiAdapterOperationsCode(
           docTypeName: "${seedDocType.name}",
           fieldNames: props.query.fieldNames.split(","),
           filterName: "${filter.name}",
-          filterParams: props.query.filterParams,
+          filterParams: {
+            ${
+        filter.parameters.map((p) => `
+              ${p.name}: props.query.${p.name}
+            `)
+      }
+          },
           partition: props.query.partition || options.defaultPartition,
           reqProps: {},
           user: props.query.user,
