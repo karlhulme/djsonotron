@@ -276,7 +276,7 @@ export function generateSengiServiceSignatures(
   const replaceRequestBody: RecordTypeDef = {
     kind: "record",
     system: system,
-    name: `new${capitalizeFirstLetter(seedDocType.name)}RequestBody`,
+    name: `replace${capitalizeFirstLetter(seedDocType.name)}RequestBody`,
     summary:
       `The body parameters for creating a new ${seedDocType.name} record.`,
     properties: [
@@ -317,7 +317,7 @@ export function generateSengiServiceSignatures(
   const replaceRequestResponse: RecordTypeDef = {
     kind: "record",
     system: system,
-    name: `new${capitalizeFirstLetter(seedDocType.name)}Response`,
+    name: `replace${capitalizeFirstLetter(seedDocType.name)}Response`,
     summary: `A response that contains the replaced record.`,
     properties: [
       {
