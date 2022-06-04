@@ -36,7 +36,7 @@ export function generateSengiDocTypeInputOutputVariants(
 
   // The 'Record' variant is used when a record is returned to a client.
   // All of the fields are optional because the populated ones will depend
-  // on which fields were requested.  
+  // on which fields were requested.
   const docRecord: RecordTypeDef = {
     kind: "record",
     system: system,
