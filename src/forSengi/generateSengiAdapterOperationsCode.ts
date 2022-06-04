@@ -150,7 +150,6 @@ export function generateSengiAdapterOperationsCode(
          docStoreOptions: {},
          docTypeName: "${seedDocType.name}",
          fieldNames: props.body.fieldNames || ["id"],
-         id: props.body.id,
          doc: props.body.doc as unknown as DocRecord,
          partition: props.body.partition || options.defaultPartition,
          reqProps: {},
