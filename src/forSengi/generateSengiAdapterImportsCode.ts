@@ -1,5 +1,9 @@
 import { SengiSeedDocType } from "./SengiSeedDocType.ts";
-import { capitalizeFirstLetter } from "../utils/index.ts";
+import {
+  capitalizeFirstLetter,
+  getSystemFromTypeString,
+  getTypeFromTypeString,
+} from "../utils/index.ts";
 
 interface GenerateSengiAdapterImportsCodeProps {
   system: string;
@@ -18,8 +22,21 @@ export function generateSengiAdapterImportsCode(
         capitalizeFirstLetter(sdt.name)
       }Record`,
     ])
-    .flat()
-    .join(", ");
+    .flat();
+
+  const queryResultTypes = props.seedDocTypes
+    .map((sdt) => [
+      ...sdt.queries.map((query) =>
+        `${capitalizeFirstLetter(getSystemFromTypeString(query.resultType))}${
+          capitalizeFirstLetter(getTypeFromTypeString(query.resultType))
+        }`
+      ),
+    ])
+    .flat();
+
+  const externalTypes = importSeedDocTypeInputOutputTypes.concat(
+    queryResultTypes,
+  ).join(", ");
 
   const importServiceInputOutputTypes = props.seedDocTypes
     .map((sdt) => [
@@ -94,7 +111,7 @@ export function generateSengiAdapterImportsCode(
   return `
     // deno-lint-ignore-file no-explicit-any
     import { DocPatch, DocRecord, Sengi } from "${props.depsPath}"
-    import { ${importSeedDocTypeInputOutputTypes} } from "${props.typesPath}"
+    import { ${externalTypes} } from "${props.typesPath}"
     import { ${importServiceInputOutputTypes} } from "${props.servicesPath}"
   `;
 }
