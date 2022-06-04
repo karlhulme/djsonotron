@@ -113,8 +113,8 @@ export function generateSengiAdapterOperationsCode(
         capitalizeFirstLetter(filter.name)
       }: async (props: Select${capitalizeFirstLetter(seedDocType.pluralName)}${
         capitalizeFirstLetter(filter.name)
-      }Props): Promise<Select${
-        capitalizeFirstLetter(seedDocType.pluralName)
+      }Props): Promise<Select${capitalizeFirstLetter(seedDocType.pluralName)}${
+        capitalizeFirstLetter(filter.name)
       }Result> => {
         const result = await sengi.selectDocumentsByFilter({
           apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
@@ -270,8 +270,8 @@ export function generateSengiAdapterOperationsCode(
         capitalizeFirstLetter(ctor.name)
       }: async (props: Create${capitalizeFirstLetter(seedDocType.name)}${
         capitalizeFirstLetter(ctor.name)
-      }Props): Promise<Create${
-        capitalizeFirstLetter(seedDocType.name)
+      }Props): Promise<Create${capitalizeFirstLetter(seedDocType.name)}${
+        capitalizeFirstLetter(ctor.name)
       }Result> => {
         const result = await sengi.createDocument({
           apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
@@ -305,8 +305,8 @@ export function generateSengiAdapterOperationsCode(
         capitalizeFirstLetter(op.name)
       }: async (props: OperateOn${capitalizeFirstLetter(seedDocType.name)}${
         capitalizeFirstLetter(op.name)
-      }Props): Promise<OperateOn${
-        capitalizeFirstLetter(seedDocType.name)
+      }Props): Promise<OperateOn${capitalizeFirstLetter(seedDocType.name)}${
+        capitalizeFirstLetter(op.name)
       }Result> => {
         const result = await sengi.operateOnDocument({
           apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),

@@ -43,6 +43,8 @@ export function generateSengiAdapterImportsCode(
         }Result`
       )),
 
+      `Select${capitalizeFirstLetter(sdt.pluralName)}Result`,
+
       `New${capitalizeFirstLetter(sdt.name)}Props`,
       `New${capitalizeFirstLetter(sdt.name)}Result`,
 
@@ -51,7 +53,11 @@ export function generateSengiAdapterImportsCode(
           capitalizeFirstLetter(ctor.name)
         }Props`
       )),
-      `Create${capitalizeFirstLetter(sdt.name)}Result`,
+      ...(sdt.constructors.map((ctor) =>
+        `Create${capitalizeFirstLetter(sdt.name)}${
+          capitalizeFirstLetter(ctor.name)
+        }Result`
+      )),
 
       `Patch${capitalizeFirstLetter(sdt.name)}Props`,
       `Patch${capitalizeFirstLetter(sdt.name)}Result`,
@@ -61,7 +67,11 @@ export function generateSengiAdapterImportsCode(
           capitalizeFirstLetter(op.name)
         }Props`
       )),
-      `OperateOn${capitalizeFirstLetter(sdt.name)}Result`,
+      ...(sdt.operations.map((op) =>
+        `OperateOn${capitalizeFirstLetter(sdt.name)}${
+          capitalizeFirstLetter(op.name)
+        }Result`
+      )),
 
       `Replace${capitalizeFirstLetter(sdt.name)}Props`,
       `Replace${capitalizeFirstLetter(sdt.name)}Result`,
