@@ -1,4 +1,8 @@
-import { capitalizeFirstLetter } from "../utils/index.ts";
+import {
+  capitalizeFirstLetter,
+  getSystemFromTypeString,
+  getTypeFromTypeString,
+} from "../utils/index.ts";
 import { SengiSeedDocType } from "./SengiSeedDocType.ts";
 
 /**
@@ -364,7 +368,9 @@ export function generateSengiAdapterOperationsCode(
         return {
           headers: [],
           body: {
-            data: result.data
+            data: result.data as ${
+        capitalizeFirstLetter(getSystemFromTypeString(query.resultType))
+      }${capitalizeFirstLetter(getTypeFromTypeString(query.resultType))}
           },
         };
       }`);

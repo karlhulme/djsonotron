@@ -49,7 +49,7 @@ export function generateOakRouterOperation(
           : ${urlParam.name}ParamTemp`);
     } else {
       lines.push(
-        `const ${urlParam.name}Param = ctx.params["${urlParam.name}"];`,
+        `const ${urlParam.name}Param = ctx.params["${urlParam.name}"] as string;`,
       );
     }
 
