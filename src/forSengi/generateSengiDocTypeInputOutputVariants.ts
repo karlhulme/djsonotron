@@ -86,6 +86,7 @@ export function generateSengiDocTypeInputOutputVariants(
     properties: [
       generateIdProperty(true),
       generateDocTypeProperty(true, seedDocType.name),
+      generateDocOpIdsProperty(false),
       ...seedDocType.properties,
     ],
   };
