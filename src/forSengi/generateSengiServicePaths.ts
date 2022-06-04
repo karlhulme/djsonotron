@@ -30,6 +30,18 @@ export function generateSengiServicePaths(
       }Response`,
     },
 
+    patch: {
+      operationName: `patch${capitalizeFirstLetter(seedDocType.name)}`,
+      summary: `Patch a ${seedDocType.name} record.`,
+      tags: [seedDocType.pluralTitle],
+      requestBodyType: `${system}/patch${
+        capitalizeFirstLetter(seedDocType.name)
+      }RequestBody`,
+      responseBodyType: `${system}/patch${
+        capitalizeFirstLetter(seedDocType.name)
+      }Response`,
+    },
+
     post: {
       operationName: `new${capitalizeFirstLetter(seedDocType.name)}`,
       summary: `Create a new ${seedDocType.name} record.`,
@@ -38,6 +50,18 @@ export function generateSengiServicePaths(
         capitalizeFirstLetter(seedDocType.name)
       }RequestBody`,
       responseBodyType: `${system}/new${
+        capitalizeFirstLetter(seedDocType.name)
+      }Response`,
+    },
+
+    put: {
+      operationName: `replace${capitalizeFirstLetter(seedDocType.name)}`,
+      summary: `Replace an existing ${seedDocType.name} record.`,
+      tags: [seedDocType.pluralTitle],
+      requestBodyType: `${system}/replace${
+        capitalizeFirstLetter(seedDocType.name)
+      }RequestBody`,
+      responseBodyType: `${system}/replace${
         capitalizeFirstLetter(seedDocType.name)
       }Response`,
     },

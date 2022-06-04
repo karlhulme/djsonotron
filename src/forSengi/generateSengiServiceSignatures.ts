@@ -239,8 +239,8 @@ export function generateSengiServiceSignatures(
       {
         name: "patch",
         summary: "The patch to be applied.",
-        propertyType: `${system}/new${
-          capitalizeFirstLetter(seedDocType.name)
+        propertyType: `${system}/${
+          seedDocType.name
         }Patch`,
         isRequired: true,
       },
@@ -286,8 +286,8 @@ export function generateSengiServiceSignatures(
         name: "doc",
         summary:
           "The replacement doc that includes values for the system fields.",
-        propertyType: `${system}/new${
-          capitalizeFirstLetter(seedDocType.name)
+        propertyType: `${system}/${
+          seedDocType.name
         }Replacement`,
         isRequired: true,
       },
