@@ -34,6 +34,9 @@ export function generateSengiDocTypeInputOutputVariants(
     ],
   };
 
+  // The 'Record' variant is used when a record is returned to a client.
+  // All of the fields are optional because the populated ones will depend
+  // on which fields were requested.  
   const docRecord: RecordTypeDef = {
     kind: "record",
     system: system,
@@ -55,6 +58,9 @@ export function generateSengiDocTypeInputOutputVariants(
     ],
   };
 
+  // The 'Template' variant is used when a new document is created
+  // without an explicit constructor.  We want the non-system fields
+  // here and we honour the required flags.
   const docTemplate: RecordTypeDef = {
     kind: "record",
     system: system,
@@ -65,6 +71,11 @@ export function generateSengiDocTypeInputOutputVariants(
     ],
   };
 
+  // The 'Patch' variant is used when a document is being updated.
+  // We only want the non-system fields to be supplied here, but we
+  // ignore the required flags since the assumption is the document
+  // is valid prior to the patch and thus any required fields should
+  // have existing values.
   const docPatch: RecordTypeDef = {
     kind: "record",
     system: system,
@@ -78,6 +89,10 @@ export function generateSengiDocTypeInputOutputVariants(
     ],
   };
 
+  // The 'Replacement' variant is used when a document is being replaced
+  // wholesale.  We require the main system fields, optionally allow
+  // the time-based/tracking system fields (although Sengi can set defaults
+  // automatically) and all the non-system fields with required flags.
   const docReplacement: RecordTypeDef = {
     kind: "record",
     system: system,
@@ -87,6 +102,10 @@ export function generateSengiDocTypeInputOutputVariants(
       generateIdProperty(true),
       generateDocTypeProperty(true, seedDocType.name),
       generateDocOpIdsProperty(false),
+      generateDocCreatedByUserId(false),
+      generateDocCreatedByMillisecondsSinceEpoch(false),
+      generateDocLastUpdatedByUserId(false),
+      generateDocLastUpdatedByMillisecondsSinceEpoch(false),
       ...seedDocType.properties,
     ],
   };
