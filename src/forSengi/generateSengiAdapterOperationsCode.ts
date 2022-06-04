@@ -175,7 +175,7 @@ export function generateSengiAdapterOperationsCode(
     }Result> => {
         const result = await sengi.replaceDocument({
           apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
-          doc: props.body.doc as unknown as DocRecord,,
+          doc: props.body.doc as unknown as DocRecord,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
           fieldNames: props.body.fieldNames || ["id"],
