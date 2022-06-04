@@ -43,6 +43,25 @@ export function generateSengiServicePaths(
     },
   };
 
+  const docTypeByIdsPath: ServicePath = {
+    relativeUrl: `/records/${seedDocType.pluralName}:byIds`,
+    summary: seedDocType.summary,
+
+    get: {
+      operationName: `select${
+        capitalizeFirstLetter(seedDocType.pluralName)
+      }ByIds`,
+      summary: `Retrieve ${seedDocType.name} records using ids.`,
+      tags: [seedDocType.pluralTitle],
+      requestQueryType: `${system}/select${
+        capitalizeFirstLetter(seedDocType.pluralName)
+      }ByIdsRequestQuery`,
+      responseBodyType: `${system}/select${
+        capitalizeFirstLetter(seedDocType.pluralName)
+      }Response`,
+    },
+  };
+
   const docTypeFilterPaths: ServicePath[] = seedDocType.filters.map(
     (filter) => ({
       relativeUrl: `/records/${seedDocType.pluralName}:${filter.name}`,
@@ -66,6 +85,7 @@ export function generateSengiServicePaths(
 
   return [
     docTypeRootPath,
+    docTypeByIdsPath,
     ...docTypeFilterPaths,
   ];
 }

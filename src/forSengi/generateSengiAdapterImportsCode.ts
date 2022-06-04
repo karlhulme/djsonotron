@@ -13,17 +13,30 @@ export function generateSengiAdapterImportsCode(
   props: GenerateSengiAdapterImportsCodeProps,
 ) {
   const importTypeNames = props.seedDocTypes
-    .map((sdt) =>
+    .map((sdt) => [
       `${capitalizeFirstLetter(props.system)}${
         capitalizeFirstLetter(sdt.name)
-      }Record`
-    )
+      }Record`,
+      `${capitalizeFirstLetter(props.system)}${
+        capitalizeFirstLetter(sdt.name)
+      }Template`,
+      `${capitalizeFirstLetter(props.system)}${
+        capitalizeFirstLetter(sdt.name)
+      }Patch`,
+      `${capitalizeFirstLetter(props.system)}${
+        capitalizeFirstLetter(sdt.name)
+      }Replacement`,
+    ])
+    .flat()
     .join(", ");
 
   const importServiceNames = props.seedDocTypes
     .map((sdt) => [
       `SelectAll${capitalizeFirstLetter(sdt.pluralName)}Props`,
       `SelectAll${capitalizeFirstLetter(sdt.pluralName)}Result`,
+
+      `Select${capitalizeFirstLetter(sdt.pluralName)}ByIdsProps`,
+      `Select${capitalizeFirstLetter(sdt.pluralName)}ByIdsResult`,
 
       ...(sdt.filters.map((filter) =>
         `Select${capitalizeFirstLetter(sdt.pluralName)}${
@@ -38,6 +51,12 @@ export function generateSengiAdapterImportsCode(
 
       `New${capitalizeFirstLetter(sdt.name)}Props`,
       `New${capitalizeFirstLetter(sdt.name)}Result`,
+
+      `Patch${capitalizeFirstLetter(sdt.name)}Props`,
+      `Patch${capitalizeFirstLetter(sdt.name)}Result`,
+
+      `Replace${capitalizeFirstLetter(sdt.name)}Props`,
+      `Replace${capitalizeFirstLetter(sdt.name)}Result`,
     ])
     .flat()
     .join(", ");

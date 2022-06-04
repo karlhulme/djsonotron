@@ -24,17 +24,17 @@ export function generateSengiServiceSignatures(
       `The query parameters for requesting all ${seedDocType.name} records.`,
     properties: [
       {
-        name: "partition",
-        summary:
-          "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
-        propertyType: "std/shortString",
-      },
-      {
         name: "fieldNames",
         summary:
           "A comma-separated list of field names to be included on each record in the response.",
         propertyType: "std/mediumString",
         isRequired: true,
+      },
+      {
+        name: "partition",
+        summary:
+          "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
+        propertyType: "std/shortString",
       },
       {
         name: "user",
@@ -56,12 +56,6 @@ export function generateSengiServiceSignatures(
       `The query parameters for requesting ${seedDocType.name} records by ids.`,
     properties: [
       {
-        name: "partition",
-        summary:
-          "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
-        propertyType: "std/shortString",
-      },
-      {
         name: "fieldNames",
         summary:
           "A comma-separated list of field names to be included on each record in the response.",
@@ -74,6 +68,12 @@ export function generateSengiServiceSignatures(
           "A comma-separated list of ids that determine which records are included in the response.",
         propertyType: "std/longString",
         isRequired: true,
+      },
+      {
+        name: "partition",
+        summary:
+          "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
+        propertyType: "std/shortString",
       },
       {
         name: "user",
@@ -96,12 +96,6 @@ export function generateSengiServiceSignatures(
         `The query parameters for requesting ${seedDocType.name} records using the ${filter.name} filter.`,
       properties: [
         {
-          name: "partition",
-          summary:
-            "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
-          propertyType: "std/shortString",
-        },
-        {
           name: "fieldNames",
           summary:
             "A comma-separated list of field names to be included on each record in the response.",
@@ -114,6 +108,12 @@ export function generateSengiServiceSignatures(
             "A JSON-stringified and url-encoded object that provides the parameters required for the filter.",
           propertyType: filter.parametersType,
           isRequired: true,
+        },
+        {
+          name: "partition",
+          summary:
+            "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
+          propertyType: "std/shortString",
         },
         {
           name: "user",
@@ -150,10 +150,12 @@ export function generateSengiServiceSignatures(
       `The body parameters for creating a new ${seedDocType.name} record.`,
     properties: [
       {
-        name: "partition",
-        summary:
-          "The name of the partition where the new document should be stored.",
-        propertyType: "std/shortString",
+        name: "doc",
+        summary: "The contents for the new document.",
+        propertyType: `${system}/new${
+          capitalizeFirstLetter(seedDocType.name)
+        }Template`,
+        isRequired: true,
       },
       {
         name: "fieldNames",
@@ -168,12 +170,10 @@ export function generateSengiServiceSignatures(
         isRequired: true,
       },
       {
-        name: "doc",
-        summary: "The contents for the new document.",
-        propertyType: `${system}/new${
-          capitalizeFirstLetter(seedDocType.name)
-        }Template`,
-        isRequired: true,
+        name: "partition",
+        summary:
+          "The name of the partition where the new document should be stored.",
+        propertyType: "std/shortString",
       },
       {
         name: "user",
@@ -206,6 +206,140 @@ export function generateSengiServiceSignatures(
     ],
   };
 
+  const patchRequestBody: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `patch${capitalizeFirstLetter(seedDocType.name)}RequestBody`,
+    summary: `The body parameters for patching a ${seedDocType.name} record.`,
+    properties: [
+      {
+        name: "fieldNames",
+        summary: "An array of field names to be included on the response.",
+        propertyType: "std/mediumString",
+        isArray: true,
+      },
+      {
+        name: "id",
+        summary: "The id to be assigned to the new document.",
+        propertyType: "std/uuid",
+        isRequired: true,
+      },
+      {
+        name: "operationId",
+        summary:
+          "The id for the operation.  This operation will only be applied once.",
+        propertyType: "std/uuid",
+      },
+      {
+        name: "partition",
+        summary:
+          "The name of the partition where the new document should be stored.",
+        propertyType: "std/shortString",
+      },
+      {
+        name: "patch",
+        summary: "The patch to be applied.",
+        propertyType: `${system}/new${
+          capitalizeFirstLetter(seedDocType.name)
+        }Patch`,
+        isRequired: true,
+      },
+      {
+        name: "user",
+        summary: "The user that is creating the new record.",
+        propertyType: `${system}/${userType}`,
+        isRequired: true,
+      },
+    ],
+  };
+
+  const patchRequestResponse: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `patch${capitalizeFirstLetter(seedDocType.name)}Response`,
+    summary: `A response that contains the patched record.`,
+    properties: [
+      {
+        name: "doc",
+        summary: "The updated record.",
+        propertyType: `${system}/${seedDocType.name}Record`,
+        isRequired: true,
+      },
+      {
+        name: "isUpdated",
+        summary:
+          "True if a document was updated, or false if the patch had already been applied.",
+        propertyType: "std/bool",
+        isRequired: true,
+      },
+    ],
+  };
+
+  const replaceRequestBody: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `new${capitalizeFirstLetter(seedDocType.name)}RequestBody`,
+    summary:
+      `The body parameters for creating a new ${seedDocType.name} record.`,
+    properties: [
+      {
+        name: "doc",
+        summary:
+          "The replacement doc that includes values for the system fields.",
+        propertyType: `${system}/new${
+          capitalizeFirstLetter(seedDocType.name)
+        }Replacement`,
+        isRequired: true,
+      },
+      {
+        name: "fieldNames",
+        summary: "An array of field names to be included on the response.",
+        propertyType: "std/mediumString",
+        isArray: true,
+      },
+      {
+        name: "id",
+        summary: "The id to be assigned to the new document.",
+        propertyType: "std/uuid",
+        isRequired: true,
+      },
+      {
+        name: "partition",
+        summary:
+          "The name of the partition where the new document should be stored.",
+        propertyType: "std/shortString",
+      },
+      {
+        name: "user",
+        summary: "The user that is creating the new record.",
+        propertyType: `${system}/${userType}`,
+        isRequired: true,
+      },
+    ],
+  };
+
+  const replaceRequestResponse: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `new${capitalizeFirstLetter(seedDocType.name)}Response`,
+    summary: `A response that contains the replaced record.`,
+    properties: [
+      {
+        name: "doc",
+        summary: "The newly replaced record.",
+        propertyType: `${system}/${seedDocType.name}Record`,
+        isRequired: true,
+      },
+      {
+        name: "isNew",
+        summary:
+          "True if a new document was created, or false if an existing document was replaced.",
+        propertyType: "std/bool",
+        isRequired: true,
+      },
+    ],
+  };
+
   return [
     selectAllRequestQuery,
     selectByIdsRequestQuery,
@@ -214,5 +348,11 @@ export function generateSengiServiceSignatures(
 
     newRequestBody,
     newRequestResponse,
+
+    patchRequestBody,
+    patchRequestResponse,
+
+    replaceRequestBody,
+    replaceRequestResponse,
   ];
 }
