@@ -149,7 +149,7 @@ export function generateSengiAdapterOperationsCode(
         id: props.body.id,
         operationId: props.getHeader("x-request-id") || crypto.randomUUID(),
         partition: props.body.partition || options.defaultPartition,
-        patch: props.body.patch,
+        patch: props.body.patch as unknown as DocPatch,
         reqProps: {},
         user: props.body.user,
       });
@@ -175,7 +175,7 @@ export function generateSengiAdapterOperationsCode(
     }Result> => {
         const result = await sengi.replaceDocument({
           apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
-          doc: props.body.doc,
+          doc: props.body.doc as unknown as DocRecord,,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
           fieldNames: props.body.fieldNames || ["id"],

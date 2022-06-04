@@ -17,15 +17,6 @@ export function generateSengiAdapterImportsCode(
       `${capitalizeFirstLetter(props.system)}${
         capitalizeFirstLetter(sdt.name)
       }Record`,
-      `${capitalizeFirstLetter(props.system)}${
-        capitalizeFirstLetter(sdt.name)
-      }Template`,
-      `${capitalizeFirstLetter(props.system)}${
-        capitalizeFirstLetter(sdt.name)
-      }Patch`,
-      `${capitalizeFirstLetter(props.system)}${
-        capitalizeFirstLetter(sdt.name)
-      }Replacement`,
     ])
     .flat()
     .join(", ");
@@ -63,7 +54,7 @@ export function generateSengiAdapterImportsCode(
 
   return `
     // deno-lint-ignore-file no-explicit-any
-    import { DocRecord, Sengi } from "${props.depsPath}"
+    import { DocPatch, DocRecord, Sengi } from "${props.depsPath}"
     import { ${importTypeNames} } from "${props.typesPath}"
     import { ${importServiceNames} } from "${props.servicesPath}"
   `;
