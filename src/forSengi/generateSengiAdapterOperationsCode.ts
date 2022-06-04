@@ -206,6 +206,10 @@ export function generateSengiAdapterOperationsCode(
     }Props): Promise<Replace${
       capitalizeFirstLetter(seedDocType.name)
     }Result> => {
+        if (props.id !== props.body.doc.id) {
+          throw new ServiceDocIdMismatchError()
+        }
+
         const result = await sengi.replaceDocument({
           apiKey: ensureApiKeyHeaderValue(props.getHeader("x-api-key")),
           doc: props.body.doc as unknown as DocRecord,

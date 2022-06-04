@@ -209,12 +209,6 @@ export function generateSengiServiceSignatures(
         isArray: true,
       },
       {
-        name: "id",
-        summary: "The id to be assigned to the new document.",
-        propertyType: "std/uuid",
-        isRequired: true,
-      },
-      {
         name: "partition",
         summary:
           "The name of the partition where the new document should be stored.",

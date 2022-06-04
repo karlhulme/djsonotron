@@ -27,6 +27,19 @@ export function generateSengiAdapterUtilityCode() {
   }
 
   /**
+   * Raised when an attempt is made to replace a document
+   * but the id in the request url does not match the id
+   * in the document.
+   */
+  export class ServiceDocIdMismatchError extends Error {
+    constructor() {
+      super("The id in the url does not match the id in the given document.");
+      Object.setPrototypeOf(this, new.target.prototype);
+      this.name = this.constructor.name;
+    }
+  }
+
+  /**
    * Raises an error if the given value is not a non-zero length string.
    */
   function ensureApiKeyHeaderValue (value: string|null): string {
