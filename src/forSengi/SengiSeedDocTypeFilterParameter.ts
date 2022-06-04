@@ -15,16 +15,16 @@ export interface SengiSeedDocTypeFilterParameter {
   /**
    * The fully qualified type of the parameter.
    */
-  type: string;
+  propertyType: string;
 
   /**
    * True if the field must be supplied, otherwise false.
    */
-  isRequired: boolean;
+  isRequired?: boolean;
 
   /**
    * If populated, this value will describe the field to use
    * instead of this one.
    */
-  isDeprecated: string;
+  isDeprecated?: string;
 }

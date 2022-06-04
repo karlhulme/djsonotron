@@ -163,7 +163,7 @@ export function generateSengiServiceSignatures(
         ...filter.parameters.map((filterParam) => ({
           name: filterParam.name,
           summary: filterParam.summary,
-          propertyType: filterParam.type,
+          propertyType: filterParam.propertyType,
           isRequired: filterParam.isRequired,
           isDeprecated: filterParam.isDeprecated,
         })),
