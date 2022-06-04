@@ -14,6 +14,51 @@ export function generateSengiServiceSignatures(
   seedDocType: SengiSeedDocType,
   userType: string,
 ) {
+  const selectRequestQuery: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `select${capitalizeFirstLetter(seedDocType.name)}RequestQuery`,
+    summary:
+      `The query parameters for requesting a ${seedDocType.name} record.`,
+    properties: [
+      {
+        name: "fieldNames",
+        summary:
+          "A comma-separated list of field names to be included on each record in the response.",
+        propertyType: "std/mediumString",
+        isRequired: true,
+      },
+      {
+        name: "partition",
+        summary:
+          "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
+        propertyType: "std/shortString",
+      },
+      {
+        name: "user",
+        summary:
+          "A JSON-stringified and url-encoded object that defines the user making the request.",
+        propertyType: `${system}/${userType}`,
+        isRequired: true,
+      },
+    ],
+  };
+
+  const selectSingularResponse: RecordTypeDef = {
+    kind: "record",
+    system: system,
+    name: `select${capitalizeFirstLetter(seedDocType.name)}Response`,
+    summary: `A response that contains a ${seedDocType.name} record.`,
+    properties: [
+      {
+        name: "doc",
+        summary: `A ${seedDocType.name} record.`,
+        propertyType: `${system}/${seedDocType.name}Record`,
+        isRequired: true,
+      },
+    ],
+  };
+
   const selectAllRequestQuery: RecordTypeDef = {
     kind: "record",
     system: system,
@@ -125,21 +170,6 @@ export function generateSengiServiceSignatures(
       ],
     }),
   );
-
-  const selectSingularResponse: RecordTypeDef = {
-    kind: "record",
-    system: system,
-    name: `select${capitalizeFirstLetter(seedDocType.name)}Response`,
-    summary: `A response that contains a ${seedDocType.name} record.`,
-    properties: [
-      {
-        name: "doc",
-        summary: `A ${seedDocType.name} record.`,
-        propertyType: `${system}/${seedDocType.name}Record`,
-        isRequired: true,
-      },
-    ],
-  };
 
   const selectPluralResponse: RecordTypeDef = {
     kind: "record",
@@ -340,10 +370,12 @@ export function generateSengiServiceSignatures(
   };
 
   return [
+    selectRequestQuery,
+    selectSingularResponse,
+
     selectAllRequestQuery,
     selectByIdsRequestQuery,
     ...selectByFilterRequestQueries,
-    selectSingularResponse,
     selectPluralResponse,
 
     newRequestBody,
