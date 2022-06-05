@@ -17,6 +17,15 @@ interface GenerateSengiAdapterImportsCodeProps {
 export function generateSengiAdapterImportsCode(
   props: GenerateSengiAdapterImportsCodeProps,
 ) {
+  const importsFromDeps: string[] = [
+    "DocTypeConstructorImplProps",
+    "DocTypeFilterParseProps",
+    "DocPatch",
+    "DocRecord",
+    "DocType",
+    "Sengi",
+  ];
+
   const importsFromTypesAutogen: string[] = [
     "ValidationError",
   ];
@@ -140,7 +149,12 @@ export function generateSengiAdapterImportsCode(
 
   return `
     // deno-lint-ignore-file no-explicit-any
-    import { DocPatch, DocRecord, DocType, DocTypeFilterParseProps, Sengi } from "${props.depsPath}"
+    ${
+    generateTypescriptImportLine(
+      importsFromDeps,
+      props.depsPath,
+    )
+  }
     ${
     generateTypescriptImportLine(
       importsFromTypesAutogen,

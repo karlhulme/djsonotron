@@ -1,5 +1,9 @@
 import { SengiSeedDocType } from "./SengiSeedDocType.ts";
-import { capitalizeFirstLetter } from "../utils/index.ts";
+import {
+  capitalizeFirstLetter,
+  getSystemFromTypeString,
+  getTypeFromTypeString,
+} from "../utils/index.ts";
 
 /**
  * Returns typescript code that creates an array of sengi doc types
@@ -26,6 +30,20 @@ export function generateSengiAdapterDocTypeCode(
       );
     }
 
+    for (const ctor of seedDocType.constructors) {
+      interfaceProps.push(
+        `${seedDocType.name}${
+          capitalizeFirstLetter(ctor.name)
+        }CtorImplementation: (
+          props: DocTypeConstructorImplProps<User, ${
+          capitalizeFirstLetter(getSystemFromTypeString(ctor.parametersType))
+        }${capitalizeFirstLetter(getTypeFromTypeString(ctor.parametersType))}>
+        ) => Omit<${capitalizeFirstLetter(system)}${
+          capitalizeFirstLetter(seedDocType.name)
+        }, "id" | "docType" | "docOpIds" | "docVersion">;`,
+      );
+    }
+
     interfaceProps.push(
       `${seedDocType.name}Definition?: Partial<DocType<${
         capitalizeFirstLetter(system)
@@ -38,13 +56,27 @@ export function generateSengiAdapterDocTypeCode(
       `{
         ...options.${seedDocType.name}Definition,
         name: "${seedDocType.name}",
-        pluralName: "${seedDocType.pluralName}",,
+        pluralName: "${seedDocType.pluralName}",
         title: "${seedDocType.title}",
         pluralTitle: "${seedDocType.pluralTitle}",
         summary:"${seedDocType.summary}",
         validateDoc: v(validate${capitalizeFirstLetter(system)}${
         capitalizeFirstLetter(seedDocType.name)
       }),
+        constructors: {
+          ${
+        seedDocType.constructors.map((ctor) => `
+            ${ctor.name}: {
+              implementation: options.${seedDocType.name}${
+          capitalizeFirstLetter(ctor.name)
+        }CtorImplementation,
+              validateParameters: v(validate${
+          capitalizeFirstLetter(getSystemFromTypeString(ctor.parametersType))
+        }${capitalizeFirstLetter(getTypeFromTypeString(ctor.parametersType))}),
+            }
+          `).join("\n, ")
+      }
+        },
         filters: {
           ${
         seedDocType.filters.map((filter) => `
