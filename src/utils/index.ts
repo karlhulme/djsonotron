@@ -1,6 +1,7 @@
 export * from "./capitalizeFirstLetter.ts";
 export * from "./convertServicePathToOakPath.ts";
 export * from "./convertServicePathToOpenApiPath.ts";
+export * from "./generateTypescriptImportLine.ts";
 export * from "./getJsonotronTypeFormalName.ts";
 export * from "./getJsonotronTypeValidationFuncName.ts";
 export * from "./getServicePathParameters.ts";

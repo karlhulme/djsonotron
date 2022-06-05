@@ -1,3 +1,4 @@
+export * from "./generateSengiAdapterDocTypeCode.ts";
 export * from "./generateSengiAdapterImportsCode.ts";
 export * from "./generateSengiAdapterOperationsCode.ts";
 export * from "./generateSengiAdapterUtilityCode.ts";

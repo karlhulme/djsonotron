@@ -1,6 +1,7 @@
 import { SengiSeedDocType } from "./SengiSeedDocType.ts";
 import {
   capitalizeFirstLetter,
+  generateTypescriptImportLine,
   getSystemFromTypeString,
   getTypeFromTypeString,
 } from "../utils/index.ts";
@@ -16,29 +17,59 @@ interface GenerateSengiAdapterImportsCodeProps {
 export function generateSengiAdapterImportsCode(
   props: GenerateSengiAdapterImportsCodeProps,
 ) {
-  const importSeedDocTypeInputOutputTypes = props.seedDocTypes
-    .map((sdt) => [
+  const importsFromTypesAutogen: string[] = [
+    "ValidationError",
+  ];
+
+  for (const sdt of props.seedDocTypes) {
+    // The native doc type
+    importsFromTypesAutogen.push(
+      `${capitalizeFirstLetter(props.system)}${
+        capitalizeFirstLetter(sdt.name)
+      }`,
+    );
+
+    // The native doc type validator
+    importsFromTypesAutogen.push(
+      `validate${capitalizeFirstLetter(props.system)}${
+        capitalizeFirstLetter(sdt.name)
+      }`,
+    );
+
+    // The ___Record variant of the doc type
+    importsFromTypesAutogen.push(
       `${capitalizeFirstLetter(props.system)}${
         capitalizeFirstLetter(sdt.name)
       }Record`,
-    ])
-    .flat();
+    );
 
-  const queryResultTypes = props.seedDocTypes
-    .map((sdt) => [
-      ...sdt.queries.map((query) =>
+    for (const query of sdt.queries) {
+      // The types used as a response to any query
+      importsFromTypesAutogen.push(
         `${capitalizeFirstLetter(getSystemFromTypeString(query.resultType))}${
           capitalizeFirstLetter(getTypeFromTypeString(query.resultType))
-        }`
-      ),
-    ])
-    .flat();
+        }`,
+      );
+    }
 
-  const externalTypes = importSeedDocTypeInputOutputTypes.concat(
-    queryResultTypes,
-  ).join(", ");
+    for (const filter of sdt.filters) {
+      // The types used by a filter
+      importsFromTypesAutogen.push(
+        `${capitalizeFirstLetter(props.system)}${
+          capitalizeFirstLetter(getTypeFromTypeString(filter.name))
+        }`,
+      );
 
-  const importServiceInputOutputTypes = props.seedDocTypes
+      // The validator used by a filter
+      importsFromTypesAutogen.push(
+        `validate${capitalizeFirstLetter(props.system)}${
+          capitalizeFirstLetter(getTypeFromTypeString(filter.name))
+        }`,
+      );
+    }
+  }
+
+  const importsFromServiceAutogen = props.seedDocTypes
     .map((sdt) => [
       `Select${capitalizeFirstLetter(sdt.name)}Props`,
       `Select${capitalizeFirstLetter(sdt.name)}Result`,
@@ -105,13 +136,22 @@ export function generateSengiAdapterImportsCode(
         }Result`
       )),
     ])
-    .flat()
-    .join(", ");
+    .flat();
 
   return `
     // deno-lint-ignore-file no-explicit-any
-    import { DocPatch, DocRecord, Sengi } from "${props.depsPath}"
-    import { ${externalTypes} } from "${props.typesPath}"
-    import { ${importServiceInputOutputTypes} } from "${props.servicesPath}"
+    import { DocPatch, DocRecord, DocType, DocTypeFilterParseProps, Sengi } from "${props.depsPath}"
+    ${
+    generateTypescriptImportLine(
+      importsFromTypesAutogen,
+      props.typesPath,
+    )
+  }
+    ${
+    generateTypescriptImportLine(
+      importsFromServiceAutogen,
+      props.servicesPath,
+    )
+  }
   `;
 }

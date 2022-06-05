@@ -58,6 +58,24 @@ export function generateSengiAdapterUtilityCode() {
      * The partition to use when a partition is not supplied with a request.
      */  
     defaultPartition: string
-  }  
+  }
+
+  /**
+   * Returns a function that takes a document, validates it using the given
+   * validator, and if said validator yields one validation error or more,
+   * then the validation errors are stringified.
+   * @param validator A validator function that returns an array of valiation errors.
+   */
+  export function v(
+    validator: (value: unknown, valueDisplayPath: string) => ValidationError[],
+  ): (doc: unknown) => string | void {
+    return function (doc: unknown): string | void {
+      const errors = validator(doc, "doc");
+
+      if (errors.length > 0) {
+        return JSON.stringify(errors, null, 2);
+      }
+    };
+  }
   `;
 }
