@@ -20,6 +20,7 @@ export function generateSengiAdapterImportsCode(
   const importsFromDeps: string[] = [
     "DocTypeConstructorImplProps",
     "DocTypeFilterParseProps",
+    "DocTypeOperationImplProps",
     "DocPatch",
     "DocRecord",
     "DocType",
@@ -81,6 +82,22 @@ export function generateSengiAdapterImportsCode(
         `validate${capitalizeFirstLetter(props.system)}${
           capitalizeFirstLetter(getTypeFromTypeString(filter.name))
         }Filter`,
+      );
+    }
+
+    for (const op of sdt.operations) {
+      // The parameters to an operation
+      importsFromTypesAutogen.push(
+        `${capitalizeFirstLetter(getSystemFromTypeString(op.parametersType))}${
+          capitalizeFirstLetter(getTypeFromTypeString(op.parametersType))
+        }`,
+      );
+
+      // The validator used on parameters to an operation
+      importsFromTypesAutogen.push(
+        `validate${
+          capitalizeFirstLetter(getSystemFromTypeString(op.parametersType))
+        }${capitalizeFirstLetter(getTypeFromTypeString(op.parametersType))}`,
       );
     }
 

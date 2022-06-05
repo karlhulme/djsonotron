@@ -20,16 +20,6 @@ export function generateSengiAdapterDocTypeCode(
   const docTypeDefs: string[] = [];
 
   for (const seedDocType of seedDocTypes) {
-    for (const filter of seedDocType.filters) {
-      interfaceProps.push(
-        `${seedDocType.name}${capitalizeFirstLetter(filter.name)}FilterParse: (
-          props: DocTypeFilterParseProps<User, ${
-          capitalizeFirstLetter(system)
-        }${capitalizeFirstLetter(filter.name)}Filter>
-        ) => Filter;`,
-      );
-    }
-
     for (const ctor of seedDocType.constructors) {
       interfaceProps.push(
         `${seedDocType.name}${
@@ -41,6 +31,28 @@ export function generateSengiAdapterDocTypeCode(
         ) => Omit<${capitalizeFirstLetter(system)}${
           capitalizeFirstLetter(seedDocType.name)
         }, "id" | "docType" | "docOpIds" | "docVersion" | "docCreatedByUserId" | "docCreatedMillisecondsSinceEpoch" | "docLastUpdatedByUserId" | "docLastUpdatedMillisecondsSinceEpoch">;`,
+      );
+    }
+
+    for (const filter of seedDocType.filters) {
+      interfaceProps.push(
+        `${seedDocType.name}${capitalizeFirstLetter(filter.name)}FilterParse: (
+          props: DocTypeFilterParseProps<User, ${
+          capitalizeFirstLetter(system)
+        }${capitalizeFirstLetter(filter.name)}Filter>
+        ) => Filter;`,
+      );
+    }
+
+    for (const op of seedDocType.operations) {
+      interfaceProps.push(
+        `${seedDocType.name}${capitalizeFirstLetter(op.name)}OpImplementation: (
+          props: DocTypeOperationImplProps<${capitalizeFirstLetter(system)}${
+          capitalizeFirstLetter(seedDocType.name)
+        }, User, ${
+          capitalizeFirstLetter(getSystemFromTypeString(op.parametersType))
+        }${capitalizeFirstLetter(getTypeFromTypeString(op.parametersType))}>
+        ) => void;`,
       );
     }
 
@@ -87,6 +99,20 @@ export function generateSengiAdapterDocTypeCode(
               validateParameters: v(validate${capitalizeFirstLetter(system)}${
           capitalizeFirstLetter(filter.name)
         }Filter),
+            }
+          `).join("\n, ")
+      }
+        },
+        operations: {
+          ${
+        seedDocType.operations.map((op) => `
+            ${op.name}: {
+              implementation: options.${seedDocType.name}${
+          capitalizeFirstLetter(op.name)
+        }OpImplementation,
+              validateParameters: v(validate${
+          capitalizeFirstLetter(getSystemFromTypeString(op.parametersType))
+        }${capitalizeFirstLetter(getTypeFromTypeString(op.parametersType))}),
             }
           `).join("\n, ")
       }
