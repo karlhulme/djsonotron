@@ -52,28 +52,44 @@ export function generateSengiAdapterImportsCode(
       }Record`,
     );
 
-    for (const query of sdt.queries) {
-      // The types used as a response to any query
+    for (const ctor of sdt.constructors) {
+      // The parameters to a constructor
       importsFromTypesAutogen.push(
-        `${capitalizeFirstLetter(getSystemFromTypeString(query.resultType))}${
-          capitalizeFirstLetter(getTypeFromTypeString(query.resultType))
-        }`,
+        `${
+          capitalizeFirstLetter(getSystemFromTypeString(ctor.parametersType))
+        }${capitalizeFirstLetter(getTypeFromTypeString(ctor.parametersType))}`,
+      );
+
+      // The validators used on parameters to a constructor
+      importsFromTypesAutogen.push(
+        `validate${
+          capitalizeFirstLetter(getSystemFromTypeString(ctor.parametersType))
+        }${capitalizeFirstLetter(getTypeFromTypeString(ctor.parametersType))}`,
       );
     }
 
     for (const filter of sdt.filters) {
-      // The types used by a filter
+      // The parameters to a filter
       importsFromTypesAutogen.push(
         `${capitalizeFirstLetter(props.system)}${
           capitalizeFirstLetter(getTypeFromTypeString(filter.name))
         }Filter`,
       );
 
-      // The validator used by a filter
+      // The validator used on parameters to a filter
       importsFromTypesAutogen.push(
         `validate${capitalizeFirstLetter(props.system)}${
           capitalizeFirstLetter(getTypeFromTypeString(filter.name))
         }Filter`,
+      );
+    }
+
+    for (const query of sdt.queries) {
+      // The types used as a response to any query
+      importsFromTypesAutogen.push(
+        `${capitalizeFirstLetter(getSystemFromTypeString(query.resultType))}${
+          capitalizeFirstLetter(getTypeFromTypeString(query.resultType))
+        }`,
       );
     }
   }
