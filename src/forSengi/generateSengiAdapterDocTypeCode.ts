@@ -20,13 +20,17 @@ export function generateSengiAdapterDocTypeCode(
         `${seedDocType.name}${capitalizeFirstLetter(filter.name)}FilterParse: (
           props: DocTypeFilterParseProps<User, ${
           capitalizeFirstLetter(system)
-        }${capitalizeFirstLetter(filter.name)}}Filter>
+        }${capitalizeFirstLetter(filter.name)}Filter>
         ) => Filter;`,
       );
     }
 
     interfaceProps.push(
-      `${seedDocType.name}Definition?: Partial<DocType<${system}${seedDocType.name}, DocStoreOptions, User, Filter, Query>>;`,
+      `${seedDocType.name}Definition?: Partial<DocType<${
+        capitalizeFirstLetter(system)
+      }${
+        capitalizeFirstLetter(seedDocType.name)
+      }, DocStoreOptions, User, Filter, Query>>;`,
     );
   }
 

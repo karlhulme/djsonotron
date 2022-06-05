@@ -57,14 +57,14 @@ export function generateSengiAdapterImportsCode(
       importsFromTypesAutogen.push(
         `${capitalizeFirstLetter(props.system)}${
           capitalizeFirstLetter(getTypeFromTypeString(filter.name))
-        }`,
+        }Filter`,
       );
 
       // The validator used by a filter
       importsFromTypesAutogen.push(
         `validate${capitalizeFirstLetter(props.system)}${
           capitalizeFirstLetter(getTypeFromTypeString(filter.name))
-        }`,
+        }Filter`,
       );
     }
   }
