@@ -40,7 +40,7 @@ export function generateSengiAdapterDocTypeCode(
         }${capitalizeFirstLetter(getTypeFromTypeString(ctor.parametersType))}>
         ) => Omit<${capitalizeFirstLetter(system)}${
           capitalizeFirstLetter(seedDocType.name)
-        }, "id" | "docType" | "docOpIds" | "docVersion">;`,
+        }, "id" | "docType" | "docOpIds" | "docVersion" | "docCreatedByUserId" | "docCreatedMillisecondsSinceEpoch" | "docLastUpdatedByUserId" | "docLastUpdatedMillisecondsSinceEpoch">;`,
       );
     }
 
