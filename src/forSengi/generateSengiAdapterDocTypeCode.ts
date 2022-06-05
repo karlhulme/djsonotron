@@ -13,6 +13,7 @@ export function generateSengiAdapterDocTypeCode(
   seedDocTypes: SengiSeedDocType[],
 ) {
   const interfaceProps: string[] = [];
+  const docTypeDefs: string[] = [];
 
   for (const seedDocType of seedDocTypes) {
     for (const filter of seedDocType.filters) {
@@ -32,11 +33,48 @@ export function generateSengiAdapterDocTypeCode(
         capitalizeFirstLetter(seedDocType.name)
       }, DocStoreOptions, User, Filter, Query>>;`,
     );
+
+    docTypeDefs.push(
+      `{
+        ...options.${seedDocType.name}Definition,
+        name: "${seedDocType.name}",
+        pluralName: "${seedDocType.pluralName}",,
+        title: "${seedDocType.title}",
+        pluralTitle: "${seedDocType.pluralTitle}",
+        summary:"${seedDocType.summary}",
+        validateDoc: v(validate${capitalizeFirstLetter(system)}${
+        capitalizeFirstLetter(seedDocType.name)
+      }),
+        filters: {
+          ${
+        seedDocType.filters.map((filter) => `
+            ${filter.name}: {
+              parse: options.${seedDocType.name}${
+          capitalizeFirstLetter(filter.name)
+        }FilterParse,
+              validateParameters: v(validate${capitalizeFirstLetter(system)}${
+          capitalizeFirstLetter(filter.name)
+        }Filter),
+            }
+          `).join("\n, ")
+      }
+        },
+      }`,
+    );
   }
 
   return `
     interface CreateDocTypesOptions<DocStoreOptions, User, Filter, Query> {
       ${interfaceProps.join("\n")}
     }
+
+    export function createDocTypes<DocStoreOptions, User, Filter, Query>(
+      options: CreateDocTypesOptions<DocStoreOptions, User, Filter, Query>,
+    ): DocType<any, DocStoreOptions, User, Filter, Query>[] {
+      return [
+        ${docTypeDefs.join("\n")}
+      ];
+    }
+    
   `;
 }
