@@ -52,7 +52,14 @@ export function generateSengiAdapterDocTypeCode(
         }, User, ${
           capitalizeFirstLetter(getSystemFromTypeString(op.parametersType))
         }${capitalizeFirstLetter(getTypeFromTypeString(op.parametersType))}>
-        ) => void;`,
+        ) => void;
+        ${seedDocType.name}${capitalizeFirstLetter(op.name)}OpAuthorise?: (
+          props: DocTypeOperationAuthProps<${capitalizeFirstLetter(system)}${
+          capitalizeFirstLetter(seedDocType.name)
+        }, User, ${
+          capitalizeFirstLetter(getSystemFromTypeString(op.parametersType))
+        }${capitalizeFirstLetter(getTypeFromTypeString(op.parametersType))}>
+        ) => string|undefined;`,
       );
     }
 

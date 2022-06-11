@@ -19,6 +19,7 @@ export function generateSengiAdapterImportsCode(
 ) {
   const importsFromDeps: string[] = [
     "DocTypeConstructorImplProps",
+    "DocTypeOperationAuthProps",
     "DocTypeFilterParseProps",
     "DocTypeOperationImplProps",
     "DocPatch",
