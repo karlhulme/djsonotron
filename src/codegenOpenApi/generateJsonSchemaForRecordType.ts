@@ -1,8 +1,11 @@
 import { JsonotronTypeDef, RecordTypeDef } from "../interfaces/index.ts";
-import { capitalizeFirstLetter, getJsonotronTypeFormalName, resolveJsonotronType } from "../utils/index.ts";
+import {
+  capitalizeFirstLetter,
+  getJsonotronTypeFormalName,
+  resolveJsonotronType,
+} from "../utils/index.ts";
 import { generateJsonSchemaPropertyForRecordTypeProperty } from "./generateJsonSchemaPropertyForRecordTypeProperty.ts";
 import { generateDescriptionText } from "./generateDescriptionText.ts";
-
 
 export function generateJsonSchemaForRecordType(
   recordType: RecordTypeDef,
@@ -26,8 +29,10 @@ export function generateJsonSchemaForRecordType(
           ),
           deprecated: recordProp.deprecated ? true : undefined,
           items: {
-            $ref: `#/components/schemas/${getJsonotronTypeFormalName(recordPropType)}`,
-          }
+            $ref: `#/components/schemas/${
+              getJsonotronTypeFormalName(recordPropType)
+            }`,
+          },
         };
       } else {
         objectProperties[recordProp.name] =
