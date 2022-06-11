@@ -1,5 +1,5 @@
 import { JsonotronTypeDef, RecordTypeDef } from "../interfaces/index.ts";
-import { resolveJsonotronType } from "../utils/index.ts";
+import { capitalizeFirstLetter, resolveJsonotronType } from "../utils/index.ts";
 import { generateJsonSchemaPropertyForRecordTypeProperty } from "./generateJsonSchemaPropertyForRecordTypeProperty.ts";
 import { generateDescriptionText } from "./generateDescriptionText.ts";
 
@@ -16,7 +16,7 @@ export function generateJsonSchemaForRecordType(
       if (recordProp.isArray) {
         objectProperties[recordProp.name] = {
           type: "array",
-          title: recordPropType.summary,
+          title: `An array of ${capitalizeFirstLetter(recordPropType.system)}${capitalizeFirstLetter(recordPropType.name)} values.`,
           description: generateDescriptionText(
             recordProp.summary,
             recordProp.deprecated,

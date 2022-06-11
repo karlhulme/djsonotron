@@ -6,7 +6,7 @@ export function generateJsonSchemaForEnumType(
 ): Record<string, unknown> {
   return {
     type: "string",
-    title: `One of the ${enumType.name} values.`,
+    title: "One of the enum values.",
     description: generateDescriptionText(enumType.summary, enumType.deprecated),
     deprecated: enumType.deprecated ? true : undefined,
     enum: enumType.items.map((item) => item.value),
