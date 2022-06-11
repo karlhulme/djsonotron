@@ -22,6 +22,7 @@ export function generateSengiAdapterImportsCode(
     "DocTypeOperationAuthProps",
     "DocTypeFilterParseProps",
     "DocTypeOperationImplProps",
+    "DocTypeQueryParseProps",
     "DocPatch",
     "DocRecord",
     "DocType",
@@ -103,6 +104,20 @@ export function generateSengiAdapterImportsCode(
     }
 
     for (const query of sdt.queries) {
+      // The parameters to a query
+      importsFromTypesAutogen.push(
+        `${capitalizeFirstLetter(props.system)}${
+          capitalizeFirstLetter(getTypeFromTypeString(query.name))
+        }Query`,
+      );
+
+      // The validator used on parameters to a query
+      importsFromTypesAutogen.push(
+        `validate${capitalizeFirstLetter(props.system)}${
+          capitalizeFirstLetter(getTypeFromTypeString(query.name))
+        }Query`,
+      );
+
       // The types used as a response to any query
       importsFromTypesAutogen.push(
         `${capitalizeFirstLetter(getSystemFromTypeString(query.resultType))}${

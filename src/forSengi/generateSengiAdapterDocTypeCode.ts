@@ -71,7 +71,7 @@ export function generateSengiAdapterDocTypeCode(
         }Query>
         ) => Query;
         ${seedDocType.name}${capitalizeFirstLetter(query.name)}QueryCoerce: (
-          queryResult: unknown>
+          queryResult: unknown
         ) => ${
           capitalizeFirstLetter(getSystemFromTypeString(query.resultType))
         }${capitalizeFirstLetter(getTypeFromTypeString(query.resultType))};`,
