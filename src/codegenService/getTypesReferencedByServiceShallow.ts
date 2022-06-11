@@ -1,4 +1,8 @@
-import { JsonotronTypeDef, Service } from "../interfaces/index.ts";
+import {
+  JsonotronTypeDef,
+  Service,
+  ServicePathOperation,
+} from "../interfaces/index.ts";
 import {
   getServicePathParameters,
   resolveJsonotronType,
@@ -16,75 +20,23 @@ export function getTypesReferencedByServiceShallow(
     }
 
     if (path.delete) {
-      if (path.delete.requestBodyType) {
-        typeNames.push(path.delete.requestBodyType);
-      }
-
-      // Query types are expressed as a series of top level parameters
-      // so we don't need it to appear as a separate schema.
-      // if (path.delete.requestQueryType) {
-      //   typeNames.push(path.delete.requestQueryType);
-      // }
-
-      if (path.delete.responseBodyType) {
-        typeNames.push(path.delete.responseBodyType);
-      }
+      appendTypesReferencedByServicePathOperation(path.delete, typeNames);
     }
 
     if (path.get) {
-      if (path.get.requestBodyType) {
-        typeNames.push(path.get.requestBodyType);
-      }
-
-      if (path.get.requestQueryType) {
-        typeNames.push(path.get.requestQueryType);
-      }
-
-      if (path.get.responseBodyType) {
-        typeNames.push(path.get.responseBodyType);
-      }
+      appendTypesReferencedByServicePathOperation(path.get, typeNames);
     }
 
     if (path.patch) {
-      if (path.patch.requestBodyType) {
-        typeNames.push(path.patch.requestBodyType);
-      }
-
-      if (path.patch.requestQueryType) {
-        typeNames.push(path.patch.requestQueryType);
-      }
-
-      if (path.patch.responseBodyType) {
-        typeNames.push(path.patch.responseBodyType);
-      }
+      appendTypesReferencedByServicePathOperation(path.patch, typeNames);
     }
 
     if (path.post) {
-      if (path.post.requestBodyType) {
-        typeNames.push(path.post.requestBodyType);
-      }
-
-      if (path.post.requestQueryType) {
-        typeNames.push(path.post.requestQueryType);
-      }
-
-      if (path.post.responseBodyType) {
-        typeNames.push(path.post.responseBodyType);
-      }
+      appendTypesReferencedByServicePathOperation(path.post, typeNames);
     }
 
     if (path.put) {
-      if (path.put.requestBodyType) {
-        typeNames.push(path.put.requestBodyType);
-      }
-
-      if (path.put.requestQueryType) {
-        typeNames.push(path.put.requestQueryType);
-      }
-
-      if (path.put.responseBodyType) {
-        typeNames.push(path.put.responseBodyType);
-      }
+      appendTypesReferencedByServicePathOperation(path.put, typeNames);
     }
   }
 
@@ -99,4 +51,41 @@ export function getTypesReferencedByServiceShallow(
   }
 
   return referencedTypes;
+}
+
+function appendTypesReferencedByServicePathOperation(
+  op: ServicePathOperation,
+  typeNames: string[],
+) {
+  if (op.requestBodyType) {
+    typeNames.push(op.requestBodyType);
+  }
+
+  // Query types are expressed as a series of top level parameters
+  // so we don't need to import it directly.
+  // if (op.requestQueryType) {
+  //   typeNames.push(op.requestQueryType);
+  // }
+
+  if (op.responseBodyType) {
+    typeNames.push(op.responseBodyType);
+  }
+
+  if (Array.isArray(op.requestHeaders)) {
+    for (const header of op.requestHeaders) {
+      typeNames.push(header.headerType);
+    }
+  }
+
+  if (Array.isArray(op.requestCookies)) {
+    for (const cookie of op.requestCookies) {
+      typeNames.push(cookie.cookieType);
+    }
+  }
+
+  if (Array.isArray(op.responseHeaders)) {
+    for (const header of op.responseHeaders) {
+      typeNames.push(header.headerType);
+    }
+  }
 }

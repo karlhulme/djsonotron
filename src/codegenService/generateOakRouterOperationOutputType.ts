@@ -46,20 +46,25 @@ export function generateOakRouterOperationOutputType(
     }
   }
 
-  const resultInterface = `
-  export interface ${capitalizeFirstLetter(op.operationName)}Result {
-    ${
-    resBodySystem && resBodyType
-      ? `body: ${capitalizeFirstLetter(resBodySystem)}${
-        capitalizeFirstLetter(resBodyType)
-      }`
-      : ""
-  }
-    ${headerPropertyDeclarations.join("\n    ")}
-  }
-  `;
+  if (
+    op.responseBodyType ||
+    (Array.isArray(op.responseHeaders) && op.responseHeaders.length > 0)
+  ) {
+    const resultInterface = `
+    export interface ${capitalizeFirstLetter(op.operationName)}Result {
+      ${
+      resBodySystem && resBodyType
+        ? `body: ${capitalizeFirstLetter(resBodySystem)}${
+          capitalizeFirstLetter(resBodyType)
+        }`
+        : ""
+    }
+      ${headerPropertyDeclarations.join("\n    ")}
+    }
+    `;
 
-  declarations.push(resultInterface);
+    declarations.push(resultInterface);
+  }
 
   return declarations;
 }
