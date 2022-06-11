@@ -6,37 +6,44 @@ import { getJsonotronTypeFormalName } from "../utils/index.ts";
 import { generateDescriptionText } from "./generateDescriptionText.ts";
 
 export function generateJsonSchemaPropertyForRecordTypeProperty(
-  recordTypeDefProp: RecordTypeDefProperty,
-  type: JsonotronTypeDef,
+  recordProp: RecordTypeDefProperty,
+  recordPropType: JsonotronTypeDef,
+  includeDocumentationProps: boolean,
 ) {
-  const commonProps = {
-    title: type.summary,
-    description: generateDescriptionText(
-      recordTypeDefProp.summary,
-      recordTypeDefProp.deprecated,
-    ),
-    deprecated: recordTypeDefProp.deprecated ? true : undefined,
-  };
+  const documentationProps = includeDocumentationProps
+    ? {
+      title: recordPropType.summary,
+      description: generateDescriptionText(
+        recordProp.summary,
+        recordProp.deprecated,
+      ),
+      deprecated: recordProp.deprecated ? true : undefined,
+    }
+    : {};
 
-  if (type.kind === "bool") {
+  if (recordPropType.kind === "bool") {
     return {
       type: "boolean",
-      ...commonProps,
+      ...documentationProps,
     };
-  } else if (type.kind === "enum" || type.kind === "record") {
+  } else if (
+    recordPropType.kind === "enum" || recordPropType.kind === "record"
+  ) {
     return {
-      $ref: `#/components/schemas/${getJsonotronTypeFormalName(type)}`,
-      ...commonProps,
+      $ref: `#/components/schemas/${
+        getJsonotronTypeFormalName(recordPropType)
+      }`,
+      ...documentationProps,
     };
-  } else if (type.kind === "float" || type.kind === "int") {
+  } else if (recordPropType.kind === "float" || recordPropType.kind === "int") {
     return {
       type: "number",
-      ...commonProps,
+      ...documentationProps,
     };
-  } else if (type.kind === "string") {
+  } else if (recordPropType.kind === "string") {
     return {
       type: "string",
-      ...commonProps,
+      ...documentationProps,
     };
   } else {
     return {};
