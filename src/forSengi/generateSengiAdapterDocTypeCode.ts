@@ -66,9 +66,9 @@ export function generateSengiAdapterDocTypeCode(
     for (const query of seedDocType.queries) {
       interfaceProps.push(
         `${seedDocType.name}${capitalizeFirstLetter(query.name)}QueryParse: (
-          props: DocTypeQueryParseProps<User, ${
-          capitalizeFirstLetter(system)
-        }${capitalizeFirstLetter(query.name)}Query>
+          props: DocTypeQueryParseProps<User, ${capitalizeFirstLetter(system)}${
+          capitalizeFirstLetter(query.name)
+        }Query>
         ) => Query;
         ${seedDocType.name}${capitalizeFirstLetter(query.name)}QueryCoerce: (
           queryResult: unknown>
@@ -157,7 +157,9 @@ export function generateSengiAdapterDocTypeCode(
         }QueryCoerce,
               validateResponse: v(validate${
           capitalizeFirstLetter(getSystemFromTypeString(query.resultType))
-        }${capitalizeFirstLetter(getTypeFromTypeString(query.resultType))}),            }
+        }${
+          capitalizeFirstLetter(getTypeFromTypeString(query.resultType))
+        }),            }
           `).join("\n, ")
       }
         },
