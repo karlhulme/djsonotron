@@ -26,6 +26,7 @@ export function generateJsonSchemaPropertyForRecordTypeProperty(
   } else if (type.kind === "enum" || type.kind === "record") {
     return {
       $ref: `#/components/schemas/${getJsonotronTypeFormalName(type)}`,
+      ...commonProps,
     };
   } else if (type.kind === "float" || type.kind === "int") {
     return {
