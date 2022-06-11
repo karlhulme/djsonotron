@@ -14,6 +14,9 @@ const exampleOpenApi: OpenApiSpec = {
         in: "path",
         name: "id",
         required: true,
+        schema: {
+          type: "string",
+        },
       }],
       get: {
         operationId: "getSomething",
@@ -22,10 +25,16 @@ const exampleOpenApi: OpenApiSpec = {
           in: "query",
           name: "foo",
           required: true,
+          schema: {
+            type: "string",
+          },
         }, {
           in: "query",
           name: "bar",
           required: false,
+          schema: {
+            type: "string",
+          },
         }],
         responses: {},
       },

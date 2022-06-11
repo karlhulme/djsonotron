@@ -5,6 +5,7 @@ import {
   ServicePathOperation,
 } from "../interfaces/index.ts";
 import {
+  capitalizeFirstLetter,
   convertServicePathToOakPath,
   getJsonotronTypeFormalName,
   getJsonotronTypeValidationFuncName,
@@ -217,13 +218,99 @@ export function generateOakRouterOperation(
     },`;
   }
 
+  const headerParameters: string[] = [];
+
+  if (Array.isArray(op.requestHeaders)) {
+    for (const header of op.requestHeaders) {
+      const headerVar = `header${capitalizeFirstLetter(header.name)}`;
+      const headerType = resolveJsonotronType(header.headerType, types);
+
+      if (!headerType) {
+        throw new Error(
+          `Unable to resolve header type ${header.headerType} for header ${header.httpName}.`,
+        );
+      }
+
+      lines.push(`
+        const ${headerVar} = safeJsonParse(ctx.request.headers.get(${header.httpName}))
+      `);
+
+      if (header.required) {
+        lines.push(`
+          if (typeof ${headerVar} === null) {
+            throw new ServiceInputValidationError("Validation of request failed.  Missing required header ${header.httpName}.)
+          }
+        `);
+      }
+
+      lines.push(`
+        if (typeof ${headerVar} !== null) {
+          const headerValidationErrors = ${
+        getJsonotronTypeValidationFuncName(headerType)
+      }(${headerVar}, "header.${header.httpName}");
+      
+          if (headerValidationErrors.length > 0) {
+            throw new ServiceInputValidationError("Validation of request header failed.", {
+              validationErrors: headerValidationErrors
+            })
+          }
+        }
+      `);
+
+      headerParameters.push(`${header.name}: ${headerVar}`);
+    }
+  }
+
+  const cookieParameters: string[] = [];
+
+  if (Array.isArray(op.requestCookies)) {
+    for (const cookies of op.requestCookies) {
+      const cookieVar = `cookie${capitalizeFirstLetter(cookies.name)}`;
+      const cookieType = resolveJsonotronType(cookies.cookieType, types);
+
+      if (!cookieType) {
+        throw new Error(
+          `Unable to resolve header type ${cookies.cookieType} for header ${cookies.name}.`,
+        );
+      }
+
+      lines.push(`
+        const ${cookieVar} = safeJsonParse(ctx.cookies.get(${cookies.name}))
+      `);
+
+      if (cookies.required) {
+        lines.push(`
+          if (typeof ${cookieVar} === null) {
+            throw new ServiceInputValidationError("Validation of request failed.  Missing required cookie ${cookies.name}.)
+          }
+        `);
+      }
+
+      lines.push(`
+        if (typeof ${cookieVar} !== null) {
+          const cookieValidationErrors = ${
+        getJsonotronTypeValidationFuncName(cookieType)
+      }(${cookieVar}, "cookies.${cookies.name}");
+      
+          if (cookieValidationErrors.length > 0) {
+            throw new ServiceInputValidationError("Validation of request cookie failed.", {
+              validationErrors: cookieValidationErrors
+            })
+          }
+        }
+      `);
+
+      cookieParameters.push(`${cookies.name}: ${cookieVar}`);
+    }
+  }
+
   lines.push(`
     const result = await props.${op.operationName}({
       ${urlParamInvocationParameters.join("\n")}
       ${queryInvocationParameter}
       ${bodyInvocationParameter}
-      getHeader: (name: string) => ctx.request.headers.get(name),
-      getCookie: (name: string) => ctx.cookies.get(name),
+      ${headerParameters.join("\n")}
+      ${cookieParameters.join("\n")}
     });
   `);
 
@@ -265,14 +352,18 @@ export function generateOakRouterOperation(
     `);
   }
 
-  lines.push(`
-    for (const header of result.headers) {
-      ctx.response.headers.append(
-        header.name.toLowerCase(),
-        header.value,
-      );
+  if (Array.isArray(op.responseHeaders)) {
+    for (const header of op.responseHeaders) {
+      lines.push(`
+        if (result.${header.name}) {
+          ctx.response.headers.append(
+            ${header.httpName.toLowerCase()},
+            result.${header.name}
+          );
+        }
+      `);
     }
-  `);
+  }
 
   lines.push("})");
 

@@ -47,7 +47,7 @@ function generateOperation(op: OpenApiSpecPathOperation) {
     op.requestBody.$ref.startsWith("#/components/requestBodies/");
 
   const bodyType = hasRefBody
-    ? op.requestBody?.$ref.replace("#/components/requestBodies/", "") as string
+    ? op.requestBody?.$ref?.replace("#/components/requestBodies/", "") as string
     : "";
 
   if (bodyType) {

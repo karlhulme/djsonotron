@@ -13,35 +13,45 @@ export function generateOakRouterOperationInputOutputTypes(
       declarations.push(
         ...generateOakRouterOperationInputType(path, path.delete, types),
       );
-      declarations.push(...generateOakRouterOperationOutputType(path.delete));
+      declarations.push(
+        ...generateOakRouterOperationOutputType(path, path.delete, types),
+      );
     }
 
     if (path.get) {
       declarations.push(
         ...generateOakRouterOperationInputType(path, path.get, types),
       );
-      declarations.push(...generateOakRouterOperationOutputType(path.get));
+      declarations.push(
+        ...generateOakRouterOperationOutputType(path, path.get, types),
+      );
     }
 
     if (path.patch) {
       declarations.push(
         ...generateOakRouterOperationInputType(path, path.patch, types),
       );
-      declarations.push(...generateOakRouterOperationOutputType(path.patch));
+      declarations.push(
+        ...generateOakRouterOperationOutputType(path, path.patch, types),
+      );
     }
 
     if (path.post) {
       declarations.push(
         ...generateOakRouterOperationInputType(path, path.post, types),
       );
-      declarations.push(...generateOakRouterOperationOutputType(path.post));
+      declarations.push(
+        ...generateOakRouterOperationOutputType(path, path.post, types),
+      );
     }
 
     if (path.put) {
       declarations.push(
         ...generateOakRouterOperationInputType(path, path.put, types),
       );
-      declarations.push(...generateOakRouterOperationOutputType(path.put));
+      declarations.push(
+        ...generateOakRouterOperationOutputType(path, path.put, types),
+      );
     }
   }
 

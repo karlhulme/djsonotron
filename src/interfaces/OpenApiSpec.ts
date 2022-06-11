@@ -35,6 +35,7 @@ export interface OpenApiSpecParameter {
   description?: string;
   required: boolean;
   deprecated?: boolean;
+  schema: OpenApiSpecSchema;
 }
 
 export interface OpenApiSpecPathOperation {
@@ -44,24 +45,36 @@ export interface OpenApiSpecPathOperation {
   tags: string[];
   operationId: string;
   parameters: OpenApiSpecParameter[];
-  requestBody?: OpenApiSpecReference;
+  requestBody?: OpenApiSpecSchema;
   responses: Record<string, OpenApiSpecPathResponse>;
 }
 
 export interface OpenApiSpecPathResponse {
   description: string;
   content?: Record<string, OpenApiSpecPathResponseContent>;
+  headers?: Record<string, OpenApiSpecPathResponseHeader>;
 }
 
 export interface OpenApiSpecPathResponseContent {
-  schema: OpenApiSpecReference;
-}
-
-export interface OpenApiSpecReference {
-  "$ref": string;
+  schema: OpenApiSpecSchema;
 }
 
 export interface OpenApiSpecComponents {
   requestBodies: Record<string, unknown>;
   schemas: Record<string, unknown>;
+}
+
+export interface OpenApiSpecPathResponseHeader {
+  description: string;
+  deprecated?: boolean;
+  schema: OpenApiSpecSchema;
+  required?: boolean;
+}
+
+export interface OpenApiSpecSchema {
+  type?: string;
+  title?: string;
+  description?: string;
+  deprecated?: boolean;
+  "$ref"?: string;
 }

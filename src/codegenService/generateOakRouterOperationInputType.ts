@@ -5,6 +5,7 @@ import {
 } from "../interfaces/index.ts";
 import {
   capitalizeFirstLetter,
+  getJsonotronTypeUnderlyingTypescriptType,
   getServicePathParameters,
   getSystemFromTypeString,
   getTypeFromTypeString,
@@ -64,13 +65,50 @@ export function generateOakRouterOperationInputType(
     }`
     : "";
 
+  const headerPropertyDeclarations: string[] = [];
+
+  if (Array.isArray(op.requestHeaders)) {
+    for (const header of op.requestHeaders) {
+      const headerType = resolveJsonotronType(header.headerType, types);
+
+      if (!headerType) {
+        throw new Error(
+          `Unable to resolve type ${header.headerType} for header ${header.name} on path ${path.relativeUrl}.`,
+        );
+      }
+
+      headerPropertyDeclarations.push(
+        `${header.name}${header.required ? "" : "?"}: ${
+          getJsonotronTypeUnderlyingTypescriptType(headerType)
+        }`,
+      );
+    }
+  }
+
+  if (Array.isArray(op.requestCookies)) {
+    for (const cookie of op.requestCookies) {
+      const cookieType = resolveJsonotronType(cookie.cookieType, types);
+
+      if (!cookieType) {
+        throw new Error(
+          `Unable to resolve type ${cookie.cookieType} for cookie ${cookie.name} on path ${path.relativeUrl}.`,
+        );
+      }
+
+      headerPropertyDeclarations.push(
+        `${cookie.name}${cookie.required ? "" : "?"}: ${
+          getJsonotronTypeUnderlyingTypescriptType(cookieType)
+        }`,
+      );
+    }
+  }
+
   const propsInterface = `
   export interface ${capitalizeFirstLetter(op.operationName)}Props {
     ${pathParamDeclarations.join("\n    ")}
     ${queryPropertyDeclaration}
     ${bodyPropertyDeclaration}
-    getHeader: (name: string) => string|null
-    getCookie: (name: string) => Promise<string|undefined>
+    ${headerPropertyDeclarations.join("\n    ")}
   } 
   `;
 

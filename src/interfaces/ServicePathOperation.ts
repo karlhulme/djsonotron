@@ -1,3 +1,7 @@
+import { ServicePathOperationCookie } from "./ServicePathOperationCookie.ts";
+import { ServicePathOperationHeader } from "./ServicePathOperationHeader.ts";
+import { ServicePathOperationResponseHeader } from "./ServicePathOperationResponseHeader.ts";
+
 /**
  * Describes an operation that can be invoked on a service path.
  */
@@ -25,11 +29,14 @@ export interface ServicePathOperation {
   tags: string[];
 
   /**
-   * The fully-qualified type of the request body.
-   * This will typically be supplied for POST and PUT requests but
-   * undefined for GET requests.
+   * An array of headers that can be passed with the request.
    */
-  requestBodyType?: string;
+  requestHeaders?: ServicePathOperationHeader[];
+
+  /**
+   * An array of cookies that can be passed with the request.
+   */
+  requestCookies?: ServicePathOperationCookie[];
 
   /**
    * The fully-qualified type that describes the operations
@@ -38,6 +45,19 @@ export interface ServicePathOperation {
    * undefined for POST and PUT requests.
    */
   requestQueryType?: string;
+
+  /**
+   * The fully-qualified type of the request body.
+   * This will typically be supplied for POST and PUT requests but
+   * undefined for GET requests.
+   */
+  requestBodyType?: string;
+
+  /**
+   * An array of headers that may be returned.  This may include
+   * a Set-Cookie header if a cookie is to be set on the caller.
+   */
+  responseHeaders?: ServicePathOperationResponseHeader[];
 
   /**
    * The fully-qualified type of the response if successful.

@@ -3,7 +3,8 @@ import { capitalizeFirstLetter } from "./capitalizeFirstLetter.ts";
 
 /**
  * Returns the fully-qualified and capitalised name of
- * the given Jsonotron record type.
+ * the given Jsonotron type.  This is generally only useful
+ * for record and enum kinds.
  * @param type A jsonotron type.
  */
 export function getJsonotronTypeFormalName(type: JsonotronTypeDef) {

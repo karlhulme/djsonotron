@@ -1,12 +1,10 @@
-import {
-  JsonotronTypeDef,
-  RecordTypeDefProperty,
-} from "../interfaces/index.ts";
+import { JsonotronTypeDef } from "../interfaces/index.ts";
 import { getJsonotronTypeFormalName } from "../utils/index.ts";
 import { generateDescriptionText } from "./generateDescriptionText.ts";
 
-export function generateJsonSchemaPropertyForRecordTypeProperty(
-  recordProp: RecordTypeDefProperty,
+export function generateJsonSchemaPropertyForJsonotronProperty(
+  summary: string,
+  deprecated: string | undefined,
   recordPropType: JsonotronTypeDef,
   includeDocumentationProps: boolean,
 ) {
@@ -14,10 +12,10 @@ export function generateJsonSchemaPropertyForRecordTypeProperty(
     ? {
       title: recordPropType.summary,
       description: generateDescriptionText(
-        recordProp.summary,
-        recordProp.deprecated,
+        summary,
+        deprecated,
       ),
-      deprecated: recordProp.deprecated ? true : undefined,
+      deprecated: deprecated ? true : undefined,
     }
     : {};
 
