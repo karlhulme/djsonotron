@@ -1,6 +1,7 @@
 import {
   JsonotronTypeDef,
   OpenApiSpecPathOperation,
+  OpenApiSpecPathResponse,
   RecordTypeDef,
   ServicePathOperation,
 } from "../interfaces/index.ts";
@@ -31,6 +32,11 @@ export function generateOpenApiServicePathOperation(
     ? resolveJsonotronType(op.responseBodyType, types)
     : null;
 
+  const responseCodes = op.responseCodes || [{
+    code: 200,
+    title: "Success",
+  }];
+
   return {
     operationId: op.operationName,
     summary: generateDescriptionText(op.summary, op.deprecation),
@@ -54,10 +60,10 @@ export function generateOpenApiServicePathOperation(
           : p.summary,
       }))
       : [],
-    responses: {
-      "2XX": resBodyType
+    responses: responseCodes.reduce((responses, responseCode) => {
+      responses[responseCode.code.toString()] = resBodyType
         ? {
-          description: "Success",
+          description: responseCode.title,
           content: {
             "application/json": {
               schema: {
@@ -69,8 +75,10 @@ export function generateOpenApiServicePathOperation(
           },
         }
         : {
-          description: "Success",
-        },
-    },
+          description: responseCode.title,
+        };
+
+      return responses;
+    }, {} as Record<string, OpenApiSpecPathResponse>),
   };
 }
