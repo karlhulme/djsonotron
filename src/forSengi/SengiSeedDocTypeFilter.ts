@@ -15,6 +15,12 @@ export interface SengiSeedDocTypeFilter {
   summary: string;
 
   /**
+   * If populated, this filter should no longer be used, and the property
+   * will describe what to do instead.
+   */
+  deprecation?: string;
+
+  /**
    * An array of parameter fields.
    */
   parameters: SengiSeedDocTypeFilterParameter[];

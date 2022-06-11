@@ -13,6 +13,12 @@ export interface SengiSeedDocTypeOperation {
   summary: string;
 
   /**
+   * If populated, this operation should no longer be used, and the property
+   * will describe what to do instead.
+   */
+  deprecation?: string;
+
+  /**
    * The fully qualified type of the parameters record object.
    */
   parametersType: string;

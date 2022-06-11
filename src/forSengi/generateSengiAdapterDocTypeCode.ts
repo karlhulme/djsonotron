@@ -78,9 +78,7 @@ export function generateSengiAdapterDocTypeCode(
         ${seedDocType.name}${
           capitalizeFirstLetter(query.name)
         }QueryAuthorise?: (
-          props: DocTypeQueryAuthProps<${capitalizeFirstLetter(system)}${
-          capitalizeFirstLetter(seedDocType.name)
-        }, User, ${capitalizeFirstLetter(system)}${
+          props: DocTypeQueryAuthProps<User, ${capitalizeFirstLetter(system)}${
           capitalizeFirstLetter(query.name)
         }Query>
         ) => string|undefined;
@@ -117,6 +115,8 @@ export function generateSengiAdapterDocTypeCode(
               validateParameters: v(validate${
           capitalizeFirstLetter(getSystemFromTypeString(ctor.parametersType))
         }${capitalizeFirstLetter(getTypeFromTypeString(ctor.parametersType))}),
+              summary: ctor.summary,
+              deprecation: ctor.deprecation,
             }
           `).join("\n, ")
       }
@@ -131,6 +131,8 @@ export function generateSengiAdapterDocTypeCode(
               validateParameters: v(validate${capitalizeFirstLetter(system)}${
           capitalizeFirstLetter(filter.name)
         }Filter),
+              summary: ctor.summary,
+              deprecation: ctor.deprecation,
             }
           `).join("\n, ")
       }
@@ -148,6 +150,8 @@ export function generateSengiAdapterDocTypeCode(
               authorise: options.${seedDocType.name}${
           capitalizeFirstLetter(op.name)
         }OpAuthorise,
+              summary: ctor.summary,
+              deprecation: ctor.deprecation,
             }
           `).join("\n, ")
       }
@@ -171,6 +175,8 @@ export function generateSengiAdapterDocTypeCode(
               authorise: options.${seedDocType.name}${
           capitalizeFirstLetter(query.name)
         }QueryAuthorise,
+              summary: ctor.summary,
+              deprecation: ctor.deprecation,
             }
           `).join("\n, ")
       }
