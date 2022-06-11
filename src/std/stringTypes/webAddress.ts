@@ -5,7 +5,7 @@ export const webAddress: StringTypeDef = {
   kind: "string",
   system: stdSystemName,
   name: "webAddress",
-  summary: `A url that is prefixed with either https or https.`,
+  summary: `A url that is prefixed with either http or https.`,
   maximumLength: 2048,
   regex: "^http[s]?://[a-zA-Z0-9@:%._+~#=.?&/*()-]+$",
   validTestCases: [{

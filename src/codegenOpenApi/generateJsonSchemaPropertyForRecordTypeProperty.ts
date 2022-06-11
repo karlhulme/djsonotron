@@ -9,9 +9,9 @@ export function generateJsonSchemaPropertyForRecordTypeProperty(
   type: JsonotronTypeDef,
 ) {
   const commonProps = {
-    title: recordTypeDefProp.summary,
-    description: type.summary,
-    deprecated: Boolean(recordTypeDefProp.deprecated),
+    title: type.summary,
+    description: recordTypeDefProp.summary,
+    deprecated: recordTypeDefProp.deprecated,
   };
 
   if (type.kind === "bool") {

@@ -15,8 +15,8 @@ export function generateJsonSchemaForRecordType(
       if (recordProp.isArray) {
         objectProperties[recordProp.name] = {
           type: "array",
-          title: recordProp.summary,
-          description: recordType.summary,
+          title: recordPropType.summary,
+          description: recordProp.summary,
           deprecated: recordProp.deprecated,
           items: generateJsonSchemaPropertyForRecordTypeProperty(
             recordProp,
