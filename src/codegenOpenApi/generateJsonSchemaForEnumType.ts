@@ -1,4 +1,5 @@
 import { EnumTypeDef } from "../interfaces/index.ts";
+import { generateDescriptionText } from "./generateDescriptionText.ts";
 
 export function generateJsonSchemaForEnumType(
   enumType: EnumTypeDef,
@@ -6,8 +7,8 @@ export function generateJsonSchemaForEnumType(
   return {
     type: "string",
     title: `One of the ${enumType.name} values.`,
-    description: enumType.summary,
-    deprecated: enumType.deprecated,
+    description: generateDescriptionText(enumType.summary, enumType.deprecated),
+    deprecated: enumType.deprecated ? enumType.deprecated : undefined,
     enum: enumType.items.map((item) => item.value),
   };
 }

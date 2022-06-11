@@ -3,6 +3,7 @@ import {
   RecordTypeDefProperty,
 } from "../interfaces/index.ts";
 import { getJsonotronTypeFormalName } from "../utils/index.ts";
+import { generateDescriptionText } from "./generateDescriptionText.ts";
 
 export function generateJsonSchemaPropertyForRecordTypeProperty(
   recordTypeDefProp: RecordTypeDefProperty,
@@ -10,8 +11,13 @@ export function generateJsonSchemaPropertyForRecordTypeProperty(
 ) {
   const commonProps = {
     title: type.summary,
-    description: recordTypeDefProp.summary,
-    deprecated: recordTypeDefProp.deprecated,
+    description: generateDescriptionText(
+      recordTypeDefProp.summary,
+      recordTypeDefProp.deprecated,
+    ),
+    deprecated: recordTypeDefProp.deprecated
+      ? recordTypeDefProp.deprecated
+      : undefined,
   };
 
   if (type.kind === "bool") {

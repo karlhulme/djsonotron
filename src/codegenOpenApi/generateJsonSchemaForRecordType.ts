@@ -1,6 +1,7 @@
 import { JsonotronTypeDef, RecordTypeDef } from "../interfaces/index.ts";
 import { resolveJsonotronType } from "../utils/index.ts";
 import { generateJsonSchemaPropertyForRecordTypeProperty } from "./generateJsonSchemaPropertyForRecordTypeProperty.ts";
+import { generateDescriptionText } from "./generateDescriptionText.ts";
 
 export function generateJsonSchemaForRecordType(
   recordType: RecordTypeDef,
@@ -16,8 +17,11 @@ export function generateJsonSchemaForRecordType(
         objectProperties[recordProp.name] = {
           type: "array",
           title: recordPropType.summary,
-          description: recordProp.summary,
-          deprecated: recordProp.deprecated,
+          description: generateDescriptionText(
+            recordProp.summary,
+            recordProp.deprecated,
+          ),
+          deprecated: recordProp.deprecated ? recordProp.deprecated : undefined,
           items: generateJsonSchemaPropertyForRecordTypeProperty(
             recordProp,
             recordPropType,
