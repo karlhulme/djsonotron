@@ -80,19 +80,25 @@ function generateOperation(op: OpenApiSpecPathOperation) {
   );
   lines.push("  }");
 
+  // See if the is a 2XX response that we can build a response object for
+  let successCode = "2XX";
+
+  for (const possSuccessCode of [200, 201, 202, 203]) {
+    if (op.responses[possSuccessCode]) {
+      successCode = possSuccessCode.toString();
+    }
+  }
+
+  // See if the 2XX response refers to a type we can convert the JSON into.
+  const refType =
+    op.responses[successCode]?.content?.["application/json"].schema.$ref;
+
   // Should aways return an object, since this allows us to return the status code
   // and any headers (that are perhaps requested in the original request) as well
   // as the body of the response.
   if (
-    op.responses["2XX"] &&
-    typeof op.responses["2XX"].content === "object" &&
-    typeof op.responses["2XX"].content["application/json"] === "object" &&
-    typeof op.responses["2XX"].content["application/json"].schema ===
-      "object" &&
-    typeof op.responses["2XX"].content["application/json"].schema.$ref ===
-      "string"
+    refType
   ) {
-    const refType = op.responses["2XX"].content["application/json"].schema.$ref;
     const lastSepIndex = refType.lastIndexOf("/");
     const resultType = refType.slice(lastSepIndex + 1);
 

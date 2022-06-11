@@ -28,6 +28,7 @@ export function generateSengiServicePaths(
       responseBodyType: `${system}/select${
         capitalizeFirstLetter(seedDocType.pluralName)
       }Response`,
+      responseSuccessCode: 200,
     },
 
     post: {
@@ -40,6 +41,7 @@ export function generateSengiServicePaths(
       responseBodyType: `${system}/new${
         capitalizeFirstLetter(seedDocType.name)
       }Response`,
+      responseSuccessCode: 201,
     },
   };
 
@@ -57,6 +59,7 @@ export function generateSengiServicePaths(
       responseBodyType: `${system}/delete${
         capitalizeFirstLetter(seedDocType.name)
       }Response`,
+      responseSuccessCode: 204,
     },
 
     get: {
@@ -69,6 +72,7 @@ export function generateSengiServicePaths(
       responseBodyType: `${system}/select${
         capitalizeFirstLetter(seedDocType.name)
       }Response`,
+      responseSuccessCode: 200,
     },
 
     patch: {
@@ -81,6 +85,7 @@ export function generateSengiServicePaths(
       responseBodyType: `${system}/patch${
         capitalizeFirstLetter(seedDocType.name)
       }Response`,
+      responseSuccessCode: 200,
     },
 
     put: {
@@ -93,6 +98,7 @@ export function generateSengiServicePaths(
       responseBodyType: `${system}/replace${
         capitalizeFirstLetter(seedDocType.name)
       }Response`,
+      responseSuccessCode: 200,
     },
   };
 
@@ -112,6 +118,7 @@ export function generateSengiServicePaths(
       responseBodyType: `${system}/select${
         capitalizeFirstLetter(seedDocType.pluralName)
       }Response`,
+      responseSuccessCode: 200,
     },
   };
 
@@ -132,6 +139,7 @@ export function generateSengiServicePaths(
         responseBodyType: `${system}/select${
           capitalizeFirstLetter(seedDocType.pluralName)
         }Response`,
+        responseSuccessCode: 200,
       },
     }),
   );
@@ -153,6 +161,7 @@ export function generateSengiServicePaths(
         responseBodyType: `${system}/create${
           capitalizeFirstLetter(seedDocType.name)
         }Response`,
+        responseSuccessCode: 201,
       },
     }),
   );
@@ -175,6 +184,7 @@ export function generateSengiServicePaths(
         responseBodyType: `${system}/operateOn${
           capitalizeFirstLetter(seedDocType.name)
         }Response`,
+        responseSuccessCode: 200,
       },
     }),
   );
@@ -196,6 +206,7 @@ export function generateSengiServicePaths(
         responseBodyType: `${system}/query${
           capitalizeFirstLetter(seedDocType.pluralName)
         }${capitalizeFirstLetter(query.name)}Response`,
+        responseSuccessCode: 200,
       },
     }),
   );

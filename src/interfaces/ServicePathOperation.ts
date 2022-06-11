@@ -1,5 +1,3 @@
-import { ServicePathOperationResponseCode } from "./ServicePathOperationResponseCode.ts";
-
 /**
  * Describes an operation that can be invoked on a service path.
  */
@@ -47,8 +45,11 @@ export interface ServicePathOperation {
   responseBodyType?: string;
 
   /**
-   * The codes that the service may return if the call is successful.
-   * If omitted a return value of 200 Success will be assumed.
+   * The code that the service will return if the call is successful.
+   * We only support one success code, allowing callers to always
+   * deserialise a successful result in the same way.  An operation
+   * can use response headers to describe minor variations in the
+   * handling of the request.
    */
-  responseCodes?: ServicePathOperationResponseCode[];
+  responseSuccessCode: number;
 }

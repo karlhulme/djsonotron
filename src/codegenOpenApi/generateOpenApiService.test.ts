@@ -33,6 +33,7 @@ Deno.test("Generate an openapi service definition for a service with a path with
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",
+          responseSuccessCode: 200,
         },
         get: {
           operationName: "getExample",
@@ -41,6 +42,7 @@ Deno.test("Generate an openapi service definition for a service with a path with
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",
+          responseSuccessCode: 200,
         },
         patch: {
           operationName: "patchExample",
@@ -49,6 +51,7 @@ Deno.test("Generate an openapi service definition for a service with a path with
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",
+          responseSuccessCode: 200,
         },
         post: {
           operationName: "postExample",
@@ -57,6 +60,7 @@ Deno.test("Generate an openapi service definition for a service with a path with
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",
+          responseSuccessCode: 200,
         },
         put: {
           operationName: "putExample",
@@ -65,6 +69,7 @@ Deno.test("Generate an openapi service definition for a service with a path with
           requestBodyType: "test/exampleType",
           requestQueryType: "test/exampleType",
           responseBodyType: "test/exampleType",
+          responseSuccessCode: 200,
         },
       }],
     },
