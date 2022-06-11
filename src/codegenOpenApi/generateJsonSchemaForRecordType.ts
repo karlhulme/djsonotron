@@ -16,7 +16,9 @@ export function generateJsonSchemaForRecordType(
       if (recordProp.isArray) {
         objectProperties[recordProp.name] = {
           type: "array",
-          title: `An array of ${capitalizeFirstLetter(recordPropType.system)}${capitalizeFirstLetter(recordPropType.name)} values.`,
+          title: `An array of ${capitalizeFirstLetter(recordPropType.system)}${
+            capitalizeFirstLetter(recordPropType.name)
+          } values.`,
           description: generateDescriptionText(
             recordProp.summary,
             recordProp.deprecated,
