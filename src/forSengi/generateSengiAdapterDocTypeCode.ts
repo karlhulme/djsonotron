@@ -101,7 +101,7 @@ export function generateSengiAdapterDocTypeCode(
         pluralName: "${seedDocType.pluralName}",
         title: "${seedDocType.title}",
         pluralTitle: "${seedDocType.pluralTitle}",
-        summary:"${seedDocType.summary}",
+        summary: "${seedDocType.summary}",
         validateDoc: v(validate${capitalizeFirstLetter(system)}${
         capitalizeFirstLetter(seedDocType.name)
       }),
@@ -115,8 +115,8 @@ export function generateSengiAdapterDocTypeCode(
               validateParameters: v(validate${
           capitalizeFirstLetter(getSystemFromTypeString(ctor.parametersType))
         }${capitalizeFirstLetter(getTypeFromTypeString(ctor.parametersType))}),
-              summary: ctor.summary,
-              deprecation: ctor.deprecation,
+              summary: "${ctor.summary}",
+              ${ctor.deprecation ? `deprecation: "${ctor.deprecation}",` : ""}
             }
           `).join("\n, ")
       }
@@ -131,8 +131,10 @@ export function generateSengiAdapterDocTypeCode(
               validateParameters: v(validate${capitalizeFirstLetter(system)}${
           capitalizeFirstLetter(filter.name)
         }Filter),
-              summary: ctor.summary,
-              deprecation: ctor.deprecation,
+              summary: "${filter.summary}",
+              ${
+          filter.deprecation ? `deprecation: "${filter.deprecation}",` : ""
+        }
             }
           `).join("\n, ")
       }
@@ -150,8 +152,8 @@ export function generateSengiAdapterDocTypeCode(
               authorise: options.${seedDocType.name}${
           capitalizeFirstLetter(op.name)
         }OpAuthorise,
-              summary: ctor.summary,
-              deprecation: ctor.deprecation,
+              summary: "${op.summary}",
+              ${op.deprecation ? `deprecation: "${op.deprecation}",` : ""}
             }
           `).join("\n, ")
       }
@@ -175,8 +177,8 @@ export function generateSengiAdapterDocTypeCode(
               authorise: options.${seedDocType.name}${
           capitalizeFirstLetter(query.name)
         }QueryAuthorise,
-              summary: ctor.summary,
-              deprecation: ctor.deprecation,
+              summary: "${query.summary}",
+              ${query.deprecation ? `deprecation: "${query.deprecation}",` : ""}
             }
           `).join("\n, ")
       }
