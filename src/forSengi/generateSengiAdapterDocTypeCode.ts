@@ -71,10 +71,10 @@ export function generateSengiAdapterDocTypeCode(
         }${capitalizeFirstLetter(query.name)}Query>
         ) => Query;
         ${seedDocType.name}${capitalizeFirstLetter(query.name)}QueryCoerce: (
-          props: DocTypeQueryCoerceProps<User, ${
-            capitalizeFirstLetter(getSystemFromTypeString(query.resultType))
-          }${capitalizeFirstLetter(getTypeFromTypeString(query.resultType))}>
-        ) => Query;`,
+          queryResult: unknown>
+        ) => ${
+          capitalizeFirstLetter(getSystemFromTypeString(query.resultType))
+        }${capitalizeFirstLetter(getTypeFromTypeString(query.resultType))};`,
       );
     }
 
