@@ -123,8 +123,8 @@ export function generateSengiServicePaths(
         operationName: `select${capitalizeFirstLetter(seedDocType.pluralName)}${
           capitalizeFirstLetter(filter.name)
         }`,
-        summary:
-          `Retrieve ${seedDocType.name} records using the ${filter.name} filter.`,
+        summary: filter.summary,
+        deprecation: filter.deprecation,
         tags: [seedDocType.pluralTitle],
         requestQueryType: `${system}/select${
           capitalizeFirstLetter(seedDocType.pluralName)
@@ -144,8 +144,8 @@ export function generateSengiServicePaths(
         operationName: `create${capitalizeFirstLetter(seedDocType.name)}${
           capitalizeFirstLetter(ctor.name)
         }`,
-        summary:
-          `Create a new ${seedDocType.name} record using the ${ctor.name} specialised constructor.`,
+        summary: ctor.summary,
+        deprecation: ctor.deprecation,
         tags: [seedDocType.pluralTitle],
         requestBodyType: `${system}/create${
           capitalizeFirstLetter(seedDocType.name)
@@ -166,8 +166,8 @@ export function generateSengiServicePaths(
         operationName: `operateOn${capitalizeFirstLetter(seedDocType.name)}${
           capitalizeFirstLetter(op.name)
         }`,
-        summary:
-          `Operate on the ${seedDocType.name} record using the ${op.name} operator.`,
+        summary: op.summary,
+        deprecation: op.deprecation,
         tags: [seedDocType.pluralTitle],
         requestBodyType: `${system}/operateOn${
           capitalizeFirstLetter(seedDocType.name)
@@ -187,8 +187,8 @@ export function generateSengiServicePaths(
         operationName: `query${capitalizeFirstLetter(seedDocType.pluralName)}${
           capitalizeFirstLetter(query.name)
         }`,
-        summary:
-          `Perform a query on the ${seedDocType.name} records using the ${query.name} query.`,
+        summary: query.summary,
+        deprecation: query.deprecation,
         tags: [seedDocType.pluralTitle],
         requestQueryType: `${system}/query${
           capitalizeFirstLetter(seedDocType.pluralName)

@@ -8,6 +8,13 @@ export interface ServicePathOperation {
   summary: string;
 
   /**
+   * If populated, this field indicates that the operation is
+   * deprecated and provides information about end-points to
+   * use instead.
+   */
+  deprecation?: string;
+
+  /**
    * The name of the operation that can be used in code.
    */
   operationName: string;

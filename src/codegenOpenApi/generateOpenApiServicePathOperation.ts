@@ -9,6 +9,7 @@ import {
   getJsonotronTypeFormalName,
   resolveJsonotronType,
 } from "../utils/index.ts";
+import { generateDescriptionText } from "./generateDescriptionText.ts";
 
 export function generateOpenApiServicePathOperation(
   op: ServicePathOperation,
@@ -32,7 +33,8 @@ export function generateOpenApiServicePathOperation(
 
   return {
     operationId: op.operationName,
-    summary: op.summary,
+    summary: generateDescriptionText(op.summary, op.deprecation),
+    deprecated: op.deprecation ? true : undefined,
     tags: op.tags || [],
     requestBody: reqBodyName
       ? {

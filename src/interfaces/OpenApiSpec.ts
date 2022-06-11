@@ -40,6 +40,7 @@ export interface OpenApiSpecParameter {
 export interface OpenApiSpecPathOperation {
   summary?: string;
   description?: string;
+  deprecated?: boolean;
   tags: string[];
   operationId: string;
   parameters: OpenApiSpecParameter[];
