@@ -8,6 +8,7 @@ import {
   capitalizeFirstLetter,
   convertServicePathToOakPath,
   getJsonotronTypeFormalName,
+  getJsonotronTypeUnderlyingTypescriptType,
   getJsonotronTypeValidationFuncName,
   getServicePathParameters,
   resolveJsonotronType,
@@ -231,20 +232,24 @@ export function generateOakRouterOperation(
         );
       }
 
+      const headerUnderlyingType = getJsonotronTypeUnderlyingTypescriptType(
+        headerType,
+      );
+
       lines.push(`
-        const ${headerVar} = safeJsonParse(ctx.request.headers.get(${header.httpName}))
+        const ${headerVar} = safeJsonParse(ctx.request.headers.get("${header.name}") || "")
       `);
 
       if (header.required) {
         lines.push(`
-          if (typeof ${headerVar} === null) {
+          if (${headerVar} === null) {
             throw new ServiceInputValidationError("Validation of request failed.  Missing required header ${header.httpName}.)
           }
         `);
       }
 
       lines.push(`
-        if (typeof ${headerVar} !== null) {
+        if (${headerVar} !== null) {
           const headerValidationErrors = ${
         getJsonotronTypeValidationFuncName(headerType)
       }(${headerVar}, "header.${header.httpName}");
@@ -257,7 +262,9 @@ export function generateOakRouterOperation(
         }
       `);
 
-      headerParameters.push(`${header.name}: ${headerVar}`);
+      headerParameters.push(
+        `${header.name}: ${headerVar} as ${headerUnderlyingType}`,
+      );
     }
   }
 
@@ -274,20 +281,24 @@ export function generateOakRouterOperation(
         );
       }
 
+      const cookieUnderlyingType = getJsonotronTypeUnderlyingTypescriptType(
+        cookieType,
+      );
+
       lines.push(`
-        const ${cookieVar} = safeJsonParse(ctx.cookies.get(${cookies.name}))
+        const ${cookieVar} = safeJsonParse(ctx.cookies.get("${cookies.name}") || "")
       `);
 
       if (cookies.required) {
         lines.push(`
-          if (typeof ${cookieVar} === null) {
+          if (${cookieVar} === null) {
             throw new ServiceInputValidationError("Validation of request failed.  Missing required cookie ${cookies.name}.)
           }
         `);
       }
 
       lines.push(`
-        if (typeof ${cookieVar} !== null) {
+        if (${cookieVar} !== null) {
           const cookieValidationErrors = ${
         getJsonotronTypeValidationFuncName(cookieType)
       }(${cookieVar}, "cookies.${cookies.name}");
@@ -300,12 +311,17 @@ export function generateOakRouterOperation(
         }
       `);
 
-      cookieParameters.push(`${cookies.name}: ${cookieVar}`);
+      cookieParameters.push(
+        `${cookies.name}: ${cookieVar} as ${cookieUnderlyingType}`,
+      );
     }
   }
 
+  const resultRequired = op.responseBodyType ||
+    (Array.isArray(op.responseHeaders) && op.responseHeaders.length > 0);
+
   lines.push(`
-    const result = await props.${op.operationName}({
+    ${resultRequired ? "const result = " : ""} await props.${op.operationName}({
       ${urlParamInvocationParameters.join("\n")}
       ${queryInvocationParameter}
       ${bodyInvocationParameter}
@@ -314,56 +330,58 @@ export function generateOakRouterOperation(
     });
   `);
 
-  if (op.responseBodyType) {
-    const resultTypeDef = resolveJsonotronType(op.responseBodyType, types);
+  if (resultRequired) {
+    if (op.responseBodyType) {
+      const resultTypeDef = resolveJsonotronType(op.responseBodyType, types);
 
-    if (!resultTypeDef) {
-      throw new Error(
-        `Result type ${op.responseBodyType} used for ${method} operation
-        of "${path.relativeUrl}" could not be resolved.`,
-      );
-    }
-
-    if (resultTypeDef.kind !== "record") {
-      throw new Error(
-        `Result type ${op.responseBodyType} used for ${method} operation of "${path.relativeUrl}" must be a record.`,
-      );
-    }
-
-    lines.push(`
-      const resultValidationErrors = ${
-      getJsonotronTypeValidationFuncName(resultTypeDef)
-    }(
-        result.body,
-        "result",
-      );
-
-      if (resultValidationErrors.length > 0) {
-        throw new ServiceOutputValidationError("Validation of response body failed.", {
-          validationErrors: resultValidationErrors
-        })
+      if (!resultTypeDef) {
+        throw new Error(
+          `Result type ${op.responseBodyType} used for ${method} operation
+          of "${path.relativeUrl}" could not be resolved.`,
+        );
       }
 
-      ctx.response.body = result.body;
-    `);
-  } else {
-    lines.push(`
-      ctx.response.status = 200;
-    `);
-  }
+      if (resultTypeDef.kind !== "record") {
+        throw new Error(
+          `Result type ${op.responseBodyType} used for ${method} operation of "${path.relativeUrl}" must be a record.`,
+        );
+      }
 
-  if (Array.isArray(op.responseHeaders)) {
-    for (const header of op.responseHeaders) {
       lines.push(`
-        if (result.${header.name}) {
-          ctx.response.headers.append(
-            ${header.httpName.toLowerCase()},
-            result.${header.name}
-          );
+        const resultValidationErrors = ${
+        getJsonotronTypeValidationFuncName(resultTypeDef)
+      }(
+          result.body,
+          "result",
+        );
+
+        if (resultValidationErrors.length > 0) {
+          throw new ServiceOutputValidationError("Validation of response body failed.", {
+            validationErrors: resultValidationErrors
+          })
         }
+
+        ctx.response.body = result.body;
       `);
     }
+
+    if (Array.isArray(op.responseHeaders)) {
+      for (const header of op.responseHeaders) {
+        lines.push(`
+          if (result.${header.name}) {
+            ctx.response.headers.append(
+              ${header.httpName.toLowerCase()},
+              result.${header.name}
+            );
+          }
+        `);
+      }
+    }
   }
+
+  lines.push(`
+    ctx.response.status = ${op.responseSuccessCode};
+  `);
 
   lines.push("})");
 
