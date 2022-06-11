@@ -74,7 +74,15 @@ export function generateSengiAdapterDocTypeCode(
           queryResult: unknown
         ) => ${
           capitalizeFirstLetter(getSystemFromTypeString(query.resultType))
-        }${capitalizeFirstLetter(getTypeFromTypeString(query.resultType))};`,
+        }${capitalizeFirstLetter(getTypeFromTypeString(query.resultType))};
+        ${seedDocType.name}${capitalizeFirstLetter(query.name)}QueryAuthorise?: (
+          props: DocTypeQueryAuthProps<${capitalizeFirstLetter(system)}${
+          capitalizeFirstLetter(seedDocType.name)
+        }, User, ${
+          capitalizeFirstLetter(system)
+        }${capitalizeFirstLetter(query.name)}Query>
+        ) => string|undefined;
+        `,
       );
     }
 
@@ -159,7 +167,11 @@ export function generateSengiAdapterDocTypeCode(
           capitalizeFirstLetter(getSystemFromTypeString(query.resultType))
         }${
           capitalizeFirstLetter(getTypeFromTypeString(query.resultType))
-        }),            }
+        }),
+              authorise: options.${seedDocType.name}${
+          capitalizeFirstLetter(query.name)
+        }QueryAuthorise,
+            }
           `).join("\n, ")
       }
         },

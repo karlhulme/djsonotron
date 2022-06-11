@@ -23,6 +23,7 @@ export function generateSengiAdapterImportsCode(
     "DocTypeFilterParseProps",
     "DocTypeOperationImplProps",
     "DocTypeQueryParseProps",
+    "DocTypeQueryAuthProps",
     "DocPatch",
     "DocRecord",
     "DocType",
