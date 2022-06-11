@@ -1,6 +1,6 @@
 import { JsonotronTypeDef, RecordTypeDef } from "../interfaces/index.ts";
 import { resolveJsonotronType } from "../utils/index.ts";
-import { determineJsonSchemaTypeForJsonotronType } from "./determineJsonSchemaTypeForJsonotronType.ts";
+import { generateJsonSchemaPropertyForRecordTypeProperty } from "./generateJsonSchemaPropertyForRecordTypeProperty.ts";
 
 export function generateJsonSchemaForRecordType(
   recordType: RecordTypeDef,
@@ -15,11 +15,20 @@ export function generateJsonSchemaForRecordType(
       if (recordProp.isArray) {
         objectProperties[recordProp.name] = {
           type: "array",
-          items: determineJsonSchemaTypeForJsonotronType(recordPropType),
+          title: recordProp.summary,
+          description: recordType.summary,
+          deprecated: recordProp.deprecated,
+          items: generateJsonSchemaPropertyForRecordTypeProperty(
+            recordProp,
+            recordPropType,
+          ),
         };
       } else {
         objectProperties[recordProp.name] =
-          determineJsonSchemaTypeForJsonotronType(recordPropType);
+          generateJsonSchemaPropertyForRecordTypeProperty(
+            recordProp,
+            recordPropType,
+          );
       }
     }
   }
