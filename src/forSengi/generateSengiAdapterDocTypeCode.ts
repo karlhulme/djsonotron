@@ -63,6 +63,21 @@ export function generateSengiAdapterDocTypeCode(
       );
     }
 
+    for (const query of seedDocType.queries) {
+      interfaceProps.push(
+        `${seedDocType.name}${capitalizeFirstLetter(query.name)}QueryParse: (
+          props: DocTypeQueryParseProps<User, ${
+          capitalizeFirstLetter(system)
+        }${capitalizeFirstLetter(query.name)}Query>
+        ) => Query;
+        ${seedDocType.name}${capitalizeFirstLetter(query.name)}QueryCoerce: (
+          props: DocTypeQueryCoerceProps<User, ${
+            capitalizeFirstLetter(getSystemFromTypeString(query.resultType))
+          }${capitalizeFirstLetter(getTypeFromTypeString(query.resultType))}>
+        ) => Query;`,
+      );
+    }
+
     interfaceProps.push(
       `${seedDocType.name}Definition?: Partial<DocType<${
         capitalizeFirstLetter(system)
@@ -120,7 +135,29 @@ export function generateSengiAdapterDocTypeCode(
               validateParameters: v(validate${
           capitalizeFirstLetter(getSystemFromTypeString(op.parametersType))
         }${capitalizeFirstLetter(getTypeFromTypeString(op.parametersType))}),
+              authorise: options.${seedDocType.name}${
+          capitalizeFirstLetter(op.name)
+        }OpAuthorise,
             }
+          `).join("\n, ")
+      }
+        },
+        queries: {
+          ${
+        seedDocType.queries.map((query) => `
+            ${query.name}: {
+              parse: options.${seedDocType.name}${
+          capitalizeFirstLetter(query.name)
+        }QueryParse,
+              validateParameters: v(validate${capitalizeFirstLetter(system)}${
+          capitalizeFirstLetter(query.name)
+        }Query),
+              coerce: options.${seedDocType.name}${
+          capitalizeFirstLetter(query.name)
+        }QueryCoerce,
+              validateResponse: v(validate${
+          capitalizeFirstLetter(getSystemFromTypeString(query.resultType))
+        }${capitalizeFirstLetter(getTypeFromTypeString(query.resultType))}),            }
           `).join("\n, ")
       }
         },
@@ -140,6 +177,5 @@ export function generateSengiAdapterDocTypeCode(
         ${docTypeDefs.join("\n")}
       ];
     }
-    
   `;
 }
