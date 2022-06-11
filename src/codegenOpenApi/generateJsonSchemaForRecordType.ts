@@ -21,7 +21,7 @@ export function generateJsonSchemaForRecordType(
             recordProp.summary,
             recordProp.deprecated,
           ),
-          deprecated: recordProp.deprecated ? recordProp.deprecated : undefined,
+          deprecated: recordProp.deprecated ? true : undefined,
           items: generateJsonSchemaPropertyForRecordTypeProperty(
             recordProp,
             recordPropType,

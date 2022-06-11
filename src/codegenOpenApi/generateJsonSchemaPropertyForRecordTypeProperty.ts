@@ -15,9 +15,7 @@ export function generateJsonSchemaPropertyForRecordTypeProperty(
       recordTypeDefProp.summary,
       recordTypeDefProp.deprecated,
     ),
-    deprecated: recordTypeDefProp.deprecated
-      ? recordTypeDefProp.deprecated
-      : undefined,
+    deprecated: recordTypeDefProp.deprecated ? true : undefined,
   };
 
   if (type.kind === "bool") {

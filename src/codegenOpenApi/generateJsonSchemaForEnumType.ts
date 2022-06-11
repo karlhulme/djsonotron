@@ -8,7 +8,7 @@ export function generateJsonSchemaForEnumType(
     type: "string",
     title: `One of the ${enumType.name} values.`,
     description: generateDescriptionText(enumType.summary, enumType.deprecated),
-    deprecated: enumType.deprecated ? enumType.deprecated : undefined,
+    deprecated: enumType.deprecated ? true : undefined,
     enum: enumType.items.map((item) => item.value),
   };
 }
