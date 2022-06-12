@@ -28,19 +28,6 @@ export function generateSengiServiceSignatureRecords(
         propertyType: "std/mediumString",
         isRequired: true,
       },
-      {
-        name: "partition",
-        summary:
-          "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
-        propertyType: "std/shortString",
-      },
-      {
-        name: "user",
-        summary:
-          "A JSON-stringified and url-encoded object that defines the user making the request.",
-        propertyType: `${system}/${userType}`,
-        isRequired: true,
-      },
     ],
   };
 
@@ -75,19 +62,6 @@ export function generateSengiServiceSignatureRecords(
         propertyType: "std/mediumString",
         isRequired: true,
       },
-      {
-        name: "partition",
-        summary:
-          "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
-        propertyType: "std/shortString",
-      },
-      {
-        name: "user",
-        summary:
-          "A JSON-stringified and url-encoded object that defines the user making the request.",
-        propertyType: `${system}/${userType}`,
-        isRequired: true,
-      },
     ],
   };
 
@@ -114,19 +88,6 @@ export function generateSengiServiceSignatureRecords(
         propertyType: "std/longString",
         isRequired: true,
       },
-      {
-        name: "partition",
-        summary:
-          "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
-        propertyType: "std/shortString",
-      },
-      {
-        name: "user",
-        summary:
-          "A JSON-stringified and url-encoded object that defines the user making the request.",
-        propertyType: `${system}/${userType}`,
-        isRequired: true,
-      },
     ],
   };
 
@@ -145,19 +106,6 @@ export function generateSengiServiceSignatureRecords(
           summary:
             "A comma-separated list of field names to be included on each record in the response.",
           propertyType: "std/longString",
-          isRequired: true,
-        },
-        {
-          name: "partition",
-          summary:
-            "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
-          propertyType: "std/shortString",
-        },
-        {
-          name: "user",
-          summary:
-            "A JSON-stringified and url-encoded object that defines the user making the request.",
-          propertyType: `${system}/${userType}`,
           isRequired: true,
         },
         ...filter.parameters.map((filterParam) => ({
@@ -208,18 +156,6 @@ export function generateSengiServiceSignatureRecords(
         propertyType: "std/mediumString",
         isArray: true,
       },
-      {
-        name: "partition",
-        summary:
-          "The name of the partition where the new document should be stored.",
-        propertyType: "std/shortString",
-      },
-      {
-        name: "user",
-        summary: "The user that is creating the new record.",
-        propertyType: `${system}/${userType}`,
-        isRequired: true,
-      },
     ],
   };
 
@@ -264,21 +200,9 @@ export function generateSengiServiceSignatureRecords(
         propertyType: "std/uuid",
       },
       {
-        name: "partition",
-        summary:
-          "The name of the partition where the new document should be stored.",
-        propertyType: "std/shortString",
-      },
-      {
         name: "patch",
         summary: "The patch to be applied.",
         propertyType: `${system}/${seedDocType.name}Patch`,
-        isRequired: true,
-      },
-      {
-        name: "user",
-        summary: "The user that is creating the new record.",
-        propertyType: `${system}/${userType}`,
         isRequired: true,
       },
     ],
@@ -326,18 +250,6 @@ export function generateSengiServiceSignatureRecords(
         propertyType: "std/mediumString",
         isArray: true,
       },
-      {
-        name: "partition",
-        summary:
-          "The name of the partition where the new document should be stored.",
-        propertyType: "std/shortString",
-      },
-      {
-        name: "user",
-        summary: "The user that is creating the new record.",
-        propertyType: `${system}/${userType}`,
-        isRequired: true,
-      },
     ],
   };
 
@@ -358,27 +270,6 @@ export function generateSengiServiceSignatureRecords(
         summary:
           "True if a new document was created, or false if an existing document was replaced.",
         propertyType: "std/bool",
-        isRequired: true,
-      },
-    ],
-  };
-
-  const deleteRequestBody: RecordTypeDef = {
-    kind: "record",
-    system: system,
-    name: `delete${capitalizeFirstLetter(seedDocType.name)}RequestBody`,
-    summary: `The body parameters for deleting a ${seedDocType.name} record.`,
-    properties: [
-      {
-        name: "partition",
-        summary:
-          "The name of the partition where the new document should be stored.",
-        propertyType: "std/shortString",
-      },
-      {
-        name: "user",
-        summary: "The user that is creating the new record.",
-        propertyType: `${system}/${userType}`,
         isRequired: true,
       },
     ],
@@ -421,19 +312,6 @@ export function generateSengiServiceSignatureRecords(
           name: "id",
           summary: "The id to be assigned to the newly created document.",
           propertyType: "std/uuid",
-          isRequired: true,
-        },
-        {
-          name: "partition",
-          summary:
-            "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
-          propertyType: "std/shortString",
-        },
-        {
-          name: "user",
-          summary:
-            "A JSON-stringified and url-encoded object that defines the user making the request.",
-          propertyType: `${system}/${userType}`,
           isRequired: true,
         },
         {
@@ -504,23 +382,10 @@ export function generateSengiServiceSignatureRecords(
           isRequired: true,
         },
         {
-          name: "partition",
-          summary:
-            "The name of the partition that holds the records to retrieve, otherwise the central partition is used.",
-          propertyType: "std/shortString",
-        },
-        {
           name: "reqVersion",
           summary:
             "If populated, then the retrieved record must have the stated version or the operation is rejected.",
           propertyType: "std/mediumString",
-        },
-        {
-          name: "user",
-          summary:
-            "A JSON-stringified and url-encoded object that defines the user making the request.",
-          propertyType: `${system}/${userType}`,
-          isRequired: true,
         },
       ],
     }),
@@ -613,7 +478,6 @@ export function generateSengiServiceSignatureRecords(
     replaceRequestBody,
     replaceResponseBody,
 
-    deleteRequestBody,
     deleteResponseBody,
 
     ...createRequestBodies,

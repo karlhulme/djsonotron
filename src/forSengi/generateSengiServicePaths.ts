@@ -10,10 +10,12 @@ import { SengiSeedDocType } from "./SengiSeedDocType.ts";
  * @param system The name of the system to which the request and response types
  * have been assigned.
  * @param seedDocType A seed docType for which service paths are required.
+ * @param user A fully qualified user type.
  */
 export function generateSengiServicePaths(
   system: string,
   seedDocType: SengiSeedDocType,
+  user: string,
 ) {
   const apiKeyHeader: ServicePathOperationHeader = {
     name: "apiKey",
@@ -22,6 +24,22 @@ export function generateSengiServicePaths(
     summary: "An API key that maps to a client definition.",
     isRequired: true,
     isAuthorisationHeader: true,
+  };
+
+  const partitionKeyHeader: ServicePathOperationHeader = {
+    name: "partitionKey",
+    headerType: "std/mediumString",
+    httpName: "partition-key",
+    summary: "A key that identifies a partition of documents.",
+  };
+
+  const userHeader: ServicePathOperationHeader = {
+    name: "user",
+    headerType: user,
+    httpName: "x-user",
+    summary:
+      `A JSON stringified ${user} object that describes the user making the request.`,
+    isRequired: true,
   };
 
   const docTypeRootPath: ServicePath = {
@@ -34,7 +52,11 @@ export function generateSengiServicePaths(
       }`,
       summary: `Retrieve all the ${seedDocType.name} records.`,
       tags: [seedDocType.pluralTitle],
-      requestHeaders: [apiKeyHeader],
+      requestHeaders: [
+        apiKeyHeader,
+        partitionKeyHeader,
+        userHeader,
+      ],
       requestQueryType: `${system}/selectAll${
         capitalizeFirstLetter(seedDocType.pluralName)
       }RequestQuery`,
@@ -48,7 +70,11 @@ export function generateSengiServicePaths(
       operationName: `new${capitalizeFirstLetter(seedDocType.name)}`,
       summary: `Create a new ${seedDocType.name} record.`,
       tags: [seedDocType.pluralTitle],
-      requestHeaders: [apiKeyHeader],
+      requestHeaders: [
+        apiKeyHeader,
+        partitionKeyHeader,
+        userHeader,
+      ],
       requestBodyType: `${system}/new${
         capitalizeFirstLetter(seedDocType.name)
       }RequestBody`,
@@ -67,10 +93,11 @@ export function generateSengiServicePaths(
       operationName: `delete${capitalizeFirstLetter(seedDocType.name)}`,
       summary: `Delete a ${seedDocType.name} record.`,
       tags: [seedDocType.pluralTitle],
-      requestHeaders: [apiKeyHeader],
-      requestBodyType: `${system}/delete${
-        capitalizeFirstLetter(seedDocType.name)
-      }RequestBody`,
+      requestHeaders: [
+        apiKeyHeader,
+        partitionKeyHeader,
+        userHeader,
+      ],
       responseBodyType: `${system}/delete${
         capitalizeFirstLetter(seedDocType.name)
       }Response`,
@@ -81,7 +108,11 @@ export function generateSengiServicePaths(
       operationName: `select${capitalizeFirstLetter(seedDocType.name)}`,
       summary: `Retrieve a ${seedDocType.name} record.`,
       tags: [seedDocType.pluralTitle],
-      requestHeaders: [apiKeyHeader],
+      requestHeaders: [
+        apiKeyHeader,
+        partitionKeyHeader,
+        userHeader,
+      ],
       requestQueryType: `${system}/select${
         capitalizeFirstLetter(seedDocType.name)
       }RequestQuery`,
@@ -95,7 +126,11 @@ export function generateSengiServicePaths(
       operationName: `patch${capitalizeFirstLetter(seedDocType.name)}`,
       summary: `Patch a ${seedDocType.name} record.`,
       tags: [seedDocType.pluralTitle],
-      requestHeaders: [apiKeyHeader],
+      requestHeaders: [
+        apiKeyHeader,
+        partitionKeyHeader,
+        userHeader,
+      ],
       requestBodyType: `${system}/patch${
         capitalizeFirstLetter(seedDocType.name)
       }RequestBody`,
@@ -109,7 +144,11 @@ export function generateSengiServicePaths(
       operationName: `replace${capitalizeFirstLetter(seedDocType.name)}`,
       summary: `Replace an existing ${seedDocType.name} record.`,
       tags: [seedDocType.pluralTitle],
-      requestHeaders: [apiKeyHeader],
+      requestHeaders: [
+        apiKeyHeader,
+        partitionKeyHeader,
+        userHeader,
+      ],
       requestBodyType: `${system}/replace${
         capitalizeFirstLetter(seedDocType.name)
       }RequestBody`,
@@ -130,7 +169,11 @@ export function generateSengiServicePaths(
       }ByIds`,
       summary: `Retrieve ${seedDocType.name} records using ids.`,
       tags: [seedDocType.pluralTitle],
-      requestHeaders: [apiKeyHeader],
+      requestHeaders: [
+        apiKeyHeader,
+        partitionKeyHeader,
+        userHeader,
+      ],
       requestQueryType: `${system}/select${
         capitalizeFirstLetter(seedDocType.pluralName)
       }ByIdsRequestQuery`,
@@ -152,7 +195,11 @@ export function generateSengiServicePaths(
         summary: filter.summary,
         deprecation: filter.deprecation,
         tags: [seedDocType.pluralTitle],
-        requestHeaders: [apiKeyHeader],
+        requestHeaders: [
+          apiKeyHeader,
+          partitionKeyHeader,
+          userHeader,
+        ],
         requestQueryType: `${system}/select${
           capitalizeFirstLetter(seedDocType.pluralName)
         }${capitalizeFirstLetter(filter.name)}RequestQuery`,
@@ -175,7 +222,11 @@ export function generateSengiServicePaths(
         summary: ctor.summary,
         deprecation: ctor.deprecation,
         tags: [seedDocType.pluralTitle],
-        requestHeaders: [apiKeyHeader],
+        requestHeaders: [
+          apiKeyHeader,
+          partitionKeyHeader,
+          userHeader,
+        ],
         requestBodyType: `${system}/create${
           capitalizeFirstLetter(seedDocType.name)
         }${capitalizeFirstLetter(ctor.name)}RequestBody`,
@@ -199,7 +250,11 @@ export function generateSengiServicePaths(
         summary: op.summary,
         deprecation: op.deprecation,
         tags: [seedDocType.pluralTitle],
-        requestHeaders: [apiKeyHeader],
+        requestHeaders: [
+          apiKeyHeader,
+          partitionKeyHeader,
+          userHeader,
+        ],
         requestBodyType: `${system}/operateOn${
           capitalizeFirstLetter(seedDocType.name)
         }${capitalizeFirstLetter(op.name)}RequestBody`,
@@ -222,7 +277,10 @@ export function generateSengiServicePaths(
         summary: query.summary,
         deprecation: query.deprecation,
         tags: [seedDocType.pluralTitle],
-        requestHeaders: [apiKeyHeader],
+        requestHeaders: [
+          apiKeyHeader,
+          userHeader,
+        ],
         requestQueryType: `${system}/query${
           capitalizeFirstLetter(seedDocType.pluralName)
         }${capitalizeFirstLetter(query.name)}RequestQuery`,
