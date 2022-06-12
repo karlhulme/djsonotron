@@ -236,9 +236,15 @@ export function generateOakRouterOperation(
         headerType,
       );
 
-      lines.push(`
-        const ${headerVar} = safeJsonParse(ctx.request.headers.get("${header.name}") || "")
-      `);
+      if (headerType.kind === "string" || headerType.kind === "enum") {
+        lines.push(`
+          const ${headerVar} = ctx.request.headers.get("${header.httpName}") || null
+        `);
+      } else {
+        lines.push(`
+          const ${headerVar} = safeJsonParse(ctx.request.headers.get("${header.httpName}") || "")
+        `);
+      }
 
       if (header.isRequired) {
         lines.push(`
@@ -255,7 +261,7 @@ export function generateOakRouterOperation(
       }(${headerVar}, "header.${header.httpName}");
       
           if (headerValidationErrors.length > 0) {
-            throw new ServiceInputValidationError("Validation of request header failed.", {
+            throw new ServiceInputValidationError("Validation of request header ${header.httpName} failed.", {
               validationErrors: headerValidationErrors
             })
           }
@@ -285,9 +291,15 @@ export function generateOakRouterOperation(
         cookieType,
       );
 
-      lines.push(`
-        const ${cookieVar} = await safeJsonParse(ctx.cookies.get("${cookies.name}") || "")
-      `);
+      if (cookieType.kind === "string" || cookieType.kind === "enum") {
+        lines.push(`
+          const ${cookieVar} = ctx.cookies.get("${cookies.name}") || null
+        `);
+      } else {
+        lines.push(`
+          const ${cookieVar} = await safeJsonParse(ctx.cookies.get("${cookies.name}") || "")
+        `);
+      }
 
       if (cookies.isRequired) {
         lines.push(`
