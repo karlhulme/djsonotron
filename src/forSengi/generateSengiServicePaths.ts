@@ -21,6 +21,7 @@ export function generateSengiServicePaths(
     httpName: "x-api-key",
     summary: "An API key that maps to a client definition.",
     isRequired: true,
+    isAuthorisationHeader: true,
   };
 
   const docTypeRootPath: ServicePath = {

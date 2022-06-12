@@ -24,6 +24,14 @@ export interface ServicePathOperationHeader {
   isRequired?: boolean;
 
   /**
+   * A value that indicates if this header is associated with
+   * authorisation.  If this value cannot be validated then
+   * a different error is raised.  (This is useful for web servers
+   * that want to issue an HTTP 401 instead of a 400.)
+   */
+  isAuthorisationHeader?: boolean;
+
+  /**
    * If populated, this field indicates that the header has been
    * deprecated and will the value will describe what to do instead.
    */

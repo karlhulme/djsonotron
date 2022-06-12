@@ -225,6 +225,9 @@ export function generateOakRouterOperation(
     for (const header of op.requestHeaders) {
       const headerVar = `header${capitalizeFirstLetter(header.name)}`;
       const headerType = resolveJsonotronType(header.headerType, types);
+      const headerErrorName = header.isAuthorisationHeader
+        ? "ServiceAuthorisationHeaderError"
+        : "ServiceInputValidationError";
 
       if (!headerType) {
         throw new Error(
@@ -249,7 +252,7 @@ export function generateOakRouterOperation(
       if (header.isRequired) {
         lines.push(`
           if (${headerVar} === null) {
-            throw new ServiceInputValidationError("Validation of request failed.  Missing required header ${header.httpName}.")
+            throw new ${headerErrorName}("Validation of request failed.  Missing required header ${header.httpName}.")
           }
         `);
       }
@@ -261,7 +264,7 @@ export function generateOakRouterOperation(
       }(${headerVar}, "header.${header.httpName}");
       
           if (headerValidationErrors.length > 0) {
-            throw new ServiceInputValidationError("Validation of request header ${header.httpName} failed.", {
+            throw new ${headerErrorName}("Validation of request header ${header.httpName} failed.", {
               validationErrors: headerValidationErrors
             })
           }

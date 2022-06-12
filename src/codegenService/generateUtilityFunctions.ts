@@ -22,9 +22,20 @@ function safeJsonParse(text: string): unknown | null {
   }
 }
 
-// deno-lint-ignore no-explicit-any
 export function hasDataProp(value: any): value is { data: unknown } {
   return (typeof value === "object" && typeof value.data !== "undefined");
+}
+
+/**
+ * Raised when the api key is missing.
+ */
+export class ServiceAuthorisationHeaderError extends Error {
+  constructor(readonly message: string, readonly data?: unknown) {
+    super(message);
+    Object.setPrototypeOf(this, new.target.prototype);
+    this.name = this.constructor.name;
+    this.data = data
+  }
 }
 
 /**

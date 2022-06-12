@@ -22,7 +22,7 @@ export function generateImports(props: GenerateImportsProps) {
   }
 
   return `
-    // deno-lint-ignore-file no-unused-vars ban-unused-ignore
+    // deno-lint-ignore-file no-unused-vars ban-unused-ignore no-explicit-any
     import { ${typeImports.join(", ")} } from "${props.typesPath}";
     import { Request, Router } from "${props.depsPath}";
   `;
