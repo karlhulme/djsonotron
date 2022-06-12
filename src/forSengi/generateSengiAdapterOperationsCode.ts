@@ -31,9 +31,9 @@ export function generateSengiAdapterOperationsCode(
           docTypeName: "${seedDocType.name}",
           fieldNames: props.query.fieldNames.split(","),
           ids: [props.id],
-          partition: props.query.partition || options.defaultPartition,
+          partition: props.partitionKey || options.defaultPartition,
           reqProps: {},
-          user: props.query.user,
+          user: props.user,
         });
 
         if (result.docs.length === 0) {
@@ -64,9 +64,9 @@ export function generateSengiAdapterOperationsCode(
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
           fieldNames: props.query.fieldNames.split(","),
-          partition: props.query.partition || options.defaultPartition,
+          partition: props.partitionKey || options.defaultPartition,
           reqProps: {},
-          user: props.query.user,
+          user: props.user,
         });
 
         return {
@@ -94,9 +94,9 @@ export function generateSengiAdapterOperationsCode(
           docTypeName: "${seedDocType.name}",
           fieldNames: props.query.fieldNames.split(","),
           ids: props.query.ids.split(","),
-          partition: props.query.partition || options.defaultPartition,
+          partition: props.partitionKey || options.defaultPartition,
           reqProps: {},
-          user: props.query.user,
+          user: props.user,
         });
 
         return {
@@ -132,9 +132,9 @@ export function generateSengiAdapterOperationsCode(
             `)
       }
           },
-          partition: props.query.partition || options.defaultPartition,
+          partition: props.partitionKey || options.defaultPartition,
           reqProps: {},
-          user: props.query.user,
+          user: props.user,
         });
 
         return {
@@ -158,9 +158,9 @@ export function generateSengiAdapterOperationsCode(
           docTypeName: "${seedDocType.name}",
           fieldNames: props.body.fieldNames || ["id"],
           doc: props.body.doc as unknown as DocRecord,
-          partition: props.body.partition || options.defaultPartition,
+          partition: props.partitionKey || options.defaultPartition,
           reqProps: {},
-          user: props.body.user,
+          user: props.user,
         });
 
         return {
@@ -186,10 +186,10 @@ export function generateSengiAdapterOperationsCode(
           fieldNames: props.body.fieldNames || ["id"],
           id: props.id,
           operationId: props.body.operationId || crypto.randomUUID(),
-          partition: props.body.partition || options.defaultPartition,
+          partition: props.partitionKey || options.defaultPartition,
           patch: props.body.patch as unknown as DocPatch,
           reqProps: {},
-          user: props.body.user,
+          user: props.user,
         });
 
         return {
@@ -220,9 +220,9 @@ export function generateSengiAdapterOperationsCode(
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
           fieldNames: props.body.fieldNames || ["id"],
-          partition: props.body.partition || options.defaultPartition,
+          partition: props.partitionKey || options.defaultPartition,
           reqProps: {},
-          user: props.body.user,
+          user: props.user,
         });
   
         return {
@@ -248,9 +248,9 @@ export function generateSengiAdapterOperationsCode(
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
           id: props.id,
-          partition: props.body.partition || options.defaultPartition,
+          partition: props.partitionKey || options.defaultPartition,
           reqProps: {},
-          user: props.body.user,
+          user: props.user,
         });
   
         return {
@@ -279,9 +279,9 @@ export function generateSengiAdapterOperationsCode(
           docTypeName: "${seedDocType.name}",
           fieldNames: props.body.fieldNames.split(","),
           id: props.body.id,
-          partition: props.body.partition || options.defaultPartition,
+          partition: props.partitionKey || options.defaultPartition,
           reqProps: {},
-          user: props.body.user,
+          user: props.user,
         });
 
         return {
@@ -314,9 +314,9 @@ export function generateSengiAdapterOperationsCode(
           operationId: props.body.operationId,
           operationName: "${op.name}",
           operationParams: props.body.operationParams,
-          partition: props.body.partition || options.defaultPartition,
+          partition: props.partitionKey || options.defaultPartition,
           reqProps: {},
-          user: props.body.user,
+          user: props.user,
           reqVersion: props.body.reqVersion
         });
 
@@ -354,7 +354,7 @@ export function generateSengiAdapterOperationsCode(
       }
           },
           reqProps: {},
-          user: props.query.user,
+          user: props.user,
         });
 
         return {
