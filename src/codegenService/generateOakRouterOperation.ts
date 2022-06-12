@@ -272,7 +272,7 @@ export function generateOakRouterOperation(
       `);
 
       headerParameters.push(
-        `${header.name}: ${headerVar} as ${headerUnderlyingType}`,
+        `${header.name}: ${headerVar} as ${headerUnderlyingType},`,
       );
     }
   }
@@ -327,7 +327,7 @@ export function generateOakRouterOperation(
       `);
 
       cookieParameters.push(
-        `${cookies.name}: ${cookieVar} as ${cookieUnderlyingType}`,
+        `${cookies.name}: ${cookieVar} as ${cookieUnderlyingType},`,
       );
     }
   }
