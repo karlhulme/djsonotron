@@ -7,12 +7,10 @@ import { SengiSeedDocType } from "./SengiSeedDocType.ts";
  * required to select and mutate the given seedDocType.
  * @param system The name of the system to which the signatures will be assigned.
  * @param seedDocType A seed docType for which signatures are required.
- * @param userType The name of the type that represents a user.
  */
 export function generateSengiServiceSignatureRecords(
   system: string,
   seedDocType: SengiSeedDocType,
-  userType: string,
 ) {
   const selectRequestQuery: RecordTypeDef = {
     kind: "record",
@@ -423,13 +421,6 @@ export function generateSengiServiceSignatureRecords(
       summary:
         `The parameters for querying ${seedDocType.name} records using the ${query.name} query.`,
       properties: [
-        {
-          name: "user",
-          summary:
-            "A JSON-stringified and url-encoded object that defines the user making the request.",
-          propertyType: `${system}/${userType}`,
-          isRequired: true,
-        },
         ...query.parameters.map((queryParam) => ({
           name: queryParam.name,
           summary: queryParam.summary,
