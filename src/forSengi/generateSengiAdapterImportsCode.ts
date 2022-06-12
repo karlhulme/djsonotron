@@ -198,8 +198,7 @@ export function generateSengiAdapterImportsCode(
     .flat();
 
   return `
-    // deno-lint-ignore-file no-explicit-any
-    // deno-lint-ignore-file no-unused-vars ban-unused-ignore
+    // deno-lint-ignore-file no-explicit-any no-unused-vars ban-unused-ignore
     ${
     generateTypescriptImportLine(
       importsFromDeps,

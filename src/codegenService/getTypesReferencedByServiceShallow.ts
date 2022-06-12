@@ -61,11 +61,9 @@ function appendTypesReferencedByServicePathOperation(
     typeNames.push(op.requestBodyType);
   }
 
-  // Query types are expressed as a series of top level parameters
-  // so we don't need to import it directly.
-  // if (op.requestQueryType) {
-  //   typeNames.push(op.requestQueryType);
-  // }
+  if (op.requestQueryType) {
+    typeNames.push(op.requestQueryType);
+  }
 
   if (op.responseBodyType) {
     typeNames.push(op.responseBodyType);
