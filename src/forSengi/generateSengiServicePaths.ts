@@ -31,6 +31,7 @@ export function generateSengiServicePaths(
     headerType: "std/mediumString",
     httpName: "partition-key",
     summary: "A key that identifies a partition of documents.",
+    isRequired: true,
   };
 
   const userHeader: ServicePathOperationHeader = {

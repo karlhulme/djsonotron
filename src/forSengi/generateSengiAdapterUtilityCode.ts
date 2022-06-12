@@ -33,9 +33,9 @@ export function generateSengiAdapterUtilityCode() {
    */
   interface CreateSengiAdapterOperationsOptions {
     /**
-     * The partition to use when a partition is not supplied with a request.
+     * A temp property so that the options definition is valid.
      */  
-    defaultPartition: string
+    foo?: string
   }
 
   /**
