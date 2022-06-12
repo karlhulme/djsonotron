@@ -1,4 +1,4 @@
-import { Service } from "../interfaces/index.ts";
+import { Service, ServicePathOperation } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
 
 export function generateOakRouterConstructorProps(service: Service) {
@@ -9,51 +9,31 @@ export function generateOakRouterConstructorProps(service: Service) {
   for (const path of service.paths) {
     if (path.delete) {
       interfaceLines.push(
-        `${path.delete.operationName}: (props: ${
-          capitalizeFirstLetter(path.delete.operationName)
-        }Props) => Promise<${
-          capitalizeFirstLetter(path.delete.operationName)
-        }Result>`,
+        generateOperationLine(path.delete),
       );
     }
 
     if (path.get) {
       interfaceLines.push(
-        `${path.get.operationName}: (props: ${
-          capitalizeFirstLetter(path.get.operationName)
-        }Props) => Promise<${
-          capitalizeFirstLetter(path.get.operationName)
-        }Result>`,
+        generateOperationLine(path.get),
       );
     }
 
     if (path.patch) {
       interfaceLines.push(
-        `${path.patch.operationName}: (props: ${
-          capitalizeFirstLetter(path.patch.operationName)
-        }Props) => Promise<${
-          capitalizeFirstLetter(path.patch.operationName)
-        }Result>`,
+        generateOperationLine(path.patch),
       );
     }
 
     if (path.post) {
       interfaceLines.push(
-        `${path.post.operationName}: (props: ${
-          capitalizeFirstLetter(path.post.operationName)
-        }Props) => Promise<${
-          capitalizeFirstLetter(path.post.operationName)
-        }Result>`,
+        generateOperationLine(path.post),
       );
     }
 
     if (path.put) {
       interfaceLines.push(
-        `${path.put.operationName}: (props: ${
-          capitalizeFirstLetter(path.put.operationName)
-        }Props) => Promise<${
-          capitalizeFirstLetter(path.put.operationName)
-        }Result>`,
+        generateOperationLine(path.put),
       );
     }
   }
@@ -67,4 +47,24 @@ export function generateOakRouterConstructorProps(service: Service) {
   declarations.push(resultInterface);
 
   return declarations;
+}
+
+function generateOperationLine(op: ServicePathOperation) {
+  const needsProps = Boolean(op.requestBodyType) ||
+    Boolean(op.requestQueryType) ||
+    (Array.isArray(op.requestHeaders) && op.requestHeaders.length > 0) ||
+    (Array.isArray(op.requestCookies) && op.requestCookies.length > 0);
+
+  const props = needsProps
+    ? `props: ${capitalizeFirstLetter(op.operationName)}Props`
+    : "";
+
+  const needsResult = op.responseBodyType ||
+    (Array.isArray(op.responseHeaders) && op.responseHeaders.length > 0);
+
+  const result = needsResult
+    ? `${capitalizeFirstLetter(op.operationName)}Result`
+    : "void";
+
+  return `${op.operationName}: (${props}) => Promise<${result}>`;
 }
