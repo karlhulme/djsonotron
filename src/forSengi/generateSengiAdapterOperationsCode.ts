@@ -185,7 +185,7 @@ export function generateSengiAdapterOperationsCode(
           docTypeName: "${seedDocType.name}",
           fieldNames: props.body.fieldNames || ["id"],
           id: props.id,
-          operationId: props.getHeader("x-request-id") || crypto.randomUUID(),
+          operationId: props.body.operationId || crypto.randomUUID(),
           partition: props.body.partition || options.defaultPartition,
           patch: props.body.patch as unknown as DocPatch,
           reqProps: {},
