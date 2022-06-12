@@ -39,7 +39,7 @@ export function generateOakRouterOperationOutputType(
       }
 
       headerPropertyDeclarations.push(
-        `${header.name}${header.guaranteed ? "" : "?"}: ${
+        `${header.name}${header.isGuaranteed ? "" : "?"}: ${
           getJsonotronTypeUnderlyingTypescriptType(headerType)
         }`,
       );

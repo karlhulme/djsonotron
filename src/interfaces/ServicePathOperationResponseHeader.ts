@@ -22,7 +22,7 @@ export interface ServicePathOperationResponseHeader {
   /**
    * A value that indicates if this header will always be supplied.
    */
-  guaranteed?: boolean;
+  isGuaranteed?: boolean;
 
   /**
    * If populated, this field indicates that the header has been

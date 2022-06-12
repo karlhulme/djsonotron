@@ -78,7 +78,7 @@ export function generateOakRouterOperationInputType(
       }
 
       headerPropertyDeclarations.push(
-        `${header.name}${header.required ? "" : "?"}: ${
+        `${header.name}${header.isRequired ? "" : "?"}: ${
           getJsonotronTypeUnderlyingTypescriptType(headerType)
         }`,
       );
@@ -96,7 +96,7 @@ export function generateOakRouterOperationInputType(
       }
 
       headerPropertyDeclarations.push(
-        `${cookie.name}${cookie.required ? "" : "?"}: ${
+        `${cookie.name}${cookie.isRequired ? "" : "?"}: ${
           getJsonotronTypeUnderlyingTypescriptType(cookieType)
         }`,
       );

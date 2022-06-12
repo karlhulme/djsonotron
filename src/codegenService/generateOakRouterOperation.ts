@@ -240,10 +240,10 @@ export function generateOakRouterOperation(
         const ${headerVar} = safeJsonParse(ctx.request.headers.get("${header.name}") || "")
       `);
 
-      if (header.required) {
+      if (header.isRequired) {
         lines.push(`
           if (${headerVar} === null) {
-            throw new ServiceInputValidationError("Validation of request failed.  Missing required header ${header.httpName}.)
+            throw new ServiceInputValidationError("Validation of request failed.  Missing required header ${header.httpName}.")
           }
         `);
       }
@@ -286,10 +286,10 @@ export function generateOakRouterOperation(
       );
 
       lines.push(`
-        const ${cookieVar} = safeJsonParse(ctx.cookies.get("${cookies.name}") || "")
+        const ${cookieVar} = await safeJsonParse(ctx.cookies.get("${cookies.name}") || "")
       `);
 
-      if (cookies.required) {
+      if (cookies.isRequired) {
         lines.push(`
           if (${cookieVar} === null) {
             throw new ServiceInputValidationError("Validation of request failed.  Missing required cookie ${cookies.name}.)
@@ -370,8 +370,8 @@ export function generateOakRouterOperation(
         lines.push(`
           if (result.${header.name}) {
             ctx.response.headers.append(
-              ${header.httpName.toLowerCase()},
-              result.${header.name}
+              "${header.httpName.toLowerCase()}",
+              JSON.stringify(result.${header.name}, null, 2)
             );
           }
         `);

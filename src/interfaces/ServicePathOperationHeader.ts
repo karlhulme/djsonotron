@@ -21,7 +21,7 @@ export interface ServicePathOperationHeader {
   /**
    * A value that indicates if this header must be supplied.
    */
-  required?: boolean;
+  isRequired?: boolean;
 
   /**
    * If populated, this field indicates that the header has been

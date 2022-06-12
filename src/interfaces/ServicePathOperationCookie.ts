@@ -16,7 +16,7 @@ export interface ServicePathOperationCookie {
   /**
    * A value that indicates if this cookie must be supplied.
    */
-  required?: boolean;
+  isRequired?: boolean;
 
   /**
    * If populated, this field indicates that the cookie has been

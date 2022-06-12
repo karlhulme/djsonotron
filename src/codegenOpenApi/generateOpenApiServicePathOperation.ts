@@ -57,7 +57,7 @@ export function generateOpenApiServicePathOperation(
             headerType,
             true,
           ),
-          required: Boolean(header.required),
+          required: Boolean(header.isRequired),
           deprecated: header.deprecation ? true : undefined,
           description: generateDescriptionText(
             header.summary,
@@ -83,7 +83,7 @@ export function generateOpenApiServicePathOperation(
             cookieType,
             true,
           ),
-          required: Boolean(cookie.required),
+          required: Boolean(cookie.isRequired),
           deprecated: cookie.deprecation ? true : undefined,
           description: generateDescriptionText(
             cookie.summary,
@@ -130,7 +130,7 @@ export function generateOpenApiServicePathOperation(
             headerType,
             true,
           ),
-          required: Boolean(header.guaranteed),
+          required: Boolean(header.isGuaranteed),
           deprecated: header.deprecation ? true : undefined,
         };
       }
