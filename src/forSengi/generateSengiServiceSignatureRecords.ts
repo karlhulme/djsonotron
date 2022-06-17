@@ -311,7 +311,7 @@ export function generateSengiServiceSignatureRecords(
     (op) => ({
       kind: "record",
       system,
-      name: `new${capitalizeFirstLetter(seedDocType.name)}${
+      name: `operateOn${capitalizeFirstLetter(seedDocType.name)}${
         capitalizeFirstLetter(op.name)
       }RequestQuery`,
       summary:
