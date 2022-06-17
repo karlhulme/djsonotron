@@ -3,7 +3,7 @@ export function generateValidateArrayFunc() {
     export function validateArray (
       value: any,
       valueDisplayPath: string,
-      elementValidator: (value: any, valueDisplayPath: string): ValidationError[],
+      elementValidator: (value: any, valueDisplayPath: string) => ValidationError[],
       elementType: string
     ): ValidationError[] {
       const errors: ValidationError[] = [];
