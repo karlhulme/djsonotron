@@ -37,12 +37,14 @@ const exampleOpenApi: OpenApiSpec = {
           },
         }],
         responses: {},
+        security: {},
       },
     },
   },
   components: {
     requestBodies: {},
     schemas: {},
+    securitySchemes: {},
   },
 };
 

@@ -40,6 +40,7 @@ const exampleOpenApi: OpenApiSpec = {
           $ref: "#/components/requestBodies/GetSomethingRequestBody",
         },
         responses: {},
+        security: {},
       },
     },
   },
@@ -82,6 +83,7 @@ const exampleOpenApi: OpenApiSpec = {
         ],
       },
     },
+    securitySchemes: {},
   },
 };
 

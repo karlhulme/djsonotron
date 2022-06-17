@@ -23,6 +23,12 @@ export interface ServicePath {
   description?: string;
 
   /**
+   * A value of true indicates that an x-api-key header
+   * must be supplied for all operations on this path.
+   */
+  requireApiKey?: boolean;
+
+  /**
    * The GET operation.
    */
   get?: ServicePathOperation;

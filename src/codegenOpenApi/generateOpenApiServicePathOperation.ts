@@ -5,6 +5,7 @@ import {
   OpenApiSpecPathResponse,
   OpenApiSpecPathResponseHeader,
   RecordTypeDef,
+  ServicePath,
   ServicePathOperation,
 } from "../interfaces/index.ts";
 import {
@@ -16,6 +17,7 @@ import { generateJsonSchemaPropertyForJsonotronProperty } from "./generateJsonSc
 import { generateDescriptionText } from "./generateDescriptionText.ts";
 
 export function generateOpenApiServicePathOperation(
+  path: ServicePath,
   op: ServicePathOperation,
   types: JsonotronTypeDef[],
 ): OpenApiSpecPathOperation {
@@ -45,25 +47,27 @@ export function generateOpenApiServicePathOperation(
   // Add the parameters defined by the request headers.
   if (Array.isArray(op.requestHeaders)) {
     for (const header of op.requestHeaders) {
-      const headerType = resolveJsonotronType(header.headerType, types);
+      if (!header.isAuthorisationHeader) {
+        const headerType = resolveJsonotronType(header.headerType, types);
 
-      if (headerType) {
-        parameters.push({
-          in: "header",
-          name: header.httpName,
-          schema: generateJsonSchemaPropertyForJsonotronProperty(
-            header.summary,
-            header.deprecation,
-            headerType,
-            true,
-          ),
-          required: Boolean(header.isRequired),
-          deprecated: header.deprecation ? true : undefined,
-          description: generateDescriptionText(
-            header.summary,
-            header.deprecation,
-          ),
-        });
+        if (headerType) {
+          parameters.push({
+            in: "header",
+            name: header.httpName,
+            schema: generateJsonSchemaPropertyForJsonotronProperty(
+              header.summary,
+              header.deprecation,
+              headerType,
+              true,
+            ),
+            required: Boolean(header.isRequired),
+            deprecated: header.deprecation ? true : undefined,
+            description: generateDescriptionText(
+              header.summary,
+              header.deprecation,
+            ),
+          });
+        }
       }
     }
   }
@@ -153,5 +157,10 @@ export function generateOpenApiServicePathOperation(
     responses: {
       [op.responseSuccessCode.toString()]: successResponse,
     },
+    security: path.requireApiKey
+      ? {
+        "apiKeyAuth": [],
+      }
+      : {},
   };
 }

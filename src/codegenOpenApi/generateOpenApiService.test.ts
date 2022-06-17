@@ -26,6 +26,7 @@ Deno.test("Generate an openapi service definition for a service with a path with
       paths: [{
         relativeUrl: "/example/{id:uuid}/{pageSize:std/positiveInteger}",
         summary: "An example path",
+        requireApiKey: true,
         delete: {
           operationName: "deleteExample",
           summary: "Deletes an example.",

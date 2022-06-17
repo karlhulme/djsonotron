@@ -47,6 +47,7 @@ export interface OpenApiSpecPathOperation {
   parameters: OpenApiSpecParameter[];
   requestBody?: OpenApiSpecSchema;
   responses: Record<string, OpenApiSpecPathResponse>;
+  security: Record<string, unknown[]>;
 }
 
 export interface OpenApiSpecPathResponse {
@@ -62,6 +63,7 @@ export interface OpenApiSpecPathResponseContent {
 export interface OpenApiSpecComponents {
   requestBodies: Record<string, unknown>;
   schemas: Record<string, unknown>;
+  securitySchemes: Record<string, OpenApiSpecSecurityScheme>;
 }
 
 export interface OpenApiSpecPathResponseHeader {
@@ -77,4 +79,10 @@ export interface OpenApiSpecSchema {
   description?: string;
   deprecated?: boolean;
   "$ref"?: string;
+}
+
+export interface OpenApiSpecSecurityScheme {
+  type: "apiKey";
+  in: "query" | "header" | "cookie";
+  name: string;
 }

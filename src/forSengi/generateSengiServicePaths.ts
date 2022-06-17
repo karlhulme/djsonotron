@@ -98,6 +98,7 @@ export function generateSengiServicePaths(
   const docTypeRootPath: ServicePath = {
     relativeUrl: `/records/${seedDocType.pluralName}`,
     summary: seedDocType.summary,
+    requireApiKey: true,
 
     get: {
       operationName: `selectAll${
@@ -146,6 +147,7 @@ export function generateSengiServicePaths(
   const docTypeRecordPath: ServicePath = {
     relativeUrl: `/records/${seedDocType.pluralName}/{id:std/uuid}`,
     summary: seedDocType.summary,
+    requireApiKey: true,
 
     delete: {
       operationName: `delete${capitalizeFirstLetter(seedDocType.name)}`,
@@ -227,6 +229,7 @@ export function generateSengiServicePaths(
   const docTypeByIdsPath: ServicePath = {
     relativeUrl: `/records/${seedDocType.pluralName}\\:byIds`,
     summary: seedDocType.summary,
+    requireApiKey: true,
 
     get: {
       operationName: `select${
@@ -253,6 +256,8 @@ export function generateSengiServicePaths(
     (filter) => ({
       relativeUrl: `/records/${seedDocType.pluralName}\\:${filter.name}`,
       summary: filter.summary,
+      requireApiKey: true,
+
       get: {
         operationName: `select${capitalizeFirstLetter(seedDocType.pluralName)}${
           capitalizeFirstLetter(filter.name)
@@ -280,6 +285,8 @@ export function generateSengiServicePaths(
     (ctor) => ({
       relativeUrl: `/records/${seedDocType.pluralName}\\:${ctor.name}`,
       summary: ctor.summary,
+      requireApiKey: true,
+
       post: {
         operationName: `create${capitalizeFirstLetter(seedDocType.name)}${
           capitalizeFirstLetter(ctor.name)
@@ -311,6 +318,8 @@ export function generateSengiServicePaths(
       relativeUrl:
         `/records/${seedDocType.pluralName}/{id:std/uuid}\\:${op.name}`,
       summary: op.summary,
+      requireApiKey: true,
+
       post: {
         operationName: `operateOn${capitalizeFirstLetter(seedDocType.name)}${
           capitalizeFirstLetter(op.name)
@@ -343,6 +352,8 @@ export function generateSengiServicePaths(
     (query) => ({
       relativeUrl: `/records/${seedDocType.pluralName}\\:${query.name}`,
       summary: query.summary,
+      requireApiKey: true,
+
       get: {
         operationName: `query${capitalizeFirstLetter(seedDocType.pluralName)}${
           capitalizeFirstLetter(query.name)

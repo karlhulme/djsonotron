@@ -31,19 +31,19 @@ export function generateOpenApiServicePathsNode(
         required: true,
       })),
       delete: path.delete
-        ? generateOpenApiServicePathOperation(path.delete, types)
+        ? generateOpenApiServicePathOperation(path, path.delete, types)
         : undefined,
       get: path.get
-        ? generateOpenApiServicePathOperation(path.get, types)
+        ? generateOpenApiServicePathOperation(path, path.get, types)
         : undefined,
       patch: path.patch
-        ? generateOpenApiServicePathOperation(path.patch, types)
+        ? generateOpenApiServicePathOperation(path, path.patch, types)
         : undefined,
       post: path.post
-        ? generateOpenApiServicePathOperation(path.post, types)
+        ? generateOpenApiServicePathOperation(path, path.post, types)
         : undefined,
       put: path.put
-        ? generateOpenApiServicePathOperation(path.put, types)
+        ? generateOpenApiServicePathOperation(path, path.put, types)
         : undefined,
     };
   }
