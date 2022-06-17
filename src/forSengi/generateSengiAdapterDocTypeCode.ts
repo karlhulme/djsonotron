@@ -196,7 +196,7 @@ export function generateSengiAdapterDocTypeCode(
       options: CreateDocTypesOptions<DocStoreOptions, User, Filter, Query>,
     ): DocType<any, DocStoreOptions, User, Filter, Query>[] {
       return [
-        ${docTypeDefs.join("\n")}
+        ${docTypeDefs.join(",\n")}
       ];
     }
   `;
