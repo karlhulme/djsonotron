@@ -165,7 +165,7 @@ function createOpenApiSpecRequestSchema(
     if (isArray) {
       return {
         type: "array",
-        item: {
+        items: {
           $ref: `#/components/requestBodies/${formalTypeName}`,
         },
       };
@@ -189,7 +189,7 @@ function createOpenApiSpecResponseContent(
         "application/json": {
           schema: {
             type: "array",
-            item: {
+            items: {
               $ref: `#/components/schemas/${
                 getJsonotronTypeFormalName(responseType)
               }`,
