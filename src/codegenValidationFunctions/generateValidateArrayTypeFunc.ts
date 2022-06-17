@@ -11,9 +11,9 @@ export function generateValidateArrayTypeFunc(
    export function validate${capitalizeFirstLetter(def.system)}${
     capitalizeFirstLetter(def.name)
   }Array (value: any, valueDisplayPath: string): ValidationError[] {
-    return validateArray(value, valueDisplay, validate${capitalizeFirstLetter(def.system)}${
-      capitalizeFirstLetter(def.name)
-    }, "${def.system}/${def.name}")
+    return validateArray(value, valueDisplay, validate${
+    capitalizeFirstLetter(def.system)
+  }${capitalizeFirstLetter(def.name)}, "${def.system}/${def.name}")
   }
 `;
 }

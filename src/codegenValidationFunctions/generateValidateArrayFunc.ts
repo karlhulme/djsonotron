@@ -1,4 +1,4 @@
-export function generateValidateArrayFunc () {
+export function generateValidateArrayFunc() {
   return `
     export function validateArray (
       value: any,
@@ -28,5 +28,5 @@ export function generateValidateArrayFunc () {
     
       return errors;
     }
-  `
+  `;
 }

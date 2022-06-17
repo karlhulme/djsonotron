@@ -6,7 +6,7 @@ import {
   RecordTypeDef,
   StringTypeDef,
 } from "../interfaces/index.ts";
-import { generateValidateArrayFunc } from './generateValidateArrayFunc.ts';
+import { generateValidateArrayFunc } from "./generateValidateArrayFunc.ts";
 import { generateValidateArrayTypeFunc } from "./generateValidateArrayTypeFunc.ts";
 import { generateValidateBoolTypeFunc } from "./generateValidateBoolTypeFunc.ts";
 import { generateValidateEnumTypeFunc } from "./generateValidateEnumTypeFunc.ts";
