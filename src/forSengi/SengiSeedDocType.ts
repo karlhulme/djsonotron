@@ -35,10 +35,10 @@ export interface SengiSeedDocType {
   summary: string;
 
   /**
-   * If specified, this value names the partition where all the
-   * documents of this type are stored.
+   * If true, all the documents of this type should be stored
+   * in a single partition.
    */
-  singlePartitionName?: string;
+  useSinglePartition?: boolean;
 
   /**
    * An array of properties that make up the doc type,

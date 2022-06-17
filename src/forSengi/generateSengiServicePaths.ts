@@ -30,7 +30,7 @@ export function generateSengiServicePaths(
   };
 
   const partitionKeyHeaders: ServicePathOperationHeader[] =
-    seedDocType.singlePartitionName ? [] : [{
+    seedDocType.useSinglePartition ? [] : [{
       name: "partitionKey",
       headerType: "std/mediumString",
       httpName: "partition-key",
@@ -130,6 +130,9 @@ export function generateSengiServicePaths(
         ...partitionKeyHeaders,
         userHeader,
       ],
+      requestQueryType: `${system}/new${
+        capitalizeFirstLetter(seedDocType.name)
+      }RequestQuery`,
       requestBodyType: `${system}/new${
         capitalizeFirstLetter(seedDocType.name)
       }RequestBody`,
@@ -194,6 +197,9 @@ export function generateSengiServicePaths(
         reqVersionHeader,
         operationIdHeader,
       ],
+      requestQueryType: `${system}/patch${
+        capitalizeFirstLetter(seedDocType.name)
+      }RequestQuery`,
       requestBodyType: `${system}/patch${
         capitalizeFirstLetter(seedDocType.name)
       }RequestBody`,
@@ -215,6 +221,9 @@ export function generateSengiServicePaths(
         ...partitionKeyHeaders,
         userHeader,
       ],
+      requestQueryType: `${system}/replace${
+        capitalizeFirstLetter(seedDocType.name)
+      }RequestQuery`,
       requestBodyType: `${system}/replace${
         capitalizeFirstLetter(seedDocType.name)
       }RequestBody`,
@@ -300,6 +309,9 @@ export function generateSengiServicePaths(
           ...partitionKeyHeaders,
           userHeader,
         ],
+        requestQueryType: `${system}/create${
+          capitalizeFirstLetter(seedDocType.name)
+        }${capitalizeFirstLetter(ctor.name)}RequestQuery`,
         requestBodyType: `${system}/create${
           capitalizeFirstLetter(seedDocType.name)
         }${capitalizeFirstLetter(ctor.name)}RequestBody`,
@@ -335,6 +347,9 @@ export function generateSengiServicePaths(
           reqVersionHeader,
           operationIdHeader,
         ],
+        requestQueryType: `${system}/operateOn${
+          capitalizeFirstLetter(seedDocType.name)
+        }${capitalizeFirstLetter(op.name)}RequestQuery`,
         requestBodyType: `${system}/operateOn${
           capitalizeFirstLetter(seedDocType.name)
         }${capitalizeFirstLetter(op.name)}RequestBody`,

@@ -1,4 +1,4 @@
-import { RecordTypeDef } from "../interfaces/index.ts";
+import { RecordTypeDef, RecordTypeDefProperty } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
 import { SengiSeedDocType } from "./SengiSeedDocType.ts";
 
@@ -12,6 +12,14 @@ export function generateSengiServiceSignatureRecords(
   system: string,
   seedDocType: SengiSeedDocType,
 ) {
+  const fieldNamesProperty: RecordTypeDefProperty = {
+    name: "fieldNames",
+    summary:
+      `A comma-separated list of field names to be included on each record in the response.
+      If this field is omitted then just the id property of each record will be returned.`,
+    propertyType: "std/hugeString",
+  };
+
   const selectRequestQuery: RecordTypeDef = {
     kind: "record",
     system: system,
@@ -19,12 +27,7 @@ export function generateSengiServiceSignatureRecords(
     summary:
       `The query parameters for requesting a ${seedDocType.name} record.`,
     properties: [
-      {
-        name: "fieldNames",
-        summary:
-          "A comma-separated list of field names to be included on each record in the response.",
-        propertyType: "std/mediumString",
-      },
+      fieldNamesProperty,
     ],
   };
 
@@ -52,12 +55,7 @@ export function generateSengiServiceSignatureRecords(
     summary:
       `The query parameters for requesting all ${seedDocType.name} records.`,
     properties: [
-      {
-        name: "fieldNames",
-        summary:
-          "A comma-separated list of field names to be included on each record in the response.",
-        propertyType: "std/mediumString",
-      },
+      fieldNamesProperty,
     ],
   };
 
@@ -70,12 +68,7 @@ export function generateSengiServiceSignatureRecords(
     summary:
       `The query parameters for requesting ${seedDocType.name} records by ids.`,
     properties: [
-      {
-        name: "fieldNames",
-        summary:
-          "A comma-separated list of field names to be included on each record in the response.",
-        propertyType: "std/longString",
-      },
+      fieldNamesProperty,
       {
         name: "ids",
         summary:
@@ -96,12 +89,7 @@ export function generateSengiServiceSignatureRecords(
       summary:
         `The query parameters for requesting ${seedDocType.name} records using the ${filter.name} filter.`,
       properties: [
-        {
-          name: "fieldNames",
-          summary:
-            "A comma-separated list of field names to be included on each record in the response.",
-          propertyType: "std/longString",
-        },
+        fieldNamesProperty,
         ...filter.parameters.map((filterParam) => ({
           name: filterParam.name,
           summary: filterParam.summary,
@@ -129,6 +117,17 @@ export function generateSengiServiceSignatureRecords(
     ],
   };
 
+  const newRequestQuery: RecordTypeDef = {
+    kind: "record",
+    system,
+    name: `new${capitalizeFirstLetter(seedDocType.name)}RequestQuery`,
+    summary:
+      `The request parameters for creating a new ${seedDocType.name} record.`,
+    properties: [
+      fieldNamesProperty,
+    ],
+  };
+
   const newRequestBody: RecordTypeDef = {
     kind: "record",
     system: system,
@@ -143,11 +142,6 @@ export function generateSengiServiceSignatureRecords(
           capitalizeFirstLetter(seedDocType.name)
         }Template`,
         isRequired: true,
-      },
-      {
-        name: "fieldNames",
-        summary: "An array of field names to be included on the response.",
-        propertyType: "std/mediumString",
       },
     ],
   };
@@ -164,6 +158,17 @@ export function generateSengiServiceSignatureRecords(
         propertyType: `${system}/${seedDocType.name}Record`,
         isRequired: true,
       },
+    ],
+  };
+
+  const patchRequestQuery: RecordTypeDef = {
+    kind: "record",
+    system,
+    name: `patch${capitalizeFirstLetter(seedDocType.name)}RequestQuery`,
+    summary:
+      `The request parameters for creating a new ${seedDocType.name} record.`,
+    properties: [
+      fieldNamesProperty,
     ],
   };
 
@@ -202,6 +207,17 @@ export function generateSengiServiceSignatureRecords(
     ],
   };
 
+  const replaceRequestQuery: RecordTypeDef = {
+    kind: "record",
+    system,
+    name: `replace${capitalizeFirstLetter(seedDocType.name)}RequestQuery`,
+    summary:
+      `The request parameters for creating a new ${seedDocType.name} record.`,
+    properties: [
+      fieldNamesProperty,
+    ],
+  };
+
   const replaceRequestBody: RecordTypeDef = {
     kind: "record",
     system: system,
@@ -215,11 +231,6 @@ export function generateSengiServiceSignatureRecords(
           "The replacement doc that includes values for the system fields.",
         propertyType: `${system}/${seedDocType.name}Replacement`,
         isRequired: true,
-      },
-      {
-        name: "fieldNames",
-        summary: "An array of field names to be included on the response.",
-        propertyType: "std/mediumString",
       },
     ],
   };
@@ -239,6 +250,21 @@ export function generateSengiServiceSignatureRecords(
     ],
   };
 
+  const createRequestQueries: RecordTypeDef[] = seedDocType.constructors.map(
+    (ctor) => ({
+      kind: "record",
+      system,
+      name: `create${capitalizeFirstLetter(seedDocType.name)}${
+        capitalizeFirstLetter(ctor.name)
+      }RequestQuery`,
+      summary:
+        `The request parameters for creating a new ${seedDocType.name} record.`,
+      properties: [
+        fieldNamesProperty,
+      ],
+    }),
+  );
+
   const createRequestBodies: RecordTypeDef[] = seedDocType.constructors.map(
     (ctor) => ({
       kind: "record",
@@ -249,12 +275,7 @@ export function generateSengiServiceSignatureRecords(
       summary:
         `The parameters for creating a new ${seedDocType.name} record using the ${ctor.name} constructor.`,
       properties: [
-        {
-          name: "fieldNames",
-          summary:
-            "A comma-separated list of field names to be included on each record in the response.",
-          propertyType: "std/longString",
-        },
+        fieldNamesProperty,
         {
           name: "id",
           summary: "The id to be assigned to the newly created document.",
@@ -286,6 +307,21 @@ export function generateSengiServiceSignatureRecords(
     ],
   };
 
+  const operationRequestQueries: RecordTypeDef[] = seedDocType.operations.map(
+    (op) => ({
+      kind: "record",
+      system,
+      name: `new${capitalizeFirstLetter(seedDocType.name)}${
+        capitalizeFirstLetter(op.name)
+      }RequestQuery`,
+      summary:
+        `The request parameters for operating on the ${seedDocType.name} record using the ${op.name} operation.`,
+      properties: [
+        fieldNamesProperty,
+      ],
+    }),
+  );
+
   const operationRequestBodies: RecordTypeDef[] = seedDocType.operations.map(
     (op) => ({
       kind: "record",
@@ -296,12 +332,7 @@ export function generateSengiServiceSignatureRecords(
       summary:
         `The parameters for operating on the ${seedDocType.name} record using the ${op.name} operation.`,
       properties: [
-        {
-          name: "fieldNames",
-          summary:
-            "A comma-separated list of field names to be included on each record in the response.",
-          propertyType: "std/longString",
-        },
+        fieldNamesProperty,
         {
           name: "id",
           summary: "The id to be assigned to the newly created document.",
@@ -382,18 +413,23 @@ export function generateSengiServiceSignatureRecords(
     ...selectByFilterRequestQueries,
     selectPluralResponseBody,
 
+    newRequestQuery,
     newRequestBody,
     newResponseBody,
 
+    patchRequestQuery,
     patchRequestBody,
     patchResponseBody,
 
+    replaceRequestQuery,
     replaceRequestBody,
     replaceResponseBody,
 
+    ...createRequestQueries,
     ...createRequestBodies,
     createResponseBody,
 
+    ...operationRequestQueries,
     ...operationRequestBodies,
     operationResponseBody,
 

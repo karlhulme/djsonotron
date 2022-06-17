@@ -20,8 +20,8 @@ export function generateSengiAdapterOperationsCode(
   for (const seedDocType of seedDocTypes) {
     // Either use the specified single partition name or expect it
     // to be provided as a property, via the request headers.
-    const partitionPropValue = seedDocType.singlePartitionName
-      ? `"${seedDocType.singlePartitionName}"`
+    const partitionPropValue = seedDocType.useSinglePartition
+      ? `"_central"`
       : "props.partitionKey";
 
     // The Select adapter.
@@ -162,7 +162,7 @@ export function generateSengiAdapterOperationsCode(
           apiKey: props.apiKey,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: props.body.fieldNames || ["id"],
+          fieldNames: splitCsvFieldNames(props.query.fieldNames),
           doc: props.body.doc as unknown as DocRecord,
           partition: ${partitionPropValue},
           reqProps: {},
@@ -189,7 +189,7 @@ export function generateSengiAdapterOperationsCode(
           apiKey: props.apiKey,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: props.body.fieldNames || ["id"],
+          fieldNames: splitCsvFieldNames(props.query.fieldNames),
           id: props.id,
           operationId: props.operationId || crypto.randomUUID(),
           partition: ${partitionPropValue},
@@ -226,7 +226,7 @@ export function generateSengiAdapterOperationsCode(
           doc: props.body.doc as unknown as DocRecord,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: props.body.fieldNames || ["id"],
+          fieldNames: splitCsvFieldNames(props.query.fieldNames),
           partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
@@ -281,7 +281,7 @@ export function generateSengiAdapterOperationsCode(
           constructorParams: props.body.constructorParams,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: props.body.fieldNames.split(","),
+          fieldNames: splitCsvFieldNames(props.query.fieldNames),
           id: props.body.id,
           partition: ${partitionPropValue},
           reqProps: {},
@@ -313,7 +313,7 @@ export function generateSengiAdapterOperationsCode(
           apiKey: props.apiKey,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: props.body.fieldNames.split(","),
+          fieldNames: splitCsvFieldNames(props.query.fieldNames),
           id: props.body.id,
           operationId: props.operationId || crypto.randomUUID(),
           operationName: "${op.name}",
