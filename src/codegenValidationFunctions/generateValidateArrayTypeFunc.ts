@@ -14,16 +14,16 @@ export function generateValidateArrayTypeFunc(
   const errors: ValidationError[] = [];
   
     if (Array.isArray(value)) {
-      for (const element of value) {
+      for (const elementNo = 0; elementNo < value.length; elementNo++) {
         errors.push(
           ...validate${capitalizeFirstLetter(def.system)}${
     capitalizeFirstLetter(def.name)
-  }(value, valueDisplayPath)
+  }(value[elementNo], valueDisplayPath + "[" + elementNo + "]")
         )
       }
     } else {
       errors.push({
-        valuePath: valueDisplayPath},
+        valuePath: valueDisplayPath,
         value: value,
         msg: "Value must be an array.",
         type: "${def.system}/${def.name}[]",
