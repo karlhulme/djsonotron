@@ -76,11 +76,9 @@ export function generateSengiAdapterOperationsCode(
         });
 
         return {
-          body: {
-            docs: result.docs as unknown as ${capitalizeFirstLetter(system)}${
+          body: result.docs as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record[],
-          },
         };
       }
     `);
