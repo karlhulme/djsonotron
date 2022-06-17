@@ -56,7 +56,7 @@ export function generateOakRouterOperationOutputType(
       resBodySystem && resBodyType
         ? `body: ${capitalizeFirstLetter(resBodySystem)}${
           capitalizeFirstLetter(resBodyType)
-        }${op.requestBodyTypeArray ? "[]" : ""}`
+        }${op.responseBodyTypeArray ? "[]" : ""}`
         : ""
     }
       ${headerPropertyDeclarations.join("\n    ")}

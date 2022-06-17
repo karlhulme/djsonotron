@@ -14,7 +14,7 @@ export function generateValidateArrayTypeFunc(
   const errors: ValidationError[] = [];
   
     if (Array.isArray(value)) {
-      for (const elementNo = 0; elementNo < value.length; elementNo++) {
+      for (let elementNo = 0; elementNo < value.length; elementNo++) {
         errors.push(
           ...validate${capitalizeFirstLetter(def.system)}${
     capitalizeFirstLetter(def.name)
