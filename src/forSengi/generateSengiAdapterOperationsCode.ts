@@ -22,7 +22,7 @@ export function generateSengiAdapterOperationsCode(
     // to be provided as a property, via the request headers.
     const partitionPropValue = seedDocType.singlePartitionName
       ? `"${seedDocType.singlePartitionName}"`
-      : "props.partitionKey"
+      : "props.partitionKey";
 
     // The Select adapter.
     ops.push(`
