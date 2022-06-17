@@ -1,6 +1,7 @@
 import { JsonotronTypeDef, Service } from "../interfaces/index.ts";
 import { generateOakRouterPath } from "./generateOakRouterPath.ts";
-import { generateOakRouterOpenApiPath } from "./generateOakRouterOpenApiPath.ts";
+import { generateOakRouterPathForOpenApi } from "./generateOakRouterPathForOpenApi.ts";
+import { generateOakRouterPathForRoot } from "./generateOakRouterPathForRoot.ts";
 
 export function generateOakRouterConstructor(
   service: Service,
@@ -12,7 +13,8 @@ export function generateOakRouterConstructor(
     lines.push(...generateOakRouterPath(path, types));
   }
 
-  lines.push(...generateOakRouterOpenApiPath(service, types));
+  lines.push(...generateOakRouterPathForRoot());
+  lines.push(...generateOakRouterPathForOpenApi(service, types));
 
   return [`export function createRouter(props: CreateRouterProps) {
     const router = new Router();

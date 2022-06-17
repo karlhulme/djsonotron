@@ -2,7 +2,7 @@ import { stringifyYaml } from "../../deps.ts";
 import { JsonotronTypeDef, Service } from "../interfaces/index.ts";
 import { generateOpenApiService } from "../codegenOpenApi/index.ts";
 
-export function generateOakRouterOpenApiPath(
+export function generateOakRouterPathForOpenApi(
   service: Service,
   types: JsonotronTypeDef[],
 ) {
