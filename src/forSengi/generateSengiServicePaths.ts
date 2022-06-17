@@ -29,13 +29,14 @@ export function generateSengiServicePaths(
     isAuthorisationHeader: true,
   };
 
-  const partitionKeyHeader: ServicePathOperationHeader = {
-    name: "partitionKey",
-    headerType: "std/mediumString",
-    httpName: "partition-key",
-    summary: "A key that identifies a partition of documents.",
-    isRequired: true,
-  };
+  const partitionKeyHeaders: ServicePathOperationHeader[] =
+    seedDocType.singlePartitionName ? [] : [{
+      name: "partitionKey",
+      headerType: "std/mediumString",
+      httpName: "partition-key",
+      summary: "A key that identifies a partition of documents.",
+      isRequired: true,
+    }];
 
   const userHeader: ServicePathOperationHeader = {
     name: "user",
@@ -108,7 +109,7 @@ export function generateSengiServicePaths(
       tags: [seedDocType.pluralTitle],
       requestHeaders: [
         apiKeyHeader,
-        partitionKeyHeader,
+        ...partitionKeyHeaders,
         userHeader,
       ],
       requestQueryType: `${system}/selectAll${
@@ -126,7 +127,7 @@ export function generateSengiServicePaths(
       tags: [seedDocType.pluralTitle],
       requestHeaders: [
         apiKeyHeader,
-        partitionKeyHeader,
+        ...partitionKeyHeaders,
         userHeader,
       ],
       requestBodyType: `${system}/new${
@@ -155,7 +156,7 @@ export function generateSengiServicePaths(
       tags: [seedDocType.pluralTitle],
       requestHeaders: [
         apiKeyHeader,
-        partitionKeyHeader,
+        ...partitionKeyHeaders,
         userHeader,
       ],
       responseHeaders: [
@@ -170,7 +171,7 @@ export function generateSengiServicePaths(
       tags: [seedDocType.pluralTitle],
       requestHeaders: [
         apiKeyHeader,
-        partitionKeyHeader,
+        ...partitionKeyHeaders,
         userHeader,
       ],
       requestQueryType: `${system}/select${
@@ -188,7 +189,7 @@ export function generateSengiServicePaths(
       tags: [seedDocType.pluralTitle],
       requestHeaders: [
         apiKeyHeader,
-        partitionKeyHeader,
+        ...partitionKeyHeaders,
         userHeader,
         reqVersionHeader,
         operationIdHeader,
@@ -211,7 +212,7 @@ export function generateSengiServicePaths(
       tags: [seedDocType.pluralTitle],
       requestHeaders: [
         apiKeyHeader,
-        partitionKeyHeader,
+        ...partitionKeyHeaders,
         userHeader,
       ],
       requestBodyType: `${system}/replace${
@@ -239,7 +240,7 @@ export function generateSengiServicePaths(
       tags: [seedDocType.pluralTitle],
       requestHeaders: [
         apiKeyHeader,
-        partitionKeyHeader,
+        ...partitionKeyHeaders,
         userHeader,
       ],
       requestQueryType: `${system}/select${
@@ -267,7 +268,7 @@ export function generateSengiServicePaths(
         tags: [seedDocType.pluralTitle],
         requestHeaders: [
           apiKeyHeader,
-          partitionKeyHeader,
+          ...partitionKeyHeaders,
           userHeader,
         ],
         requestQueryType: `${system}/select${
@@ -296,7 +297,7 @@ export function generateSengiServicePaths(
         tags: [seedDocType.pluralTitle],
         requestHeaders: [
           apiKeyHeader,
-          partitionKeyHeader,
+          ...partitionKeyHeaders,
           userHeader,
         ],
         requestBodyType: `${system}/create${
@@ -329,7 +330,7 @@ export function generateSengiServicePaths(
         tags: [seedDocType.pluralTitle],
         requestHeaders: [
           apiKeyHeader,
-          partitionKeyHeader,
+          ...partitionKeyHeaders,
           userHeader,
           reqVersionHeader,
           operationIdHeader,

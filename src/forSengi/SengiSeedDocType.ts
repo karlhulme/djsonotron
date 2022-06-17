@@ -35,6 +35,12 @@ export interface SengiSeedDocType {
   summary: string;
 
   /**
+   * If specified, this value names the partition where all the
+   * documents of this type are stored.
+   */
+  singlePartitionName?: string;
+
+  /**
    * An array of properties that make up the doc type,
    * excluding the Sengi standard fields.
    */
