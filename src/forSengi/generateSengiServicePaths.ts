@@ -115,9 +115,8 @@ export function generateSengiServicePaths(
       requestQueryType: `${system}/selectAll${
         capitalizeFirstLetter(seedDocType.pluralName)
       }RequestQuery`,
-      responseBodyType: `${system}/select${
-        capitalizeFirstLetter(seedDocType.pluralName)
-      }Response`,
+      responseBodyType: `${system}/${seedDocType.name}Record`,
+      responseBodyTypeArray: true,
       responseSuccessCode: 200,
     },
 

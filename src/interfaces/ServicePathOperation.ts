@@ -54,6 +54,12 @@ export interface ServicePathOperation {
   requestBodyType?: string;
 
   /**
+   * If this property is true, then the request body is
+   * expected to be an array of the specified requestBodyType values.
+   */
+  requestBodyTypeArray?: boolean;
+
+  /**
    * An array of headers that may be returned.  This may include
    * a Set-Cookie header if a cookie is to be set on the caller.
    */
@@ -63,6 +69,12 @@ export interface ServicePathOperation {
    * The fully-qualified type of the response if successful.
    */
   responseBodyType?: string;
+
+  /**
+   * If this property is true, then the response body will
+   * be an array of the specified responseBodyType values.
+   */
+  responseBodyTypeArray?: boolean;
 
   /**
    * The code that the service will return if the call is successful.

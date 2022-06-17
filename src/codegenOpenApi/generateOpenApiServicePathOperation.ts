@@ -108,17 +108,10 @@ export function generateOpenApiServicePathOperation(
 
   const successResponse: OpenApiSpecPathResponse = {
     description: "Success",
-    content: resBodyType
-      ? {
-        "application/json": {
-          schema: {
-            $ref: `#/components/schemas/${
-              getJsonotronTypeFormalName(resBodyType)
-            }`,
-          },
-        },
-      }
-      : undefined,
+    content: createOpenApiSpecResponseContent(
+      resBodyType,
+      Boolean(op.responseBodyTypeArray),
+    ),
     headers: op.responseHeaders?.reduce((headers, header) => {
       const headerType = resolveJsonotronType(header.headerType, types);
 
@@ -148,11 +141,10 @@ export function generateOpenApiServicePathOperation(
     summary: generateDescriptionText(op.summary, op.deprecation),
     deprecated: op.deprecation ? true : undefined,
     tags: op.tags || [],
-    requestBody: reqBodyName
-      ? {
-        $ref: `#/components/requestBodies/${reqBodyName}`,
-      }
-      : undefined,
+    requestBody: createOpenApiSpecRequestSchema(
+      reqBodyName,
+      Boolean(op.requestBodyTypeArray),
+    ),
     parameters,
     responses: {
       [op.responseSuccessCode.toString()]: successResponse,
@@ -163,4 +155,60 @@ export function generateOpenApiServicePathOperation(
       }]
       : [],
   };
+}
+
+function createOpenApiSpecRequestSchema(
+  formalTypeName: string | null,
+  isArray: boolean,
+) {
+  if (formalTypeName) {
+    if (isArray) {
+      return {
+        type: "array",
+        item: {
+          $ref: `#/components/requestBodies/${formalTypeName}`,
+        },
+      };
+    } else {
+      return {
+        $ref: `#/components/requestBodies/${formalTypeName}`,
+      };
+    }
+  } else {
+    return undefined;
+  }
+}
+
+function createOpenApiSpecResponseContent(
+  responseType: JsonotronTypeDef | null,
+  isArray: boolean,
+) {
+  if (responseType) {
+    if (isArray) {
+      return {
+        "application/json": {
+          schema: {
+            type: "array",
+            item: {
+              $ref: `#/components/schemas/${
+                getJsonotronTypeFormalName(responseType)
+              }`,
+            },
+          },
+        },
+      };
+    } else {
+      return {
+        "application/json": {
+          schema: {
+            $ref: `#/components/schemas/${
+              getJsonotronTypeFormalName(responseType)
+            }`,
+          },
+        },
+      };
+    }
+  } else {
+    return undefined;
+  }
 }
