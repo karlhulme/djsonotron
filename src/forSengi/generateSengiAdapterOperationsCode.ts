@@ -232,7 +232,6 @@ export function generateSengiAdapterOperationsCode(
       capitalizeFirstLetter(seedDocType.name)
     }Record,
           },
-          isNew: result.isNew,
         };
       }
     `);
