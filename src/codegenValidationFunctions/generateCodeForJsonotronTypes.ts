@@ -6,6 +6,7 @@ import {
   RecordTypeDef,
   StringTypeDef,
 } from "../interfaces/index.ts";
+import { generateValidateArrayTypeFunc } from "./generateValidateArrayTypeFunc.ts";
 import { generateValidateBoolTypeFunc } from "./generateValidateBoolTypeFunc.ts";
 import { generateValidateEnumTypeFunc } from "./generateValidateEnumTypeFunc.ts";
 import { generateValidateFloatTypeFunc } from "./generateValidateFloatTypeFunc.ts";
@@ -38,6 +39,8 @@ export function generateCodeForJsonotronTypes(types: JsonotronTypeDef[]) {
     } else if (type.kind === "string") {
       declarations.push(generateValidateStringTypeFunc(type as StringTypeDef));
     }
+
+    declarations.push(generateValidateArrayTypeFunc(type));
   }
 
   return declarations.join("\n\n");

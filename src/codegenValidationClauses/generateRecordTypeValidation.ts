@@ -102,7 +102,7 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
             valuePath: \`${props.valueDisplayPath}.${property.name}\`,
             value: ${props.valuePath}.${property.name},
             msg: "Value must be an array of objects.",
-            type: "${props.def.system}/${props.def.name}",
+            type: "${props.def.system}/${props.def.name}[]",
           })
         }
       `;

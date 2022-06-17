@@ -62,7 +62,7 @@ export function generateOakRouterOperationInputType(
   const bodyPropertyDeclaration = reqBodySystem && reqBodyType
     ? `body: ${capitalizeFirstLetter(reqBodySystem)}${
       capitalizeFirstLetter(reqBodyType)
-    }${op.requestBodyTypeArray ? "[]" : ""}`
+    }${op.responseBodyTypeArray ? "[]" : ""}`
     : "";
 
   const headerPropertyDeclarations: string[] = [];

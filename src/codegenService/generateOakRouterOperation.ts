@@ -57,7 +57,7 @@ export function generateOakRouterOperation(
 
     lines.push(`
       const ${urlParam.name}ValidationErrors = ${
-      getJsonotronTypeValidationFuncName(urlParamTypeDef)
+      getJsonotronTypeValidationFuncName(urlParamTypeDef, false)
     }(
         ${urlParam.name}Param,
         "urlParams.${urlParam.name}",
@@ -163,7 +163,10 @@ export function generateOakRouterOperation(
 
     lines.push(`
       const queryValidationErrors = ${
-      getJsonotronTypeValidationFuncName(queryTypeDef)
+      getJsonotronTypeValidationFuncName(
+        queryTypeDef,
+        Boolean(op.requestBodyTypeArray),
+      )
     }(
         query,
         "query",
@@ -205,7 +208,10 @@ export function generateOakRouterOperation(
       }
 
       const bodyValidationErrors = ${
-      getJsonotronTypeValidationFuncName(bodyTypeDef)
+      getJsonotronTypeValidationFuncName(
+        bodyTypeDef,
+        Boolean(op.requestBodyTypeArray),
+      )
     }(body, "body");
 
       if (bodyValidationErrors.length > 0) {
@@ -260,7 +266,7 @@ export function generateOakRouterOperation(
       lines.push(`
         if (${headerVar} !== null) {
           const headerValidationErrors = ${
-        getJsonotronTypeValidationFuncName(headerType)
+        getJsonotronTypeValidationFuncName(headerType, false)
       }(${headerVar}, "header.${header.httpName}");
       
           if (headerValidationErrors.length > 0) {
@@ -315,7 +321,7 @@ export function generateOakRouterOperation(
       lines.push(`
         if (${cookieVar} !== null) {
           const cookieValidationErrors = ${
-        getJsonotronTypeValidationFuncName(cookieType)
+        getJsonotronTypeValidationFuncName(cookieType, false)
       }(${cookieVar}, "cookies.${cookies.name}");
       
           if (cookieValidationErrors.length > 0) {
@@ -364,7 +370,10 @@ export function generateOakRouterOperation(
 
       lines.push(`
         const resultValidationErrors = ${
-        getJsonotronTypeValidationFuncName(resultTypeDef)
+        getJsonotronTypeValidationFuncName(
+          resultTypeDef,
+          Boolean(op.responseBodyTypeArray),
+        )
       }(
           result.body,
           "result",

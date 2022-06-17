@@ -18,7 +18,8 @@ export function generateImports(props: GenerateImportsProps) {
       typeImports.push(getJsonotronTypeFormalName(type));
     }
 
-    typeImports.push(getJsonotronTypeValidationFuncName(type));
+    typeImports.push(getJsonotronTypeValidationFuncName(type, false));
+    typeImports.push(getJsonotronTypeValidationFuncName(type, true));
   }
 
   return `
