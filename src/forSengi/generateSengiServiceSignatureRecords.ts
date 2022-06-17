@@ -379,12 +379,6 @@ export function generateSengiServiceSignatureRecords(
           propertyType: op.parametersType,
           isRequired: true,
         },
-        {
-          name: "reqVersion",
-          summary:
-            "If populated, then the retrieved record must have the stated version or the operation is rejected.",
-          propertyType: "std/mediumString",
-        },
       ],
     }),
   );

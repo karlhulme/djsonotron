@@ -189,6 +189,7 @@ export function generateSengiAdapterOperationsCode(
           partition: props.partitionKey,
           patch: props.body.patch as unknown as DocPatch,
           reqProps: {},
+          reqVersion: props.reqVersion,
           user: props.user,
         });
 
@@ -317,7 +318,7 @@ export function generateSengiAdapterOperationsCode(
           partition: props.partitionKey,
           reqProps: {},
           user: props.user,
-          reqVersion: props.body.reqVersion
+          reqVersion: props.reqVersion
         });
 
         return {

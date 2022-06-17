@@ -43,6 +43,17 @@ export function generateSengiServicePaths(
     isRequired: true,
   };
 
+  const reqVersionHeader: ServicePathOperationHeader = {
+    name: "reqVersion",
+    headerType: "std/mediumString",
+    httpName: "if-match",
+    summary:
+      `A document will only be updated if it's docVersion property matches the given value.`,
+    isRequired: false,
+  };
+
+  // collection based operations
+
   const docTypeRootPath: ServicePath = {
     relativeUrl: `/records/${seedDocType.pluralName}`,
     summary: seedDocType.summary,
@@ -85,6 +96,8 @@ export function generateSengiServicePaths(
       responseSuccessCode: 201,
     },
   };
+
+  // document-based operations
 
   const docTypeRecordPath: ServicePath = {
     relativeUrl: `/records/${seedDocType.pluralName}/{id:std/uuid}`,
@@ -131,6 +144,7 @@ export function generateSengiServicePaths(
         apiKeyHeader,
         partitionKeyHeader,
         userHeader,
+        reqVersionHeader,
       ],
       requestBodyType: `${system}/patch${
         capitalizeFirstLetter(seedDocType.name)
@@ -159,6 +173,8 @@ export function generateSengiServicePaths(
       responseSuccessCode: 200,
     },
   };
+
+  // custom verb operations
 
   const docTypeByIdsPath: ServicePath = {
     relativeUrl: `/records/${seedDocType.pluralName}\\:byIds`,
@@ -255,6 +271,7 @@ export function generateSengiServicePaths(
           apiKeyHeader,
           partitionKeyHeader,
           userHeader,
+          reqVersionHeader,
         ],
         requestBodyType: `${system}/operateOn${
           capitalizeFirstLetter(seedDocType.name)
