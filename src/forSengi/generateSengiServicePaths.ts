@@ -1,6 +1,7 @@
 import {
   ServicePath,
   ServicePathOperationHeader,
+  ServicePathOperationResponseHeader,
 } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
 import { SengiSeedDocType } from "./SengiSeedDocType.ts";
@@ -17,6 +18,8 @@ export function generateSengiServicePaths(
   seedDocType: SengiSeedDocType,
   user: string,
 ) {
+  // request headers
+
   const apiKeyHeader: ServicePathOperationHeader = {
     name: "apiKey",
     headerType: "std/mediumString",
@@ -50,6 +53,44 @@ export function generateSengiServicePaths(
     summary:
       `A document will only be updated if it's docVersion property matches the given value.`,
     isRequired: false,
+  };
+
+  const operationIdHeader: ServicePathOperationHeader = {
+    name: "operationId",
+    headerType: "std/uuid",
+    httpName: "idempotency-key",
+    summary:
+      `A unique value for this operation which ensures repeat invocation will not change the underlying resource.`,
+    isRequired: false,
+  };
+
+  // response headers
+
+  const isDeletedHeader: ServicePathOperationResponseHeader = {
+    name: "isDeleted",
+    headerType: "std/bool",
+    httpName: "is-deleted",
+    summary:
+      `A value that indicates if the resource was deleted as a consequence of this request.`,
+    isGuaranteed: true,
+  };
+
+  const isUpdatedHeader: ServicePathOperationResponseHeader = {
+    name: "isUpdated",
+    headerType: "std/bool",
+    httpName: "is-updated",
+    summary:
+      `A value that indicates if the resource was updated as a consequence of this request.`,
+    isGuaranteed: true,
+  };
+
+  const isNewHeader: ServicePathOperationResponseHeader = {
+    name: "isNew",
+    headerType: "std/bool",
+    httpName: "is-new",
+    summary:
+      `A value that indicates if the resource was created as a consequence of this request.`,
+    isGuaranteed: true,
   };
 
   // collection based operations
@@ -90,6 +131,9 @@ export function generateSengiServicePaths(
       requestBodyType: `${system}/new${
         capitalizeFirstLetter(seedDocType.name)
       }RequestBody`,
+      responseHeaders: [
+        isNewHeader,
+      ],
       responseBodyType: `${system}/new${
         capitalizeFirstLetter(seedDocType.name)
       }Response`,
@@ -111,6 +155,9 @@ export function generateSengiServicePaths(
         apiKeyHeader,
         partitionKeyHeader,
         userHeader,
+      ],
+      responseHeaders: [
+        isDeletedHeader,
       ],
       responseBodyType: `${system}/delete${
         capitalizeFirstLetter(seedDocType.name)
@@ -145,10 +192,14 @@ export function generateSengiServicePaths(
         partitionKeyHeader,
         userHeader,
         reqVersionHeader,
+        operationIdHeader,
       ],
       requestBodyType: `${system}/patch${
         capitalizeFirstLetter(seedDocType.name)
       }RequestBody`,
+      responseHeaders: [
+        isUpdatedHeader,
+      ],
       responseBodyType: `${system}/patch${
         capitalizeFirstLetter(seedDocType.name)
       }Response`,
@@ -247,6 +298,9 @@ export function generateSengiServicePaths(
         requestBodyType: `${system}/create${
           capitalizeFirstLetter(seedDocType.name)
         }${capitalizeFirstLetter(ctor.name)}RequestBody`,
+        responseHeaders: [
+          isNewHeader,
+        ],
         responseBodyType: `${system}/create${
           capitalizeFirstLetter(seedDocType.name)
         }Response`,
@@ -272,10 +326,14 @@ export function generateSengiServicePaths(
           partitionKeyHeader,
           userHeader,
           reqVersionHeader,
+          operationIdHeader,
         ],
         requestBodyType: `${system}/operateOn${
           capitalizeFirstLetter(seedDocType.name)
         }${capitalizeFirstLetter(op.name)}RequestBody`,
+        responseHeaders: [
+          isUpdatedHeader,
+        ],
         responseBodyType: `${system}/operateOn${
           capitalizeFirstLetter(seedDocType.name)
         }Response`,

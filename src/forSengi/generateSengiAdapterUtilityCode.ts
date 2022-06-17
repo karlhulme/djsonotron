@@ -39,6 +39,21 @@ export function generateSengiAdapterUtilityCode() {
   }
 
   /**
+   * Splits the given comma-separated list of field names
+   * into an array.  If the given array does not contain
+   * the id field then it will be added.
+   */
+  export function splitCsvFieldNames (csvFieldNames?: string) {
+    const fieldNames = (csvFieldNames || "").split(",");
+
+    if (!fieldNames.includes("id")) {
+      fieldNames.push("id");
+    }
+
+    return fieldNames;
+  }
+
+  /**
    * Returns a function that takes a document, validates it using the given
    * validator, and if said validator yields one validation error or more,
    * then the validation errors are stringified.

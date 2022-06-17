@@ -29,7 +29,7 @@ export function generateSengiAdapterOperationsCode(
           apiKey: props.apiKey,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: props.query.fieldNames.split(","),
+          fieldNames: splitCsvFieldNames(props.query.fieldNames),
           ids: [props.id],
           partition: props.partitionKey,
           reqProps: {},
@@ -63,7 +63,7 @@ export function generateSengiAdapterOperationsCode(
           apiKey: props.apiKey,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: props.query.fieldNames.split(","),
+          fieldNames: splitCsvFieldNames(props.query.fieldNames),
           partition: props.partitionKey,
           reqProps: {},
           user: props.user,
@@ -92,7 +92,7 @@ export function generateSengiAdapterOperationsCode(
           apiKey: props.apiKey,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: props.query.fieldNames.split(","),
+          fieldNames: splitCsvFieldNames(props.query.fieldNames),
           ids: props.query.ids.split(","),
           partition: props.partitionKey,
           reqProps: {},
@@ -123,7 +123,7 @@ export function generateSengiAdapterOperationsCode(
           apiKey: props.apiKey,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: props.query.fieldNames.split(","),
+          fieldNames: splitCsvFieldNames(props.query.fieldNames),
           filterName: "${filter.name}",
           filterParams: {
             ${
@@ -168,8 +168,8 @@ export function generateSengiAdapterOperationsCode(
             doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record,
-            isNew: result.isNew,
           },
+          isNew: result.isNew,
         };
       }
    `);
@@ -185,7 +185,7 @@ export function generateSengiAdapterOperationsCode(
           docTypeName: "${seedDocType.name}",
           fieldNames: props.body.fieldNames || ["id"],
           id: props.id,
-          operationId: props.body.operationId || crypto.randomUUID(),
+          operationId: props.operationId || crypto.randomUUID(),
           partition: props.partitionKey,
           patch: props.body.patch as unknown as DocPatch,
           reqProps: {},
@@ -198,8 +198,8 @@ export function generateSengiAdapterOperationsCode(
             doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record,
-            isUpdated: result.isUpdated,
           },
+          isUpdated: result.isUpdated,
         };
       }
     `);
@@ -231,8 +231,8 @@ export function generateSengiAdapterOperationsCode(
             doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record,
-            isNew: result.isNew,
           },
+          isNew: result.isNew,
         };
       }
     `);
@@ -255,9 +255,7 @@ export function generateSengiAdapterOperationsCode(
         });
   
         return {
-          body: {
-            isDeleted: result.isDeleted,
-          },
+          isDeleted: result.isDeleted,
         };
       }
     `);
@@ -290,8 +288,8 @@ export function generateSengiAdapterOperationsCode(
             doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
         capitalizeFirstLetter(seedDocType.name)
       }Record,
-            isNew: result.isNew
           },
+          isNew: result.isNew
         };
       }`);
     }
@@ -312,7 +310,7 @@ export function generateSengiAdapterOperationsCode(
           docTypeName: "${seedDocType.name}",
           fieldNames: props.body.fieldNames.split(","),
           id: props.body.id,
-          operationId: props.body.operationId,
+          operationId: props.operationId || crypto.randomUUID(),
           operationName: "${op.name}",
           operationParams: props.body.operationParams,
           partition: props.partitionKey,
@@ -326,8 +324,8 @@ export function generateSengiAdapterOperationsCode(
             doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
         capitalizeFirstLetter(seedDocType.name)
       }Record,
-            isUpdated: result.isUpdated
           },
+          isUpdated: result.isUpdated
         };
       }`);
     }
