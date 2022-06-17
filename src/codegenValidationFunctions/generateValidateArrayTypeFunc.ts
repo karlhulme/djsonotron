@@ -11,26 +11,9 @@ export function generateValidateArrayTypeFunc(
    export function validate${capitalizeFirstLetter(def.system)}${
     capitalizeFirstLetter(def.name)
   }Array (value: any, valueDisplayPath: string): ValidationError[] {
-  const errors: ValidationError[] = [];
-  
-    if (Array.isArray(value)) {
-      for (let elementNo = 0; elementNo < value.length; elementNo++) {
-        errors.push(
-          ...validate${capitalizeFirstLetter(def.system)}${
-    capitalizeFirstLetter(def.name)
-  }(value[elementNo], valueDisplayPath + "[" + elementNo + "]")
-        )
-      }
-    } else {
-      errors.push({
-        valuePath: valueDisplayPath,
-        value: value,
-        msg: "Value must be an array.",
-        type: "${def.system}/${def.name}[]",
-      })
-    }
-  
-  return errors;
+    return validateArray(value, valueDisplay, validate${capitalizeFirstLetter(def.system)}${
+      capitalizeFirstLetter(def.name)
+    }, "${def.system}/${def.name}")
   }
 `;
 }

@@ -6,6 +6,7 @@ import {
   RecordTypeDef,
   StringTypeDef,
 } from "../interfaces/index.ts";
+import { generateValidateArrayFunc } from './generateValidateArrayFunc.ts';
 import { generateValidateArrayTypeFunc } from "./generateValidateArrayTypeFunc.ts";
 import { generateValidateBoolTypeFunc } from "./generateValidateBoolTypeFunc.ts";
 import { generateValidateEnumTypeFunc } from "./generateValidateEnumTypeFunc.ts";
@@ -20,6 +21,7 @@ export function generateCodeForJsonotronTypes(types: JsonotronTypeDef[]) {
   const declarations = [];
 
   declarations.push(generateValidationErrorInterface());
+  declarations.push(generateValidateArrayFunc());
 
   for (const type of types) {
     if (type.kind === "bool") {
