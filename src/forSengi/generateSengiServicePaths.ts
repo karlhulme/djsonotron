@@ -159,9 +159,6 @@ export function generateSengiServicePaths(
       responseHeaders: [
         isDeletedHeader,
       ],
-      responseBodyType: `${system}/delete${
-        capitalizeFirstLetter(seedDocType.name)
-      }Response`,
       responseSuccessCode: 204,
     },
 

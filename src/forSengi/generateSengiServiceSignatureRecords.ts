@@ -169,13 +169,6 @@ export function generateSengiServiceSignatureRecords(
         propertyType: `${system}/${seedDocType.name}Record`,
         isRequired: true,
       },
-      {
-        name: "isNew",
-        summary:
-          "True if a document was created, or false if the document already existed.",
-        propertyType: "std/bool",
-        isRequired: true,
-      },
     ],
   };
 
@@ -190,12 +183,6 @@ export function generateSengiServiceSignatureRecords(
         summary: "An array of field names to be included on the response.",
         propertyType: "std/mediumString",
         isArray: true,
-      },
-      {
-        name: "operationId",
-        summary:
-          "The id for the operation.  This operation will only be applied once.",
-        propertyType: "std/uuid",
       },
       {
         name: "patch",
@@ -216,13 +203,6 @@ export function generateSengiServiceSignatureRecords(
         name: "doc",
         summary: "The updated record.",
         propertyType: `${system}/${seedDocType.name}Record`,
-        isRequired: true,
-      },
-      {
-        name: "isUpdated",
-        summary:
-          "True if a document was updated, or false if the patch had already been applied.",
-        propertyType: "std/bool",
         isRequired: true,
       },
     ],
@@ -261,29 +241,6 @@ export function generateSengiServiceSignatureRecords(
         name: "doc",
         summary: "The newly replaced record.",
         propertyType: `${system}/${seedDocType.name}Record`,
-        isRequired: true,
-      },
-      {
-        name: "isNew",
-        summary:
-          "True if a new document was created, or false if an existing document was replaced.",
-        propertyType: "std/bool",
-        isRequired: true,
-      },
-    ],
-  };
-
-  const deleteResponseBody: RecordTypeDef = {
-    kind: "record",
-    system: system,
-    name: `delete${capitalizeFirstLetter(seedDocType.name)}Response`,
-    summary: `A response that indicates if a record was deleted.`,
-    properties: [
-      {
-        name: "isDeleted",
-        summary:
-          "True if a document was deleted, or false if a document was not deleted.",
-        propertyType: "std/bool",
         isRequired: true,
       },
     ],
@@ -334,13 +291,6 @@ export function generateSengiServiceSignatureRecords(
         propertyType: `${system}/${seedDocType.name}Record`,
         isRequired: true,
       },
-      {
-        name: "isNew",
-        summary:
-          "True if a document was created, or false if the document already existed.",
-        propertyType: "std/bool",
-        isRequired: true,
-      },
     ],
   };
 
@@ -368,12 +318,6 @@ export function generateSengiServiceSignatureRecords(
           isRequired: true,
         },
         {
-          name: "operationId",
-          summary: "The id of the operation.",
-          propertyType: "std/uuid",
-          isRequired: true,
-        },
-        {
           name: "operationParams",
           summary: "The parameters of the operation.",
           propertyType: op.parametersType,
@@ -393,13 +337,6 @@ export function generateSengiServiceSignatureRecords(
         name: "doc",
         summary: "The recently mutated record.",
         propertyType: `${system}/${seedDocType.name}Record`,
-        isRequired: true,
-      },
-      {
-        name: "isUpdated",
-        summary:
-          "True if the document was updated, or false if the document was not updated.",
-        propertyType: "std/bool",
         isRequired: true,
       },
     ],
@@ -462,8 +399,6 @@ export function generateSengiServiceSignatureRecords(
 
     replaceRequestBody,
     replaceResponseBody,
-
-    deleteResponseBody,
 
     ...createRequestBodies,
     createResponseBody,
