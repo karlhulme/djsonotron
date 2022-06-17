@@ -24,7 +24,6 @@ export function generateSengiServiceSignatureRecords(
         summary:
           "A comma-separated list of field names to be included on each record in the response.",
         propertyType: "std/mediumString",
-        isRequired: true,
       },
     ],
   };
@@ -58,7 +57,6 @@ export function generateSengiServiceSignatureRecords(
         summary:
           "A comma-separated list of field names to be included on each record in the response.",
         propertyType: "std/mediumString",
-        isRequired: true,
       },
     ],
   };
@@ -77,7 +75,6 @@ export function generateSengiServiceSignatureRecords(
         summary:
           "A comma-separated list of field names to be included on each record in the response.",
         propertyType: "std/longString",
-        isRequired: true,
       },
       {
         name: "ids",
@@ -104,7 +101,6 @@ export function generateSengiServiceSignatureRecords(
           summary:
             "A comma-separated list of field names to be included on each record in the response.",
           propertyType: "std/longString",
-          isRequired: true,
         },
         ...filter.parameters.map((filterParam) => ({
           name: filterParam.name,
@@ -152,7 +148,6 @@ export function generateSengiServiceSignatureRecords(
         name: "fieldNames",
         summary: "An array of field names to be included on the response.",
         propertyType: "std/mediumString",
-        isArray: true,
       },
     ],
   };
@@ -182,7 +177,6 @@ export function generateSengiServiceSignatureRecords(
         name: "fieldNames",
         summary: "An array of field names to be included on the response.",
         propertyType: "std/mediumString",
-        isArray: true,
       },
       {
         name: "patch",
@@ -226,7 +220,6 @@ export function generateSengiServiceSignatureRecords(
         name: "fieldNames",
         summary: "An array of field names to be included on the response.",
         propertyType: "std/mediumString",
-        isArray: true,
       },
     ],
   };
@@ -261,7 +254,6 @@ export function generateSengiServiceSignatureRecords(
           summary:
             "A comma-separated list of field names to be included on each record in the response.",
           propertyType: "std/longString",
-          isRequired: true,
         },
         {
           name: "id",
@@ -309,7 +301,6 @@ export function generateSengiServiceSignatureRecords(
           summary:
             "A comma-separated list of field names to be included on each record in the response.",
           propertyType: "std/longString",
-          isRequired: true,
         },
         {
           name: "id",

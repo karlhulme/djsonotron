@@ -18,6 +18,12 @@ export function generateSengiAdapterOperationsCode(
   const ops: string[] = [];
 
   for (const seedDocType of seedDocTypes) {
+    // Either use the specified single partition name or expect it
+    // to be provided as a property, via the request headers.
+    const partitionPropValue = seedDocType.singlePartitionName
+      ? `"${seedDocType.singlePartitionName}"`
+      : "props.partitionKey"
+
     // The Select adapter.
     ops.push(`
       select${capitalizeFirstLetter(seedDocType.name)}: async (props: Select${
@@ -31,7 +37,7 @@ export function generateSengiAdapterOperationsCode(
           docTypeName: "${seedDocType.name}",
           fieldNames: splitCsvFieldNames(props.query.fieldNames),
           ids: [props.id],
-          partition: props.partitionKey,
+          partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
         });
@@ -64,7 +70,7 @@ export function generateSengiAdapterOperationsCode(
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
           fieldNames: splitCsvFieldNames(props.query.fieldNames),
-          partition: props.partitionKey,
+          partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
         });
@@ -94,7 +100,7 @@ export function generateSengiAdapterOperationsCode(
           docTypeName: "${seedDocType.name}",
           fieldNames: splitCsvFieldNames(props.query.fieldNames),
           ids: props.query.ids.split(","),
-          partition: props.partitionKey,
+          partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
         });
@@ -132,7 +138,7 @@ export function generateSengiAdapterOperationsCode(
             `)
       }
           },
-          partition: props.partitionKey,
+          partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
         });
@@ -158,7 +164,7 @@ export function generateSengiAdapterOperationsCode(
           docTypeName: "${seedDocType.name}",
           fieldNames: props.body.fieldNames || ["id"],
           doc: props.body.doc as unknown as DocRecord,
-          partition: props.partitionKey,
+          partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
         });
@@ -186,7 +192,7 @@ export function generateSengiAdapterOperationsCode(
           fieldNames: props.body.fieldNames || ["id"],
           id: props.id,
           operationId: props.operationId || crypto.randomUUID(),
-          partition: props.partitionKey,
+          partition: ${partitionPropValue},
           patch: props.body.patch as unknown as DocPatch,
           reqProps: {},
           reqVersion: props.reqVersion,
@@ -221,7 +227,7 @@ export function generateSengiAdapterOperationsCode(
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
           fieldNames: props.body.fieldNames || ["id"],
-          partition: props.partitionKey,
+          partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
         });
@@ -248,7 +254,7 @@ export function generateSengiAdapterOperationsCode(
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
           id: props.id,
-          partition: props.partitionKey,
+          partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
         });
@@ -277,7 +283,7 @@ export function generateSengiAdapterOperationsCode(
           docTypeName: "${seedDocType.name}",
           fieldNames: props.body.fieldNames.split(","),
           id: props.body.id,
-          partition: props.partitionKey,
+          partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
         });
@@ -312,7 +318,7 @@ export function generateSengiAdapterOperationsCode(
           operationId: props.operationId || crypto.randomUUID(),
           operationName: "${op.name}",
           operationParams: props.body.operationParams,
-          partition: props.partitionKey,
+          partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
           reqVersion: props.reqVersion
