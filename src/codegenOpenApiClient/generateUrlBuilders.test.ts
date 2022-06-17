@@ -37,7 +37,7 @@ const exampleOpenApi: OpenApiSpec = {
           },
         }],
         responses: {},
-        security: {},
+        security: [],
       },
     },
   },

@@ -158,9 +158,9 @@ export function generateOpenApiServicePathOperation(
       [op.responseSuccessCode.toString()]: successResponse,
     },
     security: path.requireApiKey
-      ? {
+      ? [{
         "apiKeyAuth": [],
-      }
-      : {},
+      }]
+      : [],
   };
 }

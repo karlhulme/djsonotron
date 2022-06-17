@@ -47,7 +47,7 @@ export interface OpenApiSpecPathOperation {
   parameters: OpenApiSpecParameter[];
   requestBody?: OpenApiSpecSchema;
   responses: Record<string, OpenApiSpecPathResponse>;
-  security: Record<string, unknown[]>;
+  security: Record<string, unknown[]>[];
 }
 
 export interface OpenApiSpecPathResponse {
