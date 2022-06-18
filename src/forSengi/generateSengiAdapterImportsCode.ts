@@ -76,15 +76,15 @@ export function generateSengiAdapterImportsCode(
       // The parameters to a filter
       importsFromTypesAutogen.push(
         `${capitalizeFirstLetter(props.system)}${
-          capitalizeFirstLetter(getTypeFromTypeString(filter.name))
-        }Filter`,
+          capitalizeFirstLetter(sdt.name)
+        }${capitalizeFirstLetter(getTypeFromTypeString(filter.name))}Filter`,
       );
 
       // The validator used on parameters to a filter
       importsFromTypesAutogen.push(
         `validate${capitalizeFirstLetter(props.system)}${
-          capitalizeFirstLetter(getTypeFromTypeString(filter.name))
-        }Filter`,
+          capitalizeFirstLetter(sdt.name)
+        }${capitalizeFirstLetter(getTypeFromTypeString(filter.name))}Filter`,
       );
     }
 
@@ -108,15 +108,15 @@ export function generateSengiAdapterImportsCode(
       // The parameters to a query
       importsFromTypesAutogen.push(
         `${capitalizeFirstLetter(props.system)}${
-          capitalizeFirstLetter(getTypeFromTypeString(query.name))
-        }Query`,
+          capitalizeFirstLetter(sdt.name)
+        }${capitalizeFirstLetter(getTypeFromTypeString(query.name))}Query`,
       );
 
       // The validator used on parameters to a query
       importsFromTypesAutogen.push(
         `validate${capitalizeFirstLetter(props.system)}${
-          capitalizeFirstLetter(getTypeFromTypeString(query.name))
-        }Query`,
+          capitalizeFirstLetter(sdt.name)
+        }${capitalizeFirstLetter(getTypeFromTypeString(query.name))}Query`,
       );
 
       // The types used as a response to any query
