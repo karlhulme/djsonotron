@@ -138,9 +138,7 @@ export function generateSengiServicePaths(
       responseHeaders: [
         isNewHeader,
       ],
-      responseBodyType: `${system}/new${
-        capitalizeFirstLetter(seedDocType.name)
-      }Response`,
+      responseBodyType: `${system}/${seedDocType.name}Record`,
       responseSuccessCode: 201,
     },
   };
@@ -179,9 +177,7 @@ export function generateSengiServicePaths(
       requestQueryType: `${system}/select${
         capitalizeFirstLetter(seedDocType.name)
       }RequestQuery`,
-      responseBodyType: `${system}/select${
-        capitalizeFirstLetter(seedDocType.name)
-      }Response`,
+      responseBodyType: `${system}/${seedDocType.name}Record`,
       responseSuccessCode: 200,
     },
 
@@ -205,9 +201,7 @@ export function generateSengiServicePaths(
       responseHeaders: [
         isUpdatedHeader,
       ],
-      responseBodyType: `${system}/patch${
-        capitalizeFirstLetter(seedDocType.name)
-      }Response`,
+      responseBodyType: `${system}/${seedDocType.name}Record`,
       responseSuccessCode: 200,
     },
 
@@ -226,9 +220,7 @@ export function generateSengiServicePaths(
       requestBodyType: `${system}/replace${
         capitalizeFirstLetter(seedDocType.name)
       }RequestBody`,
-      responseBodyType: `${system}/replace${
-        capitalizeFirstLetter(seedDocType.name)
-      }Response`,
+      responseBodyType: `${system}/${seedDocType.name}Record`,
       responseSuccessCode: 200,
     },
   };
@@ -254,9 +246,8 @@ export function generateSengiServicePaths(
       requestQueryType: `${system}/select${
         capitalizeFirstLetter(seedDocType.pluralName)
       }ByIdsRequestQuery`,
-      responseBodyType: `${system}/select${
-        capitalizeFirstLetter(seedDocType.pluralName)
-      }Response`,
+      responseBodyType: `${system}/${seedDocType.name}Record`,
+      responseBodyTypeArray: true,
       responseSuccessCode: 200,
     },
   };
@@ -282,9 +273,8 @@ export function generateSengiServicePaths(
         requestQueryType: `${system}/select${
           capitalizeFirstLetter(seedDocType.pluralName)
         }${capitalizeFirstLetter(filter.name)}RequestQuery`,
-        responseBodyType: `${system}/select${
-          capitalizeFirstLetter(seedDocType.pluralName)
-        }Response`,
+        responseBodyType: `${system}/${seedDocType.name}Record`,
+        responseBodyTypeArray: true,
         responseSuccessCode: 200,
       },
     }),
@@ -317,9 +307,8 @@ export function generateSengiServicePaths(
         responseHeaders: [
           isNewHeader,
         ],
-        responseBodyType: `${system}/create${
-          capitalizeFirstLetter(seedDocType.name)
-        }Response`,
+        responseBodyType: `${system}/${seedDocType.name}Record`,
+        responseBodyTypeArray: true,
         responseSuccessCode: 201,
       },
     }),
@@ -355,9 +344,7 @@ export function generateSengiServicePaths(
         responseHeaders: [
           isUpdatedHeader,
         ],
-        responseBodyType: `${system}/operateOn${
-          capitalizeFirstLetter(seedDocType.name)
-        }Response`,
+        responseBodyType: `${system}/${seedDocType.name}Record`,
         responseSuccessCode: 200,
       },
     }),
@@ -383,9 +370,7 @@ export function generateSengiServicePaths(
         requestQueryType: `${system}/query${
           capitalizeFirstLetter(seedDocType.pluralName)
         }${capitalizeFirstLetter(query.name)}RequestQuery`,
-        responseBodyType: `${system}/query${
-          capitalizeFirstLetter(seedDocType.pluralName)
-        }${capitalizeFirstLetter(query.name)}Response`,
+        responseBodyType: query.resultType,
         responseSuccessCode: 200,
       },
     }),

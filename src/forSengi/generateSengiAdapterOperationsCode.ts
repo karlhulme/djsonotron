@@ -47,11 +47,9 @@ export function generateSengiAdapterOperationsCode(
         }
 
         return {
-          body: {
-            doc: result.docs[0] as unknown as ${capitalizeFirstLetter(system)}${
+          body: result.docs[0] as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record,
-          },
         };
       }
     `);
@@ -104,11 +102,9 @@ export function generateSengiAdapterOperationsCode(
         });
 
         return {
-          body: {
-            docs: result.docs as unknown as ${capitalizeFirstLetter(system)}${
+          body: result.docs as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record[],
-          },
         };
       }
     `);
@@ -142,11 +138,9 @@ export function generateSengiAdapterOperationsCode(
         });
 
         return {
-          body: {
-            docs: result.docs as unknown as ${capitalizeFirstLetter(system)}${
+          body: result.docs as unknown as ${capitalizeFirstLetter(system)}${
         capitalizeFirstLetter(seedDocType.name)
       }Record[],
-          },
         };
       }`);
     }
@@ -168,11 +162,9 @@ export function generateSengiAdapterOperationsCode(
         });
 
         return {
-          body: {
-            doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
+          body: result.doc as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record,
-          },
           isNew: result.isNew,
         };
       }
@@ -198,11 +190,9 @@ export function generateSengiAdapterOperationsCode(
         });
 
         return {
-          body: {
-            doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
+          body: result.doc as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record,
-          },
           isUpdated: result.isUpdated,
         };
       }
@@ -231,11 +221,9 @@ export function generateSengiAdapterOperationsCode(
         });
   
         return {
-          body: {
-            doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
+          body: result.doc as unknown as ${capitalizeFirstLetter(system)}${
       capitalizeFirstLetter(seedDocType.name)
     }Record,
-          },
         };
       }
     `);
@@ -287,11 +275,9 @@ export function generateSengiAdapterOperationsCode(
         });
 
         return {
-          body: {
-            doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
+          body: result.doc as unknown as ${capitalizeFirstLetter(system)}${
         capitalizeFirstLetter(seedDocType.name)
       }Record,
-          },
           isNew: result.isNew
         };
       }`);
@@ -323,11 +309,9 @@ export function generateSengiAdapterOperationsCode(
         });
 
         return {
-          body: {
-            doc: result.doc as unknown as ${capitalizeFirstLetter(system)}${
+          body: result.doc as unknown as ${capitalizeFirstLetter(system)}${
         capitalizeFirstLetter(seedDocType.name)
       }Record,
-          },
           isUpdated: result.isUpdated
         };
       }`);
@@ -360,11 +344,9 @@ export function generateSengiAdapterOperationsCode(
         });
 
         return {
-          body: {
-            data: result.data as ${
+          body: result.data as ${
         capitalizeFirstLetter(getSystemFromTypeString(query.resultType))
       }${capitalizeFirstLetter(getTypeFromTypeString(query.resultType))}
-          },
         };
       }`);
     }

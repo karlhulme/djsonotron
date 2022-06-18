@@ -31,21 +31,6 @@ export function generateSengiServiceSignatureRecords(
     ],
   };
 
-  const selectSingularResponseBody: RecordTypeDef = {
-    kind: "record",
-    system: system,
-    name: `select${capitalizeFirstLetter(seedDocType.name)}Response`,
-    summary: `A response that contains a ${seedDocType.name} record.`,
-    properties: [
-      {
-        name: "doc",
-        summary: `A ${seedDocType.name} record.`,
-        propertyType: `${system}/${seedDocType.name}Record`,
-        isRequired: true,
-      },
-    ],
-  };
-
   const selectAllRequestQuery: RecordTypeDef = {
     kind: "record",
     system: system,
@@ -101,22 +86,6 @@ export function generateSengiServiceSignatureRecords(
     }),
   );
 
-  const selectPluralResponseBody: RecordTypeDef = {
-    kind: "record",
-    system: system,
-    name: `select${capitalizeFirstLetter(seedDocType.pluralName)}Response`,
-    summary: `A response that contains selected ${seedDocType.name} records.`,
-    properties: [
-      {
-        name: "docs",
-        summary: `A collection of ${seedDocType.name} records.`,
-        propertyType: `${system}/${seedDocType.name}Record`,
-        isRequired: true,
-        isArray: true,
-      },
-    ],
-  };
-
   const newRequestQuery: RecordTypeDef = {
     kind: "record",
     system,
@@ -141,21 +110,6 @@ export function generateSengiServiceSignatureRecords(
         propertyType: `${system}/new${
           capitalizeFirstLetter(seedDocType.name)
         }Template`,
-        isRequired: true,
-      },
-    ],
-  };
-
-  const newResponseBody: RecordTypeDef = {
-    kind: "record",
-    system: system,
-    name: `new${capitalizeFirstLetter(seedDocType.name)}Response`,
-    summary: `A response that contains the new record.`,
-    properties: [
-      {
-        name: "doc",
-        summary: "The newly created record.",
-        propertyType: `${system}/${seedDocType.name}Record`,
         isRequired: true,
       },
     ],
@@ -192,21 +146,6 @@ export function generateSengiServiceSignatureRecords(
     ],
   };
 
-  const patchResponseBody: RecordTypeDef = {
-    kind: "record",
-    system: system,
-    name: `patch${capitalizeFirstLetter(seedDocType.name)}Response`,
-    summary: `A response that contains the patched record.`,
-    properties: [
-      {
-        name: "doc",
-        summary: "The updated record.",
-        propertyType: `${system}/${seedDocType.name}Record`,
-        isRequired: true,
-      },
-    ],
-  };
-
   const replaceRequestQuery: RecordTypeDef = {
     kind: "record",
     system,
@@ -230,21 +169,6 @@ export function generateSengiServiceSignatureRecords(
         summary:
           "The replacement doc that includes values for the system fields.",
         propertyType: `${system}/${seedDocType.name}Replacement`,
-        isRequired: true,
-      },
-    ],
-  };
-
-  const replaceResponseBody: RecordTypeDef = {
-    kind: "record",
-    system: system,
-    name: `replace${capitalizeFirstLetter(seedDocType.name)}Response`,
-    summary: `A response that contains the replaced record.`,
-    properties: [
-      {
-        name: "doc",
-        summary: "The newly replaced record.",
-        propertyType: `${system}/${seedDocType.name}Record`,
         isRequired: true,
       },
     ],
@@ -292,21 +216,6 @@ export function generateSengiServiceSignatureRecords(
     }),
   );
 
-  const createResponseBody: RecordTypeDef = {
-    kind: "record",
-    system: system,
-    name: `create${capitalizeFirstLetter(seedDocType.name)}Response`,
-    summary: `A response that contains the created record.`,
-    properties: [
-      {
-        name: "doc",
-        summary: "The newly created record.",
-        propertyType: `${system}/${seedDocType.name}Record`,
-        isRequired: true,
-      },
-    ],
-  };
-
   const operationRequestQueries: RecordTypeDef[] = seedDocType.operations.map(
     (op) => ({
       kind: "record",
@@ -349,21 +258,6 @@ export function generateSengiServiceSignatureRecords(
     }),
   );
 
-  const operationResponseBody: RecordTypeDef = {
-    kind: "record",
-    system: system,
-    name: `operateOn${capitalizeFirstLetter(seedDocType.name)}Response`,
-    summary: `A response that contains the mutated record.`,
-    properties: [
-      {
-        name: "doc",
-        summary: "The recently mutated record.",
-        propertyType: `${system}/${seedDocType.name}Record`,
-        isRequired: true,
-      },
-    ],
-  };
-
   const queryRequestQueries: RecordTypeDef[] = seedDocType.queries.map(
     (query) => ({
       kind: "record",
@@ -385,55 +279,28 @@ export function generateSengiServiceSignatureRecords(
     }),
   );
 
-  const queryResponseBodies: RecordTypeDef[] = seedDocType.queries.map(
-    (query) => ({
-      kind: "record",
-      system: system,
-      name: `query${capitalizeFirstLetter(seedDocType.pluralName)}${
-        capitalizeFirstLetter(query.name)
-      }Response`,
-      summary: `A response that contains the result of executing the query.`,
-      properties: [
-        {
-          name: "data",
-          summary: "The result of executing the query.",
-          propertyType: query.resultType,
-          isRequired: true,
-        },
-      ],
-    }),
-  );
-
   return [
     selectRequestQuery,
-    selectSingularResponseBody,
 
     selectAllRequestQuery,
     selectByIdsRequestQuery,
     ...selectByFilterRequestQueries,
-    selectPluralResponseBody,
 
     newRequestQuery,
     newRequestBody,
-    newResponseBody,
 
     patchRequestQuery,
     patchRequestBody,
-    patchResponseBody,
 
     replaceRequestQuery,
     replaceRequestBody,
-    replaceResponseBody,
 
     ...createRequestQueries,
     ...createRequestBodies,
-    createResponseBody,
 
     ...operationRequestQueries,
     ...operationRequestBodies,
-    operationResponseBody,
 
     ...queryRequestQueries,
-    ...queryResponseBodies,
   ];
 }
