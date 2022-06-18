@@ -19,14 +19,6 @@ export function generateOakRouterOperationInputType(
 ) {
   const declarations: string[] = [];
 
-  const reqQuerySystem = op.requestQueryType
-    ? getSystemFromTypeString(op.requestQueryType)
-    : null;
-
-  const reqQueryType = op.requestQueryType
-    ? getTypeFromTypeString(op.requestQueryType)
-    : null;
-
   const reqBodySystem = op.requestBodyType
     ? getSystemFromTypeString(op.requestBodyType)
     : null;
@@ -53,13 +45,27 @@ export function generateOakRouterOperationInputType(
     },
   );
 
-  const queryPropertyDeclaration = reqQuerySystem && reqQueryType
-    ? `query: ${capitalizeFirstLetter(reqQuerySystem)}${
-      capitalizeFirstLetter(reqQueryType)
-    }`
-    : "";
+  const queryParamDeclarations: string[] = [];
 
-  const bodyPropertyDeclaration = reqBodySystem && reqBodyType
+  if (Array.isArray(op.requestQueryParams)) {
+    for (const queryParam of op.requestQueryParams) {
+      const queryParamType = resolveJsonotronType(queryParam.paramType, types);
+
+      if (!queryParamType) {
+        throw new Error(
+          `Unable to resolve type ${queryParam.paramType} for query param ${queryParam.name} on path ${path.relativeUrl}.`,
+        );
+      }
+
+      queryParamDeclarations.push(
+        `${queryParam.name}${queryParam.isRequired ? "" : "?"}: ${
+          getJsonotronTypeUnderlyingTypescriptType(queryParamType)
+        }`,
+      );
+    }
+  }
+
+  const reqBodyPropertyDeclaration = reqBodySystem && reqBodyType
     ? `body: ${capitalizeFirstLetter(reqBodySystem)}${
       capitalizeFirstLetter(reqBodyType)
     }${op.requestBodyTypeArray ? "[]" : ""}`
@@ -85,6 +91,8 @@ export function generateOakRouterOperationInputType(
     }
   }
 
+  const cookieDeclarations: string[] = [];
+
   if (Array.isArray(op.requestCookies)) {
     for (const cookie of op.requestCookies) {
       const cookieType = resolveJsonotronType(cookie.cookieType, types);
@@ -95,7 +103,7 @@ export function generateOakRouterOperationInputType(
         );
       }
 
-      headerPropertyDeclarations.push(
+      cookieDeclarations.push(
         `${cookie.name}${cookie.isRequired ? "" : "?"}: ${
           getJsonotronTypeUnderlyingTypescriptType(cookieType)
         }`,
@@ -106,9 +114,10 @@ export function generateOakRouterOperationInputType(
   const propsInterface = `
   export interface ${capitalizeFirstLetter(op.operationName)}Props {
     ${pathParamDeclarations.join("\n    ")}
-    ${queryPropertyDeclaration}
-    ${bodyPropertyDeclaration}
+    ${queryParamDeclarations.join("\n    ")}
+    ${reqBodyPropertyDeclaration}
     ${headerPropertyDeclarations.join("\n    ")}
+    ${cookieDeclarations.join("\n    ")}
   } 
   `;
 

@@ -1,6 +1,7 @@
 import { ServicePathOperationCookie } from "./ServicePathOperationCookie.ts";
 import { ServicePathOperationHeader } from "./ServicePathOperationHeader.ts";
 import { ServicePathOperationResponseHeader } from "./ServicePathOperationResponseHeader.ts";
+import { ServicePathOperationQueryParam } from "./ServicePathOperationQueryParam.ts";
 
 /**
  * Describes an operation that can be invoked on a service path.
@@ -39,12 +40,9 @@ export interface ServicePathOperation {
   requestCookies?: ServicePathOperationCookie[];
 
   /**
-   * The fully-qualified type that describes the operations
-   * query parameters.
-   * This may be defined for GET requests but will typically be
-   * undefined for POST and PUT requests.
+   * An array of query parameters.
    */
-  requestQueryType?: string;
+  requestQueryParams?: ServicePathOperationQueryParam[];
 
   /**
    * The fully-qualified type of the request body.

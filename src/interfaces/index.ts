@@ -14,6 +14,7 @@ export * from "./ServicePath.ts";
 export * from "./ServicePathOperation.ts";
 export * from "./ServicePathOperationCookie.ts";
 export * from "./ServicePathOperationHeader.ts";
+export * from "./ServicePathOperationQueryParam.ts";
 export * from "./ServicePathOperationResponseHeader.ts";
 export * from "./ServicePathParameter.ts";
 export * from "./ServiceServer.ts";

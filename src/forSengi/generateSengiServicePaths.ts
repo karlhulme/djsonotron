@@ -1,6 +1,7 @@
 import {
   ServicePath,
   ServicePathOperationHeader,
+  ServicePathOperationQueryParam,
   ServicePathOperationResponseHeader,
 } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
@@ -18,6 +19,32 @@ export function generateSengiServicePaths(
   seedDocType: SengiSeedDocType,
   user: string,
 ) {
+  // query params
+
+  const fieldNamesForSingularRecordParam: ServicePathOperationQueryParam = {
+    name: "fieldNames",
+    paramType: "std/hugeString",
+    summary:
+      `A comma-separated list of field names to be included on the returned record.
+      If this field is omitted then just the id property of each record will be returned.`,
+  };
+
+  const fieldNamesForPluralRecordsParam: ServicePathOperationQueryParam = {
+    name: "fieldNames",
+    paramType: "std/hugeString",
+    summary:
+      `A comma-separated list of field names to be included on each record
+      in the response. If this field is omitted then just the id property of each record will be returned.`,
+  };
+
+  const idsParam: ServicePathOperationQueryParam = {
+    name: "ids",
+    paramType: "std/hugeString",
+    summary:
+      "A comma-separated list of ids that determine which records are included in the response.",
+    isRequired: true,
+  };
+
   // request headers
 
   const apiKeyHeader: ServicePathOperationHeader = {
@@ -61,7 +88,15 @@ export function generateSengiServicePaths(
     headerType: "std/uuid",
     httpName: "idempotency-key",
     summary:
-      `A unique value for this operation which ensures repeat invocation will not change the underlying resource.`,
+      `A UUID for this operation which ensures repeat invocation will not change the underlying resource.`,
+    isRequired: false,
+  };
+
+  const newDocIdHeader: ServicePathOperationHeader = {
+    name: "newDocId",
+    headerType: "std/uuid",
+    httpName: "idempotency-key",
+    summary: `A UUID to be assigned to the newly created document.`,
     isRequired: false,
   };
 
@@ -112,9 +147,9 @@ export function generateSengiServicePaths(
         ...partitionKeyHeaders,
         userHeader,
       ],
-      requestQueryType: `${system}/selectAll${
-        capitalizeFirstLetter(seedDocType.pluralName)
-      }RequestQuery`,
+      requestQueryParams: [
+        fieldNamesForPluralRecordsParam,
+      ],
       responseBodyType: `${system}/${seedDocType.name}Record`,
       responseBodyTypeArray: true,
       responseSuccessCode: 200,
@@ -129,9 +164,9 @@ export function generateSengiServicePaths(
         ...partitionKeyHeaders,
         userHeader,
       ],
-      requestQueryType: `${system}/new${
-        capitalizeFirstLetter(seedDocType.name)
-      }RequestQuery`,
+      requestQueryParams: [
+        fieldNamesForSingularRecordParam,
+      ],
       requestBodyType: `${system}/new${
         capitalizeFirstLetter(seedDocType.name)
       }RequestBody`,
@@ -174,9 +209,9 @@ export function generateSengiServicePaths(
         ...partitionKeyHeaders,
         userHeader,
       ],
-      requestQueryType: `${system}/select${
-        capitalizeFirstLetter(seedDocType.name)
-      }RequestQuery`,
+      requestQueryParams: [
+        fieldNamesForSingularRecordParam,
+      ],
       responseBodyType: `${system}/${seedDocType.name}Record`,
       responseSuccessCode: 200,
     },
@@ -192,9 +227,9 @@ export function generateSengiServicePaths(
         reqVersionHeader,
         operationIdHeader,
       ],
-      requestQueryType: `${system}/patch${
-        capitalizeFirstLetter(seedDocType.name)
-      }RequestQuery`,
+      requestQueryParams: [
+        fieldNamesForSingularRecordParam,
+      ],
       requestBodyType: `${system}/patch${
         capitalizeFirstLetter(seedDocType.name)
       }RequestBody`,
@@ -214,9 +249,9 @@ export function generateSengiServicePaths(
         ...partitionKeyHeaders,
         userHeader,
       ],
-      requestQueryType: `${system}/replace${
-        capitalizeFirstLetter(seedDocType.name)
-      }RequestQuery`,
+      requestQueryParams: [
+        fieldNamesForSingularRecordParam,
+      ],
       requestBodyType: `${system}/replace${
         capitalizeFirstLetter(seedDocType.name)
       }RequestBody`,
@@ -243,9 +278,10 @@ export function generateSengiServicePaths(
         ...partitionKeyHeaders,
         userHeader,
       ],
-      requestQueryType: `${system}/select${
-        capitalizeFirstLetter(seedDocType.pluralName)
-      }ByIdsRequestQuery`,
+      requestQueryParams: [
+        fieldNamesForPluralRecordsParam,
+        idsParam,
+      ],
       responseBodyType: `${system}/${seedDocType.name}Record`,
       responseBodyTypeArray: true,
       responseSuccessCode: 200,
@@ -270,9 +306,16 @@ export function generateSengiServicePaths(
           ...partitionKeyHeaders,
           userHeader,
         ],
-        requestQueryType: `${system}/select${
-          capitalizeFirstLetter(seedDocType.pluralName)
-        }${capitalizeFirstLetter(filter.name)}RequestQuery`,
+        requestQueryParams: [
+          fieldNamesForPluralRecordsParam,
+          ...filter.parameters.map((p) => ({
+            name: p.name,
+            paramType: p.propertyType,
+            summary: p.summary,
+            isRequired: p.isRequired,
+            deprecation: p.deprecated,
+          })),
+        ],
         responseBodyType: `${system}/${seedDocType.name}Record`,
         responseBodyTypeArray: true,
         responseSuccessCode: 200,
@@ -297,13 +340,12 @@ export function generateSengiServicePaths(
           apiKeyHeader,
           ...partitionKeyHeaders,
           userHeader,
+          newDocIdHeader,
         ],
-        requestQueryType: `${system}/create${
-          capitalizeFirstLetter(seedDocType.name)
-        }${capitalizeFirstLetter(ctor.name)}RequestQuery`,
-        requestBodyType: `${system}/create${
-          capitalizeFirstLetter(seedDocType.name)
-        }${capitalizeFirstLetter(ctor.name)}RequestBody`,
+        requestQueryParams: [
+          fieldNamesForSingularRecordParam,
+        ],
+        requestBodyType: ctor.parametersType,
         responseHeaders: [
           isNewHeader,
         ],
@@ -334,12 +376,10 @@ export function generateSengiServicePaths(
           reqVersionHeader,
           operationIdHeader,
         ],
-        requestQueryType: `${system}/operateOn${
-          capitalizeFirstLetter(seedDocType.name)
-        }${capitalizeFirstLetter(op.name)}RequestQuery`,
-        requestBodyType: `${system}/operateOn${
-          capitalizeFirstLetter(seedDocType.name)
-        }${capitalizeFirstLetter(op.name)}RequestBody`,
+        requestQueryParams: [
+          fieldNamesForSingularRecordParam,
+        ],
+        requestBodyType: op.parametersType,
         responseHeaders: [
           isUpdatedHeader,
         ],
@@ -366,9 +406,13 @@ export function generateSengiServicePaths(
           apiKeyHeader,
           userHeader,
         ],
-        requestQueryType: `${system}/query${
-          capitalizeFirstLetter(seedDocType.pluralName)
-        }${capitalizeFirstLetter(query.name)}RequestQuery`,
+        requestQueryParams: query.parameters.map((p) => ({
+          name: p.name,
+          paramType: p.propertyType,
+          summary: p.summary,
+          isRequired: p.isRequired,
+          deprecation: p.deprecated,
+        })),
         responseBodyType: query.resultType,
         responseSuccessCode: 200,
       },

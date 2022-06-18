@@ -35,7 +35,7 @@ export function generateSengiAdapterOperationsCode(
           apiKey: props.apiKey,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: splitCsvFieldNames(props.query.fieldNames),
+          fieldNames: splitCsvFieldNames(props.fieldNames),
           ids: [props.id],
           partition: ${partitionPropValue},
           reqProps: {},
@@ -67,7 +67,7 @@ export function generateSengiAdapterOperationsCode(
           apiKey: props.apiKey,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: splitCsvFieldNames(props.query.fieldNames),
+          fieldNames: splitCsvFieldNames(props.fieldNames),
           partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
@@ -94,8 +94,8 @@ export function generateSengiAdapterOperationsCode(
           apiKey: props.apiKey,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: splitCsvFieldNames(props.query.fieldNames),
-          ids: props.query.ids.split(","),
+          fieldNames: splitCsvFieldNames(props.fieldNames),
+          ids: props.ids.split(","),
           partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
@@ -123,12 +123,12 @@ export function generateSengiAdapterOperationsCode(
           apiKey: props.apiKey,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: splitCsvFieldNames(props.query.fieldNames),
+          fieldNames: splitCsvFieldNames(props.fieldNames),
           filterName: "${filter.name}",
           filterParams: {
             ${
         filter.parameters.map((p) => `
-              ${p.name}: props.query.${p.name}
+              ${p.name}: props.${p.name}
             `)
       }
           },
@@ -154,8 +154,8 @@ export function generateSengiAdapterOperationsCode(
           apiKey: props.apiKey,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: splitCsvFieldNames(props.query.fieldNames),
-          doc: props.body.doc as unknown as DocRecord,
+          fieldNames: splitCsvFieldNames(props.fieldNames),
+          doc: props.body as unknown as DocRecord,
           partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
@@ -179,11 +179,11 @@ export function generateSengiAdapterOperationsCode(
           apiKey: props.apiKey,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: splitCsvFieldNames(props.query.fieldNames),
+          fieldNames: splitCsvFieldNames(props.fieldNames),
           id: props.id,
           operationId: props.operationId || crypto.randomUUID(),
           partition: ${partitionPropValue},
-          patch: props.body.patch as unknown as DocPatch,
+          patch: props.body as unknown as DocPatch,
           reqProps: {},
           reqVersion: props.reqVersion,
           user: props.user,
@@ -205,16 +205,16 @@ export function generateSengiAdapterOperationsCode(
     }Props): Promise<Replace${
       capitalizeFirstLetter(seedDocType.name)
     }Result> => {
-        if (props.id !== props.body.doc.id) {
+        if (props.id !== props.body.id) {
           throw new ServiceDocIdMismatchError()
         }
 
         const result = await sengi.replaceDocument({
           apiKey: props.apiKey,
-          doc: props.body.doc as unknown as DocRecord,
+          doc: props.body as unknown as DocRecord,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: splitCsvFieldNames(props.query.fieldNames),
+          fieldNames: splitCsvFieldNames(props.fieldNames),
           partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
@@ -264,11 +264,11 @@ export function generateSengiAdapterOperationsCode(
         const result = await sengi.createDocument({
           apiKey: props.apiKey,
           constructorName: "${ctor.name}",
-          constructorParams: props.body.constructorParams,
+          constructorParams: props.body,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: splitCsvFieldNames(props.query.fieldNames),
-          id: props.body.id,
+          fieldNames: splitCsvFieldNames(props.fieldNames),
+          id: props.newDocId || crypto.randomUUID(),
           partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
@@ -297,11 +297,11 @@ export function generateSengiAdapterOperationsCode(
           apiKey: props.apiKey,
           docStoreOptions: {},
           docTypeName: "${seedDocType.name}",
-          fieldNames: splitCsvFieldNames(props.query.fieldNames),
-          id: props.body.id,
+          fieldNames: splitCsvFieldNames(props.fieldNames),
+          id: props.id,
           operationId: props.operationId || crypto.randomUUID(),
           operationName: "${op.name}",
-          operationParams: props.body.operationParams,
+          operationParams: props.body,
           partition: ${partitionPropValue},
           reqProps: {},
           user: props.user,
@@ -335,7 +335,7 @@ export function generateSengiAdapterOperationsCode(
           queryParams: {
             ${
         query.parameters.map((p) => `
-              ${p.name}: props.query.${p.name}
+              ${p.name}: props.${p.name}
             `)
       }
           },

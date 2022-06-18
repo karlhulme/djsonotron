@@ -5,7 +5,6 @@ export * from "./generateSengiAdapterUtilityCode.ts";
 export * from "./generateSengiDocTypeInputOutputVariantRecords.ts";
 export * from "./generateSengiDocTypeParamRecords.ts";
 export * from "./generateSengiServicePaths.ts";
-export * from "./generateSengiServiceSignatureRecords.ts";
 export * from "./SengiSeedDocType.ts";
 export * from "./SengiSeedDocTypeConstructor.ts";
 export * from "./SengiSeedDocTypeFilter.ts";

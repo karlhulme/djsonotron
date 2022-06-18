@@ -33,7 +33,7 @@ export interface ServicePathOperationHeader {
 
   /**
    * If populated, this field indicates that the header has been
-   * deprecated and will the value will describe what to do instead.
+   * deprecated and the value will describe what to do instead.
    */
   deprecation?: string;
 

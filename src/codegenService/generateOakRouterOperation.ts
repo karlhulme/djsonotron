@@ -1,6 +1,5 @@
 import {
   JsonotronTypeDef,
-  RecordTypeDef,
   ServicePath,
   ServicePathOperation,
 } from "../interfaces/index.ts";
@@ -28,7 +27,6 @@ export function generateOakRouterOperation(
   );
 
   const urlParamInvocationParameters: string[] = [];
-  let queryInvocationParameter = "";
   let bodyInvocationParameter = "";
 
   lines.push(`.${method}("${oakPath}", async (ctx) => {`);
@@ -80,108 +78,61 @@ export function generateOakRouterOperation(
     );
   }
 
-  if (op.requestQueryType) {
-    const queryTypeDef = resolveJsonotronType(op.requestQueryType, types);
+  const queryParameters: string[] = [];
 
-    if (!queryTypeDef) {
-      throw new Error(
-        `Query type ${op.requestQueryType} used for ${method} operation
-        of "${path.relativeUrl}" could not be resolved.`,
-      );
-    }
+  if (Array.isArray(op.requestQueryParams)) {
+    for (const queryParam of op.requestQueryParams) {
+      const queryParamVar = `queryParam${
+        capitalizeFirstLetter(queryParam.name)
+      }`;
+      const queryParamType = resolveJsonotronType(queryParam.paramType, types);
 
-    if (queryTypeDef.kind !== "record") {
-      throw new Error(
-        `Query type ${op.requestQueryType} used for ${method} operation of "${path.relativeUrl}" must be a record.`,
-      );
-    }
-
-    lines.push(`
-      // deno-lint-ignore no-explicit-any
-      const query: any = {};`);
-
-    const queryTypeDefRecord = queryTypeDef as RecordTypeDef;
-
-    for (const prop of queryTypeDefRecord.properties) {
-      const propTypeDef = resolveJsonotronType(prop.propertyType, types);
-
-      if (!propTypeDef) {
+      if (!queryParamType) {
         throw new Error(
-          `Type ${prop.propertyType} used for ${prop.name} property of ${queryTypeDefRecord.name} record could not be resolved.`,
+          `Unable to resolve query param type ${queryParam.paramType} for query param ${queryParam.name}.`,
         );
       }
 
-      lines.push(`if (ctx.request.url.searchParams.has("${prop.name}")) {`);
-
-      if (propTypeDef.kind === "bool") {
-        lines.push(`
-          const rawValue = ctx.request.url.searchParams.get("${prop.name}") as string;
-          const boolValue = rawValue.toLowerCase();
-
-          if (boolValue === "true" || boolValue === "1") {
-            query.${prop.name} = true;
-          } else if (boolValue === "false" || boolValue === "0") {
-            query.${prop.name} = false;
-          } else {
-            query.${prop.name} = boolValue;
-          }
-        `);
-      } else if (propTypeDef.kind === "enum") {
-        lines.push(`
-          const rawValue = ctx.request.url.searchParams.get(
-            "${prop.name}",
-          ) as string;
-          query.${prop.name} = decodeURIComponent(rawValue);
-        `);
-      } else if (propTypeDef.kind === "float" || propTypeDef.kind === "int") {
-        lines.push(`
-          const rawValue = ctx.request.url.searchParams.get("${prop.name}") as string;
-          const numValue = parseFloat(rawValue);
-          if (isNaN(numValue)) {
-            query.${prop.name} = rawValue;
-          } else {
-            query.${prop.name} = numValue;
-          }
-        `);
-      } else if (
-        propTypeDef.kind === "object" || propTypeDef.kind === "record"
-      ) {
-        lines.push(`
-          const rawValue = ctx.request.url.searchParams.get("${prop.name}") as string;
-          const objValue = safeJsonParse(decodeURIComponent(rawValue));
-          query.${prop.name} = objValue === null ? rawValue : objValue;
-        `);
-      } else { // strings (and default/catch-all)
-        lines.push(`
-          const rawValue = ctx.request.url.searchParams.get("${prop.name}") as string;
-          query.${prop.name} = decodeURIComponent(rawValue);
-        `);
-      }
-
-      lines.push(`}`);
-    }
-
-    lines.push(`
-      const queryValidationErrors = ${
-      getJsonotronTypeValidationFuncName(
-        queryTypeDef,
-        Boolean(op.requestBodyTypeArray),
-      )
-    }(
-        query,
-        "query",
+      const queryParamUnderlyingType = getJsonotronTypeUnderlyingTypescriptType(
+        queryParamType,
       );
 
-      if (queryValidationErrors.length > 0) {
-        throw new ServiceInputValidationError("Validation of request query failed.", {
-          validationErrors: queryValidationErrors,
-        })
+      if (queryParamType.kind === "string" || queryParamType.kind === "enum") {
+        lines.push(`
+          const ${queryParamVar} = ctx.request.url.searchParams.get("${queryParam.name}")
+        `);
+      } else {
+        lines.push(`
+          const ${queryParamVar} = safeJsonParse(ctx.request.url.searchParams.get("${queryParam.name}") || "")
+        `);
       }
-    `);
 
-    queryInvocationParameter = `query: query as ${
-      getJsonotronTypeFormalName(queryTypeDef)
-    },`;
+      if (queryParam.isRequired) {
+        lines.push(`
+          if (${queryParam} === null) {
+            throw new ServiceInputValidationError("Validation of request failed.  Missing required query parameter ${queryParam.name}.")
+          }
+        `);
+      }
+
+      lines.push(`
+        if (${queryParamVar} !== null) {
+          const queryParamValidationErrors = ${
+        getJsonotronTypeValidationFuncName(queryParamType, false)
+      }(${queryParamVar}, "queryParams.${queryParam.name}");
+      
+          if (queryParamValidationErrors.length > 0) {
+            throw new ServiceInputValidationError("Validation of request header ${queryParam.name} failed.", {
+              validationErrors: queryParamValidationErrors
+            })
+          }
+        }
+      `);
+
+      queryParameters.push(
+        `${queryParam.name}: ${queryParamVar} as ${queryParamUnderlyingType},`,
+      );
+    }
   }
 
   if (op.requestBodyType) {
@@ -344,7 +295,7 @@ export function generateOakRouterOperation(
   lines.push(`
     ${resultRequired ? "const result = " : ""} await props.${op.operationName}({
       ${urlParamInvocationParameters.join("\n")}
-      ${queryInvocationParameter}
+      ${queryParameters.join("\n")}
       ${bodyInvocationParameter}
       ${headerParameters.join("\n")}
       ${cookieParameters.join("\n")}

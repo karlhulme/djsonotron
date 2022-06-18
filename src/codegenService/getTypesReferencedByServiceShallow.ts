@@ -61,8 +61,10 @@ function appendTypesReferencedByServicePathOperation(
     typeNames.push(op.requestBodyType);
   }
 
-  if (op.requestQueryType) {
-    typeNames.push(op.requestQueryType);
+  if (Array.isArray(op.requestQueryParams)) {
+    for (const queryParam of op.requestQueryParams) {
+      typeNames.push(queryParam.paramType);
+    }
   }
 
   if (op.responseBodyType) {

@@ -4,7 +4,6 @@ import {
   OpenApiSpecPathOperation,
   OpenApiSpecPathResponse,
   OpenApiSpecPathResponseHeader,
-  RecordTypeDef,
   ServicePath,
   ServicePathOperation,
 } from "../interfaces/index.ts";
@@ -21,30 +20,33 @@ export function generateOpenApiServicePathOperation(
   op: ServicePathOperation,
   types: JsonotronTypeDef[],
 ): OpenApiSpecPathOperation {
-  const reqQueryType = op.requestQueryType
-    ? resolveJsonotronType(op.requestQueryType, types)
-    : null;
+  const parameters: OpenApiSpecParameter[] = [];
 
-  const reqQueryTypeRecord = reqQueryType?.kind === "record"
-    ? reqQueryType as RecordTypeDef
-    : null;
+  if (Array.isArray(op.requestQueryParams)) {
+    for (const queryParam of op.requestQueryParams) {
+      const queryParamType = resolveJsonotronType(queryParam.paramType, types);
 
-  // Set the parameters defined on the request query type record.
-  const parameters: OpenApiSpecParameter[] = reqQueryTypeRecord
-    ? reqQueryTypeRecord.properties.map((p) => ({
-      in: "query",
-      schema: {
-        type: "string",
-      },
-      name: p.name,
-      required: Boolean(p.isRequired),
-      description: p.isArray
-        ? "Cannot deserialize arrays in top-level query objects.  Change type to non-array or wrap it in an object."
-        : p.summary,
-    }))
-    : [];
+      if (queryParamType) {
+        parameters.push({
+          in: "query",
+          name: queryParam.name,
+          required: Boolean(queryParam.isRequired),
+          deprecated: Boolean(queryParam.deprecation),
+          description: generateDescriptionText(
+            queryParam.summary,
+            queryParam.deprecation,
+          ),
+          schema: generateJsonSchemaPropertyForJsonotronProperty(
+            queryParam.summary,
+            queryParam.deprecation,
+            queryParamType,
+            true,
+          ),
+        });
+      }
+    }
+  }
 
-  // Add the parameters defined by the request headers.
   if (Array.isArray(op.requestHeaders)) {
     for (const header of op.requestHeaders) {
       if (!header.isAuthorisationHeader) {
@@ -72,7 +74,6 @@ export function generateOpenApiServicePathOperation(
     }
   }
 
-  // Add the parameters defined by the request cookies.
   if (Array.isArray(op.requestCookies)) {
     for (const cookie of op.requestCookies) {
       const cookieType = resolveJsonotronType(cookie.cookieType, types);
