@@ -38,8 +38,8 @@ export function generateSengiAdapterDocTypeCode(
       interfaceProps.push(
         `${seedDocType.name}${capitalizeFirstLetter(filter.name)}FilterParse: (
           props: DocTypeFilterParseProps<${capitalizeFirstLetter(system)}${
-          capitalizeFirstLetter(filter.name)
-        }Filter>
+          capitalizeFirstLetter(seedDocType.name)
+        }${capitalizeFirstLetter(filter.name)}Filter>
         ) => Filter;`,
       );
     }
@@ -67,8 +67,8 @@ export function generateSengiAdapterDocTypeCode(
       interfaceProps.push(
         `${seedDocType.name}${capitalizeFirstLetter(query.name)}QueryParse: (
           props: DocTypeQueryParseProps<${capitalizeFirstLetter(system)}${
-          capitalizeFirstLetter(query.name)
-        }Query>
+          capitalizeFirstLetter(seedDocType.name)
+        }${capitalizeFirstLetter(query.name)}Query>
         ) => Query;
         ${seedDocType.name}${capitalizeFirstLetter(query.name)}QueryCoerce: (
           queryResult: unknown
@@ -129,8 +129,8 @@ export function generateSengiAdapterDocTypeCode(
           capitalizeFirstLetter(filter.name)
         }FilterParse,
               validateParameters: v(validate${capitalizeFirstLetter(system)}${
-          capitalizeFirstLetter(filter.name)
-        }Filter),
+          capitalizeFirstLetter(seedDocType.name)
+        }${capitalizeFirstLetter(filter.name)}Filter),
               summary: "${filter.summary}",
               ${
           filter.deprecation ? `deprecation: "${filter.deprecation}",` : ""
@@ -166,8 +166,8 @@ export function generateSengiAdapterDocTypeCode(
           capitalizeFirstLetter(query.name)
         }QueryParse,
               validateParameters: v(validate${capitalizeFirstLetter(system)}${
-          capitalizeFirstLetter(query.name)
-        }Query),
+          capitalizeFirstLetter(seedDocType.name)
+        }${capitalizeFirstLetter(query.name)}Query),
               coerce: options.${seedDocType.name}${
           capitalizeFirstLetter(query.name)
         }QueryCoerce,

@@ -1,4 +1,5 @@
 import { RecordTypeDef } from "../interfaces/index.ts";
+import { capitalizeFirstLetter } from "../utils/index.ts";
 import { SengiSeedDocType } from "./SengiSeedDocType.ts";
 
 export function generateSengiDocTypeParamRecords(
@@ -11,7 +12,7 @@ export function generateSengiDocTypeParamRecords(
     records.push({
       kind: "record",
       system: system,
-      name: `${filter.name}Filter`,
+      name: `${seedDocType.name}${capitalizeFirstLetter(filter.name)}Filter`,
       summary: `The parameters for the ${filter.name} filter.`,
       properties: filter.parameters.map((param) => ({
         name: param.name,
@@ -27,7 +28,7 @@ export function generateSengiDocTypeParamRecords(
     records.push({
       kind: "record",
       system: system,
-      name: `${query.name}Query`,
+      name: `${seedDocType.name}${capitalizeFirstLetter(query.name)}Query`,
       summary: `The parameters for the ${query.name} query.`,
       properties: query.parameters.map((param) => ({
         name: param.name,
