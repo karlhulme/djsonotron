@@ -169,7 +169,7 @@ export function generateSengiAdapterOperationsCode(
           partition: ${partitionPropValue},
           reqProps: {},
           userId: ${userIdPropValue},
-          userClaims: (splitCsvClaimsprops.userClaims),
+          userClaims: splitCsvClaims(props.userClaims),
         });
 
         return {
