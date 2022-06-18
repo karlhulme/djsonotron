@@ -167,9 +167,7 @@ export function generateSengiServicePaths(
       requestQueryParams: [
         fieldNamesForSingularRecordParam,
       ],
-      requestBodyType: `${system}/new${
-        capitalizeFirstLetter(seedDocType.name)
-      }RequestBody`,
+      requestBodyType: `${system}/${seedDocType.name}Template`,
       responseHeaders: [
         isNewHeader,
       ],
@@ -230,9 +228,7 @@ export function generateSengiServicePaths(
       requestQueryParams: [
         fieldNamesForSingularRecordParam,
       ],
-      requestBodyType: `${system}/patch${
-        capitalizeFirstLetter(seedDocType.name)
-      }RequestBody`,
+      requestBodyType: `${system}/${seedDocType.name}Patch`,
       responseHeaders: [
         isUpdatedHeader,
       ],
@@ -252,9 +248,7 @@ export function generateSengiServicePaths(
       requestQueryParams: [
         fieldNamesForSingularRecordParam,
       ],
-      requestBodyType: `${system}/replace${
-        capitalizeFirstLetter(seedDocType.name)
-      }RequestBody`,
+      requestBodyType: `${system}/${seedDocType.name}Replacement`,
       responseBodyType: `${system}/${seedDocType.name}Record`,
       responseSuccessCode: 200,
     },
