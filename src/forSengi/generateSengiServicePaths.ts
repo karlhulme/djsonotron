@@ -97,7 +97,7 @@ export function generateSengiServicePaths(
     headerType: "std/uuid",
     httpName: "idempotency-key",
     summary: `A UUID to be assigned to the newly created document.`,
-    isRequired: false,
+    isRequired: true,
   };
 
   // response headers

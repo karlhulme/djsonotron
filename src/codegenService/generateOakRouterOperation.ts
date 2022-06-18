@@ -223,7 +223,7 @@ export function generateOakRouterOperation(
       }
 
       lines.push(`
-        if (${headerVar} !== null) {
+        if (${headerVar} !== undefined) {
           const headerValidationErrors = ${
         getJsonotronTypeValidationFuncName(headerType, false)
       }(${headerVar}, "header.${header.httpName}");
@@ -278,7 +278,7 @@ export function generateOakRouterOperation(
       }
 
       lines.push(`
-        if (${cookieVar} !== null) {
+        if (${cookieVar} !== undefined) {
           const cookieValidationErrors = ${
         getJsonotronTypeValidationFuncName(cookieType, false)
       }(${cookieVar}, "cookies.${cookies.name}");
