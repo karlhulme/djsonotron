@@ -25,7 +25,7 @@ export function generateSengiAdapterDocTypeCode(
         `${seedDocType.name}${
           capitalizeFirstLetter(ctor.name)
         }CtorImplementation: (
-          props: DocTypeConstructorImplProps<User, ${
+          props: DocTypeConstructorImplProps<${
           capitalizeFirstLetter(getSystemFromTypeString(ctor.parametersType))
         }${capitalizeFirstLetter(getTypeFromTypeString(ctor.parametersType))}>
         ) => Omit<${capitalizeFirstLetter(system)}${
@@ -37,9 +37,9 @@ export function generateSengiAdapterDocTypeCode(
     for (const filter of seedDocType.filters) {
       interfaceProps.push(
         `${seedDocType.name}${capitalizeFirstLetter(filter.name)}FilterParse: (
-          props: DocTypeFilterParseProps<User, ${
-          capitalizeFirstLetter(system)
-        }${capitalizeFirstLetter(filter.name)}Filter>
+          props: DocTypeFilterParseProps<${capitalizeFirstLetter(system)}${
+          capitalizeFirstLetter(filter.name)
+        }Filter>
         ) => Filter;`,
       );
     }
@@ -49,14 +49,14 @@ export function generateSengiAdapterDocTypeCode(
         `${seedDocType.name}${capitalizeFirstLetter(op.name)}OpImplementation: (
           props: DocTypeOperationImplProps<${capitalizeFirstLetter(system)}${
           capitalizeFirstLetter(seedDocType.name)
-        }, User, ${
+        }, ${
           capitalizeFirstLetter(getSystemFromTypeString(op.parametersType))
         }${capitalizeFirstLetter(getTypeFromTypeString(op.parametersType))}>
         ) => void;
         ${seedDocType.name}${capitalizeFirstLetter(op.name)}OpAuthorise?: (
           props: DocTypeOperationAuthProps<${capitalizeFirstLetter(system)}${
           capitalizeFirstLetter(seedDocType.name)
-        }, User, ${
+        }, ${
           capitalizeFirstLetter(getSystemFromTypeString(op.parametersType))
         }${capitalizeFirstLetter(getTypeFromTypeString(op.parametersType))}>
         ) => string|undefined;`,
@@ -66,7 +66,7 @@ export function generateSengiAdapterDocTypeCode(
     for (const query of seedDocType.queries) {
       interfaceProps.push(
         `${seedDocType.name}${capitalizeFirstLetter(query.name)}QueryParse: (
-          props: DocTypeQueryParseProps<User, ${capitalizeFirstLetter(system)}${
+          props: DocTypeQueryParseProps<${capitalizeFirstLetter(system)}${
           capitalizeFirstLetter(query.name)
         }Query>
         ) => Query;
@@ -78,7 +78,7 @@ export function generateSengiAdapterDocTypeCode(
         ${seedDocType.name}${
           capitalizeFirstLetter(query.name)
         }QueryAuthorise?: (
-          props: DocTypeQueryAuthProps<User, ${capitalizeFirstLetter(system)}${
+          props: DocTypeQueryAuthProps<${capitalizeFirstLetter(system)}${
           capitalizeFirstLetter(query.name)
         }Query>
         ) => string|undefined;
@@ -91,7 +91,7 @@ export function generateSengiAdapterDocTypeCode(
         capitalizeFirstLetter(system)
       }${
         capitalizeFirstLetter(seedDocType.name)
-      }, DocStoreOptions, User, Filter, Query>>;`,
+      }, DocStoreOptions, Filter, Query>>;`,
     );
 
     docTypeDefs.push(
@@ -188,13 +188,13 @@ export function generateSengiAdapterDocTypeCode(
   }
 
   return `
-    interface CreateDocTypesOptions<DocStoreOptions, User, Filter, Query> {
+    interface CreateDocTypesOptions<DocStoreOptions, Filter, Query> {
       ${interfaceProps.join("\n")}
     }
 
-    export function createDocTypes<DocStoreOptions, User, Filter, Query>(
-      options: CreateDocTypesOptions<DocStoreOptions, User, Filter, Query>,
-    ): DocType<any, DocStoreOptions, User, Filter, Query>[] {
+    export function createDocTypes<DocStoreOptions, Filter, Query>(
+      options: CreateDocTypesOptions<DocStoreOptions, Filter, Query>,
+    ): DocType<any, DocStoreOptions, Filter, Query>[] {
       return [
         ${docTypeDefs.join(",\n")}
       ];

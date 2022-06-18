@@ -10,12 +10,18 @@ import { SengiSeedDocType } from "./SengiSeedDocType.ts";
  * bodies that connects an HTTP interface to Sengi.
  * @param system The system that houses the seed doc type variants.
  * @param seedDocTypes An array of seed doc types.
+ * @param anonymousUser The id to use for anonymous users.
  */
 export function generateSengiAdapterOperationsCode(
   system: string,
   seedDocTypes: SengiSeedDocType[],
+  anonymousUser?: string,
 ) {
   const ops: string[] = [];
+
+  const userIdPropValue = anonymousUser
+    ? `props.userId || "${anonymousUser}"`
+    : "props.userId";
 
   for (const seedDocType of seedDocTypes) {
     // Either use the specified single partition name or expect it
@@ -39,8 +45,8 @@ export function generateSengiAdapterOperationsCode(
           ids: [props.id],
           partition: ${partitionPropValue},
           reqProps: {},
-          userId: props.userId,
-          userClaims: props.userClaims,
+          userId: ${userIdPropValue},
+          userClaims: splitCsvClaims(props.userClaims),
         });
 
         if (result.docs.length === 0) {
@@ -71,8 +77,8 @@ export function generateSengiAdapterOperationsCode(
           fieldNames: splitCsvFieldNames(props.fieldNames),
           partition: ${partitionPropValue},
           reqProps: {},
-          userId: props.userId,
-          userClaims: props.userClaims,
+          userId: ${userIdPropValue},
+          userClaims: splitCsvClaims(props.userClaims),
         });
 
         return {
@@ -100,8 +106,8 @@ export function generateSengiAdapterOperationsCode(
           ids: props.ids.split(","),
           partition: ${partitionPropValue},
           reqProps: {},
-          userId: props.userId,
-          userClaims: props.userClaims,
+          userId: ${userIdPropValue},
+          userClaims: splitCsvClaims(props.userClaims),
         });
 
         return {
@@ -137,8 +143,8 @@ export function generateSengiAdapterOperationsCode(
           },
           partition: ${partitionPropValue},
           reqProps: {},
-          userId: props.userId,
-          userClaims: props.userClaims,
+          userId: ${userIdPropValue},
+          userClaims: splitCsvClaims(props.userClaims),
         });
 
         return {
@@ -162,8 +168,8 @@ export function generateSengiAdapterOperationsCode(
           doc: props.body as unknown as DocRecord,
           partition: ${partitionPropValue},
           reqProps: {},
-          userId: props.userId,
-          userClaims: props.userClaims,
+          userId: ${userIdPropValue},
+          userClaims: (splitCsvClaimsprops.userClaims),
         });
 
         return {
@@ -191,8 +197,8 @@ export function generateSengiAdapterOperationsCode(
           patch: props.body as unknown as DocPatch,
           reqProps: {},
           reqVersion: props.reqVersion,
-          userId: props.userId,
-          userClaims: props.userClaims,
+          userId: ${userIdPropValue},
+          userClaims: splitCsvClaims(props.userClaims),
         });
 
         return {
@@ -223,8 +229,8 @@ export function generateSengiAdapterOperationsCode(
           fieldNames: splitCsvFieldNames(props.fieldNames),
           partition: ${partitionPropValue},
           reqProps: {},
-          userId: props.userId,
-          userClaims: props.userClaims,
+          userId: ${userIdPropValue},
+          userClaims: splitCsvClaims(props.userClaims),
         });
   
         return {
@@ -249,8 +255,8 @@ export function generateSengiAdapterOperationsCode(
           id: props.id,
           partition: ${partitionPropValue},
           reqProps: {},
-          userId: props.userId,
-          userClaims: props.userClaims,
+          userId: ${userIdPropValue},
+          userClaims: splitCsvClaims(props.userClaims),
         });
   
         return {
@@ -279,8 +285,8 @@ export function generateSengiAdapterOperationsCode(
           id: props.newDocId || crypto.randomUUID(),
           partition: ${partitionPropValue},
           reqProps: {},
-          userId: props.userId,
-          userClaims: props.userClaims,
+          userId: ${userIdPropValue},
+          userClaims: splitCsvClaims(props.userClaims),
         });
 
         return {
@@ -313,8 +319,8 @@ export function generateSengiAdapterOperationsCode(
           operationParams: props.body,
           partition: ${partitionPropValue},
           reqProps: {},
-          userId: props.userId,
-          userClaims: props.userClaims,
+          userId: ${userIdPropValue},
+          userClaims: splitCsvClaims(props.userClaims),
           reqVersion: props.reqVersion
         });
 
@@ -350,8 +356,8 @@ export function generateSengiAdapterOperationsCode(
       }
           },
           reqProps: {},
-          userId: props.userId,
-          userClaims: props.userClaims,
+          userId: ${userIdPropValue},
+          userClaims: splitCsvClaims(props.userClaims),
         });
 
         return {
@@ -370,7 +376,7 @@ export function generateSengiAdapterOperationsCode(
      * @param sengi A sengi instance
      * @param options A property bag that describes
      */ 
-    export function createSengiAdapterOperations (sengi: Sengi<any, any, any, any, any>, options: CreateSengiAdapterOperationsOptions) {
+    export function createSengiAdapterOperations (sengi: Sengi<any, any, any, any>, options: CreateSengiAdapterOperationsOptions) {
       return {
         ${ops.join(", ")}
       }

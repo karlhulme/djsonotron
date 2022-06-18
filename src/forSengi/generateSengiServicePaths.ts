@@ -12,12 +12,10 @@ import { SengiSeedDocType } from "./SengiSeedDocType.ts";
  * @param system The name of the system to which the request and response types
  * have been assigned.
  * @param seedDocType A seed docType for which service paths are required.
- * @param user A fully qualified user type.
  */
 export function generateSengiServicePaths(
   system: string,
   seedDocType: SengiSeedDocType,
-  user: string,
 ) {
   // query params
 
@@ -67,19 +65,20 @@ export function generateSengiServicePaths(
 
   const userIdHeader: ServicePathOperationHeader = {
     name: "userId",
-    headerType: user,
+    headerType: "std/mediumString",
     httpName: "x-user-id",
-    summary:
-      `An id of the user making the request.  If this header is omitted then the anonymous user will be assumed.`,
+    summary: `An id of the user making the request.
+      If this header is omitted then the anonymous user will be assumed.`,
     isRequired: false,
   };
 
   const userClaimsHeader: ServicePathOperationHeader = {
     name: "userClaims",
-    headerType: user,
+    headerType: "std/hugeString",
     httpName: "x-user-claims",
     summary:
-      `The array of claims held by the user making the request.  If this header is omitted then the user will be assumed to have no claims.`,
+      `A comma-separated list of the claims held by the user making the request.
+      If this header is omitted then the user will be assumed to have no claims.`,
     isRequired: false,
   };
 

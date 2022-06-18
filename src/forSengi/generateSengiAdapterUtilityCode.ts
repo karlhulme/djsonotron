@@ -54,6 +54,14 @@ export function generateSengiAdapterUtilityCode() {
   }
 
   /**
+   * Splits the given comma-separated list of claims
+   * into an array.
+   */
+  export function splitCsvClaims (csvClaims?: string) {
+    return (csvClaims || "").split(",");
+  }
+
+  /**
    * Returns a function that takes a document, validates it using the given
    * validator, and if said validator yields one validation error or more,
    * then the validation errors are stringified.
