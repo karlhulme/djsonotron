@@ -10,7 +10,7 @@ async function getJsonBody(request: Request): Promise<unknown> {
     const body = await request.body({ type: "json" }).value;
     return body;
   } catch {
-    return undefined;
+    return { __unparsableText: text };
   }
 }
 
