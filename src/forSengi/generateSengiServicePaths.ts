@@ -17,6 +17,8 @@ export function generateSengiServicePaths(
   system: string,
   seedDocType: SengiSeedDocType,
 ) {
+  const servicePaths: ServicePath[] = [];
+
   // query params
 
   const fieldNamesForSingularRecordParam: ServicePathOperationQueryParam = {
@@ -139,9 +141,9 @@ export function generateSengiServicePaths(
 
   // collection based operations
 
-  const docTypeRootPath: ServicePath = {
+  servicePaths.push({
     relativeUrl: `/records/${seedDocType.pluralName}`,
-    summary: seedDocType.summary,
+    summary: `A collection of ${seedDocType.name} resources.`,
     requireApiKey: true,
 
     get: {
@@ -184,13 +186,13 @@ export function generateSengiServicePaths(
       responseBodyType: `${system}/${seedDocType.name}Record`,
       responseSuccessCode: 201,
     },
-  };
+  });
 
   // document-based operations
 
-  const docTypeRecordPath: ServicePath = {
+  servicePaths.push({
     relativeUrl: `/records/${seedDocType.pluralName}/{id:std/uuid}`,
-    summary: seedDocType.summary,
+    summary: `A single ${seedDocType} resource.`,
     requireApiKey: true,
 
     delete: {
@@ -266,13 +268,55 @@ export function generateSengiServicePaths(
       responseBodyType: `${system}/${seedDocType.name}Record`,
       responseSuccessCode: 200,
     },
-  };
+  });
+
+  // cursor
+
+  if (seedDocType.addFilterByCursor) {
+    servicePaths.push({
+      relativeUrl: `/records/${seedDocType.pluralName}\\:byCursor`,
+      summary:
+        `The byCursor verb on a collection of ${seedDocType.name} resources.`,
+      requireApiKey: true,
+
+      get: {
+        operationName: `select${
+          capitalizeFirstLetter(seedDocType.pluralName)
+        }ByCursor`,
+        summary: `Retrieve ${seedDocType.name} records based on a cursor.`,
+        tags: [seedDocType.pluralTitle],
+        requestHeaders: [
+          apiKeyHeader,
+          ...partitionKeyHeaders,
+          userIdHeader,
+          userClaimsHeader,
+        ],
+        requestQueryParams: [
+          fieldNamesForPluralRecordsParam,
+          {
+            name: "from",
+            paramType: "std/uuid",
+            summary: `The id of the last successfully retrieved record.
+              If omitted, the first set of records will be returned.`,
+          },
+          {
+            name: "limit",
+            paramType: "std/positiveInteger",
+            summary: "The number of records to return.",
+          },
+        ],
+        responseBodyType: `${system}/${seedDocType.name}Record`,
+        responseBodyTypeArray: true,
+        responseSuccessCode: 200,
+      },
+    });
+  }
 
   // custom verb operations
 
-  const docTypeByIdsPath: ServicePath = {
+  servicePaths.push({
     relativeUrl: `/records/${seedDocType.pluralName}\\:byIds`,
-    summary: seedDocType.summary,
+    summary: `The byIds verb on a collection of ${seedDocType.name} resources.`,
     requireApiKey: true,
 
     get: {
@@ -295,12 +339,13 @@ export function generateSengiServicePaths(
       responseBodyTypeArray: true,
       responseSuccessCode: 200,
     },
-  };
+  });
 
-  const docTypeFilterPaths: ServicePath[] = seedDocType.filters.map(
+  servicePaths.push(...seedDocType.filters.map(
     (filter) => ({
       relativeUrl: `/records/${seedDocType.pluralName}\\:${filter.name}`,
-      summary: filter.summary,
+      summary:
+        `The ${filter.name} verb on a collection of ${seedDocType.name} resources.`,
       requireApiKey: true,
 
       get: {
@@ -331,12 +376,13 @@ export function generateSengiServicePaths(
         responseSuccessCode: 200,
       },
     }),
-  );
+  ));
 
-  const docTypeCtorPaths: ServicePath[] = seedDocType.constructors.map(
+  servicePaths.push(...seedDocType.constructors.map(
     (ctor) => ({
       relativeUrl: `/records/${seedDocType.pluralName}\\:${ctor.name}`,
-      summary: ctor.summary,
+      summary:
+        `The ${ctor.name} verb on a collection of ${seedDocType.name} resources.`,
       requireApiKey: true,
 
       post: {
@@ -364,13 +410,14 @@ export function generateSengiServicePaths(
         responseSuccessCode: 201,
       },
     }),
-  );
+  ));
 
-  const docTypeOpPaths: ServicePath[] = seedDocType.operations.map(
+  servicePaths.push(...seedDocType.operations.map(
     (op) => ({
       relativeUrl:
         `/records/${seedDocType.pluralName}/{id:std/uuid}\\:${op.name}`,
-      summary: op.summary,
+      summary:
+        `The ${op.name} verb on a collection of ${seedDocType.name} resources.`,
       requireApiKey: true,
 
       post: {
@@ -399,12 +446,13 @@ export function generateSengiServicePaths(
         responseSuccessCode: 200,
       },
     }),
-  );
+  ));
 
-  const docTypeQueryPaths: ServicePath[] = seedDocType.queries.map(
+  servicePaths.push(...seedDocType.queries.map(
     (query) => ({
       relativeUrl: `/records/${seedDocType.pluralName}\\:${query.name}`,
-      summary: query.summary,
+      summary:
+        `The ${query.name} verb on a collection of ${seedDocType.name} resources.`,
       requireApiKey: true,
 
       get: {
@@ -430,15 +478,7 @@ export function generateSengiServicePaths(
         responseSuccessCode: 200,
       },
     }),
-  );
+  ));
 
-  return [
-    docTypeRootPath,
-    docTypeRecordPath,
-    docTypeByIdsPath,
-    ...docTypeFilterPaths,
-    ...docTypeCtorPaths,
-    ...docTypeOpPaths,
-    ...docTypeQueryPaths,
-  ];
+  return servicePaths;
 }
