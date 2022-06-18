@@ -1,5 +1,4 @@
 import { RecordTypeDef } from "../interfaces/index.ts";
-import { capitalizeFirstLetter } from "../utils/index.ts";
 import { SengiSeedDocType } from "./SengiSeedDocType.ts";
 import {
   generateDocCreatedByMillisecondsSinceEpoch,
@@ -72,7 +71,7 @@ export function generateSengiDocTypeInputOutputVariantRecords(
   const docTemplate: RecordTypeDef = {
     kind: "record",
     system: system,
-    name: `new${capitalizeFirstLetter(seedDocType.name)}Template`,
+    name: `${seedDocType.name}Template`,
     summary: `The template to create a new ${seedDocType.name}.`,
     properties: [
       generateIdProperty(true),
