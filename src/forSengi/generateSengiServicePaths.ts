@@ -270,48 +270,6 @@ export function generateSengiServicePaths(
     },
   });
 
-  // cursor
-
-  if (seedDocType.addFilterByCursor) {
-    servicePaths.push({
-      relativeUrl: `/records/${seedDocType.pluralName}\\:byCursor`,
-      summary:
-        `The byCursor verb on a collection of ${seedDocType.name} resources.`,
-      requireApiKey: true,
-
-      get: {
-        operationName: `select${
-          capitalizeFirstLetter(seedDocType.pluralName)
-        }ByCursor`,
-        summary: `Retrieve ${seedDocType.name} records based on a cursor.`,
-        tags: [seedDocType.pluralTitle],
-        requestHeaders: [
-          apiKeyHeader,
-          ...partitionKeyHeaders,
-          userIdHeader,
-          userClaimsHeader,
-        ],
-        requestQueryParams: [
-          fieldNamesForPluralRecordsParam,
-          {
-            name: "from",
-            paramType: "std/uuid",
-            summary: `The id of the last successfully retrieved record.
-              If omitted, the first set of records will be returned.`,
-          },
-          {
-            name: "limit",
-            paramType: "std/positiveInteger",
-            summary: "The number of records to return.",
-          },
-        ],
-        responseBodyType: `${system}/${seedDocType.name}Record`,
-        responseBodyTypeArray: true,
-        responseSuccessCode: 200,
-      },
-    });
-  }
-
   // custom verb operations
 
   servicePaths.push({

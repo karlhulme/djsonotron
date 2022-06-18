@@ -41,11 +41,6 @@ export interface SengiSeedDocType {
   useSinglePartition?: boolean;
 
   /**
-   * If true, a byCursor filter will be added to the definition.
-   */
-  addFilterByCursor?: boolean;
-
-  /**
    * An array of properties that make up the doc type,
    * excluding the Sengi standard fields.
    */
