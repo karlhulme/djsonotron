@@ -26,7 +26,7 @@ export function generateSengiServicePaths(
     paramType: "std/hugeString",
     summary:
       `A comma-separated list of field names to be included on the returned record.
-      If this field is omitted then just the id property of each record will be returned.`,
+      If this field is omitted then just the id property will be returned.`,
   };
 
   const fieldNamesForPluralRecordsParam: ServicePathOperationQueryParam = {

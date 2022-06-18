@@ -10,15 +10,15 @@ async function getJsonBody(request: Request): Promise<unknown> {
     const body = await request.body({ type: "json" }).value;
     return body;
   } catch {
-    return null;
+    return undefined;
   }
 }
 
-function safeJsonParse(text: string): unknown | null {
+function safeJsonParse(text: string): unknown {
   try {
     return JSON.parse(text);
   } catch {
-    return null;
+    return undefined;
   }
 }
 

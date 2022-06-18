@@ -99,11 +99,15 @@ export function generateOakRouterOperation(
 
       if (queryParamType.kind === "string" || queryParamType.kind === "enum") {
         lines.push(`
-          const ${queryParamVar} = ctx.request.url.searchParams.get("${queryParam.name}")
+          const ${queryParamVar} = ctx.request.url.searchParams.has("${queryParam.name}")
+            ? ctx.request.url.searchParams.get("${queryParam.name}") || ""
+            : undefined
         `);
       } else {
         lines.push(`
-          const ${queryParamVar} = safeJsonParse(ctx.request.url.searchParams.get("${queryParam.name}") || "")
+          const ${queryParamVar} = ctx.request.url.searchParams.has("${queryParam.name}")
+            ? safeJsonParse(ctx.request.url.searchParams.get("${queryParam.name}") || "")
+            : undefined
         `);
       }
 
@@ -198,11 +202,15 @@ export function generateOakRouterOperation(
 
       if (headerType.kind === "string" || headerType.kind === "enum") {
         lines.push(`
-          const ${headerVar} = ctx.request.headers.get("${header.httpName}") || null
+          const ${headerVar} = ctx.request.headers.has("${header.httpName}")
+            ? ctx.request.headers.get("${header.httpName}") || ""
+            : undefined
         `);
       } else {
         lines.push(`
-          const ${headerVar} = safeJsonParse(ctx.request.headers.get("${header.httpName}") || "")
+          const ${headerVar} = ctx.request.headers.has("${header.httpName}")
+            ? safeJsonParse(ctx.request.headers.get("${header.httpName}") || "")
+            : undefined
         `);
       }
 
@@ -253,7 +261,7 @@ export function generateOakRouterOperation(
 
       if (cookieType.kind === "string" || cookieType.kind === "enum") {
         lines.push(`
-          const ${cookieVar} = ctx.cookies.get("${cookies.name}") || null
+          const ${cookieVar} = ctx.cookies.get("${cookies.name}")
         `);
       } else {
         lines.push(`
