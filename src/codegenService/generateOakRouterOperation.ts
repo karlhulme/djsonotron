@@ -113,20 +113,20 @@ export function generateOakRouterOperation(
 
       if (queryParam.isRequired) {
         lines.push(`
-          if (${queryParamVar} === null) {
-            throw new ServiceInputValidationError("Validation of request failed.  Missing required query parameter ${queryParam.name}.")
+          if (${queryParamVar} === undefined) {
+            throw new ServiceInputValidationError("Validation of request failed.  Missing or unparsable required query parameter ${queryParam.name}.")
           }
         `);
       }
 
       lines.push(`
-        if (${queryParamVar} !== null) {
+        if (${queryParamVar} !== undefined) {
           const queryParamValidationErrors = ${
         getJsonotronTypeValidationFuncName(queryParamType, false)
       }(${queryParamVar}, "queryParams.${queryParam.name}");
       
           if (queryParamValidationErrors.length > 0) {
-            throw new ServiceInputValidationError("Validation of request header ${queryParam.name} failed.", {
+            throw new ServiceInputValidationError("Validation of request query param ${queryParam.name} failed.", {
               validationErrors: queryParamValidationErrors
             })
           }
@@ -216,8 +216,8 @@ export function generateOakRouterOperation(
 
       if (header.isRequired) {
         lines.push(`
-          if (${headerVar} === null) {
-            throw new ${headerErrorName}("Validation of request failed.  Missing required header ${header.httpName}.")
+          if (${headerVar} === undefined) {
+            throw new ${headerErrorName}("Validation of request failed.  Missing or unparsable required header ${header.httpName}.")
           }
         `);
       }
@@ -271,8 +271,8 @@ export function generateOakRouterOperation(
 
       if (cookies.isRequired) {
         lines.push(`
-          if (${cookieVar} === null) {
-            throw new ServiceInputValidationError("Validation of request failed.  Missing required cookie ${cookies.name}.)
+          if (${cookieVar} === undefined) {
+            throw new ServiceInputValidationError("Validation of request failed.  Missing or unparsable required cookie ${cookies.name}.)
           }
         `);
       }

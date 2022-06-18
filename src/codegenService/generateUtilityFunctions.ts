@@ -10,7 +10,7 @@ async function getJsonBody(request: Request): Promise<unknown> {
     const body = await request.body({ type: "json" }).value;
     return body;
   } catch (err) {
-    return { __unreadableJsonBody: err.toString() };
+    return undefined;
   }
 }
 
@@ -18,7 +18,7 @@ function safeJsonParse(text: string): unknown {
   try {
     return JSON.parse(text);
   } catch (err) {
-    return { __unparsableText: text };
+    return undefined;
   }
 }
 
