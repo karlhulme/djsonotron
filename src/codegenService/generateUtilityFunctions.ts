@@ -17,8 +17,8 @@ async function getJsonBody(request: Request): Promise<unknown> {
 function safeJsonParse(text: string): unknown {
   try {
     return JSON.parse(text);
-  } catch {
-    return undefined;
+  } catch (err) {
+    return { __invalidJson: text };
   }
 }
 
