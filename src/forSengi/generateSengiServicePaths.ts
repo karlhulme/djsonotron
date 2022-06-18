@@ -308,7 +308,6 @@ export function generateSengiServicePaths(
           isNewHeader,
         ],
         responseBodyType: `${system}/${seedDocType.name}Record`,
-        responseBodyTypeArray: true,
         responseSuccessCode: 201,
       },
     }),
