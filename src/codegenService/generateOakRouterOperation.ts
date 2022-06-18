@@ -109,7 +109,7 @@ export function generateOakRouterOperation(
 
       if (queryParam.isRequired) {
         lines.push(`
-          if (${queryParam} === null) {
+          if (${queryParamVar} === null) {
             throw new ServiceInputValidationError("Validation of request failed.  Missing required query parameter ${queryParam.name}.")
           }
         `);
