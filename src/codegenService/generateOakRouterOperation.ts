@@ -13,6 +13,18 @@ import {
   resolveJsonotronType,
 } from "../utils/index.ts";
 
+/**
+ * Generates an Oak Router operation from the given service operation.
+ * Missing query params, headers and cookies are treated as 'undefined'
+ * so that they can be passed to the operation input objects (___Props)
+ * and still support optional values.  It's possible that these values
+ * could be JSON-parsed to return null.  The validation functions should
+ * reject those as only RecordType-properties are nullable.
+ * @param method The HTTP verb.
+ * @param path The path of the operation.
+ * @param op The operation definition.
+ * @param types An array of Jsonotron types.
+ */
 export function generateOakRouterOperation(
   method: string,
   path: ServicePath,

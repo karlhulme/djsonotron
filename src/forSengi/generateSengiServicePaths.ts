@@ -65,13 +65,22 @@ export function generateSengiServicePaths(
       isRequired: true,
     }];
 
-  const userHeader: ServicePathOperationHeader = {
-    name: "user",
+  const userIdHeader: ServicePathOperationHeader = {
+    name: "userId",
     headerType: user,
-    httpName: "x-user",
+    httpName: "x-user-id",
     summary:
-      `A JSON stringified ${user} object that describes the user making the request.`,
-    isRequired: true,
+      `An id of the user making the request.  If this header is omitted then the anonymous user will be assumed.`,
+    isRequired: false,
+  };
+
+  const userClaimsHeader: ServicePathOperationHeader = {
+    name: "userClaims",
+    headerType: user,
+    httpName: "x-user-claims",
+    summary:
+      `The array of claims held by the user making the request.  If this header is omitted then the user will be assumed to have no claims.`,
+    isRequired: false,
   };
 
   const reqVersionHeader: ServicePathOperationHeader = {
@@ -145,7 +154,8 @@ export function generateSengiServicePaths(
       requestHeaders: [
         apiKeyHeader,
         ...partitionKeyHeaders,
-        userHeader,
+        userIdHeader,
+        userClaimsHeader,
       ],
       requestQueryParams: [
         fieldNamesForPluralRecordsParam,
@@ -162,7 +172,8 @@ export function generateSengiServicePaths(
       requestHeaders: [
         apiKeyHeader,
         ...partitionKeyHeaders,
-        userHeader,
+        userIdHeader,
+        userClaimsHeader,
       ],
       requestQueryParams: [
         fieldNamesForSingularRecordParam,
@@ -190,7 +201,8 @@ export function generateSengiServicePaths(
       requestHeaders: [
         apiKeyHeader,
         ...partitionKeyHeaders,
-        userHeader,
+        userIdHeader,
+        userClaimsHeader,
       ],
       responseHeaders: [
         isDeletedHeader,
@@ -205,7 +217,8 @@ export function generateSengiServicePaths(
       requestHeaders: [
         apiKeyHeader,
         ...partitionKeyHeaders,
-        userHeader,
+        userIdHeader,
+        userClaimsHeader,
       ],
       requestQueryParams: [
         fieldNamesForSingularRecordParam,
@@ -221,7 +234,8 @@ export function generateSengiServicePaths(
       requestHeaders: [
         apiKeyHeader,
         ...partitionKeyHeaders,
-        userHeader,
+        userIdHeader,
+        userClaimsHeader,
         reqVersionHeader,
         operationIdHeader,
       ],
@@ -243,7 +257,8 @@ export function generateSengiServicePaths(
       requestHeaders: [
         apiKeyHeader,
         ...partitionKeyHeaders,
-        userHeader,
+        userIdHeader,
+        userClaimsHeader,
       ],
       requestQueryParams: [
         fieldNamesForSingularRecordParam,
@@ -270,7 +285,8 @@ export function generateSengiServicePaths(
       requestHeaders: [
         apiKeyHeader,
         ...partitionKeyHeaders,
-        userHeader,
+        userIdHeader,
+        userClaimsHeader,
       ],
       requestQueryParams: [
         fieldNamesForPluralRecordsParam,
@@ -298,7 +314,8 @@ export function generateSengiServicePaths(
         requestHeaders: [
           apiKeyHeader,
           ...partitionKeyHeaders,
-          userHeader,
+          userIdHeader,
+          userClaimsHeader,
         ],
         requestQueryParams: [
           fieldNamesForPluralRecordsParam,
@@ -333,7 +350,8 @@ export function generateSengiServicePaths(
         requestHeaders: [
           apiKeyHeader,
           ...partitionKeyHeaders,
-          userHeader,
+          userIdHeader,
+          userClaimsHeader,
           newDocIdHeader,
         ],
         requestQueryParams: [
@@ -366,7 +384,8 @@ export function generateSengiServicePaths(
         requestHeaders: [
           apiKeyHeader,
           ...partitionKeyHeaders,
-          userHeader,
+          userIdHeader,
+          userClaimsHeader,
           reqVersionHeader,
           operationIdHeader,
         ],
@@ -398,7 +417,8 @@ export function generateSengiServicePaths(
         tags: [seedDocType.pluralTitle],
         requestHeaders: [
           apiKeyHeader,
-          userHeader,
+          userIdHeader,
+          userClaimsHeader,
         ],
         requestQueryParams: query.parameters.map((p) => ({
           name: p.name,

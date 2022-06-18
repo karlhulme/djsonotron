@@ -19,6 +19,7 @@ async function getJsonBody(request: Request): Promise<unknown> {
 
 /**
  * Returns the JSON object created by parsing the given text.
+ */
 function safeJsonParse(text: string): unknown {
   try {
     return JSON.parse(text);
