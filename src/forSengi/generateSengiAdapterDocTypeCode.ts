@@ -78,7 +78,7 @@ export function generateSengiAdapterDocTypeCode(
         ${seedDocType.name}${
           capitalizeFirstLetter(query.name)
         }QueryAuthorise?: (
-          props: DocTypeQueryAuthProps<${capitalizeFirstLetter(system)}${
+          props: DocTypeQueryAuthProps<${capitalizeFirstLetter(system)}${capitalizeFirstLetter(seedDocType.name)}${
           capitalizeFirstLetter(query.name)
         }Query>
         ) => string|undefined;
