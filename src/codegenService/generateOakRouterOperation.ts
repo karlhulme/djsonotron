@@ -158,8 +158,8 @@ export function generateOakRouterOperation(
     lines.push(`
       const body = await getJsonBody(ctx.request);
 
-      if (!body) {
-        throw new ServiceInputValidationError("Unable to parse JSON body.")
+      if (body === undefined) {
+        throw new ServiceInputValidationError("Missing or unparsable JSON body.")
       }
 
       const bodyValidationErrors = ${

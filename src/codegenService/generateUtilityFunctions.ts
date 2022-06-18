@@ -5,6 +5,9 @@ export interface HeaderNameValue {
   value: string
 }
 
+/**
+ * Returns the JSON body of the given request.
+ */
 async function getJsonBody(request: Request): Promise<unknown> {
   try {
     const body = await request.body({ type: "json" }).value;
@@ -14,6 +17,8 @@ async function getJsonBody(request: Request): Promise<unknown> {
   }
 }
 
+/**
+ * Returns the JSON object created by parsing the given text.
 function safeJsonParse(text: string): unknown {
   try {
     return JSON.parse(text);
