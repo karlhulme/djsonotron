@@ -67,8 +67,10 @@ function appendTypesReferencedByServicePathOperation(
     }
   }
 
-  if (op.responseBodyType) {
-    typeNames.push(op.responseBodyType);
+  if (Array.isArray(op.requestParams)) {
+    for (const bodyParam of op.requestParams) {
+      typeNames.push(bodyParam.paramType);
+    }
   }
 
   if (Array.isArray(op.requestHeaders)) {
@@ -81,6 +83,10 @@ function appendTypesReferencedByServicePathOperation(
     for (const cookie of op.requestCookies) {
       typeNames.push(cookie.cookieType);
     }
+  }
+
+  if (op.responseBodyType) {
+    typeNames.push(op.responseBodyType);
   }
 
   if (Array.isArray(op.responseHeaders)) {

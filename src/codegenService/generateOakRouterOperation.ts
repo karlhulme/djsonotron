@@ -193,7 +193,7 @@ export function generateOakRouterOperation(
     );
   } else if (Array.isArray(op.requestParams) && op.requestParams.length > 0) {
     lines.push(`
-      const body = await getJsonBody(ctx.request);
+      const body = await getJsonBody(ctx.request) as any;
 
       if (body === undefined) {
         throw new ServiceInputValidationError(
@@ -217,13 +217,13 @@ export function generateOakRouterOperation(
       );
 
       lines.push(`
-        ${bodyParamVar} = body.${bodyParam.name};
+        const ${bodyParamVar} = body.${bodyParam.name};
       `);
 
       if (!bodyParam.isNullable) {
         lines.push(`
           if (${bodyParamVar} === null) {
-            throw new ServiceInputValidationError("Validation of request failed.  Body parameter ${bodyParam.name} cannot be  null.")
+            throw new ServiceInputValidationError("Validation of request failed.  Body parameter ${bodyParam.name} cannot be null.")
           }
         `);
       }

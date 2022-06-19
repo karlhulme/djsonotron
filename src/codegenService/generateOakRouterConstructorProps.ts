@@ -53,6 +53,8 @@ function generateOperationLine(op: ServicePathOperation) {
   const needsProps = Boolean(op.requestBodyType) ||
     (Array.isArray(op.requestQueryParams) &&
       op.requestQueryParams.length > 0) ||
+    (Array.isArray(op.requestParams) &&
+      op.requestParams.length > 0) ||
     (Array.isArray(op.requestHeaders) && op.requestHeaders.length > 0) ||
     (Array.isArray(op.requestCookies) && op.requestCookies.length > 0);
 
