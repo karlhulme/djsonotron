@@ -25,14 +25,14 @@ export function generateOpenApiService(
       description: props.service.info.description,
       version: props.service.info.version,
     },
-    servers: Array.isArray(props.service.servers) 
+    servers: Array.isArray(props.service.servers)
       ? props.service.servers.map((svr) => ({
         url: svr.url,
         description: svr.description,
       }))
       : [{
-        url: '/',
-        description: 'This service.'
+        url: "/",
+        description: "This service.",
       }],
     paths: generateOpenApiServicePathsNode(props.service, props.types),
     components: {
