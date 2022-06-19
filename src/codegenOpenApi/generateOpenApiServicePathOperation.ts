@@ -4,6 +4,7 @@ import {
   OpenApiSpecPathOperation,
   OpenApiSpecPathResponse,
   OpenApiSpecPathResponseHeader,
+  OpenApiSpecSchema,
   ServicePath,
   ServicePathOperation,
 } from "../interfaces/index.ts";
@@ -99,9 +100,47 @@ export function generateOpenApiServicePathOperation(
     }
   }
 
-  const reqBodyName = op.requestBodyType
-    ? `${capitalizeFirstLetter(op.operationName)}RequestBody`
-    : null;
+  let requestBody: OpenApiSpecSchema | undefined = undefined;
+
+  if (op.requestBodyType) {
+    if (op.requestBodyTypeArray) {
+      requestBody = {
+        type: "array",
+        items: {
+          $ref: `#/components/requestBodies/${
+            capitalizeFirstLetter(op.operationName)
+          }RequestBody`,
+        },
+      };
+    } else {
+      requestBody = {
+        $ref: `#/components/requestBodies/${
+          capitalizeFirstLetter(op.operationName)
+        }RequestBody`,
+      };
+    }
+  } else if (Array.isArray(op.requestParams) && op.requestParams.length > 0) {
+    requestBody = {
+      type: "object",
+      properties: op.requestParams.reduce((agg, cur) => {
+        const paramType = resolveJsonotronType(cur.paramType, types);
+
+        if (paramType) {
+          agg[cur.name] = generateJsonSchemaPropertyForJsonotronProperty(
+            cur.summary,
+            cur.deprecation,
+            paramType,
+            true,
+          );
+        }
+
+        return agg;
+      }, {} as Record<string, OpenApiSpecSchema>),
+      required: op.requestParams.find((p) => p.isRequired)
+        ? op.requestParams.filter((p) => p.isRequired).map((p) => p.name)
+        : undefined,
+    };
+  }
 
   const resBodyType = op.responseBodyType
     ? resolveJsonotronType(op.responseBodyType, types)
@@ -142,10 +181,7 @@ export function generateOpenApiServicePathOperation(
     summary: generateDescriptionText(op.summary, op.deprecation),
     deprecated: op.deprecation ? true : undefined,
     tags: op.tags || [],
-    requestBody: createOpenApiSpecRequestSchema(
-      reqBodyName,
-      Boolean(op.requestBodyTypeArray),
-    ),
+    requestBody,
     parameters,
     responses: {
       [op.responseSuccessCode.toString()]: successResponse,
@@ -156,28 +192,6 @@ export function generateOpenApiServicePathOperation(
       }]
       : [],
   };
-}
-
-function createOpenApiSpecRequestSchema(
-  formalTypeName: string | null,
-  isArray: boolean,
-) {
-  if (formalTypeName) {
-    if (isArray) {
-      return {
-        type: "array",
-        items: {
-          $ref: `#/components/requestBodies/${formalTypeName}`,
-        },
-      };
-    } else {
-      return {
-        $ref: `#/components/requestBodies/${formalTypeName}`,
-      };
-    }
-  } else {
-    return undefined;
-  }
 }
 
 function createOpenApiSpecResponseContent(

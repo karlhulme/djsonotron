@@ -93,6 +93,7 @@ export function generateSengiDocTypeInputOutputVariantRecords(
       ...seedDocType.properties.map((prop) => ({
         ...prop,
         isRequired: false,
+        isNullable: true,
       })),
     ],
   };
