@@ -124,25 +124,31 @@ export function generateOpenApiServicePathOperation(
     }
   } else if (Array.isArray(op.requestParams) && op.requestParams.length > 0) {
     requestBody = {
-      type: "object",
-      properties: op.requestParams.reduce((agg, cur) => {
-        const paramType = resolveJsonotronType(cur.paramType, types);
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: op.requestParams.reduce((agg, cur) => {
+              const paramType = resolveJsonotronType(cur.paramType, types);
 
-        if (paramType) {
-          agg[cur.name] = generateJsonSchemaPropertyForJsonotronProperty(
-            cur.summary,
-            cur.deprecation,
-            paramType,
-            Boolean(cur.isNullable),
-            true,
-          );
-        }
+              if (paramType) {
+                agg[cur.name] = generateJsonSchemaPropertyForJsonotronProperty(
+                  cur.summary,
+                  cur.deprecation,
+                  paramType,
+                  Boolean(cur.isNullable),
+                  true,
+                );
+              }
 
-        return agg;
-      }, {} as Record<string, OpenApiSpecSchema>),
-      required: op.requestParams.find((p) => p.isRequired)
-        ? op.requestParams.filter((p) => p.isRequired).map((p) => p.name)
-        : undefined,
+              return agg;
+            }, {} as Record<string, OpenApiSpecSchema>),
+            required: op.requestParams.find((p) => p.isRequired)
+              ? op.requestParams.filter((p) => p.isRequired).map((p) => p.name)
+              : undefined,
+          },
+        },
+      },
     };
   }
 

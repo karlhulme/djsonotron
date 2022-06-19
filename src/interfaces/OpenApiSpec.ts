@@ -78,6 +78,7 @@ export interface OpenApiSpecSchema {
   title?: string;
   description?: string;
   deprecated?: boolean;
+  content?: unknown;
   items?: OpenApiSpecSchema;
   properties?: Record<string, OpenApiSpecSchema>;
   required?: string[];
