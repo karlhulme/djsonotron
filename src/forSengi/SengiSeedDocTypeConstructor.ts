@@ -1,3 +1,5 @@
+import { SengiSeedDocTypeConstructorParameter } from "./SengiSeedDocTypeConstructorParameter.ts";
+
 /**
  * Represents a constructor for a seed doc type.
  */
@@ -21,5 +23,5 @@ export interface SengiSeedDocTypeConstructor {
   /**
    * The fully qualified type of the parameters record object.
    */
-  parametersType: string;
+  parameters: SengiSeedDocTypeConstructorParameter[];
 }

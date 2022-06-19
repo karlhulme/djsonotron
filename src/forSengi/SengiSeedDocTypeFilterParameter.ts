@@ -23,7 +23,7 @@ export interface SengiSeedDocTypeFilterParameter {
   isRequired?: boolean;
 
   /**
-   * If populated, this value will describe the field to use
+   * If populated, this value will describe the parameter to use
    * instead of this one.
    */
   deprecated?: string;

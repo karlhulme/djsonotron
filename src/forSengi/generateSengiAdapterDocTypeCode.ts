@@ -25,9 +25,9 @@ export function generateSengiAdapterDocTypeCode(
         `${seedDocType.name}${
           capitalizeFirstLetter(ctor.name)
         }CtorImplementation: (
-          props: DocTypeConstructorImplProps<${
-          capitalizeFirstLetter(getSystemFromTypeString(ctor.parametersType))
-        }${capitalizeFirstLetter(getTypeFromTypeString(ctor.parametersType))}>
+          props: DocTypeConstructorImplProps<${capitalizeFirstLetter(system)}${
+          capitalizeFirstLetter(seedDocType.name)
+        }${capitalizeFirstLetter(ctor.name)}Params>
         ) => Omit<${capitalizeFirstLetter(system)}${
           capitalizeFirstLetter(seedDocType.name)
         }, "id" | "docType" | "docOpIds" | "docVersion" | "docCreatedByUserId" | "docCreatedMillisecondsSinceEpoch" | "docLastUpdatedByUserId" | "docLastUpdatedMillisecondsSinceEpoch">;`,
@@ -49,16 +49,16 @@ export function generateSengiAdapterDocTypeCode(
         `${seedDocType.name}${capitalizeFirstLetter(op.name)}OpImplementation: (
           props: DocTypeOperationImplProps<${capitalizeFirstLetter(system)}${
           capitalizeFirstLetter(seedDocType.name)
-        }, ${
-          capitalizeFirstLetter(getSystemFromTypeString(op.parametersType))
-        }${capitalizeFirstLetter(getTypeFromTypeString(op.parametersType))}>
+        }, ${capitalizeFirstLetter(system)}${
+          capitalizeFirstLetter(seedDocType.name)
+        }${capitalizeFirstLetter(op.name)}Params>
         ) => void;
         ${seedDocType.name}${capitalizeFirstLetter(op.name)}OpAuthorise?: (
           props: DocTypeOperationAuthProps<${capitalizeFirstLetter(system)}${
           capitalizeFirstLetter(seedDocType.name)
-        }, ${
-          capitalizeFirstLetter(getSystemFromTypeString(op.parametersType))
-        }${capitalizeFirstLetter(getTypeFromTypeString(op.parametersType))}>
+        }, ${capitalizeFirstLetter(system)}${
+          capitalizeFirstLetter(seedDocType.name)
+        }${capitalizeFirstLetter(op.name)}Params>
         ) => string|undefined;`,
       );
     }
@@ -112,9 +112,9 @@ export function generateSengiAdapterDocTypeCode(
               implementation: options.${seedDocType.name}${
           capitalizeFirstLetter(ctor.name)
         }CtorImplementation,
-              validateParameters: v(validate${
-          capitalizeFirstLetter(getSystemFromTypeString(ctor.parametersType))
-        }${capitalizeFirstLetter(getTypeFromTypeString(ctor.parametersType))}),
+              validateParameters: v(validate${capitalizeFirstLetter(system)}${
+          capitalizeFirstLetter(seedDocType.name)
+        }${capitalizeFirstLetter(ctor.name)}Params),
               summary: "${ctor.summary}",
               ${ctor.deprecation ? `deprecation: "${ctor.deprecation}",` : ""}
             }
@@ -146,9 +146,9 @@ export function generateSengiAdapterDocTypeCode(
               implementation: options.${seedDocType.name}${
           capitalizeFirstLetter(op.name)
         }OpImplementation,
-              validateParameters: v(validate${
-          capitalizeFirstLetter(getSystemFromTypeString(op.parametersType))
-        }${capitalizeFirstLetter(getTypeFromTypeString(op.parametersType))}),
+              validateParameters: v(validate${capitalizeFirstLetter(system)}${
+          capitalizeFirstLetter(seedDocType.name)
+        }${capitalizeFirstLetter(op.name)}Params),
               authorise: options.${seedDocType.name}${
           capitalizeFirstLetter(op.name)
         }OpAuthorise,

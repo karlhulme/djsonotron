@@ -143,14 +143,14 @@ export function generateSengiServicePaths(
 
   servicePaths.push({
     relativeUrl: `/records/${seedDocType.pluralName}`,
-    summary: `A collection of ${seedDocType.name} resources.`,
+    summary: `A collection of ${seedDocType.title} resources.`,
     requireApiKey: true,
 
     get: {
       operationName: `selectAll${
         capitalizeFirstLetter(seedDocType.pluralName)
       }`,
-      summary: `Retrieve all the ${seedDocType.name} records.`,
+      summary: `Retrieve all ${seedDocType.title} records.`,
       tags: [seedDocType.pluralTitle],
       requestHeaders: [
         apiKeyHeader,
@@ -168,7 +168,7 @@ export function generateSengiServicePaths(
 
     post: {
       operationName: `new${capitalizeFirstLetter(seedDocType.name)}`,
-      summary: `Create a new ${seedDocType.name} record.`,
+      summary: `Create new ${seedDocType.title} record.`,
       tags: [seedDocType.pluralTitle],
       requestHeaders: [
         apiKeyHeader,
@@ -192,12 +192,12 @@ export function generateSengiServicePaths(
 
   servicePaths.push({
     relativeUrl: `/records/${seedDocType.pluralName}/{id:std/uuid}`,
-    summary: `A single ${seedDocType} resource.`,
+    summary: `A single ${seedDocType.title} resource.`,
     requireApiKey: true,
 
     delete: {
       operationName: `delete${capitalizeFirstLetter(seedDocType.name)}`,
-      summary: `Delete a ${seedDocType.name} record.`,
+      summary: `Delete ${seedDocType.title} record.`,
       tags: [seedDocType.pluralTitle],
       requestHeaders: [
         apiKeyHeader,
@@ -213,7 +213,7 @@ export function generateSengiServicePaths(
 
     get: {
       operationName: `select${capitalizeFirstLetter(seedDocType.name)}`,
-      summary: `Retrieve a ${seedDocType.name} record.`,
+      summary: `Retrieve ${seedDocType.title} record.`,
       tags: [seedDocType.pluralTitle],
       requestHeaders: [
         apiKeyHeader,
@@ -230,7 +230,7 @@ export function generateSengiServicePaths(
 
     patch: {
       operationName: `patch${capitalizeFirstLetter(seedDocType.name)}`,
-      summary: `Patch a ${seedDocType.name} record.`,
+      summary: `Patch ${seedDocType.title} record.`,
       tags: [seedDocType.pluralTitle],
       requestHeaders: [
         apiKeyHeader,
@@ -253,7 +253,7 @@ export function generateSengiServicePaths(
 
     put: {
       operationName: `replace${capitalizeFirstLetter(seedDocType.name)}`,
-      summary: `Replace an existing ${seedDocType.name} record.`,
+      summary: `Replace existing ${seedDocType.title} record.`,
       tags: [seedDocType.pluralTitle],
       requestHeaders: [
         apiKeyHeader,
@@ -281,7 +281,7 @@ export function generateSengiServicePaths(
       operationName: `select${
         capitalizeFirstLetter(seedDocType.pluralName)
       }ByIds`,
-      summary: `Retrieve ${seedDocType.name} records using ids.`,
+      summary: `Retrieve ${seedDocType.title} records using ids.`,
       tags: [seedDocType.pluralTitle],
       requestHeaders: [
         apiKeyHeader,
@@ -303,7 +303,7 @@ export function generateSengiServicePaths(
     (filter) => ({
       relativeUrl: `/records/${seedDocType.pluralName}\\:${filter.name}`,
       summary:
-        `The ${filter.name} verb on a collection of ${seedDocType.name} resources.`,
+        `The ${filter.name} verb on a collection of ${seedDocType.title} resources.`,
       requireApiKey: true,
 
       get: {
@@ -360,7 +360,9 @@ export function generateSengiServicePaths(
         requestQueryParams: [
           fieldNamesForSingularRecordParam,
         ],
-        requestBodyType: ctor.parametersType,
+        requestBodyType: `${system}/${seedDocType.name}${
+          capitalizeFirstLetter(ctor.name)
+        }Params`,
         responseHeaders: [
           isNewHeader,
         ],
@@ -396,7 +398,9 @@ export function generateSengiServicePaths(
         requestQueryParams: [
           fieldNamesForSingularRecordParam,
         ],
-        requestBodyType: op.parametersType,
+        requestBodyType: `${system}/${seedDocType.name}${
+          capitalizeFirstLetter(op.name)
+        }Params`,
         responseHeaders: [
           isUpdatedHeader,
         ],

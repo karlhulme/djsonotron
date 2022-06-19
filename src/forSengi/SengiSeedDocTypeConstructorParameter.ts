@@ -1,7 +1,7 @@
 /**
- * Represents a query parameter.
+ * Represents a constructor parameter.
  */
-export interface SengiSeedDocTypeQueryParameter {
+export interface SengiSeedDocTypeConstructorParameter {
   /**
    * The name of the parameter.
    */

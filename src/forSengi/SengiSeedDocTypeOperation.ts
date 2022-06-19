@@ -1,3 +1,5 @@
+import { SengiSeedDocTypeOperationParameter } from "./SengiSeedDocTypeOperationParameter.ts";
+
 /**
  * Represents an operation for a seed doc type.
  */
@@ -21,5 +23,5 @@ export interface SengiSeedDocTypeOperation {
   /**
    * The fully qualified type of the parameters record object.
    */
-  parametersType: string;
+  parameters: SengiSeedDocTypeOperationParameter[];
 }

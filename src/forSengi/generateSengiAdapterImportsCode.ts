@@ -56,22 +56,6 @@ export function generateSengiAdapterImportsCode(
       }Record`,
     );
 
-    for (const ctor of sdt.constructors) {
-      // The parameters to a constructor
-      importsFromTypesAutogen.push(
-        `${
-          capitalizeFirstLetter(getSystemFromTypeString(ctor.parametersType))
-        }${capitalizeFirstLetter(getTypeFromTypeString(ctor.parametersType))}`,
-      );
-
-      // The validators used on parameters to a constructor
-      importsFromTypesAutogen.push(
-        `validate${
-          capitalizeFirstLetter(getSystemFromTypeString(ctor.parametersType))
-        }${capitalizeFirstLetter(getTypeFromTypeString(ctor.parametersType))}`,
-      );
-    }
-
     for (const filter of sdt.filters) {
       // The parameters to a filter
       importsFromTypesAutogen.push(
@@ -88,19 +72,35 @@ export function generateSengiAdapterImportsCode(
       );
     }
 
-    for (const op of sdt.operations) {
-      // The parameters to an operation
+    for (const ctor of sdt.constructors) {
+      // The parameters to a constructor
       importsFromTypesAutogen.push(
-        `${capitalizeFirstLetter(getSystemFromTypeString(op.parametersType))}${
-          capitalizeFirstLetter(getTypeFromTypeString(op.parametersType))
-        }`,
+        `${capitalizeFirstLetter(props.system)}${
+          capitalizeFirstLetter(sdt.name)
+        }${capitalizeFirstLetter(getTypeFromTypeString(ctor.name))}Params`,
       );
 
-      // The validator used on parameters to an operation
+      // The validator used on parameters to a constructor
       importsFromTypesAutogen.push(
-        `validate${
-          capitalizeFirstLetter(getSystemFromTypeString(op.parametersType))
-        }${capitalizeFirstLetter(getTypeFromTypeString(op.parametersType))}`,
+        `validate${capitalizeFirstLetter(props.system)}${
+          capitalizeFirstLetter(sdt.name)
+        }${capitalizeFirstLetter(getTypeFromTypeString(ctor.name))}Params`,
+      );
+    }
+
+    for (const op of sdt.operations) {
+      // The parameters to a operation
+      importsFromTypesAutogen.push(
+        `${capitalizeFirstLetter(props.system)}${
+          capitalizeFirstLetter(sdt.name)
+        }${capitalizeFirstLetter(getTypeFromTypeString(op.name))}Params`,
+      );
+
+      // The validator used on parameters to a operation
+      importsFromTypesAutogen.push(
+        `validate${capitalizeFirstLetter(props.system)}${
+          capitalizeFirstLetter(sdt.name)
+        }${capitalizeFirstLetter(getTypeFromTypeString(op.name))}Params`,
       );
     }
 
@@ -198,7 +198,7 @@ export function generateSengiAdapterImportsCode(
     .flat();
 
   return `
-    // deno-lint-ignore-file no-explicit-any no-unused-vars ban-unused-ignore
+    // deno-lint-ignore-file no-explicit-any no-unused-vars no-empty-interface ban-unused-ignore
     ${
     generateTypescriptImportLine(
       importsFromDeps,
