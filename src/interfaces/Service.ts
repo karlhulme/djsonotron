@@ -14,7 +14,7 @@ export interface Service {
   /**
    * An array of server objects.
    */
-  servers: ServiceServer[];
+  servers?: ServiceServer[];
 
   /**
    * An array of service paths.

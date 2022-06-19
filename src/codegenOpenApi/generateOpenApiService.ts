@@ -25,10 +25,15 @@ export function generateOpenApiService(
       description: props.service.info.description,
       version: props.service.info.version,
     },
-    servers: props.service.servers.map((svr) => ({
-      url: svr.url,
-      description: svr.description,
-    })),
+    servers: Array.isArray(props.service.servers) 
+      ? props.service.servers.map((svr) => ({
+        url: svr.url,
+        description: svr.description,
+      }))
+      : [{
+        url: '/',
+        description: 'This service.'
+      }],
     paths: generateOpenApiServicePathsNode(props.service, props.types),
     components: {
       requestBodies: generateRequestBodiesForOperations(
@@ -39,6 +44,6 @@ export function generateOpenApiService(
       securitySchemes: generateOpenApiSecuritySchemes(props.service),
     },
   };
-  // console.log(JSON.stringify(openApiSpec, null, 2));
+
   return openApiSpec;
 }
