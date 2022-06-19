@@ -41,6 +41,7 @@ export function generateOpenApiServicePathOperation(
             queryParam.summary,
             queryParam.deprecation,
             queryParamType,
+            false,
             true,
           ),
         });
@@ -61,6 +62,7 @@ export function generateOpenApiServicePathOperation(
               header.summary,
               header.deprecation,
               headerType,
+              false,
               true,
             ),
             required: Boolean(header.isRequired),
@@ -87,6 +89,7 @@ export function generateOpenApiServicePathOperation(
             cookie.summary,
             cookie.deprecation,
             cookieType,
+            false,
             true,
           ),
           required: Boolean(cookie.isRequired),
@@ -130,6 +133,7 @@ export function generateOpenApiServicePathOperation(
             cur.summary,
             cur.deprecation,
             paramType,
+            Boolean(cur.isNullable),
             true,
           );
         }
@@ -165,6 +169,7 @@ export function generateOpenApiServicePathOperation(
             header.summary,
             header.deprecation,
             headerType,
+            false,
             true,
           ),
           required: Boolean(header.isGuaranteed),

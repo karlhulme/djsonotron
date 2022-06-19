@@ -5,12 +5,13 @@ import { generateDescriptionText } from "./generateDescriptionText.ts";
 export function generateJsonSchemaPropertyForJsonotronProperty(
   summary: string,
   deprecated: string | undefined,
-  recordPropType: JsonotronTypeDef,
+  jsonotronTypeDef: JsonotronTypeDef,
+  isNullable: boolean,
   includeDocumentationProps: boolean,
 ) {
   const documentationProps = includeDocumentationProps
     ? {
-      title: recordPropType.summary,
+      title: jsonotronTypeDef.summary,
       description: generateDescriptionText(
         summary,
         deprecated,
@@ -19,28 +20,40 @@ export function generateJsonSchemaPropertyForJsonotronProperty(
     }
     : {};
 
-  if (recordPropType.kind === "bool") {
+  const nullableProps = isNullable
+    ? {
+      nullable: true,
+    }
+    : {};
+
+  if (jsonotronTypeDef.kind === "bool") {
     return {
       type: "boolean",
+      ...nullableProps,
       ...documentationProps,
     };
   } else if (
-    recordPropType.kind === "enum" || recordPropType.kind === "record"
+    jsonotronTypeDef.kind === "enum" || jsonotronTypeDef.kind === "record"
   ) {
     return {
       $ref: `#/components/schemas/${
-        getJsonotronTypeFormalName(recordPropType)
+        getJsonotronTypeFormalName(jsonotronTypeDef)
       }`,
+      ...nullableProps,
       ...documentationProps,
     };
-  } else if (recordPropType.kind === "float" || recordPropType.kind === "int") {
+  } else if (
+    jsonotronTypeDef.kind === "float" || jsonotronTypeDef.kind === "int"
+  ) {
     return {
       type: "number",
+      ...nullableProps,
       ...documentationProps,
     };
-  } else if (recordPropType.kind === "string") {
+  } else if (jsonotronTypeDef.kind === "string") {
     return {
       type: "string",
+      ...nullableProps,
       ...documentationProps,
     };
   } else {

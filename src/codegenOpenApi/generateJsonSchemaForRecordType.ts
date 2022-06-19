@@ -28,6 +28,7 @@ export function generateJsonSchemaForRecordType(
             recordProp.summary,
             recordProp.deprecated,
             recordPropType,
+            Boolean(recordProp.isNullable),
             false,
           ),
         };
@@ -37,6 +38,7 @@ export function generateJsonSchemaForRecordType(
             recordProp.summary,
             recordProp.deprecated,
             recordPropType,
+            Boolean(recordProp.isNullable),
             true,
           );
       }
