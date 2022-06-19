@@ -19,14 +19,6 @@ export function generateOakRouterOperationInputType(
 ) {
   const declarations: string[] = [];
 
-  const reqBodySystem = op.requestBodyType
-    ? getSystemFromTypeString(op.requestBodyType)
-    : null;
-
-  const reqBodyType = op.requestBodyType
-    ? getTypeFromTypeString(op.requestBodyType)
-    : null;
-
   const pathParamDeclarations = getServicePathParameters(path.relativeUrl).map(
     (param) => {
       const type = resolveJsonotronType(param.type, types);
@@ -65,11 +57,41 @@ export function generateOakRouterOperationInputType(
     }
   }
 
-  const reqBodyPropertyDeclaration = reqBodySystem && reqBodyType
-    ? `body: ${capitalizeFirstLetter(reqBodySystem)}${
-      capitalizeFirstLetter(reqBodyType)
-    }${op.requestBodyTypeArray ? "[]" : ""}`
-    : "";
+  const bodyDeclarations: string[] = [];
+
+  if (op.requestBodyType) {
+    const reqBodySystem = op.requestBodyType
+      ? getSystemFromTypeString(op.requestBodyType)
+      : null;
+
+    const reqBodyType = op.requestBodyType
+      ? getTypeFromTypeString(op.requestBodyType)
+      : null;
+
+    if (reqBodySystem && reqBodyType) {
+      bodyDeclarations.push(
+        `body: ${capitalizeFirstLetter(reqBodySystem)}${
+          capitalizeFirstLetter(reqBodyType)
+        }${op.requestBodyTypeArray ? "[]" : ""}`,
+      );
+    }
+  } else if (op.requestParams) {
+    for (const param of op.requestParams) {
+      const paramType = resolveJsonotronType(param.paramType, types);
+
+      if (!paramType) {
+        throw new Error(
+          `Unable to resolve type ${param.paramType} for body param ${param.name} on path ${path.relativeUrl}.`,
+        );
+      }
+
+      bodyDeclarations.push(
+        `${param.name}${param.isRequired ? "" : "?"}: ${
+          getJsonotronTypeUnderlyingTypescriptType(paramType)
+        }`,
+      );
+    }
+  }
 
   const headerPropertyDeclarations: string[] = [];
 
@@ -115,7 +137,7 @@ export function generateOakRouterOperationInputType(
   export interface ${capitalizeFirstLetter(op.operationName)}Props {
     ${pathParamDeclarations.join("\n    ")}
     ${queryParamDeclarations.join("\n    ")}
-    ${reqBodyPropertyDeclaration}
+    ${bodyDeclarations.join("\n    ")}
     ${headerPropertyDeclarations.join("\n    ")}
     ${cookieDeclarations.join("\n    ")}
   } 

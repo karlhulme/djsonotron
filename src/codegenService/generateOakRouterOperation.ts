@@ -39,7 +39,6 @@ export function generateOakRouterOperation(
   );
 
   const urlParamInvocationParameters: string[] = [];
-  let bodyInvocationParameter = "";
 
   lines.push(`.${method}("${oakPath}", async (ctx) => {`);
 
@@ -151,6 +150,8 @@ export function generateOakRouterOperation(
     }
   }
 
+  const bodyParameters: string[] = [];
+
   if (op.requestBodyType) {
     const bodyTypeDef = resolveJsonotronType(op.requestBodyType, types);
 
@@ -187,9 +188,72 @@ export function generateOakRouterOperation(
         })
       }`);
 
-    bodyInvocationParameter = `body: body as ${
-      getJsonotronTypeFormalName(bodyTypeDef)
-    },`;
+    bodyParameters.push(
+      `body: body as ${getJsonotronTypeFormalName(bodyTypeDef)},`,
+    );
+  } else if (Array.isArray(op.requestParams) && op.requestParams.length > 0) {
+    lines.push(`
+      const body = await getJsonBody(ctx.request);
+
+      if (body === undefined) {
+        throw new ServiceInputValidationError(
+          "Missing or unparsable JSON body.",
+        );
+      }
+    `);
+
+    for (const bodyParam of op.requestParams) {
+      const bodyParamVar = `bodyParam${capitalizeFirstLetter(bodyParam.name)}`;
+      const bodyParamType = resolveJsonotronType(bodyParam.paramType, types);
+
+      if (!bodyParamType) {
+        throw new Error(
+          `Unable to resolve body param type ${bodyParam.paramType} for body param ${bodyParam.name}.`,
+        );
+      }
+
+      const bodyParamUnderlyingType = getJsonotronTypeUnderlyingTypescriptType(
+        bodyParamType,
+      );
+
+      lines.push(`
+        ${bodyParamVar} = body.${bodyParam.name};
+      `);
+
+      if (!bodyParam.isNullable) {
+        lines.push(`
+          if (${bodyParamVar} === null) {
+            throw new ServiceInputValidationError("Validation of request failed.  Body parameter ${bodyParam.name} cannot be  null.")
+          }
+        `);
+      }
+
+      if (bodyParam.isRequired) {
+        lines.push(`
+          if (${bodyParamVar} === undefined) {
+            throw new ServiceInputValidationError("Validation of request failed.  Missing body parameter ${bodyParam.name}.")
+          }
+        `);
+      }
+
+      lines.push(`
+        if (${bodyParamVar} !== undefined && ${bodyParamVar} !== null) {
+          const bodyParamValidationErrors = ${
+        getJsonotronTypeValidationFuncName(bodyParamType, false)
+      }(${bodyParamVar}, "body.${bodyParam.name}");
+      
+          if (bodyParamValidationErrors.length > 0) {
+            throw new ServiceInputValidationError("Validation of request failed.  Invalid body parameter ${bodyParam.name}.", {
+              validationErrors: bodyParamValidationErrors
+            })
+          }
+        }
+      `);
+
+      bodyParameters.push(
+        `${bodyParam.name}: ${bodyParamVar} as ${bodyParamUnderlyingType},`,
+      );
+    }
   }
 
   const headerParameters: string[] = [];
@@ -316,7 +380,7 @@ export function generateOakRouterOperation(
     ${resultRequired ? "const result = " : ""} await props.${op.operationName}({
       ${urlParamInvocationParameters.join("\n")}
       ${queryParameters.join("\n")}
-      ${bodyInvocationParameter}
+      ${bodyParameters.join("\n")}
       ${headerParameters.join("\n")}
       ${cookieParameters.join("\n")}
     });

@@ -1,5 +1,6 @@
 import { ServicePathOperationCookie } from "./ServicePathOperationCookie.ts";
 import { ServicePathOperationHeader } from "./ServicePathOperationHeader.ts";
+import { ServicePathOperationParam } from "./ServicePathOperationParam.ts";
 import { ServicePathOperationResponseHeader } from "./ServicePathOperationResponseHeader.ts";
 import { ServicePathOperationQueryParam } from "./ServicePathOperationQueryParam.ts";
 
@@ -48,6 +49,7 @@ export interface ServicePathOperation {
    * The fully-qualified type of the request body.
    * This will typically be supplied for POST and PUT requests but
    * undefined for GET requests.
+   * You cannot specify this if you have specified requestParams.
    */
   requestBodyType?: string;
 
@@ -56,6 +58,12 @@ export interface ServicePathOperation {
    * expected to be an array of the specified requestBodyType values.
    */
   requestBodyTypeArray?: boolean;
+
+  /**
+   * An array of parameters that may be passed to the operation.
+   * You cannot specify this if you have specified requestBodyType.
+   */
+  requestParams?: ServicePathOperationParam[];
 
   /**
    * An array of headers that may be returned.  This may include
