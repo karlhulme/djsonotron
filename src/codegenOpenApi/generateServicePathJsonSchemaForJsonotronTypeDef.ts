@@ -2,7 +2,20 @@ import { JsonotronTypeDef } from "../interfaces/index.ts";
 import { getJsonotronTypeFormalName } from "../utils/index.ts";
 import { generateDescriptionText } from "./generateDescriptionText.ts";
 
-export function generateJsonSchemaPropertyForJsonotronProperty(
+/**
+ * Generates a JSON schema that either directly describes a simple
+ * JSON type (e.g. string, number) or generates a reference to a
+ * complex type that is expected to be found in the
+ * #/components/schemas section.
+ * @param summary The summary of the field.
+ * @param deprecated If populated, this indicates the field is
+ * no longer in use and what to use instead.
+ * @param jsonotronTypeDef A jsonotron type definition.
+ * @param isNullable True if the field can be null.
+ * @param includeDocumentationProps True if the documentation properties
+ * should be included.
+ */
+export function generateServicePathJsonSchemaForJsonotronTypeDef(
   summary: string,
   deprecated: string | undefined,
   jsonotronTypeDef: JsonotronTypeDef,

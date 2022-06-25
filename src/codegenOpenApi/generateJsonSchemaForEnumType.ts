@@ -1,9 +1,10 @@
+import { OpenApiSpecSchema } from "../../deps.ts";
 import { EnumTypeDef } from "../interfaces/index.ts";
 import { generateDescriptionText } from "./generateDescriptionText.ts";
 
 export function generateJsonSchemaForEnumType(
   enumType: EnumTypeDef,
-): Record<string, unknown> {
+): OpenApiSpecSchema {
   return {
     type: "string",
     title: "One of the enum values.",

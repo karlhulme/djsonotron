@@ -1,4 +1,5 @@
-import { OpenApiSpecSecurityScheme, Service } from "../interfaces/index.ts";
+import { OpenApiSpecComponentsSecuritySchemes } from "../../deps.ts";
+import { Service } from "../interfaces/index.ts";
 
 /**
  * Returns a set of OpenAPI security schemes.
@@ -6,8 +7,8 @@ import { OpenApiSpecSecurityScheme, Service } from "../interfaces/index.ts";
  */
 export function generateOpenApiSecuritySchemes(
   service: Service,
-): Record<string, OpenApiSpecSecurityScheme> {
-  const securitySchemes: Record<string, OpenApiSpecSecurityScheme> = {};
+): OpenApiSpecComponentsSecuritySchemes {
+  const securitySchemes: OpenApiSpecComponentsSecuritySchemes = {};
 
   if (isServiceUsingApiKeyAuth(service)) {
     securitySchemes.apiKeyAuth = {

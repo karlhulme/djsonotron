@@ -3,7 +3,6 @@ export * from "./EnumTypeDefItem.ts";
 export * from "./FloatTypeDef.ts";
 export * from "./IntTypeDef.ts";
 export * from "./LabelDef.ts";
-export * from "./OpenApiSpec.ts";
 export * from "./JsonotronTypeDef.ts";
 export * from "./JsonotronTypeKind.ts";
 export * from "./RecordTypeDef.ts";

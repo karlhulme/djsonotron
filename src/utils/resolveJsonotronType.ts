@@ -6,6 +6,13 @@ export function resolveJsonotronType(type: string, types: JsonotronTypeDef[]) {
   const typeSystem = getSystemFromTypeString(type);
   const typeName = getTypeFromTypeString(type);
 
-  return types.find((t) => t.system === typeSystem && t.name === typeName) ||
-    null;
+  const result = types.find((t) =>
+    t.system === typeSystem && t.name === typeName
+  );
+
+  if (!result) {
+    throw new Error(`Unable to resolve type: ${type}.`);
+  }
+
+  return result;
 }

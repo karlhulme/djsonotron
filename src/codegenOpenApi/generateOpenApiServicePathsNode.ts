@@ -1,8 +1,5 @@
-import {
-  JsonotronTypeDef,
-  OpenApiSpecPath,
-  Service,
-} from "../interfaces/index.ts";
+import { OpenApiSpecPath } from "../../deps.ts";
+import { JsonotronTypeDef, Service } from "../interfaces/index.ts";
 import {
   convertServicePathToOpenApiPath,
   getServicePathParameters,

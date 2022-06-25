@@ -1,6 +1,6 @@
 import { JsonotronTypeDef } from "../interfaces/index.ts";
 import { resolveJsonotronType } from "./resolveJsonotronType.ts";
-import { assertStrictEquals } from "../../deps.ts";
+import { assertStrictEquals, assertThrows } from "../../deps.ts";
 
 const types: JsonotronTypeDef[] = [{
   kind: "int",
@@ -23,5 +23,5 @@ Deno.test("Get type using full name.", () => {
 });
 
 Deno.test("Fail to get type.", () => {
-  assertStrictEquals(resolveJsonotronType("other/testInt", types), null);
+  assertThrows(() => resolveJsonotronType("madeup/testInt", types));
 });

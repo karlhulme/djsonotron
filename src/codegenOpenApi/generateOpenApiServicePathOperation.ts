@@ -1,19 +1,16 @@
 import {
-  JsonotronTypeDef,
-  OpenApiSpecParameter,
+  OpenApiSpecPathContent,
   OpenApiSpecPathOperation,
-  OpenApiSpecPathResponse,
+  OpenApiSpecPathOperationSchema,
   OpenApiSpecPathResponseHeader,
-  OpenApiSpecSchema,
+} from "../../deps.ts";
+import {
+  JsonotronTypeDef,
   ServicePath,
   ServicePathOperation,
 } from "../interfaces/index.ts";
-import {
-  capitalizeFirstLetter,
-  getJsonotronTypeFormalName,
-  resolveJsonotronType,
-} from "../utils/index.ts";
-import { generateJsonSchemaPropertyForJsonotronProperty } from "./generateJsonSchemaPropertyForJsonotronProperty.ts";
+import { capitalizeFirstLetter, resolveJsonotronType } from "../utils/index.ts";
+import { generateServicePathJsonSchemaForJsonotronTypeDef } from "./generateServicePathJsonSchemaForJsonotronTypeDef.ts";
 import { generateDescriptionText } from "./generateDescriptionText.ts";
 
 export function generateOpenApiServicePathOperation(
@@ -21,31 +18,43 @@ export function generateOpenApiServicePathOperation(
   op: ServicePathOperation,
   types: JsonotronTypeDef[],
 ): OpenApiSpecPathOperation {
-  const parameters: OpenApiSpecParameter[] = [];
+  const openApiOp: OpenApiSpecPathOperation = {
+    operationId: op.operationName,
+    summary: generateDescriptionText(op.summary, op.deprecation),
+    deprecated: op.deprecation ? true : undefined,
+    tags: op.tags || [],
+    parameters: [],
+    responses: {},
+    security: [],
+  };
+
+  if (path.requireApiKey) {
+    openApiOp.security.push({
+      "apiKeyAuth": [],
+    });
+  }
 
   if (Array.isArray(op.requestQueryParams)) {
     for (const queryParam of op.requestQueryParams) {
       const queryParamType = resolveJsonotronType(queryParam.paramType, types);
 
-      if (queryParamType) {
-        parameters.push({
-          in: "query",
-          name: queryParam.name,
-          required: Boolean(queryParam.isRequired),
-          deprecated: Boolean(queryParam.deprecation),
-          description: generateDescriptionText(
-            queryParam.summary,
-            queryParam.deprecation,
-          ),
-          schema: generateJsonSchemaPropertyForJsonotronProperty(
-            queryParam.summary,
-            queryParam.deprecation,
-            queryParamType,
-            false,
-            true,
-          ),
-        });
-      }
+      openApiOp.parameters.push({
+        in: "query",
+        name: queryParam.name,
+        required: Boolean(queryParam.isRequired),
+        deprecated: Boolean(queryParam.deprecation),
+        description: generateDescriptionText(
+          queryParam.summary,
+          queryParam.deprecation,
+        ),
+        schema: generateServicePathJsonSchemaForJsonotronTypeDef(
+          queryParam.summary,
+          queryParam.deprecation,
+          queryParamType,
+          false,
+          true,
+        ),
+      });
     }
   }
 
@@ -54,25 +63,23 @@ export function generateOpenApiServicePathOperation(
       if (!header.isAuthorisationHeader) {
         const headerType = resolveJsonotronType(header.headerType, types);
 
-        if (headerType) {
-          parameters.push({
-            in: "header",
-            name: header.httpName,
-            schema: generateJsonSchemaPropertyForJsonotronProperty(
-              header.summary,
-              header.deprecation,
-              headerType,
-              false,
-              true,
-            ),
-            required: Boolean(header.isRequired),
-            deprecated: header.deprecation ? true : undefined,
-            description: generateDescriptionText(
-              header.summary,
-              header.deprecation,
-            ),
-          });
-        }
+        openApiOp.parameters.push({
+          in: "header",
+          name: header.httpName,
+          schema: generateServicePathJsonSchemaForJsonotronTypeDef(
+            header.summary,
+            header.deprecation,
+            headerType,
+            false,
+            true,
+          ),
+          required: Boolean(header.isRequired),
+          deprecated: header.deprecation ? true : undefined,
+          description: generateDescriptionText(
+            header.summary,
+            header.deprecation,
+          ),
+        });
       }
     }
   }
@@ -81,160 +88,123 @@ export function generateOpenApiServicePathOperation(
     for (const cookie of op.requestCookies) {
       const cookieType = resolveJsonotronType(cookie.cookieType, types);
 
-      if (cookieType) {
-        parameters.push({
-          in: "cookie",
-          name: cookie.name,
-          schema: generateJsonSchemaPropertyForJsonotronProperty(
-            cookie.summary,
-            cookie.deprecation,
-            cookieType,
-            false,
-            true,
-          ),
-          required: Boolean(cookie.isRequired),
-          deprecated: cookie.deprecation ? true : undefined,
-          description: generateDescriptionText(
-            cookie.summary,
-            cookie.deprecation,
-          ),
-        });
-      }
+      openApiOp.parameters.push({
+        in: "cookie",
+        name: cookie.name,
+        schema: generateServicePathJsonSchemaForJsonotronTypeDef(
+          cookie.summary,
+          cookie.deprecation,
+          cookieType,
+          false,
+          true,
+        ),
+        required: Boolean(cookie.isRequired),
+        deprecated: cookie.deprecation ? true : undefined,
+        description: generateDescriptionText(
+          cookie.summary,
+          cookie.deprecation,
+        ),
+      });
     }
   }
 
-  let requestBody: OpenApiSpecSchema | undefined = undefined;
-
   if (op.requestBodyType) {
-    if (op.requestBodyTypeArray) {
-      requestBody = {
-        type: "array",
-        items: {
-          $ref: `#/components/requestBodies/${
-            capitalizeFirstLetter(op.operationName)
-          }RequestBody`,
-        },
-      };
-    } else {
-      requestBody = {
-        $ref: `#/components/requestBodies/${
-          capitalizeFirstLetter(op.operationName)
-        }RequestBody`,
-      };
-    }
+    const requestBodyType = resolveJsonotronType(op.requestBodyType, types);
+
+    openApiOp.requestBody = {
+      content: createOpenApiSpecContent(
+        requestBodyType.summary,
+        requestBodyType,
+        Boolean(op.requestBodyTypeArray),
+      ),
+    };
   } else if (Array.isArray(op.requestParams) && op.requestParams.length > 0) {
-    requestBody = {
+    openApiOp.requestBody = {
       content: {
         "application/json": {
           schema: {
-            type: "object",
-            properties: op.requestParams.reduce((agg, cur) => {
-              const paramType = resolveJsonotronType(cur.paramType, types);
-
-              if (paramType) {
-                agg[cur.name] = generateJsonSchemaPropertyForJsonotronProperty(
-                  cur.summary,
-                  cur.deprecation,
-                  paramType,
-                  Boolean(cur.isNullable),
-                  true,
-                );
-              }
-
-              return agg;
-            }, {} as Record<string, OpenApiSpecSchema>),
-            required: op.requestParams.find((p) => p.isRequired)
-              ? op.requestParams.filter((p) => p.isRequired).map((p) => p.name)
-              : undefined,
+            $ref: `#/components/schemas/${
+              capitalizeFirstLetter(op.operationName)
+            }RequestBody`,
+            description: "The body of the request",
           },
         },
       },
     };
   }
 
-  const resBodyType = op.responseBodyType
-    ? resolveJsonotronType(op.responseBodyType, types)
-    : null;
-
-  const successResponse: OpenApiSpecPathResponse = {
-    description: "Success",
-    content: createOpenApiSpecResponseContent(
-      resBodyType,
-      Boolean(op.responseBodyTypeArray),
-    ),
-    headers: op.responseHeaders?.reduce((headers, header) => {
-      const headerType = resolveJsonotronType(header.headerType, types);
-
-      if (headerType) {
-        headers[header.httpName] = {
-          description: generateDescriptionText(
-            header.summary,
-            header.deprecation,
-          ),
-          schema: generateJsonSchemaPropertyForJsonotronProperty(
-            header.summary,
-            header.deprecation,
-            headerType,
-            false,
-            true,
-          ),
-          required: Boolean(header.isGuaranteed),
-          deprecated: header.deprecation ? true : undefined,
-        };
-      }
-
-      return headers;
-    }, {} as Record<string, OpenApiSpecPathResponseHeader>),
+  openApiOp.responses[op.responseSuccessCode] = {
+    description: "Success.",
   };
 
+  if (op.responseBodyType) {
+    const resBodyType = resolveJsonotronType(op.responseBodyType, types);
+
+    openApiOp.responses[op.responseSuccessCode].content =
+      createOpenApiSpecContent(
+        resBodyType.summary,
+        resBodyType,
+        Boolean(op.responseBodyTypeArray),
+      );
+  }
+
+  openApiOp.responses[op.responseSuccessCode].headers = op.responseHeaders
+    ?.reduce((headers, header) => {
+      const headerType = resolveJsonotronType(header.headerType, types);
+
+      headers[header.httpName] = {
+        description: generateDescriptionText(
+          header.summary,
+          header.deprecation,
+        ),
+        schema: generateServicePathJsonSchemaForJsonotronTypeDef(
+          header.summary,
+          header.deprecation,
+          headerType,
+          false,
+          true,
+        ),
+        required: Boolean(header.isGuaranteed),
+        deprecated: header.deprecation ? true : undefined,
+      };
+
+      return headers;
+    }, {} as Record<string, OpenApiSpecPathResponseHeader>);
+
+  return openApiOp;
+}
+
+function createOpenApiSpecContent(
+  summary: string,
+  typeDef: JsonotronTypeDef,
+  isArray: boolean,
+): OpenApiSpecPathContent {
   return {
-    operationId: op.operationName,
-    summary: generateDescriptionText(op.summary, op.deprecation),
-    deprecated: op.deprecation ? true : undefined,
-    tags: op.tags || [],
-    requestBody,
-    parameters,
-    responses: {
-      [op.responseSuccessCode.toString()]: successResponse,
+    "application/json": {
+      schema: createOpenApiSpecSchema(summary, typeDef, isArray),
     },
-    security: path.requireApiKey
-      ? [{
-        "apiKeyAuth": [],
-      }]
-      : [],
   };
 }
 
-function createOpenApiSpecResponseContent(
-  responseType: JsonotronTypeDef | null,
+function createOpenApiSpecSchema(
+  summary: string,
+  typeDef: JsonotronTypeDef,
   isArray: boolean,
-) {
-  if (responseType) {
-    if (isArray) {
-      return {
-        "application/json": {
-          schema: {
-            type: "array",
-            items: {
-              $ref: `#/components/schemas/${
-                getJsonotronTypeFormalName(responseType)
-              }`,
-            },
-          },
-        },
-      };
-    } else {
-      return {
-        "application/json": {
-          schema: {
-            $ref: `#/components/schemas/${
-              getJsonotronTypeFormalName(responseType)
-            }`,
-          },
-        },
-      };
-    }
+): OpenApiSpecPathOperationSchema {
+  const prop = generateServicePathJsonSchemaForJsonotronTypeDef(
+    summary,
+    undefined,
+    typeDef,
+    false,
+    true,
+  );
+
+  if (isArray) {
+    return {
+      type: "array",
+      items: prop,
+    };
   } else {
-    return undefined;
+    return prop;
   }
 }

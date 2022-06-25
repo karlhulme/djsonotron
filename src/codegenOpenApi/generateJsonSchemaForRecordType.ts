@@ -1,13 +1,14 @@
+import { OpenApiSpecSchema, OpenApiSpecSchemaProperty } from "../../deps.ts";
 import { JsonotronTypeDef, RecordTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter, resolveJsonotronType } from "../utils/index.ts";
-import { generateJsonSchemaPropertyForJsonotronProperty } from "./generateJsonSchemaPropertyForJsonotronProperty.ts";
+import { generateServicePathJsonSchemaForJsonotronTypeDef } from "./generateServicePathJsonSchemaForJsonotronTypeDef.ts";
 import { generateDescriptionText } from "./generateDescriptionText.ts";
 
 export function generateJsonSchemaForRecordType(
   recordType: RecordTypeDef,
   types: JsonotronTypeDef[],
-): Record<string, unknown> {
-  const objectProperties: Record<string, unknown> = {};
+): OpenApiSpecSchema {
+  const objectProperties: Record<string, OpenApiSpecSchemaProperty> = {};
 
   for (const recordProp of recordType.properties) {
     const recordPropType = resolveJsonotronType(recordProp.propertyType, types);
@@ -24,7 +25,7 @@ export function generateJsonSchemaForRecordType(
             recordProp.deprecated,
           ),
           deprecated: recordProp.deprecated ? true : undefined,
-          items: generateJsonSchemaPropertyForJsonotronProperty(
+          items: generateServicePathJsonSchemaForJsonotronTypeDef(
             recordProp.summary,
             recordProp.deprecated,
             recordPropType,
@@ -34,7 +35,7 @@ export function generateJsonSchemaForRecordType(
         };
       } else {
         objectProperties[recordProp.name] =
-          generateJsonSchemaPropertyForJsonotronProperty(
+          generateServicePathJsonSchemaForJsonotronTypeDef(
             recordProp.summary,
             recordProp.deprecated,
             recordPropType,
