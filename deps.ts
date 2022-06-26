@@ -14,12 +14,12 @@ export {
 
 export type {
   OpenApiSpec,
+  OpenApiSpecComponentSchema,
+  OpenApiSpecComponentSchemaProperty,
   OpenApiSpecComponentsSecuritySchemes,
   OpenApiSpecPath,
   OpenApiSpecPathContent,
   OpenApiSpecPathOperation,
+  OpenApiSpecPathOperationResponseHeader,
   OpenApiSpecPathOperationSchema,
-  OpenApiSpecPathResponseHeader,
-  OpenApiSpecSchema,
-  OpenApiSpecSchemaProperty,
 } from "https://raw.githubusercontent.com/karlhulme/dopenapi/main/mod.ts";

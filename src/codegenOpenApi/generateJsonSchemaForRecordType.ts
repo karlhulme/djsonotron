@@ -1,4 +1,7 @@
-import { OpenApiSpecSchema, OpenApiSpecSchemaProperty } from "../../deps.ts";
+import {
+  OpenApiSpecComponentSchema,
+  OpenApiSpecComponentSchemaProperty,
+} from "../../deps.ts";
 import { JsonotronTypeDef, RecordTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter, resolveJsonotronType } from "../utils/index.ts";
 import { generateServicePathJsonSchemaForJsonotronTypeDef } from "./generateServicePathJsonSchemaForJsonotronTypeDef.ts";
@@ -7,8 +10,9 @@ import { generateDescriptionText } from "./generateDescriptionText.ts";
 export function generateJsonSchemaForRecordType(
   recordType: RecordTypeDef,
   types: JsonotronTypeDef[],
-): OpenApiSpecSchema {
-  const objectProperties: Record<string, OpenApiSpecSchemaProperty> = {};
+): OpenApiSpecComponentSchema {
+  const objectProperties: Record<string, OpenApiSpecComponentSchemaProperty> =
+    {};
 
   for (const recordProp of recordType.properties) {
     const recordPropType = resolveJsonotronType(recordProp.propertyType, types);

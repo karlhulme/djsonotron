@@ -1,4 +1,4 @@
-import { OpenApiSpecSchema } from "../../deps.ts";
+import { OpenApiSpecComponentSchema } from "../../deps.ts";
 import {
   EnumTypeDef,
   JsonotronTypeDef,
@@ -10,8 +10,8 @@ import { generateJsonSchemaForRecordType } from "./generateJsonSchemaForRecordTy
 
 export function generateJsonSchemasForJsonotronTypes(
   types: JsonotronTypeDef[],
-): Record<string, OpenApiSpecSchema> {
-  const schemas: Record<string, OpenApiSpecSchema> = {};
+): Record<string, OpenApiSpecComponentSchema> {
+  const schemas: Record<string, OpenApiSpecComponentSchema> = {};
 
   const enumTypes = types.filter((t) => t.kind === "enum");
 

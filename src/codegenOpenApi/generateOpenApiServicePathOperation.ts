@@ -1,8 +1,8 @@
 import {
   OpenApiSpecPathContent,
   OpenApiSpecPathOperation,
+  OpenApiSpecPathOperationResponseHeader,
   OpenApiSpecPathOperationSchema,
-  OpenApiSpecPathResponseHeader,
 } from "../../deps.ts";
 import {
   JsonotronTypeDef,
@@ -169,7 +169,7 @@ export function generateOpenApiServicePathOperation(
       };
 
       return headers;
-    }, {} as Record<string, OpenApiSpecPathResponseHeader>);
+    }, {} as Record<string, OpenApiSpecPathOperationResponseHeader>);
 
   return openApiOp;
 }

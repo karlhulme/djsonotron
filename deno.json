@@ -1,6 +1,5 @@
 {
   "tasks": {
-    "check": "deno fmt --check && deno lint && rm -rf cov_profile && deno test --coverage=cov_profile && deno coverage cov_profile",
-    "test": "deno test && deno fmt"
+    "test": "rm -rf cov_profile && deno test --coverage=cov_profile && deno coverage cov_profile && deno fmt"
   }
 }

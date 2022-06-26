@@ -1,4 +1,7 @@
-import { OpenApiSpecSchema, OpenApiSpecSchemaProperty } from "../../deps.ts";
+import {
+  OpenApiSpecComponentSchema,
+  OpenApiSpecComponentSchemaProperty,
+} from "../../deps.ts";
 import {
   JsonotronTypeDef,
   Service,
@@ -12,8 +15,8 @@ import {
 export function generateJsonSchemasForRequestBodyParams(
   service: Service,
   types: JsonotronTypeDef[],
-): Record<string, OpenApiSpecSchema> {
-  const schemas: Record<string, OpenApiSpecSchema> = {};
+): Record<string, OpenApiSpecComponentSchema> {
+  const schemas: Record<string, OpenApiSpecComponentSchema> = {};
 
   for (const path of service.paths) {
     const ops: ServicePathOperation[] = [];
@@ -46,7 +49,7 @@ export function generateJsonSchemasForRequestBodyParams(
             );
 
             return agg;
-          }, {} as Record<string, OpenApiSpecSchemaProperty>),
+          }, {} as Record<string, OpenApiSpecComponentSchemaProperty>),
           required: op.requestParams
             .filter((p) => p.isRequired)
             .map((p) => p.name),
