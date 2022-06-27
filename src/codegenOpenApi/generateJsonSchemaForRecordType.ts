@@ -3,7 +3,7 @@ import {
   OpenApiSpecComponentSchemaProperty,
 } from "../../deps.ts";
 import { JsonotronTypeDef, RecordTypeDef } from "../interfaces/index.ts";
-import { capitalizeFirstLetter, resolveJsonotronType } from "../utils/index.ts";
+import { resolveJsonotronType } from "../utils/index.ts";
 import { generateServicePathJsonSchemaForJsonotronTypeDef } from "./generateServicePathJsonSchemaForJsonotronTypeDef.ts";
 import { generateDescriptionText } from "./generateDescriptionText.ts";
 
@@ -21,9 +21,6 @@ export function generateJsonSchemaForRecordType(
       if (recordProp.isArray) {
         objectProperties[recordProp.name] = {
           type: "array",
-          title: `An array of ${capitalizeFirstLetter(recordPropType.system)}${
-            capitalizeFirstLetter(recordPropType.name)
-          } values.`,
           description: generateDescriptionText(
             recordProp.summary,
             recordProp.deprecated,

@@ -7,7 +7,6 @@ export function generateJsonSchemaForEnumType(
 ): OpenApiSpecComponentSchema {
   return {
     type: "string",
-    title: "One of the enum values.",
     description: generateDescriptionText(enumType.summary, enumType.deprecated),
     deprecated: enumType.deprecated ? true : undefined,
     enum: enumType.items.map((item) => item.value),
