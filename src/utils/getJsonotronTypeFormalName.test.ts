@@ -6,7 +6,6 @@ Deno.test("Get the interface name of a jsonotron record type.", () => {
     getJsonotronTypeFormalName({
       kind: "record",
       name: "testType",
-      pluralName: "testTypes",
       system: "testSystem",
       summary: "A test type",
     }),

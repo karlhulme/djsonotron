@@ -5,7 +5,6 @@ export const dayOfWeek: EnumTypeDef = {
   kind: "enum",
   system: stdSystemName,
   name: "dayOfWeek",
-  pluralName: "daysOfWeek",
   summary: "A day of the week.",
   items: [
     { value: "mon" },

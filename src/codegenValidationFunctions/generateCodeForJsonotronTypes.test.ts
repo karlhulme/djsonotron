@@ -14,7 +14,6 @@ const simpleBool: JsonotronTypeDef = {
   kind: "bool",
   system: "test",
   name: "simpleBool",
-  pluralName: "simpleBools",
   summary: "A type used for testing.",
 };
 
@@ -22,7 +21,6 @@ const simpleEnum: EnumTypeDef = {
   kind: "enum",
   system: "test",
   name: "simpleEnum",
-  pluralName: "simpleEnums",
   summary: "A type used for testing.",
   items: [{
     value: "first",
@@ -35,7 +33,6 @@ const simpleFloat: FloatTypeDef = {
   kind: "float",
   system: "test",
   name: "simpleFloat",
-  pluralName: "simpleFloats",
   summary: "A type used for testing.",
   minimum: 10,
   maximum: 12,
@@ -45,7 +42,6 @@ const simpleInt: IntTypeDef = {
   kind: "int",
   system: "test",
   name: "simpleInt",
-  pluralName: "simpleInts",
   summary: "A type used for testing.",
   minimum: 5,
   maximum: 8,
@@ -55,7 +51,6 @@ const simpleObject: JsonotronTypeDef = {
   kind: "object",
   system: "test",
   name: "simpleObject",
-  pluralName: "simpleObjects",
   summary: "A type used for testing.",
 };
 
@@ -63,7 +58,6 @@ const simpleString: StringTypeDef = {
   kind: "string",
   system: "test",
   name: "simpleString",
-  pluralName: "simpleStrings",
   summary: "A type used for testing.",
   maximumLength: 10,
   minimumLength: 5,
@@ -73,7 +67,6 @@ const simpleString: StringTypeDef = {
 const fullRecord: RecordTypeDef = {
   system: "test",
   name: "fullRecord",
-  pluralName: "fullRecords",
   kind: "record",
   summary: "a test type",
   properties: [{
@@ -154,7 +147,6 @@ Deno.test("Generate typescript for invalid type.", () => {
   const invalidType: JsonotronTypeDef = {
     system: "test",
     name: "invalidType",
-    pluralName: "invalidTypes",
     kind: "unknown" as unknown as JsonotronTypeKind,
     summary: "A test type",
   };
@@ -162,7 +154,6 @@ Deno.test("Generate typescript for invalid type.", () => {
   const recordWithPropertyOfInvalidType: RecordTypeDef = {
     system: "test",
     name: "recordWithPropertyOfInvalidType",
-    pluralName: "recordWithPropertyOfInvalidTypes",
     kind: "record",
     summary: "A test type",
     properties: [{

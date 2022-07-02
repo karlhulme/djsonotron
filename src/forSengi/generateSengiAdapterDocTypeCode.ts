@@ -98,7 +98,6 @@ export function generateSengiAdapterDocTypeCode(
       `{
         ...options.${seedDocType.name}Definition,
         name: "${seedDocType.name}",
-        pluralName: "${seedDocType.pluralName}",
         title: "${seedDocType.title}",
         pluralTitle: "${seedDocType.pluralTitle}",
         summary: "${seedDocType.summary}",

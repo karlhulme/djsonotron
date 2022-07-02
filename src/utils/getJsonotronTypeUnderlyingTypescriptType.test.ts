@@ -6,7 +6,6 @@ Deno.test("Get the typescript type of a boolean jsonotron type.", () => {
     getJsonotronTypeUnderlyingTypescriptType({
       kind: "bool",
       name: "testType",
-      pluralName: "testTypes",
       system: "testSystem",
       summary: "A test type",
     }),
@@ -19,7 +18,6 @@ Deno.test("Get the typescript type of a number jsonotron type.", () => {
     getJsonotronTypeUnderlyingTypescriptType({
       kind: "float",
       name: "testType",
-      pluralName: "testTypes",
       system: "testSystem",
       summary: "A test type",
     }),
@@ -30,7 +28,6 @@ Deno.test("Get the typescript type of a number jsonotron type.", () => {
     getJsonotronTypeUnderlyingTypescriptType({
       kind: "int",
       name: "testType",
-      pluralName: "testTypes",
       system: "testSystem",
       summary: "A test type",
     }),
@@ -43,7 +40,6 @@ Deno.test("Get the typescript type of a string jsonotron type.", () => {
     getJsonotronTypeUnderlyingTypescriptType({
       kind: "string",
       name: "testType",
-      pluralName: "testTypes",
       system: "testSystem",
       summary: "A test type",
     }),
@@ -56,7 +52,6 @@ Deno.test("Get the typescript type of a string jsonotron type.", () => {
     getJsonotronTypeUnderlyingTypescriptType({
       kind: "object",
       name: "testType",
-      pluralName: "testTypes",
       system: "testSystem",
       summary: "A test type",
     }),
@@ -69,7 +64,6 @@ Deno.test("Get the typescript type of an enum & record jsonotron type.", () => {
     getJsonotronTypeUnderlyingTypescriptType({
       kind: "enum",
       name: "testType",
-      pluralName: "testTypes",
       system: "testSystem",
       summary: "A test type",
     }),
@@ -80,7 +74,6 @@ Deno.test("Get the typescript type of an enum & record jsonotron type.", () => {
     getJsonotronTypeUnderlyingTypescriptType({
       kind: "record",
       name: "testType",
-      pluralName: "testTypes",
       system: "testSystem",
       summary: "A test type",
     }),

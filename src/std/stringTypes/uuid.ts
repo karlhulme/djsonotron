@@ -5,7 +5,6 @@ export const uuid: StringTypeDef = {
   kind: "string",
   system: stdSystemName,
   name: "uuid",
-  pluralName: "uuids",
   summary:
     `A universally unique 128 bit number formatted as 32 alphanumeric characters
     and defined by RFC 4122.`,

@@ -14,7 +14,6 @@ const simpleString: StringTypeDef = {
   kind: "string",
   system: "test",
   name: "simpleString",
-  pluralName: "simpleStrings",
   summary: "A type used for testing.",
   maximumLength: 10,
 };
@@ -23,7 +22,6 @@ const simpleInt: IntTypeDef = {
   kind: "int",
   system: "test",
   name: "simpleInt",
-  pluralName: "simpleInts",
   summary: "A type used for testing.",
   minimum: 1,
   maximum: 100,
@@ -33,7 +31,6 @@ const simpleRecord: RecordTypeDef = {
   kind: "record",
   system: "test",
   name: "simpleRecord",
-  pluralName: "simpleRecords",
   summary: "A type used for testing.",
   properties: [{
     name: "reqProp",

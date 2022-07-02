@@ -8,7 +8,6 @@ const simpleInt: IntTypeDef = {
   kind: "int",
   system: "test",
   name: "simpleInt",
-  pluralName: "simpleInts",
   summary: "A type used for testing.",
   minimum: 5,
   maximum: 8,

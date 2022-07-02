@@ -8,7 +8,6 @@ const simpleBool: JsonotronTypeDef = {
   kind: "bool",
   system: "test",
   name: "simpleBool",
-  pluralName: "simpleBools",
   summary: "A type used for testing.",
 };
 

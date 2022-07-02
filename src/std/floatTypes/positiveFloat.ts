@@ -5,7 +5,6 @@ export const positiveFloat: FloatTypeDef = {
   kind: "float",
   system: stdSystemName,
   name: "positiveFloat",
-  pluralName: "positiveFloats",
   summary:
     `A single precision floating point number in the range just over 0 to 3.4*10^38.`,
   minimum: 0,

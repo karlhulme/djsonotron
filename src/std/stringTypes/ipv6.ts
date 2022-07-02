@@ -5,7 +5,6 @@ export const ipv6: StringTypeDef = {
   kind: "string",
   system: stdSystemName,
   name: "ipv6",
-  pluralName: "ipv6s",
   summary:
     `A string of digits that identify a computer on a network in IP v4 format.
     The regex is an approximation and further validation may be desired.`,

@@ -5,7 +5,6 @@ export const monthOfYear: EnumTypeDef = {
   kind: "enum",
   system: stdSystemName,
   name: "monthOfYear",
-  pluralName: "monthsOfYear",
   summary: "A month of the year.",
   items: [
     { value: "jan" },

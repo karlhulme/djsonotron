@@ -8,7 +8,6 @@ const simpleString: StringTypeDef = {
   kind: "string",
   system: "test",
   name: "simpleString",
-  pluralName: "simpleStrings",
   summary: "A type used for testing.",
   maximumLength: 10,
   minimumLength: 5,

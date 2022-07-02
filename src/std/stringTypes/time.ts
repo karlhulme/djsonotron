@@ -5,7 +5,6 @@ export const time: StringTypeDef = {
   kind: "string",
   system: stdSystemName,
   name: "time",
-  pluralName: "times",
   summary:
     `A string with the time components arranged using the HH:mm:ss pattern.  If
     the hours, minutes or seconds component is a value less than 10 then a leading zero

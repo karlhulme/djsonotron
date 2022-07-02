@@ -5,13 +5,11 @@ import { assertStrictEquals, assertThrows } from "../../deps.ts";
 const types: JsonotronTypeDef[] = [{
   kind: "int",
   name: "testInt",
-  pluralName: "testInts",
   system: "std",
   summary: "A test int type.",
 }, {
   kind: "string",
   name: "testString",
-  pluralName: "testStrings",
   system: "std",
   summary: "A test string type.",
 }];

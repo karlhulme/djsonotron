@@ -5,7 +5,6 @@ export const negativeIntegerOrZero: IntTypeDef = {
   kind: "int",
   system: stdSystemName,
   name: "negativeIntegerOrZero",
-  pluralName: "negativeIntegersOrZeroes",
   summary:
     `A negative integer, or zero, represented as a 32-bit signed integer.`,
   minimum: -2147483648,

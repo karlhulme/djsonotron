@@ -13,9 +13,6 @@ export function generateSengiDocTypeParamRecords(
       kind: "record",
       system: system,
       name: `${seedDocType.name}${capitalizeFirstLetter(filter.name)}Filter`,
-      pluralName: `${seedDocType.name}${
-        capitalizeFirstLetter(filter.name)
-      }Filters`,
       summary: `The parameters for the ${filter.name} filter.`,
       properties: filter.parameters.map((param) => ({
         name: param.name,
@@ -32,9 +29,6 @@ export function generateSengiDocTypeParamRecords(
       kind: "record",
       system: system,
       name: `${seedDocType.name}${capitalizeFirstLetter(ctor.name)}Params`,
-      pluralName: `${seedDocType.name}${
-        capitalizeFirstLetter(ctor.name)
-      }ParamsRecords`,
       summary: `The parameters for the ${ctor.name} constructor.`,
       properties: ctor.parameters.map((param) => ({
         name: param.name,
@@ -51,9 +45,6 @@ export function generateSengiDocTypeParamRecords(
       kind: "record",
       system: system,
       name: `${seedDocType.name}${capitalizeFirstLetter(op.name)}Params`,
-      pluralName: `${seedDocType.name}${
-        capitalizeFirstLetter(op.name)
-      }ParamsRecords`,
       summary: `The parameters for the ${op.name} operation.`,
       properties: op.parameters.map((param) => ({
         name: param.name,
@@ -70,9 +61,6 @@ export function generateSengiDocTypeParamRecords(
       kind: "record",
       system: system,
       name: `${seedDocType.name}${capitalizeFirstLetter(query.name)}Query`,
-      pluralName: `${seedDocType.name}${
-        capitalizeFirstLetter(query.name)
-      }Queries`,
       summary: `The parameters for the ${query.name} query.`,
       properties: query.parameters.map((param) => ({
         name: param.name,

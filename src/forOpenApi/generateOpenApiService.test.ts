@@ -7,7 +7,6 @@ const exampleType: RecordTypeDef = {
   kind: "record",
   system: "test",
   name: "exampleType",
-  pluralName: "exampleTypes",
   summary: "An example body record.",
   properties: [{
     name: "text",

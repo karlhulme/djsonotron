@@ -5,7 +5,6 @@ export const plainObject: JsonotronTypeDef = {
   kind: "object",
   system: stdSystemName,
   name: "plainObject",
-  pluralName: "plainObjects",
   summary:
     `Any valid JSON object.  The underlying data store may impose a limit on the
   depth of the JSON object.  You cannot store a null value.  Care should be taken

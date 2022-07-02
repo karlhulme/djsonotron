@@ -21,12 +21,6 @@ export interface JsonotronTypeDef {
   name: string;
 
   /**
-   * The pluralised name of the type, which is useful for code and
-   * documentation generation.
-   */
-  pluralName: string;
-
-  /**
    * Documents the usage of the type.
    */
   summary: string;
