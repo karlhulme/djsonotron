@@ -4,6 +4,7 @@ import {
   IntTypeDef,
   JsonotronTypeDef,
   RecordTypeDef,
+  RecordTypeDefProperty,
   StringTypeDef,
 } from "../interfaces/index.ts";
 import { generateRecordTypeValidation } from "./generateRecordTypeValidation.ts";
@@ -53,6 +54,12 @@ const simpleRecord: RecordTypeDef = {
     summary: "A type used for testing.",
     isArray: true,
   }, {
+    name: "reqArrayProp",
+    propertyType: "test/simpleInt",
+    summary: "A type used for testing.",
+    isArray: true,
+    isRequired: true,
+  }, {
     name: "errorProp",
     propertyType: "test/unknown",
     summary: "A type used for testing.",
@@ -81,6 +88,7 @@ function generateValidRecord() {
     nullProp: 2 as number | null,
     constProp: "foo",
     arrayProp: [3, 4, 5],
+    reqArrayProp: [],
   };
 }
 
@@ -130,6 +138,19 @@ Deno.test("Reject a record with a property of an unknown type.", () => {
   const fn = generateRecordValidationFunction(simpleRecord, allTypes);
   const record = generateValidRecord() as any;
   record.errorProp = "value";
+  assertValidationErrorFirstMessage(
+    fn(record),
+    "cannot conform to unknown type",
+  );
+});
+
+Deno.test("Reject a record with am array property of an unknown type.", () => {
+  const testSimpleRecord = structuredClone(simpleRecord) as RecordTypeDef;
+  (testSimpleRecord.properties.find((p) =>
+    p.name === "reqArrayProp"
+  ) as RecordTypeDefProperty).propertyType = "test/unknown";
+  const fn = generateRecordValidationFunction(testSimpleRecord, allTypes);
+  const record = generateValidRecord() as any;
   assertValidationErrorFirstMessage(
     fn(record),
     "cannot conform to unknown type",

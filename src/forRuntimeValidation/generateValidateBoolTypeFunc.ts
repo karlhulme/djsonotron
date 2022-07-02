@@ -1,6 +1,6 @@
 import { JsonotronTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
-import { generateBoolTypeValidation } from "../codegenValidationClauses/index.ts";
+import { generateBoolTypeValidation } from "../validationClauses/index.ts";
 
 export function generateValidateBoolTypeFunc(
   def: JsonotronTypeDef,

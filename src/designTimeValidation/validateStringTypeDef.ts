@@ -1,47 +1,38 @@
-import {
-  JsonotronTypeDef,
-  RecordTypeDef,
-  TypeDefValidationError,
-} from "../interfaces/index.ts";
-import {
-  getSystemFromTypeString,
-  getTypeFromTypeString,
-} from "../utils/index.ts";
+import { StringTypeDef, TypeDefValidationError } from "../interfaces/index.ts";
+import { isValidRegex } from "../utils/index.ts";
 import {
   createValidationFunction,
-  generateRecordTypeValidation,
-} from "../codegenValidationClauses/index.ts";
+  generateStringTypeValidation,
+} from "../validationClauses/index.ts";
 
-export function validateRecordTypeDef(
-  def: RecordTypeDef,
-  types: JsonotronTypeDef[],
+export function validateStringTypeDef(
+  def: StringTypeDef,
   errors: TypeDefValidationError[],
 ) {
-  for (const property of def.properties) {
-    const propertySystem = getSystemFromTypeString(
-      property.propertyType,
-      def.system,
-    );
-    const propertyTypeName = getTypeFromTypeString(property.propertyType);
-    const propertyValueTypeDef = types.find((t) =>
-      t.system === propertySystem && t.name === propertyTypeName
-    );
-
-    if (!propertyValueTypeDef) {
-      errors.push({
-        type: `${def.system}/${def.name}`,
-        kind: "unrecognisedPropertyType",
-        msg:
-          `Property '${property.name}' references unknown type '${property.propertyType}'.`,
-      });
-    }
+  if (
+    typeof def.minimumLength === "number" &&
+    def.minimumLength > def.maximumLength
+  ) {
+    errors.push({
+      type: `${def.system}/${def.name}`,
+      kind: "minimumMaximumInverted",
+      msg:
+        "Minimum length, if specified, must be less than or equal to maximum length.",
+    });
   }
 
-  const fnBody = generateRecordTypeValidation({
+  if (typeof def.regex === "string" && !isValidRegex(def.regex)) {
+    errors.push({
+      type: `${def.system}/${def.name}`,
+      kind: "invalidRegexExpression",
+      msg: `Regex expression ${def.regex} could not be parsed.`,
+    });
+  }
+
+  const fnBody = generateStringTypeValidation({
     def,
     valueDisplayPath: "value",
     valuePath: "value",
-    types,
   });
 
   const fn = createValidationFunction(fnBody);

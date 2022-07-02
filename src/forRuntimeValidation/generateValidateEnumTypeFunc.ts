@@ -1,6 +1,6 @@
 import { EnumTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
-import { generateEnumTypeValidation } from "../codegenValidationClauses/index.ts";
+import { generateEnumTypeValidation } from "../validationClauses/index.ts";
 
 export function generateValidateEnumTypeFunc(
   def: EnumTypeDef,

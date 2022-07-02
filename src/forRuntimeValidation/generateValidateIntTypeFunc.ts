@@ -1,6 +1,6 @@
 import { IntTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
-import { generateIntTypeValidation } from "../codegenValidationClauses/index.ts";
+import { generateIntTypeValidation } from "../validationClauses/index.ts";
 
 export function generateValidateIntTypeFunc(
   def: IntTypeDef,

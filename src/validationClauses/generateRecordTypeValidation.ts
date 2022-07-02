@@ -30,15 +30,15 @@ export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
   for (const property of props.def.properties) {
     if (property.isRequired) {
       const requiredPropCheck = `
-          if (typeof ${props.valuePath}.${property.name} === "undefined") {
-            errors.push({
-              valuePath: \`${props.valueDisplayPath}.${property.name}\`,
-              value: ${props.valuePath}.${property.name},
-              msg: "Value is a required property and cannot be undefined.",
-              type: "${property.propertyType}${property.isArray ? "[]" : ""}",
-            })
-          }    
-        `;
+        if (typeof ${props.valuePath}.${property.name} === "undefined") {
+          errors.push({
+            valuePath: \`${props.valueDisplayPath}.${property.name}\`,
+            value: ${props.valuePath}.${property.name},
+            msg: "Value is a required property and cannot be undefined.",
+            type: "${property.propertyType}${property.isArray ? "[]" : ""}",
+          })
+        }    
+      `;
 
       propertyChecks.push(requiredPropCheck);
     }

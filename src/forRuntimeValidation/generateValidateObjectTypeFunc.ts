@@ -1,6 +1,6 @@
 import { JsonotronTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
-import { generateObjectTypeValidation } from "../codegenValidationClauses/index.ts";
+import { generateObjectTypeValidation } from "../validationClauses/index.ts";
 
 export function generateValidateObjectTypeFunc(
   def: JsonotronTypeDef,

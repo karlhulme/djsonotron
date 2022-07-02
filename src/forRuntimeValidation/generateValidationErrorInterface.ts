@@ -4,9 +4,6 @@
  */
 export function generateValidationErrorInterface() {
   return `
-// deno-lint-ignore-file no-explicit-any
-// This file was automatically generated.
-
 /**
  * Describes a validation error.
  */

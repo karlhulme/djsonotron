@@ -20,6 +20,8 @@ import { generateValidationErrorInterface } from "./generateValidationErrorInter
 export function generateCodeForJsonotronTypes(types: JsonotronTypeDef[]) {
   const declarations = [];
 
+  declarations.push("// deno-lint-ignore-file no-explicit-any");
+  declarations.push("// This file was automatically generated.");
   declarations.push(generateValidationErrorInterface());
   declarations.push(generateValidateArrayFunc());
 

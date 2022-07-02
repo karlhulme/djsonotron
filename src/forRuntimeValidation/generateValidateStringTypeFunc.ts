@@ -1,6 +1,6 @@
 import { StringTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
-import { generateStringTypeValidation } from "../codegenValidationClauses/index.ts";
+import { generateStringTypeValidation } from "../validationClauses/index.ts";
 
 export function generateValidateStringTypeFunc(
   def: StringTypeDef,

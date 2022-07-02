@@ -1,9 +1,8 @@
 import { RecordTypeDefProperty } from "../interfaces/index.ts";
 
 /**
- * Returns an array of record properties that need to be
- * defined for any record that is used to define a
- * Sengi document.
+ * Returns an array of record type def properties that need to be
+ * defined for any record that is used to define a Sengi document.
  * @param docTypeName The name of a document type.
  */
 export function createSengiStandardProperties(docTypeName: string) {

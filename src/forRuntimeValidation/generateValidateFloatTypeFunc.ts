@@ -1,6 +1,6 @@
 import { FloatTypeDef } from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
-import { generateFloatTypeValidation } from "../codegenValidationClauses/index.ts";
+import { generateFloatTypeValidation } from "../validationClauses/index.ts";
 
 export function generateValidateFloatTypeFunc(
   def: FloatTypeDef,

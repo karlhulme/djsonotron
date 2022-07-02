@@ -3,7 +3,7 @@ import {
   RecordTypeDef,
   RecordTypeDefProperty,
 } from "../interfaces/index.ts";
-import { generateRecordTypeValidation } from "../codegenValidationClauses/index.ts";
+import { generateRecordTypeValidation } from "../validationClauses/index.ts";
 import {
   capitalizeFirstLetter,
   getSystemFromTypeString,

@@ -9,7 +9,7 @@ import {
   generateDocOpIdsProperty,
   generateDocTypeProperty,
   generateDocVersionProperty,
-} from "./sengiStandardPropCreators.ts";
+} from "./createSengiStandardProperties.ts";
 
 /**
  * Expands the given seedDocType into a set of variants for selecting, creating,
