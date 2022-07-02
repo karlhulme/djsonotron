@@ -14,3 +14,4 @@ export * from "./SengiSeedDocTypeOperation.ts";
 export * from "./SengiSeedDocTypeOperationParameter.ts";
 export * from "./SengiSeedDocTypeQuery.ts";
 export * from "./SengiSeedDocTypeQueryParameter.ts";
+export * from "./sengiStandardPropCreators.ts";

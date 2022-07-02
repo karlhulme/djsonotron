@@ -3,12 +3,12 @@ import { SengiSeedDocType } from "./SengiSeedDocType.ts";
 import {
   generateDocCreatedByMillisecondsSinceEpoch,
   generateDocCreatedByUserId,
+  generateDocIdProperty,
   generateDocLastUpdatedByMillisecondsSinceEpoch,
   generateDocLastUpdatedByUserId,
   generateDocOpIdsProperty,
   generateDocTypeProperty,
   generateDocVersionProperty,
-  generateIdProperty,
 } from "./sengiStandardPropCreators.ts";
 
 /**
@@ -30,13 +30,13 @@ export function generateSengiDocTypeInputOutputVariantRecords(
     name: `${seedDocType.name}`,
     summary: seedDocType.summary,
     properties: [
-      generateIdProperty(true),
-      generateDocTypeProperty(true, seedDocType.name),
-      generateDocOpIdsProperty(true),
-      generateDocCreatedByUserId(true),
-      generateDocCreatedByMillisecondsSinceEpoch(true),
-      generateDocLastUpdatedByUserId(true),
-      generateDocLastUpdatedByMillisecondsSinceEpoch(true),
+      generateDocIdProperty(),
+      generateDocTypeProperty(seedDocType.name),
+      generateDocOpIdsProperty(),
+      generateDocCreatedByUserId(),
+      generateDocCreatedByMillisecondsSinceEpoch(),
+      generateDocLastUpdatedByUserId(),
+      generateDocLastUpdatedByMillisecondsSinceEpoch(),
       ...seedDocType.properties,
     ],
   };
@@ -50,14 +50,14 @@ export function generateSengiDocTypeInputOutputVariantRecords(
     name: `${seedDocType.name}Record`,
     summary: seedDocType.summary,
     properties: [
-      generateIdProperty(false),
-      generateDocTypeProperty(false, seedDocType.name),
-      generateDocOpIdsProperty(false),
-      generateDocVersionProperty(false),
-      generateDocCreatedByUserId(false),
-      generateDocCreatedByMillisecondsSinceEpoch(false),
-      generateDocLastUpdatedByUserId(false),
-      generateDocLastUpdatedByMillisecondsSinceEpoch(false),
+      generateDocIdProperty(),
+      generateDocTypeProperty(seedDocType.name),
+      generateDocOpIdsProperty(),
+      generateDocVersionProperty(),
+      generateDocCreatedByUserId(),
+      generateDocCreatedByMillisecondsSinceEpoch(),
+      generateDocLastUpdatedByUserId(),
+      generateDocLastUpdatedByMillisecondsSinceEpoch(),
       ...seedDocType.properties.map((prop) => ({
         ...prop,
         isRequired: false,
@@ -74,7 +74,7 @@ export function generateSengiDocTypeInputOutputVariantRecords(
     name: `${seedDocType.name}Template`,
     summary: `The template to create a new ${seedDocType.name}.`,
     properties: [
-      generateIdProperty(true),
+      generateDocIdProperty(),
       ...seedDocType.properties,
     ],
   };
@@ -108,13 +108,13 @@ export function generateSengiDocTypeInputOutputVariantRecords(
     name: `${seedDocType.name}Replacement`,
     summary: `A document to replace an existing ${seedDocType.name} record.`,
     properties: [
-      generateIdProperty(true),
-      generateDocTypeProperty(true, seedDocType.name),
-      generateDocOpIdsProperty(false),
-      generateDocCreatedByUserId(false),
-      generateDocCreatedByMillisecondsSinceEpoch(false),
-      generateDocLastUpdatedByUserId(false),
-      generateDocLastUpdatedByMillisecondsSinceEpoch(false),
+      generateDocIdProperty(),
+      generateDocTypeProperty(seedDocType.name),
+      generateDocOpIdsProperty(),
+      generateDocCreatedByUserId(),
+      generateDocCreatedByMillisecondsSinceEpoch(),
+      generateDocLastUpdatedByUserId(),
+      generateDocLastUpdatedByMillisecondsSinceEpoch(),
       ...seedDocType.properties,
     ],
   };

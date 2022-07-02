@@ -1,27 +1,43 @@
 import { RecordTypeDefProperty } from "../interfaces/index.ts";
 
 /**
- * Returns a Sengi id property definition.
- * @param isRequired True if the property is to be marked required.
+ * Returns an array of record properties that need to be
+ * defined for any record that is used to define a
+ * Sengi document.
+ * @param docTypeName The name of a document type.
  */
-export function generateIdProperty(isRequired: boolean): RecordTypeDefProperty {
+export function createSengiStandardProperties(docTypeName: string) {
+  return [
+    generateDocIdProperty(),
+    generateDocTypeProperty(docTypeName),
+    generateDocOpIdsProperty(),
+    generateDocVersionProperty(),
+    generateDocCreatedByUserId(),
+    generateDocCreatedByMillisecondsSinceEpoch(),
+    generateDocLastUpdatedByUserId(),
+    generateDocLastUpdatedByMillisecondsSinceEpoch(),
+  ];
+}
+
+/**
+ * Returns a Sengi id property definition.
+ */
+export function generateDocIdProperty(): RecordTypeDefProperty {
   return {
     name: "id",
     summary: "The globally unique id for the document.",
     propertyType: "std/uuid",
-    isRequired,
+    isRequired: true,
   };
 }
 
 /**
  * Returns a Sengi docType property definition.
- * @param isRequired True if the property is to be marked required.
  * @param docTypeName The name of the docType to which this property
  * will be applied.  It is used as the only accepted constant value
  * of this property.
  */
 export function generateDocTypeProperty(
-  isRequired: boolean,
   docTypeName: string,
 ): RecordTypeDefProperty {
   return {
@@ -29,99 +45,81 @@ export function generateDocTypeProperty(
     summary: "The name of the document type.",
     propertyType: "std/mediumString",
     constant: docTypeName,
-    isRequired,
+    isRequired: true,
   };
 }
 
 /**
  * Returns a Sengi docOpIds property definition.
- * @param isRequired True if the property is to be marked required.
  */
-export function generateDocOpIdsProperty(
-  isRequired: boolean,
-): RecordTypeDefProperty {
+export function generateDocOpIdsProperty(): RecordTypeDefProperty {
   return {
     name: "docOpIds",
     summary: "The ids of the recently completed operations.",
     propertyType: "std/uuid",
     isArray: true,
-    isRequired,
+    isRequired: true,
   };
 }
 
 /**
  * Returns a Sengi docVersion property definition.
- * @param isRequired True if the property is to be marked required.
  */
-export function generateDocVersionProperty(
-  isRequired: boolean,
-): RecordTypeDefProperty {
+export function generateDocVersionProperty(): RecordTypeDefProperty {
   return {
     name: "docVersion",
     summary: "The unique version assigned to a document.",
     propertyType: "std/mediumString",
-    isRequired,
+    isRequired: true,
   };
 }
 
 /**
  * Returns a Sengi createdByUserId property definition.
- * @param isRequired True if the property is to be marked required.
  */
-export function generateDocCreatedByUserId(
-  isRequired: boolean,
-): RecordTypeDefProperty {
+export function generateDocCreatedByUserId(): RecordTypeDefProperty {
   return {
     name: "docCreatedByUserId",
     summary: "The id of the user that created the document.",
     propertyType: "std/mediumString",
-    isRequired,
+    isRequired: true,
   };
 }
 
 /**
  * Returns a Sengi createdByMillisecondsSinceEpoch property definition.
- * @param isRequired True if the property is to be marked required.
  */
-export function generateDocCreatedByMillisecondsSinceEpoch(
-  isRequired: boolean,
-): RecordTypeDefProperty {
+export function generateDocCreatedByMillisecondsSinceEpoch(): RecordTypeDefProperty {
   return {
     name: "docCreatedMillisecondsSinceEpoch",
     summary:
       "The number of milliseconds since the epoch when the document was created.",
     propertyType: "std/timestamp",
-    isRequired,
+    isRequired: true,
   };
 }
 
 /**
  * Returns a Sengi lastUpdatedByUserId property definition.
- * @param isRequired True if the property is to be marked required.
  */
-export function generateDocLastUpdatedByUserId(
-  isRequired: boolean,
-): RecordTypeDefProperty {
+export function generateDocLastUpdatedByUserId(): RecordTypeDefProperty {
   return {
     name: "docLastUpdatedByUserId",
     summary: "The id of the user that last updated the document.",
     propertyType: "std/mediumString",
-    isRequired,
+    isRequired: true,
   };
 }
 
 /**
  * Returns a Sengi lastUpdatedByMillisecondsSinceEpoch property definition.
- * @param isRequired True if the property is to be marked required.
  */
-export function generateDocLastUpdatedByMillisecondsSinceEpoch(
-  isRequired: boolean,
-): RecordTypeDefProperty {
+export function generateDocLastUpdatedByMillisecondsSinceEpoch(): RecordTypeDefProperty {
   return {
     name: "docLastUpdatedMillisecondsSinceEpoch",
     summary:
       "The number of milliseconds since the epoch when the document was last updated.",
     propertyType: "std/timestamp",
-    isRequired,
+    isRequired: true,
   };
 }
