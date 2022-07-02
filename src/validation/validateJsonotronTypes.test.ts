@@ -11,6 +11,7 @@ const simpleFloat: FloatTypeDef = {
   kind: "float",
   system: "test",
   name: "simpleFloat",
+  pluralName: "simpleFloats",
   summary: "A type used for testing.",
   minimum: 10,
   maximum: 12,
@@ -20,6 +21,7 @@ const simpleInt: IntTypeDef = {
   kind: "int",
   system: "test",
   name: "simpleInt",
+  pluralName: "simpleInts",
   summary: "A type used for testing.",
   minimum: 5,
   maximum: 8,
@@ -29,6 +31,7 @@ const simpleRecord: RecordTypeDef = {
   kind: "record",
   system: "test",
   name: "simpleRecord",
+  pluralName: "simpleRecords",
   summary: "A type used for testing.",
   properties: [{
     name: "reqProp",
@@ -42,6 +45,7 @@ const simpleString: StringTypeDef = {
   kind: "string",
   system: "test",
   name: "simpleString",
+  pluralName: "simpleStrings",
   summary: "A type used for testing.",
   maximumLength: 10,
 };

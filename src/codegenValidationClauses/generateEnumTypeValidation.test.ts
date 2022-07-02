@@ -8,6 +8,7 @@ const simpleEnum: EnumTypeDef = {
   kind: "enum",
   system: "test",
   name: "simpleEnum",
+  pluralName: "simpleEnums",
   summary: "A type used for testing.",
   items: [{
     value: "first",

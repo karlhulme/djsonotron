@@ -5,6 +5,7 @@ export const longLat: RecordTypeDef = {
   kind: "record",
   system: stdSystemName,
   name: "longLat",
+  pluralName: "longLats",
   summary:
     `A GPS co-ordinate represented as a longitudinal and latitudinal position.`,
   properties: [{

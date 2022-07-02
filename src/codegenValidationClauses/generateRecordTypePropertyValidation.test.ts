@@ -14,6 +14,7 @@ const simpleBool: JsonotronTypeDef = {
   kind: "bool",
   system: "test",
   name: "simpleBool",
+  pluralName: "simpleBools",
   summary: "A type used for testing.",
 };
 
@@ -21,6 +22,7 @@ const simpleEnum: EnumTypeDef = {
   kind: "enum",
   system: "test",
   name: "simpleEnum",
+  pluralName: "simpleEnums",
   summary: "A type used for testing.",
   items: [{
     value: "first",
@@ -33,6 +35,7 @@ const simpleFloat: FloatTypeDef = {
   kind: "float",
   system: "test",
   name: "simpleFloat",
+  pluralName: "simpleFloats",
   summary: "A type used for testing.",
   minimum: 10,
   maximum: 12,
@@ -42,6 +45,7 @@ const simpleInt: IntTypeDef = {
   kind: "int",
   system: "test",
   name: "simpleInt",
+  pluralName: "simpleInts",
   summary: "A type used for testing.",
   minimum: 5,
   maximum: 8,
@@ -51,12 +55,14 @@ const simpleObject: JsonotronTypeDef = {
   kind: "object",
   system: "test",
   name: "simpleObject",
+  pluralName: "simpleObjects",
   summary: "A type used for testing.",
 };
 
 const simpleRecord: RecordTypeDef = {
   system: "test",
   name: "simpleRecord",
+  pluralName: "simpleRecords",
   kind: "record",
   summary: "a test type",
   properties: [{
@@ -70,6 +76,7 @@ const simpleString: StringTypeDef = {
   kind: "string",
   system: "test",
   name: "simpleString",
+  pluralName: "simpleStrings",
   summary: "A type used for testing.",
   maximumLength: 10,
   minimumLength: 5,
@@ -104,6 +111,7 @@ Deno.test("Fail to generate a record type property validation for an unknown kin
     kind: "unknown" as unknown as JsonotronTypeKind,
     system: "test",
     name: "simpleBool",
+    pluralName: "simpleBools",
     summary: "A type used for testing.",
   };
 

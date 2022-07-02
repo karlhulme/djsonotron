@@ -6,6 +6,7 @@ Deno.test("Get the validation function name of jsonotron type.", () => {
     getJsonotronTypeValidationFuncName({
       kind: "enum",
       name: "testType",
+      pluralName: "testTypes",
       system: "testSystem",
       summary: "A test type",
     }, false),
@@ -18,6 +19,7 @@ Deno.test("Get the validation function name of jsonotron type array.", () => {
     getJsonotronTypeValidationFuncName({
       kind: "enum",
       name: "testType",
+      pluralName: "testTypes",
       system: "testSystem",
       summary: "A test type",
     }, true),

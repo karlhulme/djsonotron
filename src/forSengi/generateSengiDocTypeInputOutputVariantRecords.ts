@@ -27,7 +27,8 @@ export function generateSengiDocTypeInputOutputVariantRecords(
   const doc: RecordTypeDef = {
     kind: "record",
     system: system,
-    name: `${seedDocType.name}`,
+    name: seedDocType.name,
+    pluralName: seedDocType.pluralName,
     summary: seedDocType.summary,
     properties: [
       generateDocIdProperty(),
@@ -48,6 +49,7 @@ export function generateSengiDocTypeInputOutputVariantRecords(
     kind: "record",
     system: system,
     name: `${seedDocType.name}Record`,
+    pluralName: `${seedDocType.name}Records`,
     summary: seedDocType.summary,
     properties: [
       generateDocIdProperty(),
@@ -72,6 +74,7 @@ export function generateSengiDocTypeInputOutputVariantRecords(
     kind: "record",
     system: system,
     name: `${seedDocType.name}Template`,
+    pluralName: `${seedDocType.name}Templates`,
     summary: `The template to create a new ${seedDocType.name}.`,
     properties: [
       generateDocIdProperty(),
@@ -88,6 +91,7 @@ export function generateSengiDocTypeInputOutputVariantRecords(
     kind: "record",
     system: system,
     name: `${seedDocType.name}Patch`,
+    pluralName: `${seedDocType.name}Patches`,
     summary: `A patch to update an exising ${seedDocType.name} record.`,
     properties: [
       ...seedDocType.properties.map((prop) => ({
@@ -106,6 +110,7 @@ export function generateSengiDocTypeInputOutputVariantRecords(
     kind: "record",
     system: system,
     name: `${seedDocType.name}Replacement`,
+    pluralName: `${seedDocType.name}Replacements`,
     summary: `A document to replace an existing ${seedDocType.name} record.`,
     properties: [
       generateDocIdProperty(),

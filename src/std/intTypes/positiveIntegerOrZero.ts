@@ -5,6 +5,7 @@ export const positiveIntegerOrZero: IntTypeDef = {
   kind: "int",
   system: stdSystemName,
   name: "positiveIntegerOrZero",
+  pluralName: "positiveIntegersOrZeroes",
   summary:
     `A positive integer, or zero, represented as a 32-bit signed integer.`,
   minimum: 0,

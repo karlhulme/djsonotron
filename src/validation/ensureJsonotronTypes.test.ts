@@ -7,6 +7,7 @@ Deno.test("Validate a set of types that produces no errors.", () => {
     kind: "float",
     system: "test",
     name: "simpleFloat",
+    pluralName: "simpleFloats",
     summary: "A type used for testing.",
     minimum: 10,
     maximum: 12,
@@ -20,6 +21,7 @@ Deno.test("Validate a set of types that produces errors.", () => {
     kind: "float",
     system: "test",
     name: "simpleFloat",
+    pluralName: "simpleFloats",
     summary: "A type used for testing.",
     minimum: 15, // min/max wrong way round
     maximum: 12,

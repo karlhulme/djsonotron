@@ -5,6 +5,7 @@ export const shortString: StringTypeDef = {
   kind: "string",
   system: stdSystemName,
   name: "shortString",
+  pluralName: "shortStrings",
   summary: "A string with up to 20 unicode characters.",
   maximumLength: 20,
 };
