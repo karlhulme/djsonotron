@@ -7,20 +7,20 @@ import {
 import { capitalizeFirstLetter } from "../utils/index.ts";
 import { SengiDocType } from "./SengiDocType.ts";
 
-interface GenerateTypedSengiProps {
+interface GenerateCodeForTypedSengiProps {
   depsPath: string;
   typesPath: string;
   docTypes: SengiDocType[];
 }
 
-export function generateTypedSengi(props: GenerateTypedSengiProps) {
+export function generateCodeForTypedSengi(props: GenerateCodeForTypedSengiProps) {
   const tree = generateTypedSengiTree(props);
   const ts = generateTypescript(tree);
   return ts;
 }
 
 export function generateTypedSengiTree(
-  props: GenerateTypedSengiProps,
+  props: GenerateCodeForTypedSengiProps,
 ): TypescriptTree {
   const tree = newTypescriptTree();
 
@@ -37,7 +37,7 @@ export function generateTypedSengiTree(
   return tree;
 }
 
-function appendImports(tree: TypescriptTree, props: GenerateTypedSengiProps) {
+function appendImports(tree: TypescriptTree, props: GenerateCodeForTypedSengiProps) {
   const depsImports = ["DocStore", "NewDocumentProps", "Sengi"];
 
   for (const dep of depsImports) {
@@ -89,7 +89,7 @@ function appendValidatorAdapter(tree: TypescriptTree) {
 
 function appendConstructorInterfaces(
   tree: TypescriptTree,
-  props: GenerateTypedSengiProps,
+  props: GenerateCodeForTypedSengiProps,
 ) {
   tree.interfaces.push({
     name: "TypedSengiConstructorProps",
@@ -149,7 +149,7 @@ function appendConstructorInterfaces(
   });
 }
 
-function appendClass(tree: TypescriptTree, props: GenerateTypedSengiProps) {
+function appendClass(tree: TypescriptTree, props: GenerateCodeForTypedSengiProps) {
   const ctorDocTypeProps: string[] = [];
 
   for (const docType of props.docTypes) {
