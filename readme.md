@@ -14,3 +14,10 @@ convert to code right at the end.
 Run `deno test --coverage=cov_profile` to test.
 
 Run `deno coverage cov_profile` to view coverage report.
+
+## Todo
+
+Add tests for forSengi.
+Add tests for forOpenApi
+Re-write forRuntimeValidation using toasty and add tests.
+Re-write forOakService using toasty and add tests.
