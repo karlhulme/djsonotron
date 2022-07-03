@@ -143,6 +143,12 @@ function appendConstructorInterfaces(
       comment:
         "An optional function that returns the number of milliseconds since the epoch to be used as timestamps.  Date.now is used if not supplied.",
       optional: true,
+    }, {
+      name: "centralPartition",
+      typeName: "string",
+      comment:
+        "The name of the central partition.  If not supplied a value of _central will be used.",
+      optional: true,
     }],
   });
 
@@ -201,6 +207,9 @@ function appendClass(
       name: "createDocStoreParams",
       typeName:
         "(docTypeName: string, docTypePluralName: string) => DocStoreParams",
+    }, {
+      name: "centralPartition",
+      typeName: "string",
     }],
     ctor: {
       params: [{
@@ -218,6 +227,7 @@ function appendClass(
         });
     
         this.createDocStoreParams = props.createDocStoreParams;
+        this.centralPartition = props.centralPartition || "_central";
       `,
     },
   };
@@ -228,6 +238,16 @@ function appendClass(
     const capName = capitalizeFirstLetter(docType.name);
     const capPluralName = capitalizeFirstLetter(docType.pluralName);
 
+    let omittedTypeNames = `"docStoreParams"|"docTypeName"`;
+
+    if (docType.useSinglePartition) {
+      omittedTypeNames += `|"partition"`;
+    }
+
+    const partitionAssignment = docType.useSinglePartition
+      ? `partition: this.centralPartition || "_central",`
+      : "";
+
     // New doc
     typedSengiClass.functions.push({
       name: `new${capName}`,
@@ -235,7 +255,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<NewDocumentProps<Db${capName}, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+          `Omit<NewDocumentProps<Db${capName}, DocStoreParams>, ${omittedTypeNames}>`,
         comment: "The properties required to create a new record.",
       }],
       lines: `
@@ -243,6 +263,7 @@ function appendClass(
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+          ${partitionAssignment}
         });
       `,
     });
@@ -255,7 +276,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<ConstructDocumentProps<Db${capName}, ConstructorParams, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+          `Omit<ConstructDocumentProps<Db${capName}, ConstructorParams, DocStoreParams>, ${omittedTypeNames}>`,
         comment:
           "The properties required to create a new record using a constructor.",
       }],
@@ -264,6 +285,7 @@ function appendClass(
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+          ${partitionAssignment}
         })
       `,
     });
@@ -275,7 +297,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<DeleteDocumentProps<DocStoreParams>, "docStoreParams" | "docTypeName">`,
+          `Omit<DeleteDocumentProps<DocStoreParams>, ${omittedTypeNames}>`,
         comment: "The properties required to delete a record.",
       }],
       lines: `
@@ -283,6 +305,7 @@ function appendClass(
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+          ${partitionAssignment}
         })
       `,
     });
@@ -295,7 +318,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<OperateOnDocumentProps<Db${capName}, OperationParams, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+          `Omit<OperateOnDocumentProps<Db${capName}, OperationParams, DocStoreParams>, ${omittedTypeNames}>`,
         comment: "The properties required to operate on a record.",
       }],
       lines: `
@@ -303,6 +326,7 @@ function appendClass(
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+          ${partitionAssignment}
         })
       `,
     });
@@ -314,7 +338,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<PatchDocumentProps<Db${capName}, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+          `Omit<PatchDocumentProps<Db${capName}, DocStoreParams>, ${omittedTypeNames}>`,
         comment: "The properties required to patch a record.",
       }],
       lines: `
@@ -322,6 +346,7 @@ function appendClass(
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+          ${partitionAssignment}
         })
       `,
     });
@@ -333,7 +358,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<ReplaceDocumentProps<Db${capName}, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+          `Omit<ReplaceDocumentProps<Db${capName}, DocStoreParams>, ${omittedTypeNames}>`,
         comment: "The properties required to replace an existing record.",
       }],
       lines: `
@@ -341,6 +366,7 @@ function appendClass(
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+          ${partitionAssignment}
         })
       `,
     });
@@ -353,7 +379,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<QueryDocumentsProps<Query, QueryParams, QueryResult, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+          `Omit<QueryDocumentsProps<Query, QueryParams, QueryResult, DocStoreParams>, "docStoreParams"|"docTypeName">`,
         comment: "The properties required to query a set of records.",
       }],
       lines: `
@@ -372,7 +398,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<SelectDocumentsProps<Db${capName}, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+          `Omit<SelectDocumentsProps<Db${capName}, DocStoreParams>, ${omittedTypeNames}>`,
         comment: "The properties required to select a set of records.",
       }],
       lines: `
@@ -380,6 +406,7 @@ function appendClass(
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+          ${partitionAssignment}
         })
       `,
     });
@@ -391,7 +418,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<SelectDocumentsByIdsProps<Db${capName}, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+          `Omit<SelectDocumentsByIdsProps<Db${capName}, DocStoreParams>, ${omittedTypeNames}>`,
         comment:
           "The properties required to select a set of records using an array of ids.",
       }],
@@ -400,6 +427,7 @@ function appendClass(
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+          ${partitionAssignment}
         })
       `,
     });
@@ -412,7 +440,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<SelectDocumentsByFilterProps<Db${capName}, Filter, FilterParams, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+          `Omit<SelectDocumentsByFilterProps<Db${capName}, Filter, FilterParams, DocStoreParams>, ${omittedTypeNames}>`,
         comment:
           "The properties required to select a set of records using a filter.",
       }],
@@ -421,6 +449,7 @@ function appendClass(
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+          ${partitionAssignment}
         })
       `,
     });
