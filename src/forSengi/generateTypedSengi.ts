@@ -127,6 +127,8 @@ function appendConstructorInterfaces(
     }, {
       name: "getMillisecondsSinceEpoch",
       typeName: "() => number",
+      comment:
+        "An optional function that returns the number of milliseconds since the epoch to be used as timestamps.  Date.now is used if not supplied.",
       optional: true,
     }],
   });
@@ -170,9 +172,7 @@ function appendClass(
       name: "${docType.name}",
       readOnlyFieldNames: [${readOnlyFieldNames.join(", ")}],
       validateFields: v(validateDb${capName}),
-      validateDoc: props.docTypes.${docType.name}?.validateDoc
-        ? v(props.docTypes.${docType.name}?.validateDoc)
-        : (() => {})
+      validateDoc: props.docTypes.${docType.name}?.validateDoc || (() => {})
     }`);
   }
 
