@@ -113,7 +113,7 @@ function appendConstructorInterfaces(
     }, {
       name: "createDocStoreParams",
       typeName:
-        "(docTypeName: string, docTypePluralName: string, ) => DocStoreParams;",
+        "(docTypeName: string, docTypePluralName: string, ) => DocStoreParams",
       comment:
         "A function that generates doc store parameters using the target doc type name or plural name.",
     }, {
@@ -147,7 +147,7 @@ function appendConstructorInterfaces(
     comment: "The definition of a document type.",
     members: [{
       name: "validateDoc",
-      typeName: "(value: any, valueDisplayPath: string) => ValidationError[]",
+      typeName: "(doc: any) => string|void",
       comment: "A Jsonotron validator function for the document type.",
       optional: true,
     }],
@@ -243,9 +243,7 @@ function appendClass(
     // Query doc
 
     // Select docs (x3)
-
-    tree.classes.push(typedSengiClass);
   }
 
-  return typedSengiClass;
+  tree.classes.push(typedSengiClass);
 }
