@@ -13,7 +13,9 @@ interface GenerateCodeForTypedSengiProps {
   docTypes: SengiDocType[];
 }
 
-export function generateCodeForTypedSengi(props: GenerateCodeForTypedSengiProps) {
+export function generateCodeForTypedSengi(
+  props: GenerateCodeForTypedSengiProps,
+) {
   const tree = generateTypedSengiTree(props);
   const ts = generateTypescript(tree);
   return ts;
@@ -37,7 +39,10 @@ export function generateTypedSengiTree(
   return tree;
 }
 
-function appendImports(tree: TypescriptTree, props: GenerateCodeForTypedSengiProps) {
+function appendImports(
+  tree: TypescriptTree,
+  props: GenerateCodeForTypedSengiProps,
+) {
   const depsImports = ["DocStore", "NewDocumentProps", "Sengi"];
 
   for (const dep of depsImports) {
@@ -149,7 +154,10 @@ function appendConstructorInterfaces(
   });
 }
 
-function appendClass(tree: TypescriptTree, props: GenerateCodeForTypedSengiProps) {
+function appendClass(
+  tree: TypescriptTree,
+  props: GenerateCodeForTypedSengiProps,
+) {
   const ctorDocTypeProps: string[] = [];
 
   for (const docType of props.docTypes) {
