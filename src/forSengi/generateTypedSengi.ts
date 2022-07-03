@@ -193,6 +193,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName: "TypedSengiConstructorProps<DocStoreParams, Filter, Query>",
+        comment: "The properties required to initialise the instance.",
       }],
       lines: `
         this.sengi = new Sengi({
@@ -212,14 +213,17 @@ function appendClass(
 
   for (const docType of props.docTypes) {
     const capName = capitalizeFirstLetter(docType.name);
+    const capPluralName = capitalizeFirstLetter(docType.pluralName);
 
     // New doc
     typedSengiClass.functions.push({
       name: `new${capName}`,
+      comment: `Create a new ${docType.name} record.`,
       params: [{
         name: "props",
         typeName:
           `Omit<NewDocumentProps<Db${capName}, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+        comment: "The properties required to create a new record.",
       }],
       lines: `
         return this.sengi.newDocument<Db${capName}>({
@@ -231,18 +235,181 @@ function appendClass(
     });
 
     // Create doc
+    typedSengiClass.functions.push({
+      name: `create${capName}`,
+      comment: `Create a new ${docType.name} record using a constructor.`,
+      params: [{
+        name: "props",
+        typeName:
+          `Omit<ConstructDocumentProps<Db${capName}, ConstructorParams, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+        comment:
+          "The properties required to create a new record using a constructor.",
+      }],
+      lines: `
+        return this.sengi.createDocument({
+          ...props,
+          docTypeName: "${docType.name}",
+          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+        })
+      `,
+    });
 
     // Delete doc
+    typedSengiClass.functions.push({
+      name: `delete${capName}`,
+      comment: `Delete a ${docType.name} record.`,
+      params: [{
+        name: "props",
+        typeName:
+          `Omit<DeleteDocumentProps<DocStoreParams>, "docStoreParams" | "docTypeName">`,
+        comment: "The properties required to delete a record.",
+      }],
+      lines: `
+        return this.sengi.deleteDocument({
+          ...props,
+          docTypeName: "${docType.name}",
+          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+        })
+      `,
+    });
 
     // Operate on doc
+    typedSengiClass.functions.push({
+      name: `operateOn${capName}`,
+      comment: `Operate on a ${docType.name} record.`,
+      typeParams: ["OperationParams"],
+      params: [{
+        name: "props",
+        typeName:
+          `Omit<OperateOnDocumentProps<Db${capName}, OperationParams, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+        comment: "The properties required to operate on a record.",
+      }],
+      lines: `
+        return this.sengi.operateOnDocument({
+          ...props,
+          docTypeName: "${docType.name}",
+          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+        })
+      `,
+    });
 
     // Patch doc
+    typedSengiClass.functions.push({
+      name: `patch${capName}`,
+      comment: `Patch a ${docType.name} record.`,
+      params: [{
+        name: "props",
+        typeName:
+          `Omit<PatchDocumentProps<Db${capName}, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+        comment: "The properties required to patch a record.",
+      }],
+      lines: `
+        return this.sengi.patchDocument({
+          ...props,
+          docTypeName: "${docType.name}",
+          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+        })
+      `,
+    });
 
     // Replace doc
+    typedSengiClass.functions.push({
+      name: `replace${capName}`,
+      comment: `Replace a ${docType.name} record.`,
+      params: [{
+        name: "props",
+        typeName:
+          `Omit<ReplaceDocumentProps<Db${capName}, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+        comment: "The properties required to replace an existing record.",
+      }],
+      lines: `
+        return this.sengi.replaceDocument({
+          ...props,
+          docTypeName: "${docType.name}",
+          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+        })
+      `,
+    });
 
     // Query doc
+    typedSengiClass.functions.push({
+      name: `query${capPluralName}`,
+      comment: `Query the ${docType.name} records.`,
+      typeParams: ["QueryParams", "QueryResult"],
+      params: [{
+        name: "props",
+        typeName:
+          `Omit<QueryDocumentsProps<Query, QueryParams, QueryResult, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+        comment: "The properties required to query a set of records.",
+      }],
+      lines: `
+        return this.sengi.queryDocuments({
+          ...props,
+          docTypeName: "${docType.name}",
+          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+        })
+      `,
+    });
 
-    // Select docs (x3)
+    // Select docs
+    typedSengiClass.functions.push({
+      name: `select${capPluralName}`,
+      comment: `Select ${docType.name} records.`,
+      params: [{
+        name: "props",
+        typeName:
+          `Omit<SelectDocumentsProps<Db${capName}, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+        comment: "The properties required to select a set of records.",
+      }],
+      lines: `
+        return this.sengi.selectDocuments({
+          ...props,
+          docTypeName: "${docType.name}",
+          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+        })
+      `,
+    });
+
+    // Select docs by ids
+    typedSengiClass.functions.push({
+      name: `select${capPluralName}ByIds`,
+      comment: `Select ${docType.name} records by ids.`,
+      params: [{
+        name: "props",
+        typeName:
+          `Omit<SelectDocumentsByIdsProps<Db${capName}, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+        comment:
+          "The properties required to select a set of records using an array of ids.",
+      }],
+      lines: `
+        return this.sengi.selectDocumentsByIds({
+          ...props,
+          docTypeName: "${docType.name}",
+          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+        })
+      `,
+    });
+
+    // Select docs by filters
+    typedSengiClass.functions.push({
+      name: `select${capPluralName}ByFilter`,
+      comment: `Select ${docType.name} records using a filter.`,
+      typeParams: ["FilterParams"],
+      params: [{
+        name: "props",
+        typeName:
+          `Omit<SelectDocumentsByFilterProps<Db${capName}, Filter, FilterParams, DocStoreParams>, "docStoreParams" | "docTypeName">`,
+        comment:
+          "The properties required to select a set of records using a filter.",
+      }],
+      lines: `
+        return this.sengi.selectDocumentsByFilter({
+          ...props,
+          docTypeName: "${docType.name}",
+          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+        })
+      `,
+    });
   }
 
   tree.classes.push(typedSengiClass);
