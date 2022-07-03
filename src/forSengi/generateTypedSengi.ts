@@ -43,7 +43,20 @@ function appendImports(
   tree: TypescriptTree,
   props: GenerateCodeForTypedSengiProps,
 ) {
-  const depsImports = ["DocStore", "NewDocumentProps", "Sengi"];
+  const depsImports = [
+    "DocStore",
+    "Sengi",
+    "ConstructDocumentProps",
+    "DeleteDocumentProps",
+    "NewDocumentProps",
+    "OperateOnDocumentProps",
+    "PatchDocumentProps",
+    "QueryDocumentsProps",
+    "ReplaceDocumentProps",
+    "SelectDocumentsByFilterProps",
+    "SelectDocumentsByIdsProps",
+    "SelectDocumentsProps",
+  ];
 
   for (const dep of depsImports) {
     tree.imports.push({
@@ -238,6 +251,7 @@ function appendClass(
     typedSengiClass.functions.push({
       name: `create${capName}`,
       comment: `Create a new ${docType.name} record using a constructor.`,
+      typeParams: ["ConstructorParams"],
       params: [{
         name: "props",
         typeName:
