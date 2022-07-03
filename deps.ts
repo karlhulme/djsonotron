@@ -23,3 +23,13 @@ export type {
   OpenApiSpecPathOperationResponseHeader,
   OpenApiSpecPathOperationSchema,
 } from "https://raw.githubusercontent.com/karlhulme/dopenapi/main/mod.ts";
+
+export type {
+  TypescriptTree,
+  TypescriptTreeClass,
+} from "https://raw.githubusercontent.com/karlhulme/dtoasty/main/mod.ts";
+
+export {
+  generateTypescript,
+  newTypescriptTree,
+} from "https://raw.githubusercontent.com/karlhulme/dtoasty/main/mod.ts";
