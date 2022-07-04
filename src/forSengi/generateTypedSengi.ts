@@ -445,7 +445,7 @@ function appendClass(
           "The properties required to select a set of records using a filter.",
       }],
       lines: `
-        return this.sengi.selectDocumentsByFilter<Db${capName}>({
+        return this.sengi.selectDocumentsByFilter<Db${capName}, FilterParams>({
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
