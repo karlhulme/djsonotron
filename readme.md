@@ -17,7 +17,7 @@ Run `deno coverage cov_profile` to view coverage report.
 
 ## Todo
 
-* Add tests for forSengi.
-* Add tests for forOpenApi
-* Re-write forRuntimeValidation using toasty and add tests.
-* Re-write forOakService using toasty and add tests.
+- Add tests for forSengi.
+- Add tests for forOpenApi
+- Re-write forRuntimeValidation using toasty and add tests.
+- Re-write forOakService using toasty and add tests.

@@ -398,7 +398,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<SelectDocumentsProps<Db${capName}, DocStoreParams>, ${omittedTypeNames}>`,
+          `Omit<SelectDocumentsProps<DocStoreParams>, ${omittedTypeNames}>`,
         comment: "The properties required to select a set of records.",
       }],
       lines: `
@@ -418,7 +418,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<SelectDocumentsByIdsProps<Db${capName}, DocStoreParams>, ${omittedTypeNames}>`,
+          `Omit<SelectDocumentsByIdsProps<DocStoreParams>, ${omittedTypeNames}>`,
         comment:
           "The properties required to select a set of records using an array of ids.",
       }],
@@ -440,7 +440,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<SelectDocumentsByFilterProps<Db${capName}, Filter, FilterParams, DocStoreParams>, ${omittedTypeNames}>`,
+          `Omit<SelectDocumentsByFilterProps<Filter, FilterParams, DocStoreParams>, ${omittedTypeNames}>`,
         comment:
           "The properties required to select a set of records using a filter.",
       }],
