@@ -402,7 +402,7 @@ function appendClass(
         comment: "The properties required to select a set of records.",
       }],
       lines: `
-        return this.sengi.selectDocuments({
+        return this.sengi.selectDocuments<Db${capName}>({
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
@@ -423,7 +423,7 @@ function appendClass(
           "The properties required to select a set of records using an array of ids.",
       }],
       lines: `
-        return this.sengi.selectDocumentsByIds({
+        return this.sengi.selectDocumentsByIds<Db${capName}>({
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
@@ -445,7 +445,7 @@ function appendClass(
           "The properties required to select a set of records using a filter.",
       }],
       lines: `
-        return this.sengi.selectDocumentsByFilter({
+        return this.sengi.selectDocumentsByFilter<Db${capName}>({
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
