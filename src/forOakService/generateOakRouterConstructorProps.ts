@@ -1,4 +1,8 @@
-import { Service, ServicePathOperation } from "../interfaces/index.ts";
+import {
+  Service,
+  ServicePath,
+  ServicePathOperation,
+} from "../interfaces/index.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
 
 export function generateOakRouterConstructorProps(service: Service) {
@@ -9,31 +13,31 @@ export function generateOakRouterConstructorProps(service: Service) {
   for (const path of service.paths) {
     if (path.delete) {
       interfaceLines.push(
-        generateOperationLine(path.delete),
+        generateOperationLine(path, path.delete),
       );
     }
 
     if (path.get) {
       interfaceLines.push(
-        generateOperationLine(path.get),
+        generateOperationLine(path, path.get),
       );
     }
 
     if (path.patch) {
       interfaceLines.push(
-        generateOperationLine(path.patch),
+        generateOperationLine(path, path.patch),
       );
     }
 
     if (path.post) {
       interfaceLines.push(
-        generateOperationLine(path.post),
+        generateOperationLine(path, path.post),
       );
     }
 
     if (path.put) {
       interfaceLines.push(
-        generateOperationLine(path.put),
+        generateOperationLine(path, path.put),
       );
     }
   }
@@ -49,8 +53,9 @@ export function generateOakRouterConstructorProps(service: Service) {
   return declarations;
 }
 
-function generateOperationLine(op: ServicePathOperation) {
-  const needsProps = Boolean(op.requestBodyType) ||
+function generateOperationLine(path: ServicePath, op: ServicePathOperation) {
+  const needsProps = path.relativeUrl.includes("{") ||
+    Boolean(op.requestBodyType) ||
     (Array.isArray(op.requestQueryParams) &&
       op.requestQueryParams.length > 0) ||
     (Array.isArray(op.requestParams) &&
