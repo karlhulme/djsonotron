@@ -292,11 +292,11 @@ function appendClass(
     typedSengiClass.functions.push({
       name: `operateOn${capName}`,
       comment: `Operate on a ${docType.name} record.`,
-      typeParams: ["OperationParams"],
+      typeParams: [],
       params: [{
         name: "props",
         typeName:
-          `Omit<OperateOnDocumentProps<Db${capName}, OperationParams, DocStoreParams>, ${omittedPropertyNames}>`,
+          `Omit<OperateOnDocumentProps<Db${capName}, DocStoreParams>, ${omittedPropertyNames}>`,
         comment: "The properties required to operate on a record.",
       }],
       lines: `
