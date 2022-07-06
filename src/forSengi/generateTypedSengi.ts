@@ -375,15 +375,15 @@ function appendClass(
     typedSengiClass.functions.push({
       name: `query${capPluralName}`,
       comment: `Query the ${docType.name} records.`,
-      typeParams: ["QueryParams", "QueryResult"],
+      typeParams: ["QueryResult"],
       params: [{
         name: "props",
         typeName:
-          `Omit<QueryDocumentsProps<Query, QueryParams, QueryResult, DocStoreParams>, "docStoreParams"|"docTypeName">`,
+          `Omit<QueryDocumentsProps<Query, QueryResult, DocStoreParams>, "docStoreParams"|"docTypeName">`,
         comment: "The properties required to query a set of records.",
       }],
       lines: `
-        return this.sengi.queryDocuments({
+        return this.sengi.queryDocuments<QueryResult>({
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
