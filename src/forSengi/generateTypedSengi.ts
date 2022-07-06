@@ -238,10 +238,10 @@ function appendClass(
     const capName = capitalizeFirstLetter(docType.name);
     const capPluralName = capitalizeFirstLetter(docType.pluralName);
 
-    let omittedTypeNames = `"docStoreParams"|"docTypeName"`;
+    let omittedPropertyNames = `"docStoreParams"|"docTypeName"`;
 
     if (docType.useSinglePartition) {
-      omittedTypeNames += `|"partition"`;
+      omittedPropertyNames += `|"partition"`;
     }
 
     const partitionAssignment = docType.useSinglePartition
@@ -255,7 +255,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<NewDocumentProps<Db${capName}, DocStoreParams>, ${omittedTypeNames}>`,
+          `Omit<NewDocumentProps<Db${capName}, DocStoreParams>, ${omittedPropertyNames}>`,
         comment: "The properties required to create a new record.",
       }],
       lines: `
@@ -276,7 +276,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<ConstructDocumentProps<Db${capName}, ConstructorParams, DocStoreParams>, ${omittedTypeNames}>`,
+          `Omit<ConstructDocumentProps<Db${capName}, ConstructorParams, DocStoreParams>, ${omittedPropertyNames}>`,
         comment:
           "The properties required to create a new record using a constructor.",
       }],
@@ -297,7 +297,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<DeleteDocumentProps<DocStoreParams>, ${omittedTypeNames}>`,
+          `Omit<DeleteDocumentProps<DocStoreParams>, ${omittedPropertyNames}>`,
         comment: "The properties required to delete a record.",
       }],
       lines: `
@@ -318,7 +318,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<OperateOnDocumentProps<Db${capName}, OperationParams, DocStoreParams>, ${omittedTypeNames}>`,
+          `Omit<OperateOnDocumentProps<Db${capName}, OperationParams, DocStoreParams>, ${omittedPropertyNames}>`,
         comment: "The properties required to operate on a record.",
       }],
       lines: `
@@ -338,7 +338,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<PatchDocumentProps<Db${capName}, DocStoreParams>, ${omittedTypeNames}>`,
+          `Omit<PatchDocumentProps<Db${capName}, DocStoreParams>, ${omittedPropertyNames}>`,
         comment: "The properties required to patch a record.",
       }],
       lines: `
@@ -358,7 +358,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<ReplaceDocumentProps<Db${capName}, DocStoreParams>, ${omittedTypeNames}>`,
+          `Omit<ReplaceDocumentProps<Db${capName}, DocStoreParams>, ${omittedPropertyNames}>`,
         comment: "The properties required to replace an existing record.",
       }],
       lines: `
@@ -398,7 +398,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<SelectDocumentsProps<DocStoreParams>, ${omittedTypeNames}>`,
+          `Omit<SelectDocumentsProps<DocStoreParams>, ${omittedPropertyNames}>`,
         comment: "The properties required to select a set of records.",
       }],
       lines: `
@@ -418,7 +418,7 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<SelectDocumentsByIdsProps<DocStoreParams>, ${omittedTypeNames}>`,
+          `Omit<SelectDocumentsByIdsProps<DocStoreParams>, ${omittedPropertyNames}>`,
         comment:
           "The properties required to select a set of records using an array of ids.",
       }],
@@ -436,16 +436,15 @@ function appendClass(
     typedSengiClass.functions.push({
       name: `select${capPluralName}ByFilter`,
       comment: `Select ${docType.name} records using a filter.`,
-      typeParams: ["FilterParams"],
       params: [{
         name: "props",
         typeName:
-          `Omit<SelectDocumentsByFilterProps<Filter, FilterParams, DocStoreParams>, ${omittedTypeNames}>`,
+          `Omit<SelectDocumentsByFilterProps<Filter, DocStoreParams>, ${omittedPropertyNames}>`,
         comment:
           "The properties required to select a set of records using a filter.",
       }],
       lines: `
-        return this.sengi.selectDocumentsByFilter<Db${capName}, FilterParams>({
+        return this.sengi.selectDocumentsByFilter<Db${capName}>({
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
