@@ -46,7 +46,6 @@ function appendImports(
   const depsImports = [
     "DocStore",
     "Sengi",
-    "ConstructDocumentProps",
     "DeleteDocumentProps",
     "NewDocumentProps",
     "OperateOnDocumentProps",
