@@ -268,28 +268,6 @@ function appendClass(
       `,
     });
 
-    // Create doc
-    typedSengiClass.functions.push({
-      name: `create${capName}`,
-      comment: `Create a new ${docType.name} record using a constructor.`,
-      typeParams: ["ConstructorParams"],
-      params: [{
-        name: "props",
-        typeName:
-          `Omit<ConstructDocumentProps<Db${capName}, ConstructorParams, DocStoreParams>, ${omittedPropertyNames}>`,
-        comment:
-          "The properties required to create a new record using a constructor.",
-      }],
-      lines: `
-        return this.sengi.createDocument({
-          ...props,
-          docTypeName: "${docType.name}",
-          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
-          ${partitionAssignment}
-        })
-      `,
-    });
-
     // Delete doc
     typedSengiClass.functions.push({
       name: `delete${capName}`,
