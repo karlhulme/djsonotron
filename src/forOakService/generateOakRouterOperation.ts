@@ -373,18 +373,32 @@ export function generateOakRouterOperation(
     }
   }
 
+  const propsRequired = urlParamInvocationParameters.length > 0 ||
+    queryParameters.length > 0 ||
+    bodyParameters.length > 0 ||
+    headerParameters.length > 0 ||
+    cookieParameters.length > 0;
+
   const resultRequired = op.responseBodyType ||
     (Array.isArray(op.responseHeaders) && op.responseHeaders.length > 0);
 
-  lines.push(`
-    ${resultRequired ? "const result = " : ""} await props.${op.operationName}({
+  if (resultRequired) {
+    lines.push("const result = ");
+  }
+
+  lines.push(`await props.${op.operationName}(`);
+
+  if (propsRequired) {
+    lines.push(`{
       ${urlParamInvocationParameters.join("\n")}
       ${queryParameters.join("\n")}
       ${bodyParameters.join("\n")}
       ${headerParameters.join("\n")}
       ${cookieParameters.join("\n")}
-    });
-  `);
+    }`);
+  }
+
+  lines.push(");");
 
   if (resultRequired) {
     if (op.responseBodyType) {
