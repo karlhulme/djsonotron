@@ -49,7 +49,6 @@ function appendImports(
     "Sengi",
     "DeleteDocumentProps",
     "NewDocumentProps",
-    "OperateOnDocumentProps",
     "PatchDocumentProps",
     "QueryDocumentsProps",
     "ReplaceDocumentProps",
@@ -286,27 +285,6 @@ function appendClass(
       }],
       lines: `
         return this.sengi.deleteDocument({
-          ...props,
-          docTypeName: "${docType.name}",
-          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
-          ${partitionAssignment}
-        })
-      `,
-    });
-
-    // Operate on doc
-    typedSengiClass.functions.push({
-      name: `operateOn${capName}`,
-      comment: `Operate on a ${docType.name} record.`,
-      typeParams: [],
-      params: [{
-        name: "props",
-        typeName:
-          `Omit<OperateOnDocumentProps<Db${capName}, DocStoreParams>, ${omittedPropertyNames}>`,
-        comment: "The properties required to operate on a record.",
-      }],
-      lines: `
-        return this.sengi.operateOnDocument({
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
