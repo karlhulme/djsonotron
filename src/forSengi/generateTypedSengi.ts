@@ -45,6 +45,7 @@ function appendImports(
 ) {
   const depsImports = [
     "DocStore",
+    "DocTypePolicy",
     "Sengi",
     "DeleteDocumentProps",
     "NewDocumentProps",
@@ -170,6 +171,11 @@ function appendConstructorInterfaces(
       typeName: "(doc: any) => string|void",
       comment: "A Jsonotron validator function for the document type.",
       optional: true,
+    }, {
+      name: "policy",
+      typeName: "DocTypePolicy",
+      comment: "The policy for the document type.",
+      optional: true,
     }],
   });
 }
@@ -190,7 +196,8 @@ function appendClass(
       name: "${docType.name}",
       readOnlyFieldNames: [${readOnlyFieldNames.join(", ")}],
       validateFields: v(validateDb${capName}),
-      validateDoc: props.docTypes.${docType.name}?.validateDoc || (() => {})
+      validateDoc: props.docTypes.${docType.name}?.validateDoc || (() => {}),
+      policy: props.docTypes.${docType.name}?.policy,
     }`);
   }
 
