@@ -48,10 +48,12 @@ function appendImports(
     "DocTypePolicy",
     "Sengi",
     "DeleteDocumentProps",
+    "GetDocumentByIdProps",
     "NewDocumentProps",
     "PatchDocumentProps",
     "QueryDocumentsProps",
     "ReplaceDocumentProps",
+    "SelectDocumentByIdProps",
     "SelectDocumentsByFilterProps",
     "SelectDocumentsByIdsProps",
     "SelectDocumentsProps",
@@ -407,6 +409,46 @@ function appendClass(
       }],
       lines: `
         return this.sengi.selectDocumentsByFilter<Db${capName}>({
+          ...props,
+          docTypeName: "${docType.name}",
+          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+          ${partitionAssignment}
+        })
+      `,
+    });
+
+    // Select by id
+    typedSengiClass.functions.push({
+      name: `select${capName}`,
+      comment: `Select ${docType.name} record.`,
+      params: [{
+        name: "props",
+        typeName:
+          `Omit<SelectDocumentByIdProps<DocStoreParams>, ${omittedPropertyNames}>`,
+        comment: "The properties required to select a record.",
+      }],
+      lines: `
+        return this.sengi.selectDocumentById<Db${capName}>({
+          ...props,
+          docTypeName: "${docType.name}",
+          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+          ${partitionAssignment}
+        })
+      `,
+    });
+
+    // Get by id
+    typedSengiClass.functions.push({
+      name: `get${capName}`,
+      comment: `Retrieve a ${docType.name} record.`,
+      params: [{
+        name: "props",
+        typeName:
+          `Omit<GetDocumentByIdProps<DocStoreParams>, ${omittedPropertyNames}>`,
+        comment: "The properties required to retrieve a record.",
+      }],
+      lines: `
+        return this.sengi.getDocumentById<Db${capName}>({
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
