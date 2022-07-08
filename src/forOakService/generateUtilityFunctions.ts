@@ -40,7 +40,6 @@ export class ServiceAuthorisationHeaderError extends Error {
     super(message);
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = this.constructor.name;
-    this.data = data
   }
 }
 
@@ -52,7 +51,6 @@ export class ServiceInputValidationError extends Error {
     super(message);
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = this.constructor.name;
-    this.data = data
   }
 }
 
@@ -64,7 +62,18 @@ export class ServiceOutputValidationError extends Error {
     super(message);
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = this.constructor.name;
-    this.data = data
+  }
+}
+
+/**
+ * Raised by a service when an HTTP error code in the 400-499
+ * range should be returned to the client.
+ */
+export class ServiceRequestError extends Error {
+  constructor(readonly httpCode: number, readonly message: string) {
+    super(number.toString() + ": " + message);
+    Object.setPrototypeOf(this, new.target.prototype);
+    this.name = this.constructor.name;
   }
 }
   `;
