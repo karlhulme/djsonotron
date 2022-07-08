@@ -5,7 +5,7 @@ import { createSengiStandardProperties } from "./createSengiStandardProperties.t
  * Converts the given sengi doc type to a record type definition.
  * @param docType A sengi document type.
  */
-export function sengiDocTypetoRecordTypeDef(
+export function sengiDocTypeToRecordTypeDef(
   docType: SengiDocType,
 ): RecordTypeDef {
   return {
