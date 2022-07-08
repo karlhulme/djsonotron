@@ -70,8 +70,8 @@ export class ServiceOutputValidationError extends Error {
  * range should be returned to the client.
  */
 export class ServiceRequestError extends Error {
-  constructor(readonly httpCode: number, readonly message: string) {
-    super(number.toString() + ": " + message);
+  constructor(readonly status: number, readonly message: string) {
+    super(status.toString() + ": " + message);
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = this.constructor.name;
   }
