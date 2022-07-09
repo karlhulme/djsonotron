@@ -9,6 +9,7 @@ export function createSengiStandardProperties(docTypeName: string) {
   return [
     generateDocIdProperty(),
     generateDocTypeProperty(docTypeName),
+    generateDocStatusProperty(),
     generateDocOpIdsProperty(),
     generateDocVersionProperty(),
     generateDocCreatedByUserId(),
@@ -44,6 +45,21 @@ export function generateDocTypeProperty(
     summary: "The name of the document type.",
     propertyType: "std/mediumString",
     constant: docTypeName,
+    isRequired: true,
+  };
+}
+
+/**
+ * Returns a Sengi docType property definition.
+ * @param docTypeName The name of the docType to which this property
+ * will be applied.  It is used as the only accepted constant value
+ * of this property.
+ */
+export function generateDocStatusProperty(): RecordTypeDefProperty {
+  return {
+    name: "docStatus",
+    summary: "The status of the document, either active or archived.",
+    propertyType: "std/shortString",
     isRequired: true,
   };
 }

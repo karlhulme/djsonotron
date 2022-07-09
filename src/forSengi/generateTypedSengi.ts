@@ -47,6 +47,7 @@ function appendImports(
     "DocStore",
     "DocTypePolicy",
     "Sengi",
+    "ArchiveDocumentProps",
     "DeleteDocumentProps",
     "GetDocumentByIdProps",
     "NewDocumentProps",
@@ -255,7 +256,27 @@ function appendClass(
       ? `partition: this.centralPartition || "_central",`
       : "";
 
-    // New doc
+    // Archive doc
+    typedSengiClass.functions.push({
+      name: `archive${capName}`,
+      comment: `Archive a ${docType.name} record.`,
+      params: [{
+        name: "props",
+        typeName:
+          `Omit<ArchiveDocumentProps<Db${capName}, DocStoreParams>, ${omittedPropertyNames}>`,
+        comment: "The properties required to archive a record.",
+      }],
+      lines: `
+        return this.sengi.archiveDocument({
+          ...props,
+          docTypeName: "${docType.name}",
+          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+          ${partitionAssignment}
+        })
+      `,
+    });
+
+    // Create doc
     typedSengiClass.functions.push({
       name: `new${capName}`,
       comment: `Create a new ${docType.name} record.`,
