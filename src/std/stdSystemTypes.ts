@@ -37,6 +37,8 @@ import {
   shortString,
   shortStringDisplayable,
   time,
+  userClaim,
+  userClaimsString,
   uuid,
   webAddress,
 } from "./stringTypes/index.ts";
@@ -76,6 +78,8 @@ export const stdSystemTypes: JsonotronTypeDef[] = [
   shortStringDisplayable,
   time,
   timestamp,
+  userClaim,
+  userClaimsString,
   uuid,
   webAddress,
   yesNo,

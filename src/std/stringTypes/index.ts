@@ -14,5 +14,7 @@ export * from "./mediumStringDisplayable.ts";
 export * from "./shortString.ts";
 export * from "./shortStringDisplayable.ts";
 export * from "./time.ts";
+export * from "./userClaim.ts";
+export * from "./userClaimsString.ts";
 export * from "./uuid.ts";
 export * from "./webAddress.ts";
