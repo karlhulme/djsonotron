@@ -263,11 +263,11 @@ function appendClass(
       params: [{
         name: "props",
         typeName:
-          `Omit<ArchiveDocumentProps<Db${capName}, DocStoreParams>, ${omittedPropertyNames}>`,
+          `Omit<ArchiveDocumentProps<DocStoreParams>, ${omittedPropertyNames}>`,
         comment: "The properties required to archive a record.",
       }],
       lines: `
-        return this.sengi.archiveDocument({
+        return this.sengi.archiveDocument<Db${capName}>({
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
@@ -347,7 +347,7 @@ function appendClass(
         comment: "The properties required to replace an existing record.",
       }],
       lines: `
-        return this.sengi.replaceDocument({
+        return this.sengi.replaceDocument<Db${capName}>({
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),

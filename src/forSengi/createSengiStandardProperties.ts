@@ -13,9 +13,11 @@ export function createSengiStandardProperties(docTypeName: string) {
     generateDocOpIdsProperty(),
     generateDocVersionProperty(),
     generateDocCreatedByUserId(),
-    generateDocCreatedByMillisecondsSinceEpoch(),
+    generateDocCreatedMillisecondsSinceEpoch(),
     generateDocLastUpdatedByUserId(),
-    generateDocLastUpdatedByMillisecondsSinceEpoch(),
+    generateDocLastUpdatedMillisecondsSinceEpoch(),
+    generateDocArchivedByUserId(),
+    generateDocArchivedMillisecondsSinceEpoch(),
   ];
 }
 
@@ -50,10 +52,7 @@ export function generateDocTypeProperty(
 }
 
 /**
- * Returns a Sengi docType property definition.
- * @param docTypeName The name of the docType to which this property
- * will be applied.  It is used as the only accepted constant value
- * of this property.
+ * Returns a Sengi docStatus property definition.
  */
 export function generateDocStatusProperty(): RecordTypeDefProperty {
   return {
@@ -104,7 +103,7 @@ export function generateDocCreatedByUserId(): RecordTypeDefProperty {
 /**
  * Returns a Sengi createdByMillisecondsSinceEpoch property definition.
  */
-export function generateDocCreatedByMillisecondsSinceEpoch(): RecordTypeDefProperty {
+export function generateDocCreatedMillisecondsSinceEpoch(): RecordTypeDefProperty {
   return {
     name: "docCreatedMillisecondsSinceEpoch",
     summary:
@@ -129,12 +128,35 @@ export function generateDocLastUpdatedByUserId(): RecordTypeDefProperty {
 /**
  * Returns a Sengi lastUpdatedByMillisecondsSinceEpoch property definition.
  */
-export function generateDocLastUpdatedByMillisecondsSinceEpoch(): RecordTypeDefProperty {
+export function generateDocLastUpdatedMillisecondsSinceEpoch(): RecordTypeDefProperty {
   return {
     name: "docLastUpdatedMillisecondsSinceEpoch",
     summary:
       "The number of milliseconds since the epoch when the document was last updated.",
     propertyType: "std/timestamp",
     isRequired: true,
+  };
+}
+
+/**
+ * Returns a Sengi archivedByUserId property definition.
+ */
+export function generateDocArchivedByUserId(): RecordTypeDefProperty {
+  return {
+    name: "docArchivedByUserId",
+    summary: "The id of the user that archived the document.",
+    propertyType: "std/mediumString",
+  };
+}
+
+/**
+ * Returns a Sengi archivedMillisecondsSinceEpoch property definition.
+ */
+export function generateDocArchivedMillisecondsSinceEpoch(): RecordTypeDefProperty {
+  return {
+    name: "docArchivedMillisecondsSinceEpoch",
+    summary:
+      "The number of milliseconds since the epoch when the document was archived.",
+    propertyType: "std/timestamp",
   };
 }
