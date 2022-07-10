@@ -6,7 +6,7 @@ export const userClaim: StringTypeDef = {
   system: stdSystemName,
   name: "userClaim",
   maximumLength: 80,
-  summary: `A user claim in the form resourceType:resourceId:role.`,
+  summary: `A user claim in the form resourceType:resourceId:role1,role2.`,
   regex:
     "^[a-zA-Z]+:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}:[a-zA-Z]+(,[a-zA-Z]+)*$",
   validTestCases: [{
