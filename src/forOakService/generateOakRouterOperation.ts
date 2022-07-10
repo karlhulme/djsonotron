@@ -253,8 +253,10 @@ export function generateOakRouterOperation(
         }
       `);
 
+      const arrayness = bodyParam.isArray ? "[]" : ""
+
       bodyParameters.push(
-        `${bodyParam.name}: ${bodyParamVar} as ${bodyParamUnderlyingType},`,
+        `${bodyParam.name}: ${bodyParamVar} as ${bodyParamUnderlyingType}${arrayness},`,
       );
     }
   }
