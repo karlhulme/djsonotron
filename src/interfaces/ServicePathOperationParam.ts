@@ -24,6 +24,11 @@ export interface ServicePathOperationParam {
   isRequired?: boolean;
 
   /**
+   * A value that indicates if this parameter is an array.
+   */
+  isArray?: boolean;
+
+  /**
    * If populated, this field indicates that the parameter has been
    * deprecated and the value will describe what to do instead.
    */

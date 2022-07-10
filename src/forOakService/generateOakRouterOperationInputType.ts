@@ -86,12 +86,13 @@ export function generateOakRouterOperationInputType(
       }
 
       const req = param.isRequired ? "" : "?";
+      const arr = param.isArray ? "[]" : "";
       const orNull = param.isNullable ? "|null" : "";
 
       bodyDeclarations.push(
         `${param.name}${req}: ${
           getJsonotronTypeUnderlyingTypescriptType(paramType)
-        }${orNull}`,
+        }${arr}${orNull}`,
       );
     }
   }

@@ -239,7 +239,10 @@ export function generateOakRouterOperation(
       lines.push(`
         if (${bodyParamVar} !== undefined && ${bodyParamVar} !== null) {
           const bodyParamValidationErrors = ${
-        getJsonotronTypeValidationFuncName(bodyParamType, false)
+        getJsonotronTypeValidationFuncName(
+          bodyParamType,
+          Boolean(bodyParam.isArray),
+        )
       }(${bodyParamVar}, "body.${bodyParam.name}");
       
           if (bodyParamValidationErrors.length > 0) {
