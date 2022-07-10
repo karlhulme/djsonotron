@@ -11,6 +11,7 @@ import { capitalizeFirstLetter, resolveJsonotronType } from "../utils/index.ts";
 import {
   generateServicePathJsonSchemaForJsonotronTypeDef,
 } from "./generateServicePathJsonSchemaForJsonotronTypeDef.ts";
+import { generateDescriptionText } from "./generateDescriptionText.ts";
 
 export function generateJsonSchemasForRequestBodyParams(
   service: Service,
@@ -40,13 +41,31 @@ export function generateJsonSchemasForRequestBodyParams(
           properties: op.requestParams.reduce((agg, cur) => {
             const paramType = resolveJsonotronType(cur.paramType, types);
 
-            agg[cur.name] = generateServicePathJsonSchemaForJsonotronTypeDef(
-              cur.summary,
-              cur.deprecation,
-              paramType,
-              Boolean(cur.isNullable),
-              true,
-            );
+            if (cur.isArray) {
+              agg[cur.name] = {
+                type: "array",
+                description: generateDescriptionText(
+                  cur.summary,
+                  cur.deprecation,
+                ),
+                deprecated: cur.deprecation ? true : undefined,
+                items: generateServicePathJsonSchemaForJsonotronTypeDef(
+                  cur.summary,
+                  cur.deprecation,
+                  paramType,
+                  Boolean(cur.isNullable),
+                  false,
+                ),
+              };
+            } else {
+              agg[cur.name] = generateServicePathJsonSchemaForJsonotronTypeDef(
+                cur.summary,
+                cur.deprecation,
+                paramType,
+                Boolean(cur.isNullable),
+                true,
+              );
+            }
 
             return agg;
           }, {} as Record<string, OpenApiSpecComponentSchemaProperty>),
