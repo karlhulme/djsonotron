@@ -85,10 +85,13 @@ export function generateOakRouterOperationInputType(
         );
       }
 
+      const req = param.isRequired ? "" : "?";
+      const orNull = param.isNullable ? "|null" : "";
+
       bodyDeclarations.push(
-        `${param.name}${param.isRequired ? "" : "?"}: ${
+        `${param.name}${req}: ${
           getJsonotronTypeUnderlyingTypescriptType(paramType)
-        }`,
+        }${orNull}`,
       );
     }
   }
