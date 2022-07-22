@@ -73,8 +73,8 @@ export function generateServicePathJsonSchemaForJsonotronTypeDef(
     return {
       type: "object",
       ...nullableProps,
-      ...documentationProps
-    }
+      ...documentationProps,
+    };
   } else {
     return {};
   }
