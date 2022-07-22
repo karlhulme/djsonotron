@@ -69,6 +69,12 @@ export function generateServicePathJsonSchemaForJsonotronTypeDef(
       ...nullableProps,
       ...documentationProps,
     };
+  } else if (jsonotronTypeDef.kind === "object") {
+    return {
+      type: "object",
+      ...nullableProps,
+      ...documentationProps
+    }
   } else {
     return {};
   }
