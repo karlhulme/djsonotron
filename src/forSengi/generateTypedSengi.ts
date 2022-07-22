@@ -232,6 +232,7 @@ function appendClass(
           getMillisecondsSinceEpoch: props.getMillisecondsSinceEpoch,
           getNewDocVersion: props.getNewDocVersion,
           validateUserId: v(props.validateUserId),
+          patchDocStoreParams: props.createDocStoreParams("patch", "patches"),
         });
     
         this.createDocStoreParams = props.createDocStoreParams;
