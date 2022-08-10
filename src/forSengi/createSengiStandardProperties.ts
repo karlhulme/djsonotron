@@ -18,6 +18,7 @@ export function createSengiStandardProperties(docTypeName: string) {
     generateDocLastUpdatedMillisecondsSinceEpoch(),
     generateDocArchivedByUserId(),
     generateDocArchivedMillisecondsSinceEpoch(),
+    generateDocLastSyncedMillisecondsSinceEpoch(),
   ];
 }
 
