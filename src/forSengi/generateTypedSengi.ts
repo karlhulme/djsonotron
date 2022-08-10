@@ -50,6 +50,7 @@ function appendImports(
     "ArchiveDocumentProps",
     "DeleteDocumentProps",
     "GetDocumentByIdProps",
+    "MarkDocumentSyncedProps",
     "NewDocumentProps",
     "PatchDocumentProps",
     "QueryDocumentsProps",
@@ -57,6 +58,7 @@ function appendImports(
     "SelectDocumentByIdProps",
     "SelectDocumentsByFilterProps",
     "SelectDocumentsByIdsProps",
+    "SelectDocumentsPendingSyncProps",
     "SelectDocumentsProps",
   ];
 
@@ -373,6 +375,46 @@ function appendClass(
           ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+        })
+      `,
+    });
+
+    // Select docs pending synchronisation
+    typedSengiClass.functions.push({
+      name: `select${capPluralName}PendingSync`,
+      comment:
+        `Select ${docType.name} records that are pending synchronisation.`,
+      params: [{
+        name: "props",
+        typeName: "SelectDocumentsPendingSyncProps<DocStoreParams>",
+        comment:
+          "The properties required to select a set of records that are pending synchronisation.",
+      }],
+      lines: `
+        return this.sengi.selectDocumentsPendingSync({
+          ...props,
+          docTypeName: "${docType.name}",
+          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+        });
+      `,
+    });
+
+    // Mark document as synchronised
+    typedSengiClass.functions.push({
+      name: `mark${capName}Synced`,
+      comment: `Mark a ${docType.name} record as synchronised.`,
+      params: [{
+        name: "props",
+        typeName:
+          `Omit<MarkDocumentSyncedProps<DocStoreParams>, ${omittedPropertyNames}>`,
+        comment: "The properties required to mark a record as synchronised.",
+      }],
+      lines: `
+        return this.sengi.markDocumentSynced({
+          ...props,
+          docTypeName: "${docType.name}",
+          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+          ${partitionAssignment}
         })
       `,
     });

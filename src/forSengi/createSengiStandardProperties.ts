@@ -160,3 +160,15 @@ export function generateDocArchivedMillisecondsSinceEpoch(): RecordTypeDefProper
     propertyType: "std/timestamp",
   };
 }
+
+/**
+ * Returns a Sengi lastSyncedMillisecondsSinceEpoch property definition.
+ */
+export function generateDocLastSyncedMillisecondsSinceEpoch(): RecordTypeDefProperty {
+  return {
+    name: "docLastSyncedMillisecondsSinceEpoch",
+    summary:
+      "The number of milliseconds since the epoch when the document was last synchronised.",
+    propertyType: "std/timestamp",
+  };
+}
