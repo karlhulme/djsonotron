@@ -58,7 +58,6 @@ function appendImports(
     "SelectDocumentByIdProps",
     "SelectDocumentsByFilterProps",
     "SelectDocumentsByIdsProps",
-    "SelectDocumentsPendingSyncProps",
     "SelectDocumentsProps",
   ];
 
