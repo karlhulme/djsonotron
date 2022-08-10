@@ -384,16 +384,9 @@ function appendClass(
       name: `select${capPluralName}PendingSync`,
       comment:
         `Select ${docType.name} records that are pending synchronisation.`,
-      params: [{
-        name: "props",
-        typeName:
-          `Omit<SelectDocumentsPendingSyncProps<DocStoreParams>, "docStoreParams"|"docTypeName">`,
-        comment:
-          "The properties required to select a set of records that are pending synchronisation.",
-      }],
+      params: [],
       lines: `
         return this.sengi.selectDocumentsPendingSync({
-          ...props,
           docTypeName: "${docType.name}",
           docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
         });
