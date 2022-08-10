@@ -386,7 +386,8 @@ function appendClass(
         `Select ${docType.name} records that are pending synchronisation.`,
       params: [{
         name: "props",
-        typeName: "SelectDocumentsPendingSyncProps<DocStoreParams>",
+        typeName:
+          `Omit<SelectDocumentsPendingSyncProps<DocStoreParams>, "docStoreParams"|"docTypeName">`,
         comment:
           "The properties required to select a set of records that are pending synchronisation.",
       }],
