@@ -379,18 +379,18 @@ function appendClass(
     });
 
     // Select docs pending synchronisation
-    typedSengiClass.functions.push({
-      name: `select${capPluralName}PendingSync`,
-      comment:
-        `Select ${docType.name} records that are pending synchronisation.`,
-      params: [],
-      lines: `
-        return this.sengi.selectDocumentsPendingSync({
-          docTypeName: "${docType.name}",
-          docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
-        });
-      `,
-    });
+    // typedSengiClass.functions.push({
+    //   name: `select${capPluralName}PendingSync`,
+    //   comment:
+    //     `Select ${docType.name} records that are pending synchronisation.`,
+    //   params: [],
+    //   lines: `
+    //     return this.sengi.selectDocumentsPendingSync({
+    //       docTypeName: "${docType.name}",
+    //       docStoreParams: this.createDocStoreParams("${docType.name}", "${docType.pluralName}"),
+    //     });
+    //   `,
+    // });
 
     // Mark document as synchronised
     typedSengiClass.functions.push({
