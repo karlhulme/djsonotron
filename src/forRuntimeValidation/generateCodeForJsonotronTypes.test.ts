@@ -131,7 +131,6 @@ Deno.test("Generate typescript for a set of types.", () => {
   ];
 
   const output = generateCodeForJsonotronTypes(types);
-  // console.log(output)
   assertStringIncludes(output, "export interface ValidationError");
   assertStringIncludes(output, "export const allTestSimpleEnumValues");
   assertStringIncludes(output, "export interface TestFullRecord");
@@ -144,6 +143,7 @@ Deno.test("Generate typescript for a set of types.", () => {
   assertStringIncludes(output, "stringProp?: string[]");
   assertStringIncludes(output, "export function validateTestFullRecord");
   assertStringIncludes(output, "export function validateTestFullRecordArray");
+  assertStringIncludes(output, "export const allTestValues");
 });
 
 Deno.test("Generate typescript where a referenced type is missing.", () => {

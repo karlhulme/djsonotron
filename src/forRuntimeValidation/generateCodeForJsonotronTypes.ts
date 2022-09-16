@@ -1,4 +1,5 @@
 import { generateTypescript, newTypescriptTree } from "../../deps.ts";
+import { capitalizeFirstLetter } from "../index.ts";
 import {
   EnumTypeDef,
   FloatTypeDef,
@@ -66,6 +67,20 @@ export function generateCodeForJsonotronTypes<TypeNames extends string>(
     }
 
     tree.functions.push(generateValidateArrayTypeFunc(type));
+  }
+
+  const systemNames = types.map((t) => t.system);
+  const uniqueSystemNames = [...new Set(systemNames)];
+
+  for (const uniqueSystemName of uniqueSystemNames) {
+    tree.enumConstArrays.push({
+      name: capitalizeFirstLetter(uniqueSystemName),
+      comment: `All the types defined in the ${uniqueSystemName} system.`,
+      exported: true,
+      values: types
+        .filter((t) => t.system === uniqueSystemName)
+        .map((t) => t.name),
+    });
   }
 
   return generateTypescript(tree);
