@@ -1,5 +1,11 @@
 import { RecordTypeDefProperty } from "../interfaces/index.ts";
 
+/*
+ * We use very common types for document ids and user ids because
+ * we don't know if uuids will be used or something sequential
+ * in the form "type_datebit_random" or something else entirely.
+ */
+
 /**
  * Returns an array of record type def properties that need to be
  * defined for any record that is used to define a Sengi document.
@@ -25,11 +31,13 @@ export function createSengiStandardProperties(docTypeName: string) {
 /**
  * Returns a Sengi id property definition.
  */
-export function generateDocIdProperty(): RecordTypeDefProperty<"std/uuid"> {
+export function generateDocIdProperty(): RecordTypeDefProperty<
+  "std/mediumString"
+> {
   return {
     name: "id",
     summary: "The globally unique id for the document.",
-    propertyType: "std/uuid",
+    propertyType: "std/mediumString",
     isRequired: true,
   };
 }
@@ -69,11 +77,13 @@ export function generateDocStatusProperty(): RecordTypeDefProperty<
 /**
  * Returns a Sengi docOpIds property definition.
  */
-export function generateDocOpIdsProperty(): RecordTypeDefProperty<"std/uuid"> {
+export function generateDocOpIdsProperty(): RecordTypeDefProperty<
+  "std/mediumString"
+> {
   return {
     name: "docOpIds",
     summary: "The ids of the recently completed operations.",
-    propertyType: "std/uuid",
+    propertyType: "std/mediumString",
     isArray: true,
     isRequired: true,
   };
