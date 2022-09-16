@@ -3,6 +3,7 @@ export * from "./dateTimeTz.ts";
 export * from "./dateTimeUtc.ts";
 export * from "./emailAddress.ts";
 export * from "./hugeString.ts";
+export * from "./idWithPrefix.ts";
 export * from "./ipv4.ts";
 export * from "./ipv6.ts";
 export * from "./longString.ts";

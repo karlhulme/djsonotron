@@ -7,6 +7,7 @@ export type StdTypeNames =
   | "std/emailAddress"
   | "std/float"
   | "std/hugeString"
+  | "std/idWithPrefix"
   | "std/ipv4"
   | "std/ipv6"
   | "std/longString"
