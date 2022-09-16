@@ -9,7 +9,7 @@ import { StringTypeDef } from "./StringTypeDef.ts";
  * The result of parsing a set of resources.
  * A type library may contain type definitions from multiple type systems.
  */
-export interface TypeLibraryDef {
+export interface TypeLibraryDef<TypeNames extends string> {
   /**
    * An array of verified bool type definitions.
    */
@@ -38,7 +38,7 @@ export interface TypeLibraryDef {
   /**
    * An array of verified record type definitions.
    */
-  recordTypeDefs: RecordTypeDef[];
+  recordTypeDefs: RecordTypeDef<TypeNames>[];
 
   /**
    * An array of verified string type definitions.

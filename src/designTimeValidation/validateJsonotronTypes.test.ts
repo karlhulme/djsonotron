@@ -25,7 +25,7 @@ const simpleInt: IntTypeDef = {
   maximum: 8,
 };
 
-const simpleRecord: RecordTypeDef = {
+const simpleRecord: RecordTypeDef<"test/simpleInt"> = {
   kind: "record",
   system: "test",
   name: "simpleRecord",

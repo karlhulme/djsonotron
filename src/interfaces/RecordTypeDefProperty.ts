@@ -1,7 +1,7 @@
 /**
  * Describes a property of a record type definition
  */
-export interface RecordTypeDefProperty {
+export interface RecordTypeDefProperty<JsonotronTypeNames extends string> {
   /**
    * The name of the property.
    */
@@ -15,7 +15,7 @@ export interface RecordTypeDefProperty {
   /**
    * The type of the property.
    */
-  propertyType: string;
+  propertyType: JsonotronTypeNames;
 
   /**
    * The only acceptable value of the property.

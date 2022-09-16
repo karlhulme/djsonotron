@@ -54,7 +54,7 @@ const simpleObject: JsonotronTypeDef = {
   summary: "A type used for testing.",
 };
 
-const simpleRecord: RecordTypeDef = {
+const simpleRecord: RecordTypeDef<"test/simpleBool"> = {
   system: "test",
   name: "simpleRecord",
   kind: "record",

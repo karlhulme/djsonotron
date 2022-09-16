@@ -1,7 +1,9 @@
 import { RecordTypeDef } from "../../interfaces/index.ts";
 import { stdSystemName } from "../stdSystemName.ts";
 
-export const longLat: RecordTypeDef = {
+export const longLat: RecordTypeDef<
+  "std/longitudeFloat" | "std/latitudeFloat"
+> = {
   kind: "record",
   system: stdSystemName,
   name: "longLat",
@@ -10,12 +12,12 @@ export const longLat: RecordTypeDef = {
   properties: [{
     name: "longitude",
     summary: "The longitudinal position.",
-    propertyType: "longitudeFloat",
+    propertyType: "std/longitudeFloat",
     isRequired: true,
   }, {
     name: "latitude",
     summary: "The latitudinal position.",
-    propertyType: "latitudeFloat",
+    propertyType: "std/latitudeFloat",
     isRequired: true,
   }],
   validTestCases: [{

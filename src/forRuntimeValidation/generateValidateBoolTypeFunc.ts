@@ -1,26 +1,27 @@
+import { TypescriptTreeFunction } from "../../deps.ts";
 import { JsonotronTypeDef } from "../interfaces/index.ts";
-import { capitalizeFirstLetter } from "../utils/index.ts";
 import { generateBoolTypeValidation } from "../validationClauses/index.ts";
+import { generateValidateFunctionShell } from "./generateValidateFunctionShell.ts";
 
+/**
+ * Returns a typescript function definition for a bool type.
+ * @param def A boolean type definition.
+ */
 export function generateValidateBoolTypeFunc(
   def: JsonotronTypeDef,
-) {
-  return `
-/**
- * Validate the given value to ensure it is a valid ${def.system}/${def.name} bool.
- */
-export function validate${capitalizeFirstLetter(def.system)}${
-    capitalizeFirstLetter(def.name)
-  } (value: any, valueDisplayPath: string): ValidationError[] {
-const errors: ValidationError[] = [];
-${
-    generateBoolTypeValidation({
-      def,
-      valueDisplayPath: "${valueDisplayPath}",
-      valuePath: "value",
-    })
-  }
-return errors;
-}
-`;
+): TypescriptTreeFunction {
+  return {
+    ...generateValidateFunctionShell(def),
+    lines: `
+      const errors: ValidationError[] = [];
+      ${
+      generateBoolTypeValidation({
+        def,
+        valueDisplayPath: "${valueDisplayPath}",
+        valuePath: "value",
+      })
+    }
+      return errors;
+    `,
+  };
 }

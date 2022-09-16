@@ -1,3 +1,4 @@
+import { generateTypescript, newTypescriptTree } from "../../deps.ts";
 import {
   EnumTypeDef,
   FloatTypeDef,
@@ -9,43 +10,63 @@ import {
 import { generateValidateArrayFunc } from "./generateValidateArrayFunc.ts";
 import { generateValidateArrayTypeFunc } from "./generateValidateArrayTypeFunc.ts";
 import { generateValidateBoolTypeFunc } from "./generateValidateBoolTypeFunc.ts";
-import { generateValidateEnumTypeFunc } from "./generateValidateEnumTypeFunc.ts";
+import {
+  generateEnumTypeEnumConstArray,
+  generateValidateEnumTypeFunc,
+} from "./generateValidateEnumTypeFunc.ts";
 import { generateValidateFloatTypeFunc } from "./generateValidateFloatTypeFunc.ts";
 import { generateValidateIntTypeFunc } from "./generateValidateIntTypeFunc.ts";
 import { generateValidateObjectTypeFunc } from "./generateValidateObjectTypeFunc.ts";
-import { generateValidateRecordTypeFunc } from "./generateValidateRecordTypeFunc.ts";
+import {
+  generateRecordTypeInterface,
+  generateValidateRecordTypeFunc,
+} from "./generateValidateRecordTypeFunc.ts";
 import { generateValidateStringTypeFunc } from "./generateValidateStringTypeFunc.ts";
 import { generateValidationErrorInterface } from "./generateValidationErrorInterface.ts";
 
-export function generateCodeForJsonotronTypes(types: JsonotronTypeDef[]) {
-  const declarations = [];
-
-  declarations.push("// deno-lint-ignore-file no-explicit-any");
-  declarations.push("// This file was automatically generated.");
-  declarations.push(generateValidationErrorInterface());
-  declarations.push(generateValidateArrayFunc());
+/**
+ * Returns a typescript tree.
+ * @param types An array of Jsonotron type definitions.
+ */
+export function generateCodeForJsonotronTypes<TypeNames extends string>(
+  types: JsonotronTypeDef[],
+) {
+  const tree = newTypescriptTree();
+  tree.lintDirectives.ignoreNoExplicitAny = true;
+  tree.interfaces.push(generateValidationErrorInterface());
+  tree.functions.push(generateValidateArrayFunc());
 
   for (const type of types) {
     if (type.kind === "bool") {
-      declarations.push(generateValidateBoolTypeFunc(type));
+      tree.functions.push(generateValidateBoolTypeFunc(type));
     } else if (type.kind === "enum") {
-      declarations.push(generateValidateEnumTypeFunc(type as EnumTypeDef));
+      tree.enumConstArrays.push(
+        generateEnumTypeEnumConstArray(type as EnumTypeDef),
+      );
+      tree.functions.push(generateValidateEnumTypeFunc(type as EnumTypeDef));
     } else if (type.kind === "float") {
-      declarations.push(generateValidateFloatTypeFunc(type as FloatTypeDef));
+      tree.functions.push(generateValidateFloatTypeFunc(type as FloatTypeDef));
     } else if (type.kind === "int") {
-      declarations.push(generateValidateIntTypeFunc(type as IntTypeDef));
+      tree.functions.push(generateValidateIntTypeFunc(type as IntTypeDef));
     } else if (type.kind === "object") {
-      declarations.push(generateValidateObjectTypeFunc(type));
+      tree.functions.push(
+        generateValidateObjectTypeFunc(type as JsonotronTypeDef),
+      );
     } else if (type.kind === "record") {
-      declarations.push(
-        generateValidateRecordTypeFunc(type as RecordTypeDef, types),
+      tree.interfaces.push(
+        generateRecordTypeInterface(type as RecordTypeDef<TypeNames>, types),
+      );
+      tree.functions.push(
+        generateValidateRecordTypeFunc(type as RecordTypeDef<TypeNames>, types),
       );
     } else if (type.kind === "string") {
-      declarations.push(generateValidateStringTypeFunc(type as StringTypeDef));
+      tree.functions.push(
+        generateValidateStringTypeFunc(type as StringTypeDef),
+      );
     }
 
-    declarations.push(generateValidateArrayTypeFunc(type));
+    tree.functions.push(generateValidateArrayTypeFunc(type));
   }
 
-  return declarations.join("\n\n");
+  return generateTypescript(tree);
 }

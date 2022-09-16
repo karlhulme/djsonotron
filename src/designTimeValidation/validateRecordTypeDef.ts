@@ -12,8 +12,8 @@ import {
   generateRecordTypeValidation,
 } from "../validationClauses/index.ts";
 
-export function validateRecordTypeDef(
-  def: RecordTypeDef,
+export function validateRecordTypeDef<TypeNames extends string>(
+  def: RecordTypeDef<TypeNames>,
   types: JsonotronTypeDef[],
   errors: TypeDefValidationError[],
 ) {

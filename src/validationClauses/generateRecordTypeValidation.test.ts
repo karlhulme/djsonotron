@@ -11,6 +11,8 @@ import { generateRecordTypeValidation } from "./generateRecordTypeValidation.ts"
 import { createValidationFunction } from "./createValidationFunction.ts";
 import { assertValidationErrorFirstMessage } from "./shared.test.ts";
 
+type TestTypeNames = "test/simpleInt" | "test/simpleString" | "test/unknown";
+
 const simpleString: StringTypeDef = {
   kind: "string",
   system: "test",
@@ -28,7 +30,7 @@ const simpleInt: IntTypeDef = {
   maximum: 100,
 };
 
-const simpleRecord: RecordTypeDef = {
+const simpleRecord: RecordTypeDef<TestTypeNames> = {
   kind: "record",
   system: "test",
   name: "simpleRecord",
@@ -69,10 +71,10 @@ const simpleRecord: RecordTypeDef = {
 const allTypes = [simpleInt, simpleRecord, simpleString];
 
 function generateRecordValidationFunction(
-  def: RecordTypeDef,
+  def: RecordTypeDef<TestTypeNames>,
   types: JsonotronTypeDef[],
 ) {
-  const fnBody = generateRecordTypeValidation({
+  const fnBody = generateRecordTypeValidation<TestTypeNames>({
     def,
     valuePath: "value",
     valueDisplayPath: "value",
@@ -145,10 +147,12 @@ Deno.test("Reject a record with a property of an unknown type.", () => {
 });
 
 Deno.test("Reject a record with am array property of an unknown type.", () => {
-  const testSimpleRecord = structuredClone(simpleRecord) as RecordTypeDef;
+  const testSimpleRecord = structuredClone(simpleRecord) as RecordTypeDef<
+    TestTypeNames
+  >;
   (testSimpleRecord.properties.find((p) =>
     p.name === "reqArrayProp"
-  ) as RecordTypeDefProperty).propertyType = "test/unknown";
+  ) as RecordTypeDefProperty<TestTypeNames>).propertyType = "test/unknown";
   const fn = generateRecordValidationFunction(testSimpleRecord, allTypes);
   const record = generateValidRecord() as any;
   assertValidationErrorFirstMessage(

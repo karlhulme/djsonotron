@@ -6,3 +6,4 @@ export * from "./objectTypes/index.ts";
 export * from "./recordTypes/index.ts";
 export * from "./stdSystemName.ts";
 export * from "./stdSystemTypes.ts";
+export * from "./StdTypeNames.ts";

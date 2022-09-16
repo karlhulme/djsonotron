@@ -2,14 +2,10 @@ import { generateCodeForJsonotronTypes, stdSystemTypes } from "../mod.ts";
 import { assertStringIncludes } from "../deps.ts";
 
 Deno.test("Generate typescript for jsonotron standard types.", () => {
-  const sourecCode = generateCodeForJsonotronTypes(stdSystemTypes);
-  assertStringIncludes(sourecCode, "export interface ValidationError");
-  assertStringIncludes(sourecCode, "export const stdDayOfWeekValues");
-  assertStringIncludes(sourecCode, "export type StdDayOfWeek");
-  assertStringIncludes(sourecCode, "export interface StdLongLat");
-  assertStringIncludes(sourecCode, "export function validateStdLongLat");
-  assertStringIncludes(sourecCode, "export const stdMonthOfYearValues");
-  assertStringIncludes(sourecCode, "export type StdMonthOfYear");
-  assertStringIncludes(sourecCode, "export const stdYesNoValues");
-  assertStringIncludes(sourecCode, "export type StdYesNo");
+  const sourceCode = generateCodeForJsonotronTypes(stdSystemTypes);
+  assertStringIncludes(sourceCode, "export interface ValidationError");
+  assertStringIncludes(sourceCode, "export const allStdDayOfWeekValues");
+  assertStringIncludes(sourceCode, "export type StdDayOfWeek");
+  assertStringIncludes(sourceCode, "export interface StdLongLat");
+  assertStringIncludes(sourceCode, "export function validateStdLongLat");
 });

@@ -1,83 +1,75 @@
-import {
-  JsonotronTypeDef,
-  RecordTypeDef,
-  RecordTypeDefProperty,
-} from "../interfaces/index.ts";
-import { generateRecordTypeValidation } from "../validationClauses/index.ts";
+import { TypescriptTreeFunction, TypescriptTreeInterface } from "../../deps.ts";
 import {
   capitalizeFirstLetter,
-  getSystemFromTypeString,
-  getTypeFromTypeString,
+  getJsonotronTypeFormalName,
+  resolveJsonotronType,
 } from "../utils/index.ts";
+import { JsonotronTypeDef, RecordTypeDef } from "../interfaces/index.ts";
+import { generateRecordTypeValidation } from "../validationClauses/index.ts";
+import { generateValidateFunctionShell } from "./generateValidateFunctionShell.ts";
 
-export function generateValidateRecordTypeFunc(
-  def: RecordTypeDef,
+/**
+ * Returns a typescript record interface for a record type.
+ * @param def A record type definition.
+ * @param types An array of Jsonotron types.
+ */
+export function generateRecordTypeInterface<TypeNames extends string>(
+  def: RecordTypeDef<TypeNames>,
   types: JsonotronTypeDef[],
-) {
-  const propertyStrings: string[] = [];
-
-  for (const property of def.properties) {
-    const propertySystem = getSystemFromTypeString(
-      property.propertyType,
-      def.system,
-    );
-    const propertyTypeName = getTypeFromTypeString(property.propertyType);
-    const propertyValueTypeDef = types.find((t) =>
-      t.system === propertySystem && t.name === propertyTypeName
-    );
-
-    if (propertyValueTypeDef) {
-      propertyStrings.push(
-        `  /**\n   * ${property.summary}\n   * (${propertyValueTypeDef.system}/${propertyValueTypeDef.name})\n   */\n  ${
-          generateRecordPropertyDeclaration(property, propertyValueTypeDef)
-        }`,
+): TypescriptTreeInterface {
+  return {
+    name: getJsonotronTypeFormalName(def),
+    comment: def.summary,
+    exported: true,
+    members: def.properties.map((property) => {
+      const propertyType = resolveJsonotronType(property.propertyType, types);
+      const propertyTsTypeName = getTypescriptTypeForJsonotronTypeDef(
+        propertyType,
       );
+
+      return {
+        name: property.name,
+        optional: !property.isRequired,
+        deprecated: Boolean(property.deprecated),
+        typeName: propertyTsTypeName + (property.isArray ? "[]" : ""),
+        comment: property.summary,
+        nullable: Boolean(property.isNullable),
+      };
+    }),
+  };
+}
+
+/**
+ * Return a typescript function definition for a record type.
+ * @param def A record type definition.
+ * @param types An array of Jsonotron types.
+ */
+export function generateValidateRecordTypeFunc<TypeNames extends string>(
+  def: RecordTypeDef<TypeNames>,
+  types: JsonotronTypeDef[],
+): TypescriptTreeFunction {
+  return {
+    ...generateValidateFunctionShell(def),
+    lines: `
+      const errors: ValidationError[] = [];
+      ${
+      generateRecordTypeValidation({
+        def,
+        valueDisplayPath: "${valueDisplayPath}",
+        valuePath: "value",
+        types,
+      })
     }
-  }
-
-  return `
-/**
- * ${def.summary}
- */
-export interface ${capitalizeFirstLetter(def.system)}${
-    capitalizeFirstLetter(def.name)
-  } {
-${propertyStrings.join("\n\n")}
+      return errors;
+    `,
+  };
 }
 
 /**
- * Validate the given object to ensure it is a valid ${def.system}/${def.name} record.
+ * Returns the equivalent typescript type name for the given type name.
+ * @param def A Jsonotron type.
  */
-export function validate${capitalizeFirstLetter(def.system)}${
-    capitalizeFirstLetter(def.name)
-  } (value: any, valueDisplayPath: string): ValidationError[] {
-  const errors: ValidationError[] = [];
-  ${
-    generateRecordTypeValidation({
-      def,
-      types,
-      valueDisplayPath: "${valueDisplayPath}",
-      valuePath: "value",
-    })
-  }
-  return errors;
-}
-`;
-}
-
-function generateRecordPropertyDeclaration(
-  property: RecordTypeDefProperty,
-  propertyType: JsonotronTypeDef,
-) {
-  const requiredness = property.isRequired ? "" : "?";
-  const arrayness = property.isArray ? "[]" : "";
-  const nullness = property.isNullable ? "|null" : "";
-  const typeName = getTypeForJsonotronTypeDef(propertyType);
-
-  return `${property.name}${requiredness}: ${typeName}${arrayness}${nullness}`;
-}
-
-function getTypeForJsonotronTypeDef(def: JsonotronTypeDef) {
+function getTypescriptTypeForJsonotronTypeDef(def: JsonotronTypeDef) {
   switch (def.kind) {
     case "bool":
       return "boolean";

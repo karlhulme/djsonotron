@@ -14,7 +14,7 @@ const simpleInt: IntTypeDef = {
 
 Deno.test("Validate a valid record type.", () => {
   const errors: TypeDefValidationError[] = [];
-  validateRecordTypeDef(
+  validateRecordTypeDef<"test/simpleInt">(
     {
       kind: "record",
       system: "testSystem",

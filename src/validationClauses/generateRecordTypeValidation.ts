@@ -6,14 +6,16 @@ import {
 import { generateRecordTypePropertyValidation } from "./generateRecordTypePropertyValidation.ts";
 import { getSafeValuePath } from "./getSafeValuePath.ts";
 
-interface RecordTypeValidationProps {
+interface RecordTypeValidationProps<TypeNames extends string> {
   valuePath: string;
   valueDisplayPath: string;
-  def: RecordTypeDef;
+  def: RecordTypeDef<TypeNames>;
   types: JsonotronTypeDef[];
 }
 
-export function generateRecordTypeValidation(props: RecordTypeValidationProps) {
+export function generateRecordTypeValidation<TypeNames extends string>(
+  props: RecordTypeValidationProps<TypeNames>,
+) {
   const typeCheck = `
     if (typeof ${props.valuePath} !== "object" || ${props.valuePath} === null || Array.isArray(${props.valuePath})) {
       errors.push({

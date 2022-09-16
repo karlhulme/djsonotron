@@ -2,16 +2,16 @@ import { TypescriptTreeFunction } from "../../deps.ts";
 import { getJsonotronTypeFormalName, JsonotronTypeDef } from "../index.ts";
 
 /**
- * Returns a typed typescript function definition for an array of Jsonotron types.
- * @param def A jsonotron type definition.
+ * Generates the signature for a validation function.
+ * @param def A Jsonotron type definition.
  */
-export function generateValidateArrayTypeFunc(
+export function generateValidateFunctionShell(
   def: JsonotronTypeDef,
 ): TypescriptTreeFunction {
   return {
-    name: "validate" + getJsonotronTypeFormalName(def) + "Array",
+    name: "validate" + getJsonotronTypeFormalName(def),
     comment:
-      `Validate the given array to ensure it is a valid array of ${def.system}/${def.name} elements.`,
+      `Validate the given value to ensure it is a valid ${def.system}/${def.name}.`,
     params: [{
       name: "value",
       typeName: "any",
@@ -23,8 +23,6 @@ export function generateValidateArrayTypeFunc(
     }],
     returnType: "ValidationError[]",
     exported: true,
-    lines: `return validateArray(value, valueDisplayPath, validate${
-      getJsonotronTypeFormalName(def)
-    }, ${def.system}/${def.name})`,
+    lines: "",
   };
 }

@@ -18,7 +18,5 @@ export function generateBoolTypeValidation(props: BoolTypeValidationProps) {
     }
   `;
 
-  return `
-    ${typeCheck}
-  `;
+  return typeCheck;
 }

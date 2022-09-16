@@ -10,6 +10,15 @@ import {
 } from "../interfaces/index.ts";
 import { generateCodeForJsonotronTypes } from "./generateCodeForJsonotronTypes.ts";
 
+type TypeNames =
+  | "test/simpleBool"
+  | "test/simpleEnum"
+  | "test/simpleFloat"
+  | "test/simpleInt"
+  | "test/simpleObject"
+  | "test/simpleString"
+  | "test/fullRecord";
+
 const simpleBool: JsonotronTypeDef = {
   kind: "bool",
   system: "test",
@@ -64,7 +73,7 @@ const simpleString: StringTypeDef = {
   regex: "^[a-z]+$",
 };
 
-const fullRecord: RecordTypeDef = {
+const fullRecord: RecordTypeDef<TypeNames> = {
   system: "test",
   name: "fullRecord",
   kind: "record",
@@ -117,7 +126,7 @@ Deno.test("Generate typescript for a set of types.", () => {
   const output = generateCodeForJsonotronTypes(types);
   // console.log(output)
   assertStringIncludes(output, "export interface ValidationError");
-  assertStringIncludes(output, "export const testSimpleEnumValues");
+  assertStringIncludes(output, "export const allTestSimpleEnumValues");
   assertStringIncludes(output, "export interface TestFullRecord");
   assertStringIncludes(output, "boolProp: boolean");
   assertStringIncludes(output, "enumProp?: TestSimpleEnum");
@@ -131,16 +140,15 @@ Deno.test("Generate typescript for a set of types.", () => {
 });
 
 Deno.test("Generate typescript where a referenced type is missing.", () => {
-  const types = [
-    simpleString,
-    fullRecord,
-  ];
-
-  const output = generateCodeForJsonotronTypes(types);
-  assertStringIncludes(output, "export interface TestFullRecord");
-  assertStringIncludes(output, "recordProp?: TestFullRecord|null");
-  assertStringIncludes(output, "stringProp?: string[]");
-  assertStringIncludes(output, "cannot conform to unknown type");
+  assertThrows(
+    () =>
+      generateCodeForJsonotronTypes([
+        simpleString,
+        fullRecord,
+      ]),
+    Error,
+    "Unable to resolve type: test/simpleBool",
+  );
 });
 
 Deno.test("Generate typescript for invalid type.", () => {
@@ -151,7 +159,9 @@ Deno.test("Generate typescript for invalid type.", () => {
     summary: "A test type",
   };
 
-  const recordWithPropertyOfInvalidType: RecordTypeDef = {
+  const recordWithPropertyOfInvalidType: RecordTypeDef<
+    TypeNames | "test/invalidType"
+  > = {
     system: "test",
     name: "recordWithPropertyOfInvalidType",
     kind: "record",

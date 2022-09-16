@@ -1,48 +1,46 @@
+import {
+  TypescriptTreeEnumConstArray,
+  TypescriptTreeFunction,
+} from "../../deps.ts";
+import { getJsonotronTypeFormalName } from "../index.ts";
 import { EnumTypeDef } from "../interfaces/index.ts";
-import { capitalizeFirstLetter } from "../utils/index.ts";
 import { generateEnumTypeValidation } from "../validationClauses/index.ts";
+import { generateValidateFunctionShell } from "./generateValidateFunctionShell.ts";
 
+/**
+ * Returns an enum const array for a enum type.
+ * @param def An enum type definition.
+ */
+export function generateEnumTypeEnumConstArray(
+  def: EnumTypeDef,
+): TypescriptTreeEnumConstArray {
+  return {
+    name: getJsonotronTypeFormalName(def),
+    comment: `An array of the values of the ${def.system}/${def.name} enum.`,
+    exported: true,
+    values: def.items.map((item) => item.value),
+  };
+}
+
+/**
+ * Returns a typescript function definition for an enum type.
+ * @param def An enum type definition.
+ */
 export function generateValidateEnumTypeFunc(
   def: EnumTypeDef,
-) {
-  const enumValues = def.items
-    .map((item) => `  "${item.value}"`)
-    .join(",\n");
-
-  return `
-/**
- * An array of the values of the ${def.system}/${
-    capitalizeFirstLetter(def.name)
-  } enum.
- */
-export const ${def.system}${capitalizeFirstLetter(def.name)}Values = [
-${enumValues}
-] as const
-
-/**
- * ${def.summary}
- */
-export type ${capitalizeFirstLetter(def.system)}${
-    capitalizeFirstLetter(def.name)
-  } = typeof ${def.system}${
-    capitalizeFirstLetter(def.name)
-  }Values[keyof typeof ${def.system}${capitalizeFirstLetter(def.name)}Values];
-
-/**
- * Validate the given value to ensure it is a valid ${def.system}/${def.name} enum.
- */
-export function validate${capitalizeFirstLetter(def.system)}${
-    capitalizeFirstLetter(def.name)
-  } (value: any, valueDisplayPath: string): ValidationError[] {
-const errors: ValidationError[] = [];
-${
-    generateEnumTypeValidation({
-      def,
-      valueDisplayPath: "${valueDisplayPath}",
-      valuePath: "value",
-    })
-  }
-return errors;
-}
-`;
+): TypescriptTreeFunction {
+  return {
+    ...generateValidateFunctionShell(def),
+    lines: `
+      const errors: ValidationError[] = [];
+      ${
+      generateEnumTypeValidation({
+        def,
+        valueDisplayPath: "${valueDisplayPath}",
+        valuePath: "value",
+      })
+    }
+      return errors;
+    `,
+  };
 }

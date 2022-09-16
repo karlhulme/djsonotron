@@ -5,7 +5,8 @@ import { TestCase } from "./TestCase.ts";
 /**
  * Represents a record type definition.
  */
-export interface RecordTypeDef extends JsonotronTypeDef {
+export interface RecordTypeDef<JsonotronTypeNames extends string>
+  extends JsonotronTypeDef {
   /**
    * Tags the type as a record.
    */
@@ -14,7 +15,7 @@ export interface RecordTypeDef extends JsonotronTypeDef {
   /**
    * An array of properties that can appear in this record.
    */
-  properties: RecordTypeDefProperty[];
+  properties: RecordTypeDefProperty<JsonotronTypeNames>[];
 
   /**
    * An array of values that can be represented by this type.
