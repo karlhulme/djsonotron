@@ -25,6 +25,6 @@ export function generateValidateArrayTypeFunc(
     exported: true,
     lines: `return validateArray(value, valueDisplayPath, validate${
       getJsonotronTypeFormalName(def)
-    }, ${def.system}/${def.name})`,
+    }, "${def.system}/${def.name}")`,
   };
 }
