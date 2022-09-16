@@ -24,6 +24,7 @@ import {
 } from "./generateValidateRecordTypeFunc.ts";
 import { generateValidateStringTypeFunc } from "./generateValidateStringTypeFunc.ts";
 import { generateValidationErrorInterface } from "./generateValidationErrorInterface.ts";
+import { generateValidatorWithStringOutputWrapper } from "./generateValidatorWithStringOutputWrapper.ts";
 
 /**
  * Returns a typescript tree.
@@ -34,7 +35,10 @@ export function generateCodeForJsonotronTypes<TypeNames extends string>(
 ) {
   const tree = newTypescriptTree();
   tree.lintDirectives.ignoreNoExplicitAny = true;
+
   tree.interfaces.push(generateValidationErrorInterface());
+
+  tree.functions.push(generateValidatorWithStringOutputWrapper());
   tree.functions.push(generateValidateArrayFunc());
 
   for (const type of types) {

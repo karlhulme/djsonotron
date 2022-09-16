@@ -141,6 +141,7 @@ Deno.test("Generate typescript for a set of types.", () => {
   assertStringIncludes(output, "objProp?: unknown");
   assertStringIncludes(output, "recordProp?: TestFullRecord|null");
   assertStringIncludes(output, "stringProp?: string[]");
+  assertStringIncludes(output, "validateErrorsToString");
   assertStringIncludes(output, "export function validateTestFullRecord");
   assertStringIncludes(output, "export function validateTestFullRecordArray");
   assertStringIncludes(output, "export type TestTypeNames");
