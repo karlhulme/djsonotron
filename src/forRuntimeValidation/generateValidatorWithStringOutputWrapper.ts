@@ -13,13 +13,15 @@ export function generateValidatorWithStringOutputWrapper(): TypescriptTreeFuncti
       typeName: "(value: any, valueDisplayPath: string) => ValidationError[]",
       comment: "The validator to be wrapped.",
     }],
-    returnType: "(doc: unknown) => string | void",
+    returnType: "(value: unknown) => string | void",
     exported: true,
     lines: `
-      const errors = validator(doc, "doc");
- 
-      if (errors.length > 0) {
-        return JSON.stringify(errors, null, 2);
+      return function (innerValue: unknown): string | void {
+        const errors = validator(innerValue, valueDisplayPath);
+  
+        if (errors.length > 0) {
+          return JSON.stringify(errors, null, 2);
+        }
       }
     `,
   };
