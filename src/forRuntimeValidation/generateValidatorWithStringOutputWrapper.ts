@@ -17,7 +17,7 @@ export function generateValidatorWithStringOutputWrapper(): TypescriptTreeFuncti
     exported: true,
     lines: `
       return function (innerValue: unknown): string | void {
-        const errors = validator(innerValue, valueDisplayPath);
+        const errors = validator(innerValue, "value");
   
         if (errors.length > 0) {
           return JSON.stringify(errors, null, 2);
