@@ -74,7 +74,7 @@ export function generateCodeForJsonotronTypes<TypeNames extends string>(
 
   for (const uniqueSystemName of uniqueSystemNames) {
     tree.enumConstArrays.push({
-      name: capitalizeFirstLetter(uniqueSystemName),
+      name: capitalizeFirstLetter(uniqueSystemName) + "TypeName",
       comment: `All the types defined in the ${uniqueSystemName} system.`,
       exported: true,
       values: types
