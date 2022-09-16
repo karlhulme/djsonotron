@@ -5,6 +5,7 @@ export const dateTimeUtc: StringTypeDef = {
   kind: "string",
   system: stdSystemName,
   name: "dateTimeUtc",
+  pluralName: "dateTimeUtcs",
   summary:
     `A string with the date and time components arranged using the YYYY-MM-DDTHH:mm:ss.zzzZ
     pattern. Leading zeroes must be used to ensure that all values are the same length.

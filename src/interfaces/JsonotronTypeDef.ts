@@ -21,6 +21,11 @@ export interface JsonotronTypeDef {
   name: string;
 
   /**
+   * The plural name of the type, that should be unique within it's owning system.
+   */
+  pluralName: string;
+
+  /**
    * Documents the usage of the type.
    */
   summary: string;

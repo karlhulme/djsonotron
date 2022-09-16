@@ -8,6 +8,7 @@ export const userClaimsString: StringTypeDef = {
   kind: "string",
   system: stdSystemName,
   name: "userClaimsString",
+  pluralName: "userClaimsStrings",
   maximumLength: 1000,
   summary:
     "A set of user claims in the form resourceType:resourceId:role1,role2 seperated by a space.",

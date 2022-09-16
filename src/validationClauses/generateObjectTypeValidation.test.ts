@@ -8,6 +8,7 @@ const simpleObject: JsonotronTypeDef = {
   kind: "object",
   system: "test",
   name: "simpleObject",
+  pluralName: "simpleObjects",
   summary: "A type used for testing.",
 };
 

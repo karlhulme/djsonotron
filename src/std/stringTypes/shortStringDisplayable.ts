@@ -5,6 +5,7 @@ export const shortStringDisplayable: StringTypeDef = {
   kind: "string",
   system: stdSystemName,
   name: "shortStringDisplayable",
+  pluralName: "shortStringDisplayables",
   summary:
     "A string with up to 20 unicode characters, and at least 1 alphanumeric character.",
   maximumLength: 20,

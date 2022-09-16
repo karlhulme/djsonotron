@@ -5,6 +5,7 @@ export const userClaim: StringTypeDef = {
   kind: "string",
   system: stdSystemName,
   name: "userClaim",
+  pluralName: "userClaims",
   maximumLength: 80,
   summary: `A user claim in the form resourceType:resourceId:role1,role2.`,
   regex:

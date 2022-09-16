@@ -5,8 +5,9 @@ export const mediumStringDisplayable: StringTypeDef = {
   kind: "string",
   system: stdSystemName,
   name: "mediumStringDisplayable",
+  pluralName: "mediumStringDisplayables",
   summary:
-    "A string with up to 50 unicode characters, and at least 1 alphanumeric character.",
+    "A string with up to 50 characters, and at least 1 alphanumeric character.",
   maximumLength: 50,
   regex: "[A-Za-z0-9]+",
   validTestCases: [{

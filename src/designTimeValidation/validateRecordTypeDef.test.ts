@@ -7,6 +7,7 @@ const simpleInt: IntTypeDef = {
   kind: "int",
   system: "test",
   name: "simpleInt",
+  pluralName: "simpleInts",
   summary: "A type used for testing.",
   minimum: 5,
   maximum: 8,
@@ -19,6 +20,7 @@ Deno.test("Validate a valid record type.", () => {
       kind: "record",
       system: "testSystem",
       name: "testType",
+      pluralName: "testTypes",
       summary: "A type for testing.",
       properties: [{
         name: "first",
@@ -49,6 +51,7 @@ Deno.test("Fail to validate a record type with an unrecognised property type.", 
       kind: "record",
       system: "testSystem",
       name: "testType",
+      pluralName: "testTypes",
       summary: "A type for testing.",
       properties: [{
         name: "first",
@@ -72,6 +75,7 @@ Deno.test("Fail to validate a record type with a valid test case that is rejecte
       kind: "record",
       system: "testSystem",
       name: "testType",
+      pluralName: "testTypes",
       summary: "A type for testing.",
       properties: [{
         name: "first",
@@ -97,6 +101,7 @@ Deno.test("Fail to validate a record type with an invalid test case that is acce
       kind: "record",
       system: "testSystem",
       name: "testType",
+      pluralName: "testTypes",
       summary: "A type for testing.",
       properties: [{
         name: "first",
