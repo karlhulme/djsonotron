@@ -8,6 +8,8 @@ import {
   RecordTypeDef,
   StringTypeDef,
 } from "../interfaces/index.ts";
+import { generateJsonSchemaForEnumType } from "./generateJsonSchemaForEnumType.ts";
+import { generateJsonSchemaForRecordType } from "./generateJsonSchemaForRecordType.ts";
 import { generateValidateArrayFunc } from "./generateValidateArrayFunc.ts";
 import { generateValidateArrayTypeFunc } from "./generateValidateArrayTypeFunc.ts";
 import { generateValidateBoolTypeFunc } from "./generateValidateBoolTypeFunc.ts";
@@ -30,7 +32,7 @@ import { generateValidatorWithStringOutputWrapper } from "./generateValidatorWit
  * Returns a typescript tree.
  * @param types An array of Jsonotron type definitions.
  */
-export function generateCodeForJsonotronTypes<TypeNames extends string>(
+export function generateCodeForJsonotronTypes(
   types: JsonotronTypeDef[],
 ) {
   const tree = newTypescriptTree();
@@ -49,6 +51,9 @@ export function generateCodeForJsonotronTypes<TypeNames extends string>(
         generateEnumTypeEnumConstArray(type as EnumTypeDef),
       );
       tree.functions.push(generateValidateEnumTypeFunc(type as EnumTypeDef));
+      tree.constDeclarations.push(
+        generateJsonSchemaForEnumType(type as EnumTypeDef),
+      );
     } else if (type.kind === "float") {
       tree.functions.push(generateValidateFloatTypeFunc(type as FloatTypeDef));
     } else if (type.kind === "int") {
@@ -59,10 +64,13 @@ export function generateCodeForJsonotronTypes<TypeNames extends string>(
       );
     } else if (type.kind === "record") {
       tree.interfaces.push(
-        generateRecordTypeInterface(type as RecordTypeDef<TypeNames>, types),
+        generateRecordTypeInterface(type as RecordTypeDef<string>, types),
       );
       tree.functions.push(
-        generateValidateRecordTypeFunc(type as RecordTypeDef<TypeNames>, types),
+        generateValidateRecordTypeFunc(type as RecordTypeDef<string>, types),
+      );
+      tree.constDeclarations.push(
+        generateJsonSchemaForRecordType(type as RecordTypeDef<string>, types),
       );
     } else if (type.kind === "string") {
       tree.functions.push(

@@ -13,10 +13,12 @@ import { generateCodeForJsonotronTypes } from "./generateCodeForJsonotronTypes.t
 type TypeNames =
   | "test/simpleBool"
   | "test/simpleEnum"
+  | "test/simpleEnumDeprecated"
   | "test/simpleFloat"
   | "test/simpleInt"
   | "test/simpleObject"
   | "test/simpleString"
+  | "test/simpleRecord"
   | "test/fullRecord";
 
 const simpleBool: JsonotronTypeDef = {
@@ -32,6 +34,20 @@ const simpleEnum: EnumTypeDef = {
   system: "test",
   name: "simpleEnum",
   pluralName: "simpleEnums",
+  summary: "A type used for testing.",
+  items: [{
+    value: "first",
+  }, {
+    value: "second",
+  }],
+};
+
+const simpleEnumDeprecated: EnumTypeDef = {
+  kind: "enum",
+  system: "test",
+  name: "simpleEnumDeprecated",
+  deprecated: "Not used anymore.",
+  pluralName: "simpleEnumDeprecateds",
   summary: "A type used for testing.",
   items: [{
     value: "first",
@@ -79,6 +95,20 @@ const simpleString: StringTypeDef = {
   regex: "^[a-z]+$",
 };
 
+const simpleRecord: RecordTypeDef<TypeNames> = {
+  system: "test",
+  name: "simpleRecord",
+  pluralName: "simpleRecords",
+  deprecated: "Not used any more",
+  kind: "record",
+  summary: "a test type",
+  properties: [{
+    name: "boolProp",
+    summary: "A field",
+    propertyType: "test/simpleBool",
+  }],
+};
+
 const fullRecord: RecordTypeDef<TypeNames> = {
   system: "test",
   name: "fullRecord",
@@ -102,6 +132,7 @@ const fullRecord: RecordTypeDef<TypeNames> = {
     name: "intProp",
     summary: "A field",
     propertyType: "test/simpleInt",
+    deprecated: "Not used anymore",
   }, {
     name: "objProp",
     summary: "A field",
@@ -123,16 +154,22 @@ Deno.test("Generate typescript for a set of types.", () => {
   const types = [
     simpleBool,
     simpleEnum,
+    simpleEnumDeprecated,
     simpleFloat,
     simpleInt,
     simpleObject,
     simpleString,
+    simpleRecord,
     fullRecord,
   ];
 
   const output = generateCodeForJsonotronTypes(types);
   assertStringIncludes(output, "export interface ValidationError");
   assertStringIncludes(output, "export const allTestSimpleEnumValues");
+  assertStringIncludes(
+    output,
+    "export const allTestSimpleEnumDeprecatedValues",
+  );
   assertStringIncludes(output, "export interface TestFullRecord");
   assertStringIncludes(output, "boolProp: boolean");
   assertStringIncludes(output, "enumProp?: TestSimpleEnum");
@@ -142,9 +179,12 @@ Deno.test("Generate typescript for a set of types.", () => {
   assertStringIncludes(output, "recordProp?: TestFullRecord|null");
   assertStringIncludes(output, "stringProp?: string[]");
   assertStringIncludes(output, "validateErrorsToString");
+  assertStringIncludes(output, "export function validateTestSimpleRecord");
   assertStringIncludes(output, "export function validateTestFullRecord");
   assertStringIncludes(output, "export function validateTestFullRecordArray");
   assertStringIncludes(output, "export type TestTypeNames");
+  assertStringIncludes(output, "export const testSimpleEnumSchema");
+  assertStringIncludes(output, "export const testFullRecordSchema");
 });
 
 Deno.test("Generate typescript where a referenced type is missing.", () => {

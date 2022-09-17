@@ -10,6 +10,7 @@ export {
 export type {
   TypescriptTree,
   TypescriptTreeClass,
+  TypescriptTreeConstDeclaration,
   TypescriptTreeEnumConstArray,
   TypescriptTreeFunction,
   TypescriptTreeInterface,
