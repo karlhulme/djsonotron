@@ -1,5 +1,8 @@
 import { TypescriptTreeConstDeclaration } from "../../deps.ts";
-import { capitalizeFirstLetter } from "../utils/index.ts";
+import {
+  capitalizeFirstLetter,
+  stringifyJRuntimeType,
+} from "../utils/index.ts";
 import { EnumTypeDef } from "../interfaces/index.ts";
 import { generateJsonSchemaDescriptionText } from "./generateJsonSchemaDescriptionText.ts";
 
@@ -18,7 +21,7 @@ export function generateConstDecForEnumTypeArray(
     exported: true,
     deprecated: Boolean(enumType.deprecated),
     typeName: "JsonotronRuntimeType",
-    value: JSON.stringify({
+    value: stringifyJRuntimeType({
       name: `${enumType.system}${capitalizeFirstLetter(enumType.name)}Array`,
       underlyingType: "array",
       validator: `validate${capitalizeFirstLetter(enumType.system)}${

@@ -2,6 +2,7 @@ import { TypescriptTreeConstDeclaration } from "../../deps.ts";
 import {
   capitalizeFirstLetter,
   getJsonSchemaTypeForJsonotronTypeKind,
+  stringifyJRuntimeType,
 } from "../utils/index.ts";
 import { JsonotronTypeDef } from "../interfaces/index.ts";
 import { generateJsonSchemaDescriptionText } from "./generateJsonSchemaDescriptionText.ts";
@@ -23,7 +24,7 @@ export function generateConstDecForJsonotronTypeArray(
     exported: true,
     deprecated: Boolean(typeDef.deprecated),
     typeName: "JsonotronRuntimeType",
-    value: JSON.stringify({
+    value: stringifyJRuntimeType({
       name: `${typeDef.system}${capitalizeFirstLetter(typeDef.name)}Array`,
       underlyingType: "array",
       validator: `validate${capitalizeFirstLetter(typeDef.system)}${

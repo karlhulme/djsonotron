@@ -1,6 +1,9 @@
 import { TypescriptTreeConstDeclaration } from "../../deps.ts";
 import { JsonotronTypeDef, RecordTypeDef } from "../interfaces/index.ts";
-import { capitalizeFirstLetter } from "../utils/index.ts";
+import {
+  capitalizeFirstLetter,
+  stringifyJRuntimeType,
+} from "../utils/index.ts";
 import { generateJsonSchemaDescriptionText } from "./generateJsonSchemaDescriptionText.ts";
 import { generateJsonSchemaSetForRecordTypePropertiesBlock } from "./generateJsonSchemaSetForRecordTypePropertiesBlock.ts";
 
@@ -36,7 +39,7 @@ export function generateConstDecForRecordType(
     exported: true,
     deprecated: Boolean(recordType.deprecated),
     typeName: "JsonotronRuntimeType",
-    value: JSON.stringify({
+    value: stringifyJRuntimeType({
       name: `${recordType.system}${capitalizeFirstLetter(recordType.name)}`,
       underlyingType: "object",
       validator: `validate${capitalizeFirstLetter(recordType.system)}${
