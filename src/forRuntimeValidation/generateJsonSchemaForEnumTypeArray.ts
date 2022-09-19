@@ -19,16 +19,18 @@ export function generateJsonSchemaForEnumTypeArray(
     exported: true,
     deprecated: Boolean(enumType.deprecated),
     value: JSON.stringify({
-      $id: `${enumType.system}${capitalizeFirstLetter(enumType.name)}Array`,
-      type: "array",
-      description: generateJsonSchemaDescriptionText(
-        `An array of ${enumType.system}/${enumType.name} types`,
-        enumType.deprecated,
-      ),
-      deprecated: enumType.deprecated ? true : undefined,
-      items: {
-        type: "string",
-        enum: enumType.items.map((item) => item.value),
+      name: `${enumType.system}${capitalizeFirstLetter(enumType.name)}Array`,
+      schema: {
+        type: "array",
+        description: generateJsonSchemaDescriptionText(
+          `An array of ${enumType.system}/${enumType.name} types`,
+          enumType.deprecated,
+        ),
+        deprecated: enumType.deprecated ? true : undefined,
+        items: {
+          type: "string",
+          enum: enumType.items.map((item) => item.value),
+        },
       },
     }),
   };

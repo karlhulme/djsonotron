@@ -37,18 +37,22 @@ export function generateJsonSchemaForRecordTypeArray(
     exported: true,
     deprecated: Boolean(recordType.deprecated),
     value: JSON.stringify({
-      $id: `${recordType.system}${capitalizeFirstLetter(recordType.name)}Array`,
-      type: "array",
-      description: generateJsonSchemaDescriptionText(
-        `An array of ${recordType.system}/${recordType.name} types.`,
-        recordType.deprecated,
-      ),
-      items: {
-        type: "object",
-        properties: objectProperties,
-        required: requiredPropertyNames.length > 0
-          ? requiredPropertyNames
-          : undefined,
+      name: `${recordType.system}${
+        capitalizeFirstLetter(recordType.name)
+      }Array`,
+      schema: {
+        type: "array",
+        description: generateJsonSchemaDescriptionText(
+          `An array of ${recordType.system}/${recordType.name} types.`,
+          recordType.deprecated,
+        ),
+        items: {
+          type: "object",
+          properties: objectProperties,
+          required: requiredPropertyNames.length > 0
+            ? requiredPropertyNames
+            : undefined,
+        },
       },
     }),
   };

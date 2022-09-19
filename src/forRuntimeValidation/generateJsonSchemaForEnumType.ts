@@ -17,14 +17,16 @@ export function generateJsonSchemaForEnumType(
     exported: true,
     deprecated: Boolean(enumType.deprecated),
     value: JSON.stringify({
-      $id: `${enumType.system}${capitalizeFirstLetter(enumType.name)}`,
-      type: "string",
-      description: generateJsonSchemaDescriptionText(
-        enumType.summary,
-        enumType.deprecated,
-      ),
-      deprecated: enumType.deprecated ? true : undefined,
-      enum: enumType.items.map((item) => item.value),
+      name: `${enumType.system}${capitalizeFirstLetter(enumType.name)}`,
+      schema: {
+        type: "string",
+        description: generateJsonSchemaDescriptionText(
+          enumType.summary,
+          enumType.deprecated,
+        ),
+        deprecated: enumType.deprecated ? true : undefined,
+        enum: enumType.items.map((item) => item.value),
+      },
     }),
   };
 }

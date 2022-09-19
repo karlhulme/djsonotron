@@ -35,16 +35,18 @@ export function generateJsonSchemaForRecordType(
     exported: true,
     deprecated: Boolean(recordType.deprecated),
     value: JSON.stringify({
-      $id: `${recordType.system}${capitalizeFirstLetter(recordType.name)}`,
-      type: "object",
-      description: generateJsonSchemaDescriptionText(
-        recordType.summary,
-        recordType.deprecated,
-      ),
-      properties: objectProperties,
-      required: requiredPropertyNames.length > 0
-        ? requiredPropertyNames
-        : undefined,
+      name: `${recordType.system}${capitalizeFirstLetter(recordType.name)}`,
+      schema: {
+        type: "object",
+        description: generateJsonSchemaDescriptionText(
+          recordType.summary,
+          recordType.deprecated,
+        ),
+        properties: objectProperties,
+        required: requiredPropertyNames.length > 0
+          ? requiredPropertyNames
+          : undefined,
+      },
     }),
   };
 }
