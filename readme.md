@@ -7,19 +7,21 @@ interfaces, parsers, validators and JSON schemas.
 
 ### HTTP/REST and OpenAPi
 
-Define your input and output messages using the Jsonotron format, then you can generate:
+Define your input and output messages using the Jsonotron format, then you can
+generate:
 
-* JSON schemas to use in your OpenAPI specification
-* Typescript interfaces to support the development of web service routes
-* Validation functions to use at runtime.
+- JSON schemas to use in your OpenAPI specification
+- Typescript interfaces to support the development of web service routes
+- Validation functions to use at runtime.
 
 ### NoSQL database definitions
 
-Define and validate objects before they are saved to a NoSQL database, you can then generate:
+Define and validate objects before they are saved to a NoSQL database, you can
+then generate:
 
-* Typescript interfaces to support the development of code that reads or writes to the database.
-* Validation functions to use at runtime before data is written to the database.
-
+- Typescript interfaces to support the development of code that reads or writes
+  to the database.
+- Validation functions to use at runtime before data is written to the database.
 
 ## Formatting
 
