@@ -5,13 +5,21 @@ interfaces, parsers, validators and JSON schemas.
 
 ## Common uses
 
-Use this module to convert schemas into Typescript interface and function
-definitions which you can the use in code, benefiting from code-completion.
+### HTTP/REST and OpenAPi
 
-- Define and validate messages used for HTTP/REST communication
-- Define and validate objects before they are saved to a NoSQL database
+Define your input and output messages using the Jsonotron format, then you can generate:
 
-## Usage
+* JSON schemas to use in your OpenAPI specification
+* Typescript interfaces to support the development of web service routes
+* Validation functions to use at runtime.
+
+### NoSQL database definitions
+
+Define and validate objects before they are saved to a NoSQL database, you can then generate:
+
+* Typescript interfaces to support the development of code that reads or writes to the database.
+* Validation functions to use at runtime before data is written to the database.
+
 
 ## Formatting
 

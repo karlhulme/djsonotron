@@ -9,7 +9,9 @@ import {
   StringTypeDef,
 } from "../interfaces/index.ts";
 import { generateJsonSchemaForEnumType } from "./generateJsonSchemaForEnumType.ts";
+import { generateJsonSchemaForEnumTypeArray } from "./generateJsonSchemaForEnumTypeArray.ts";
 import { generateJsonSchemaForRecordType } from "./generateJsonSchemaForRecordType.ts";
+import { generateJsonSchemaForRecordTypeArray } from "./generateJsonSchemaForRecordTypeArray.ts";
 import { generateValidateArrayFunc } from "./generateValidateArrayFunc.ts";
 import { generateValidateArrayTypeFunc } from "./generateValidateArrayTypeFunc.ts";
 import { generateValidateBoolTypeFunc } from "./generateValidateBoolTypeFunc.ts";
@@ -54,6 +56,9 @@ export function generateCodeForJsonotronTypes(
       tree.constDeclarations.push(
         generateJsonSchemaForEnumType(type as EnumTypeDef),
       );
+      tree.constDeclarations.push(
+        generateJsonSchemaForEnumTypeArray(type as EnumTypeDef),
+      );
     } else if (type.kind === "float") {
       tree.functions.push(generateValidateFloatTypeFunc(type as FloatTypeDef));
     } else if (type.kind === "int") {
@@ -71,6 +76,12 @@ export function generateCodeForJsonotronTypes(
       );
       tree.constDeclarations.push(
         generateJsonSchemaForRecordType(type as RecordTypeDef<string>, types),
+      );
+      tree.constDeclarations.push(
+        generateJsonSchemaForRecordTypeArray(
+          type as RecordTypeDef<string>,
+          types,
+        ),
       );
     } else if (type.kind === "string") {
       tree.functions.push(

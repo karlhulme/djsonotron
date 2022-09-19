@@ -5,13 +5,13 @@ import { generateJsonSchemaDescriptionText } from "./generateJsonSchemaDescripti
 import { generateJsonSchemaSetForRecordTypePropertiesBlock } from "./generateJsonSchemaSetForRecordTypePropertiesBlock.ts";
 
 /**
- * Returns a JSON schema for the record type.
+ * Returns a JSON array schema for the record type.
  * @param recordType A Jsonotron record type.
  * @param types An array of Jsonotron types that might be referenced
  * by the properties of the given record type def.
  * @param componentSchemasPath The path to the component schemas.
  */
-export function generateJsonSchemaForRecordType(
+export function generateJsonSchemaForRecordTypeArray(
   recordType: RecordTypeDef<string>,
   types: JsonotronTypeDef[],
   componentSchemasPath?: string,
@@ -29,21 +29,26 @@ export function generateJsonSchemaForRecordType(
     .map((p) => p.name);
 
   return {
-    name: `${recordType.system}${capitalizeFirstLetter(recordType.name)}Schema`,
+    name: `${recordType.system}${
+      capitalizeFirstLetter(recordType.name)
+    }ArraySchema`,
     comment:
-      `The JSON schema for the ${recordType.system}/${recordType.name} type.`,
+      `The JSON schema for an array of ${recordType.system}/${recordType.name} types.`,
     exported: true,
     deprecated: Boolean(recordType.deprecated),
     value: "`" + JSON.stringify({
-      type: "object",
+      type: "array",
       description: generateJsonSchemaDescriptionText(
-        recordType.summary,
+        `An array of ${recordType.system}/${recordType.name} types.`,
         recordType.deprecated,
       ),
-      properties: objectProperties,
-      required: requiredPropertyNames.length > 0
-        ? requiredPropertyNames
-        : undefined,
+      items: {
+        type: "object",
+        properties: objectProperties,
+        required: requiredPropertyNames.length > 0
+          ? requiredPropertyNames
+          : undefined,
+      },
     }) + "`",
   };
 }

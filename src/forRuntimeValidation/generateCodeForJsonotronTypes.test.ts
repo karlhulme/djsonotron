@@ -184,7 +184,9 @@ Deno.test("Generate typescript for a set of types.", () => {
   assertStringIncludes(output, "export function validateTestFullRecordArray");
   assertStringIncludes(output, "export type TestTypeNames");
   assertStringIncludes(output, "export const testSimpleEnumSchema");
+  assertStringIncludes(output, "export const testSimpleEnumArraySchema");
   assertStringIncludes(output, "export const testFullRecordSchema");
+  assertStringIncludes(output, "export const testFullRecordArraySchema");
 });
 
 Deno.test("Generate typescript where a referenced type is missing.", () => {
