@@ -3,6 +3,17 @@ import { resolveJsonotronType } from "../utils/index.ts";
 import { generateJsonSchemaDescriptionText } from "./generateJsonSchemaDescriptionText.ts";
 import { generateJsonSchemaForRecordTypeProperty } from "./generateJsonSchemaForRecordTypeProperty.ts";
 
+/**
+ * Generates a record where each key is a record property and the
+ * corresponding value is a json schema that validates said property.
+ * @param recordType A record type.
+ * @param types An array of jsonotron types that the record might
+ * reference in the property declarations.
+ * @param componentSchemasPath The path to the component schemas,
+ * defaults to #/components/schemas which is the path found in OpenApi
+ * specifications.
+ * @returns
+ */
 export function generateJsonSchemaSetForRecordTypePropertiesBlock(
   recordType: RecordTypeDef<string>,
   types: JsonotronTypeDef[],
