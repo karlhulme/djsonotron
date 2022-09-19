@@ -34,7 +34,8 @@ export function generateJsonSchemaForRecordType(
       `The JSON schema for the ${recordType.system}/${recordType.name} type.`,
     exported: true,
     deprecated: Boolean(recordType.deprecated),
-    value: "`" + JSON.stringify({
+    value: JSON.stringify({
+      $id: `${recordType.system}${capitalizeFirstLetter(recordType.name)}`,
       type: "object",
       description: generateJsonSchemaDescriptionText(
         recordType.summary,
@@ -44,6 +45,6 @@ export function generateJsonSchemaForRecordType(
       required: requiredPropertyNames.length > 0
         ? requiredPropertyNames
         : undefined,
-    }) + "`",
+    }),
   };
 }

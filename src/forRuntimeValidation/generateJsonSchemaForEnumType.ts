@@ -16,7 +16,8 @@ export function generateJsonSchemaForEnumType(
       `The JSON schema for the ${enumType.system}/${enumType.name} type.`,
     exported: true,
     deprecated: Boolean(enumType.deprecated),
-    value: "`" + JSON.stringify({
+    value: JSON.stringify({
+      $id: `${enumType.system}${capitalizeFirstLetter(enumType.name)}`,
       type: "string",
       description: generateJsonSchemaDescriptionText(
         enumType.summary,
@@ -24,6 +25,6 @@ export function generateJsonSchemaForEnumType(
       ),
       deprecated: enumType.deprecated ? true : undefined,
       enum: enumType.items.map((item) => item.value),
-    }) + "`",
+    }),
   };
 }

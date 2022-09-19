@@ -36,7 +36,8 @@ export function generateJsonSchemaForRecordTypeArray(
       `The JSON schema for an array of ${recordType.system}/${recordType.name} types.`,
     exported: true,
     deprecated: Boolean(recordType.deprecated),
-    value: "`" + JSON.stringify({
+    value: JSON.stringify({
+      $id: `${recordType.system}${capitalizeFirstLetter(recordType.name)}Array`,
       type: "array",
       description: generateJsonSchemaDescriptionText(
         `An array of ${recordType.system}/${recordType.name} types.`,
@@ -49,6 +50,6 @@ export function generateJsonSchemaForRecordTypeArray(
           ? requiredPropertyNames
           : undefined,
       },
-    }) + "`",
+    }),
   };
 }
