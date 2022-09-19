@@ -4,20 +4,26 @@ import { EnumTypeDef } from "../interfaces/index.ts";
 import { generateJsonSchemaDescriptionText } from "./generateJsonSchemaDescriptionText.ts";
 
 /**
- * Returns a JSON schema for the given enum type.
+ * Returns a const declaration with a validator and JSON schema
+ * for the given enum type.
  * @param enumType An enum type.
  */
-export function generateJsonSchemaForEnumType(
+export function generateConstDecForEnumType(
   enumType: EnumTypeDef,
 ): TypescriptTreeConstDeclaration {
   return {
-    name: `${enumType.system}${capitalizeFirstLetter(enumType.name)}Schema`,
+    name: `${enumType.system}${capitalizeFirstLetter(enumType.name)}Type`,
     comment:
-      `The JSON schema for the ${enumType.system}/${enumType.name} type.`,
+      `The schema and validator for the ${enumType.system}/${enumType.name} type.`,
     exported: true,
     deprecated: Boolean(enumType.deprecated),
+    typeName: "JsonotronRuntimeType",
     value: JSON.stringify({
       name: `${enumType.system}${capitalizeFirstLetter(enumType.name)}`,
+      underlyingType: "string",
+      validator: `validate${capitalizeFirstLetter(enumType.system)}${
+        capitalizeFirstLetter(enumType.name)
+      }`,
       schema: {
         type: "string",
         description: generateJsonSchemaDescriptionText(

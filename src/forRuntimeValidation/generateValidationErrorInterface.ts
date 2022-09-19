@@ -7,7 +7,7 @@ export function generateValidationErrorInterface(): TypescriptTreeInterface {
   return {
     name: "ValidationError",
     exported: true,
-    comment: "Describes a validation error",
+    comment: "Describes a validation error.",
     members: [{
       name: "type",
       typeName: "string",

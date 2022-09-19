@@ -1,5 +1,4 @@
 import { generateTypescript, newTypescriptTree } from "../../deps.ts";
-import { capitalizeFirstLetter } from "../index.ts";
 import {
   EnumTypeDef,
   FloatTypeDef,
@@ -8,10 +7,14 @@ import {
   RecordTypeDef,
   StringTypeDef,
 } from "../interfaces/index.ts";
-import { generateJsonSchemaForEnumType } from "./generateJsonSchemaForEnumType.ts";
-import { generateJsonSchemaForEnumTypeArray } from "./generateJsonSchemaForEnumTypeArray.ts";
-import { generateJsonSchemaForRecordType } from "./generateJsonSchemaForRecordType.ts";
-import { generateJsonSchemaForRecordTypeArray } from "./generateJsonSchemaForRecordTypeArray.ts";
+import { generateConstDecForEnumType } from "./generateConstDecForEnumType.ts";
+import { generateConstDecForEnumTypeArray } from "./generateConstDecForEnumTypeArray.ts";
+import { generateConstDecForJsonotronType } from "./generateConstDecForJsonotronType.ts";
+import { generateConstDecForJsonotronTypeArray } from "./generateConstDecForJsonotronTypeArray.ts";
+import { generateConstDecForRecordType } from "./generateConstDecForRecordType.ts";
+import { generateConstDecForRecordTypeArray } from "./generateConstDecForRecordTypeArray.ts";
+import { generateRuntimeTypeInterface } from "./generateRuntimeTypeInterface.ts";
+import { generateStringUnionsForTypeSystems } from "./generateStringUnionsForTypeSystems.ts";
 import { generateValidateArrayFunc } from "./generateValidateArrayFunc.ts";
 import { generateValidateArrayTypeFunc } from "./generateValidateArrayTypeFunc.ts";
 import { generateValidateBoolTypeFunc } from "./generateValidateBoolTypeFunc.ts";
@@ -41,6 +44,7 @@ export function generateCodeForJsonotronTypes(
   tree.lintDirectives.ignoreNoExplicitAny = true;
 
   tree.interfaces.push(generateValidationErrorInterface());
+  tree.interfaces.push(generateRuntimeTypeInterface());
 
   tree.functions.push(generateValidatorWithStringOutputWrapper());
   tree.functions.push(generateValidateArrayFunc());
@@ -48,24 +52,48 @@ export function generateCodeForJsonotronTypes(
   for (const type of types) {
     if (type.kind === "bool") {
       tree.functions.push(generateValidateBoolTypeFunc(type));
+      tree.constDeclarations.push(
+        generateConstDecForJsonotronType(type),
+      );
+      tree.constDeclarations.push(
+        generateConstDecForJsonotronTypeArray(type),
+      );
     } else if (type.kind === "enum") {
       tree.enumConstArrays.push(
         generateEnumTypeEnumConstArray(type as EnumTypeDef),
       );
       tree.functions.push(generateValidateEnumTypeFunc(type as EnumTypeDef));
       tree.constDeclarations.push(
-        generateJsonSchemaForEnumType(type as EnumTypeDef),
+        generateConstDecForEnumType(type as EnumTypeDef),
       );
       tree.constDeclarations.push(
-        generateJsonSchemaForEnumTypeArray(type as EnumTypeDef),
+        generateConstDecForEnumTypeArray(type as EnumTypeDef),
       );
     } else if (type.kind === "float") {
       tree.functions.push(generateValidateFloatTypeFunc(type as FloatTypeDef));
+      tree.constDeclarations.push(
+        generateConstDecForJsonotronType(type),
+      );
+      tree.constDeclarations.push(
+        generateConstDecForJsonotronTypeArray(type),
+      );
     } else if (type.kind === "int") {
       tree.functions.push(generateValidateIntTypeFunc(type as IntTypeDef));
+      tree.constDeclarations.push(
+        generateConstDecForJsonotronType(type),
+      );
+      tree.constDeclarations.push(
+        generateConstDecForJsonotronTypeArray(type),
+      );
     } else if (type.kind === "object") {
       tree.functions.push(
         generateValidateObjectTypeFunc(type as JsonotronTypeDef),
+      );
+      tree.constDeclarations.push(
+        generateConstDecForJsonotronType(type),
+      );
+      tree.constDeclarations.push(
+        generateConstDecForJsonotronTypeArray(type),
       );
     } else if (type.kind === "record") {
       tree.interfaces.push(
@@ -75,10 +103,10 @@ export function generateCodeForJsonotronTypes(
         generateValidateRecordTypeFunc(type as RecordTypeDef<string>, types),
       );
       tree.constDeclarations.push(
-        generateJsonSchemaForRecordType(type as RecordTypeDef<string>, types),
+        generateConstDecForRecordType(type as RecordTypeDef<string>, types),
       );
       tree.constDeclarations.push(
-        generateJsonSchemaForRecordTypeArray(
+        generateConstDecForRecordTypeArray(
           type as RecordTypeDef<string>,
           types,
         ),
@@ -87,25 +115,20 @@ export function generateCodeForJsonotronTypes(
       tree.functions.push(
         generateValidateStringTypeFunc(type as StringTypeDef),
       );
+      tree.constDeclarations.push(
+        generateConstDecForJsonotronType(type),
+      );
+      tree.constDeclarations.push(
+        generateConstDecForJsonotronTypeArray(type),
+      );
     }
 
     tree.functions.push(generateValidateArrayTypeFunc(type));
   }
 
-  const systemNames = types.map((t) => t.system);
-  const uniqueSystemNames = [...new Set(systemNames)];
-
-  for (const uniqueSystemName of uniqueSystemNames) {
-    tree.stringUnions.push({
-      name: capitalizeFirstLetter(uniqueSystemName) + "TypeNames",
-      comment:
-        `The names of all the types defined in the ${uniqueSystemName} system.`,
-      exported: true,
-      values: types
-        .filter((t) => t.system === uniqueSystemName)
-        .map((t) => t.name),
-    });
-  }
+  tree.stringUnions.push(
+    ...generateStringUnionsForTypeSystems(types),
+  );
 
   return generateTypescript(tree);
 }

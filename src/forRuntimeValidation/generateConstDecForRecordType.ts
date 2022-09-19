@@ -5,13 +5,14 @@ import { generateJsonSchemaDescriptionText } from "./generateJsonSchemaDescripti
 import { generateJsonSchemaSetForRecordTypePropertiesBlock } from "./generateJsonSchemaSetForRecordTypePropertiesBlock.ts";
 
 /**
- * Returns a JSON array schema for the record type.
+ * Returns a const declaration with a validator and JSON schema
+ * for the given record type.
  * @param recordType A Jsonotron record type.
  * @param types An array of Jsonotron types that might be referenced
  * by the properties of the given record type def.
  * @param componentSchemasPath The path to the component schemas.
  */
-export function generateJsonSchemaForRecordTypeArray(
+export function generateConstDecForRecordType(
   recordType: RecordTypeDef<string>,
   types: JsonotronTypeDef[],
   componentSchemasPath?: string,
@@ -29,30 +30,28 @@ export function generateJsonSchemaForRecordTypeArray(
     .map((p) => p.name);
 
   return {
-    name: `${recordType.system}${
-      capitalizeFirstLetter(recordType.name)
-    }ArraySchema`,
+    name: `${recordType.system}${capitalizeFirstLetter(recordType.name)}Type`,
     comment:
-      `The JSON schema for an array of ${recordType.system}/${recordType.name} types.`,
+      `The JSON schema for the ${recordType.system}/${recordType.name} type.`,
     exported: true,
     deprecated: Boolean(recordType.deprecated),
+    typeName: "JsonotronRuntimeType",
     value: JSON.stringify({
-      name: `${recordType.system}${
+      name: `${recordType.system}${capitalizeFirstLetter(recordType.name)}`,
+      underlyingType: "object",
+      validator: `validate${capitalizeFirstLetter(recordType.system)}${
         capitalizeFirstLetter(recordType.name)
-      }Array`,
+      }`,
       schema: {
-        type: "array",
+        type: "object",
         description: generateJsonSchemaDescriptionText(
-          `An array of ${recordType.system}/${recordType.name} types.`,
+          recordType.summary,
           recordType.deprecated,
         ),
-        items: {
-          type: "object",
-          properties: objectProperties,
-          required: requiredPropertyNames.length > 0
-            ? requiredPropertyNames
-            : undefined,
-        },
+        properties: objectProperties,
+        required: requiredPropertyNames.length > 0
+          ? requiredPropertyNames
+          : undefined,
       },
     }),
   };

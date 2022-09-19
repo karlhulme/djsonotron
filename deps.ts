@@ -14,6 +14,7 @@ export type {
   TypescriptTreeEnumConstArray,
   TypescriptTreeFunction,
   TypescriptTreeInterface,
+  TypescriptTreeStringUnion,
 } from "https://raw.githubusercontent.com/karlhulme/dtoasty/main/mod.ts";
 
 export {

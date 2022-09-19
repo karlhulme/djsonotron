@@ -15,6 +15,7 @@ type TypeNames =
   | "test/simpleEnum"
   | "test/simpleEnumDeprecated"
   | "test/simpleFloat"
+  | "test/simpleFloatDeprecated"
   | "test/simpleInt"
   | "test/simpleObject"
   | "test/simpleString"
@@ -61,6 +62,17 @@ const simpleFloat: FloatTypeDef = {
   system: "test",
   name: "simpleFloat",
   pluralName: "simpleFloats",
+  summary: "A type used for testing.",
+  minimum: 10,
+  maximum: 12,
+};
+
+const simpleFloatDeprecated: FloatTypeDef = {
+  kind: "float",
+  system: "test",
+  name: "simpleFloatDeprecated",
+  deprecated: "Not used anymore.",
+  pluralName: "simpleFloatsDeprecated",
   summary: "A type used for testing.",
   minimum: 10,
   maximum: 12,
@@ -156,6 +168,7 @@ Deno.test("Generate typescript for a set of types.", () => {
     simpleEnum,
     simpleEnumDeprecated,
     simpleFloat,
+    simpleFloatDeprecated,
     simpleInt,
     simpleObject,
     simpleString,
@@ -179,14 +192,18 @@ Deno.test("Generate typescript for a set of types.", () => {
   assertStringIncludes(output, "recordProp?: TestFullRecord|null");
   assertStringIncludes(output, "stringProp?: string[]");
   assertStringIncludes(output, "validateErrorsToString");
+  assertStringIncludes(
+    output,
+    "export function validateTestSimpleFloatDeprecated",
+  );
   assertStringIncludes(output, "export function validateTestSimpleRecord");
   assertStringIncludes(output, "export function validateTestFullRecord");
   assertStringIncludes(output, "export function validateTestFullRecordArray");
   assertStringIncludes(output, "export type TestTypeNames");
-  assertStringIncludes(output, "export const testSimpleEnumSchema");
-  assertStringIncludes(output, "export const testSimpleEnumArraySchema");
-  assertStringIncludes(output, "export const testFullRecordSchema");
-  assertStringIncludes(output, "export const testFullRecordArraySchema");
+  assertStringIncludes(output, "export const testSimpleEnumType");
+  assertStringIncludes(output, "export const testSimpleEnumArrayType");
+  assertStringIncludes(output, "export const testFullRecordType");
+  assertStringIncludes(output, "export const testFullRecordArrayType");
 });
 
 Deno.test("Generate typescript where a referenced type is missing.", () => {
