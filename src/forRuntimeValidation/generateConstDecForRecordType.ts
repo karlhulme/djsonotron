@@ -18,7 +18,7 @@ import { generateJsonSchemaSetForRecordTypePropertiesBlock } from "./generateJso
 export function generateConstDecForRecordType(
   recordType: RecordTypeDef<string>,
   types: JsonotronTypeDef[],
-  componentSchemasPath?: string,
+  componentSchemasPath: string,
 ): TypescriptTreeConstDeclaration {
   const objectProperties = generateJsonSchemaSetForRecordTypePropertiesBlock(
     recordType,

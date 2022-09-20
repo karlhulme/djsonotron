@@ -17,7 +17,7 @@ import { generateJsonSchemaForRecordTypeProperty } from "./generateJsonSchemaFor
 export function generateJsonSchemaSetForRecordTypePropertiesBlock(
   recordType: RecordTypeDef<string>,
   types: JsonotronTypeDef[],
-  componentSchemasPath?: string,
+  componentSchemasPath: string,
 ) {
   const objectProperties: Record<string, unknown> = {};
 

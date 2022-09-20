@@ -1,11 +1,10 @@
 import { TypescriptTreeConstDeclaration } from "../../deps.ts";
-import { JsonotronTypeDef, RecordTypeDef } from "../interfaces/index.ts";
+import { RecordTypeDef } from "../interfaces/index.ts";
 import {
   capitalizeFirstLetter,
   stringifyJRuntimeType,
 } from "../utils/index.ts";
 import { generateJsonSchemaDescriptionText } from "./generateJsonSchemaDescriptionText.ts";
-import { generateJsonSchemaSetForRecordTypePropertiesBlock } from "./generateJsonSchemaSetForRecordTypePropertiesBlock.ts";
 
 /**
  * Returns a const declaration with an array validator and JSON array schema
@@ -17,21 +16,8 @@ import { generateJsonSchemaSetForRecordTypePropertiesBlock } from "./generateJso
  */
 export function generateConstDecForRecordTypeArray(
   recordType: RecordTypeDef<string>,
-  types: JsonotronTypeDef[],
-  componentSchemasPath?: string,
+  componentSchemasPath: string,
 ): TypescriptTreeConstDeclaration {
-  const objectProperties = generateJsonSchemaSetForRecordTypePropertiesBlock(
-    recordType,
-    types,
-    componentSchemasPath,
-  );
-
-  // OpenApi expects the required property of JSON schemas to have at least
-  // one element, otherwise it should be omitted.
-  const requiredPropertyNames = recordType.properties
-    .filter((p) => p.isRequired)
-    .map((p) => p.name);
-
   return {
     name: `${recordType.system}${
       capitalizeFirstLetter(recordType.name)
@@ -56,11 +42,9 @@ export function generateConstDecForRecordTypeArray(
           recordType.deprecated,
         ),
         items: {
-          type: "object",
-          properties: objectProperties,
-          required: requiredPropertyNames.length > 0
-            ? requiredPropertyNames
-            : undefined,
+          $ref: `${componentSchemasPath}${recordType.system}${
+            capitalizeFirstLetter(recordType.name)
+          }`,
         },
       },
     }),

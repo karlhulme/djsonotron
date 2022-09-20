@@ -10,9 +10,11 @@ import { generateJsonSchemaDescriptionText } from "./generateJsonSchemaDescripti
  * Returns a const declaration with an array validator and JSON array schema
  * for the given enum type.
  * @param enumType An enum type.
+ * @param componentSchemasPath The path to the component schemas.
  */
 export function generateConstDecForEnumTypeArray(
   enumType: EnumTypeDef,
+  componentSchemasPath: string,
 ): TypescriptTreeConstDeclaration {
   return {
     name: `${enumType.system}${capitalizeFirstLetter(enumType.name)}ArrayType`,
@@ -35,7 +37,9 @@ export function generateConstDecForEnumTypeArray(
         ),
         deprecated: enumType.deprecated ? true : undefined,
         items: {
-          type: "string",
+          $ref: `${componentSchemasPath}${enumType.system}${
+            capitalizeFirstLetter(enumType.name)
+          }`,
           enum: enumType.items.map((item) => item.value),
         },
       },

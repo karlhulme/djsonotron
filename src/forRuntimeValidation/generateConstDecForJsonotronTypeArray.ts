@@ -1,7 +1,6 @@
 import { TypescriptTreeConstDeclaration } from "../../deps.ts";
 import {
   capitalizeFirstLetter,
-  getJsonSchemaTypeForJsonotronTypeKind,
   stringifyJRuntimeType,
 } from "../utils/index.ts";
 import { JsonotronTypeDef } from "../interfaces/index.ts";
@@ -13,9 +12,11 @@ import { generateJsonSchemaDescriptionText } from "./generateJsonSchemaDescripti
  * This function works for all Jsonotron types but there are specialised
  * methods for enum and record types.
  * @param typeDef A jsonotron type.
+ * @param componentSchemasPath The path where the components can be referenced from.
  */
 export function generateConstDecForJsonotronTypeArray(
   typeDef: JsonotronTypeDef,
+  componentSchemasPath: string,
 ): TypescriptTreeConstDeclaration {
   return {
     name: `${typeDef.system}${capitalizeFirstLetter(typeDef.name)}ArrayType`,
@@ -38,7 +39,9 @@ export function generateConstDecForJsonotronTypeArray(
         ),
         deprecated: typeDef.deprecated ? true : undefined,
         items: {
-          type: getJsonSchemaTypeForJsonotronTypeKind(typeDef.kind),
+          $ref: `${componentSchemasPath}${typeDef.system}${
+            capitalizeFirstLetter(typeDef.name)
+          }`,
         },
       },
     }),

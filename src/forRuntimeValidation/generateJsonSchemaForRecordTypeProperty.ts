@@ -24,7 +24,7 @@ export function generateJsonSchemaForRecordTypeProperty(
   jsonotronTypeDef: JsonotronTypeDef,
   isNullable: boolean,
   includeDocumentationProps: boolean,
-  componentSchemasPath?: string,
+  componentSchemasPath: string,
 ) {
   const documentationProps = includeDocumentationProps
     ? {
@@ -53,7 +53,7 @@ export function generateJsonSchemaForRecordTypeProperty(
     jsonotronTypeDef.kind === "enum" || jsonotronTypeDef.kind === "record"
   ) {
     return {
-      $ref: `${componentSchemasPath || "#/components/schemas/"}${
+      $ref: `${componentSchemasPath}${
         getJsonotronTypeFormalName(jsonotronTypeDef)
       }`,
       ...nullableProps,

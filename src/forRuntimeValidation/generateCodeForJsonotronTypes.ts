@@ -36,9 +36,12 @@ import { generateValidatorWithStringOutputWrapper } from "./generateValidatorWit
 /**
  * Returns a typescript tree.
  * @param types An array of Jsonotron type definitions.
+ * @param componentSchemasPath The path where the component schemas will be placed
+ * and can be referenced from.
  */
 export function generateCodeForJsonotronTypes(
   types: JsonotronTypeDef[],
+  componentSchemasPath = "#/components/schemas/",
 ) {
   const tree = newTypescriptTree();
   tree.lintDirectives.ignoreNoExplicitAny = true;
@@ -56,7 +59,7 @@ export function generateCodeForJsonotronTypes(
         generateConstDecForJsonotronType(type),
       );
       tree.constDeclarations.push(
-        generateConstDecForJsonotronTypeArray(type),
+        generateConstDecForJsonotronTypeArray(type, componentSchemasPath),
       );
     } else if (type.kind === "enum") {
       tree.enumConstArrays.push(
@@ -67,7 +70,10 @@ export function generateCodeForJsonotronTypes(
         generateConstDecForEnumType(type as EnumTypeDef),
       );
       tree.constDeclarations.push(
-        generateConstDecForEnumTypeArray(type as EnumTypeDef),
+        generateConstDecForEnumTypeArray(
+          type as EnumTypeDef,
+          componentSchemasPath,
+        ),
       );
     } else if (type.kind === "float") {
       tree.functions.push(generateValidateFloatTypeFunc(type as FloatTypeDef));
@@ -75,7 +81,7 @@ export function generateCodeForJsonotronTypes(
         generateConstDecForJsonotronType(type),
       );
       tree.constDeclarations.push(
-        generateConstDecForJsonotronTypeArray(type),
+        generateConstDecForJsonotronTypeArray(type, componentSchemasPath),
       );
     } else if (type.kind === "int") {
       tree.functions.push(generateValidateIntTypeFunc(type as IntTypeDef));
@@ -83,7 +89,7 @@ export function generateCodeForJsonotronTypes(
         generateConstDecForJsonotronType(type),
       );
       tree.constDeclarations.push(
-        generateConstDecForJsonotronTypeArray(type),
+        generateConstDecForJsonotronTypeArray(type, componentSchemasPath),
       );
     } else if (type.kind === "object") {
       tree.functions.push(
@@ -93,7 +99,7 @@ export function generateCodeForJsonotronTypes(
         generateConstDecForJsonotronType(type),
       );
       tree.constDeclarations.push(
-        generateConstDecForJsonotronTypeArray(type),
+        generateConstDecForJsonotronTypeArray(type, componentSchemasPath),
       );
     } else if (type.kind === "record") {
       tree.interfaces.push(
@@ -103,12 +109,16 @@ export function generateCodeForJsonotronTypes(
         generateValidateRecordTypeFunc(type as RecordTypeDef<string>, types),
       );
       tree.constDeclarations.push(
-        generateConstDecForRecordType(type as RecordTypeDef<string>, types),
+        generateConstDecForRecordType(
+          type as RecordTypeDef<string>,
+          types,
+          componentSchemasPath,
+        ),
       );
       tree.constDeclarations.push(
         generateConstDecForRecordTypeArray(
           type as RecordTypeDef<string>,
-          types,
+          componentSchemasPath,
         ),
       );
     } else if (type.kind === "string") {
@@ -119,7 +129,7 @@ export function generateCodeForJsonotronTypes(
         generateConstDecForJsonotronType(type),
       );
       tree.constDeclarations.push(
-        generateConstDecForJsonotronTypeArray(type),
+        generateConstDecForJsonotronTypeArray(type, componentSchemasPath),
       );
     }
 
