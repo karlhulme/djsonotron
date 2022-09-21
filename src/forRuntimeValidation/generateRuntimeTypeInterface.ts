@@ -12,7 +12,7 @@ export function generateRuntimeTypeInterface(): TypescriptTreeInterface {
       name: "name",
       typeName: "string",
       comment:
-        "The fully qualified name of the type, e.g. std/positiveInteger.",
+        "The full name of the type, e.g. stdPositiveInteger.",
     }, {
       name: "schema",
       typeName: "unknown",
@@ -22,10 +22,10 @@ export function generateRuntimeTypeInterface(): TypescriptTreeInterface {
       typeName: `"string"|"number"|"boolean"|"object"|"array"`,
       comment: "The underlying type.",
     }, {
-      name: "referencedSchemaTypes",
+      name: "referencedRuntimeTypes",
       typeName: "string[]",
       comment:
-        "The names of the JSON schemas types referenced by this JSON schema.",
+        "The runtime types referenced by this runtime type.",
     }, {
       name: "validator",
       typeName: "(value: any, valueDisplayPath: string) => ValidationError[]",
