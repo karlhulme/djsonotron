@@ -21,9 +21,9 @@ export function generateRuntimeTypeInterface(): TypescriptTreeInterface {
       typeName: `"string"|"number"|"boolean"|"object"|"array"`,
       comment: "The underlying type.",
     }, {
-      name: "referencedRuntimeTypes",
-      typeName: "JsonotronRuntimeType[]",
-      comment: "The runtime types referenced by this runtime type.",
+      name: "referencedSchemaTypes",
+      typeName: "string[]",
+      comment: "The JSON schema types referenced by this schema.",
     }, {
       name: "validator",
       typeName: "(value: any, valueDisplayPath: string) => ValidationError[]",

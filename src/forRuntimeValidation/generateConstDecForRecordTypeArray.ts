@@ -10,8 +10,6 @@ import { generateJsonSchemaDescriptionText } from "./generateJsonSchemaDescripti
  * Returns a const declaration with an array validator and JSON array schema
  * for the given record type.
  * @param recordType A Jsonotron record type.
- * @param types An array of Jsonotron types that might be referenced
- * by the properties of the given record type def.
  * @param componentSchemasPath The path to the component schemas.
  */
 export function generateConstDecForRecordTypeArray(
@@ -47,8 +45,8 @@ export function generateConstDecForRecordTypeArray(
           }`,
         },
       },
-      referencedRuntimeTypes: [
-        `${recordType.system}${capitalizeFirstLetter(recordType.name)}Type`,
+      referencedSchemaTypes: [
+        `${recordType.system}${capitalizeFirstLetter(recordType.name)}`,
       ],
     }),
   };

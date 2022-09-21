@@ -9,7 +9,7 @@ export function stringifyJRuntimeType(
     underlyingType: string;
     validator: string;
     schema: unknown;
-    referencedRuntimeTypes: string[];
+    referencedSchemaTypes: string[];
   },
 ) {
   return `{
@@ -17,6 +17,8 @@ export function stringifyJRuntimeType(
     underlyingType: "${runtimeType.underlyingType}",
     validator: ${runtimeType.validator},
     schema: ${JSON.stringify(runtimeType.schema)},
-    referencedRuntimeTypes: [${runtimeType.referencedRuntimeTypes.join(", ")}]
+    referencedSchemaTypes: [${
+    runtimeType.referencedSchemaTypes.map((rst) => `"${rst}"`).join(", ")
+  }]
   }`;
 }

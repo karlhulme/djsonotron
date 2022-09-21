@@ -27,23 +27,23 @@ export function generateConstDecForRecordType(
     componentSchemasPath,
   );
 
-  // OpenApi expects the required property of JSON schemas to have at least
+  // OpenAPI expects the required property of JSON schemas to have at least
   // one element, otherwise it should be omitted.
   const requiredPropertyNames = recordType.properties
     .filter((p) => p.isRequired)
     .map((p) => p.name);
 
-  const referencedRuntimeTypes: string[] = [];
+  const referencedSchemaTypes: string[] = [];
 
   // Build up a list of directly referenced types.
   for (const recordProp of recordType.properties) {
     const recordPropType = resolveJsonotronType(recordProp.propertyType, types);
     const refTypeName = `${recordPropType.system}${
       capitalizeFirstLetter(recordPropType.name)
-    }${recordProp.isArray ? "ArrayType" : "Type"}`;
+    }${recordProp.isArray ? "Array" : ""}`;
 
-    if (!referencedRuntimeTypes.includes(refTypeName)) {
-      referencedRuntimeTypes.push(refTypeName);
+    if (!referencedSchemaTypes.includes(refTypeName)) {
+      referencedSchemaTypes.push(refTypeName);
     }
   }
 
@@ -71,7 +71,7 @@ export function generateConstDecForRecordType(
           ? requiredPropertyNames
           : undefined,
       },
-      referencedRuntimeTypes,
+      referencedSchemaTypes,
     }),
   };
 }

@@ -63,8 +63,6 @@ export function generateJsonSchemaSetForRecordTypePropertiesBlock(
  * no longer in use and what to use instead.
  * @param jsonotronTypeDef A jsonotron type definition.
  * @param isNullable True if the field can be null.
- * @param includeDocumentationProps True if the documentation properties
- * should be included.
  * @param componentSchemasPath The path to the component schemas,
  * defaults to #/components/schemas which is the path found in OpenApi
  * specifications.
