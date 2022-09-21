@@ -22,7 +22,7 @@ export function generateRuntimeTypeInterface(): TypescriptTreeInterface {
       comment: "The underlying type.",
     }, {
       name: "referencedRuntimeTypes",
-      typeName: "string[]",
+      typeName: "JsonotronRuntimeType[]",
       comment: "The runtime types referenced by this runtime type.",
     }, {
       name: "validator",
