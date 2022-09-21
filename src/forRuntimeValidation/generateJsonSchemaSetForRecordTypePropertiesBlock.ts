@@ -1,7 +1,6 @@
 import { JsonotronTypeDef, RecordTypeDef } from "../interfaces/index.ts";
-import { resolveJsonotronType } from "../utils/index.ts";
+import { capitalizeFirstLetter, resolveJsonotronType } from "../utils/index.ts";
 import { generateJsonSchemaDescriptionText } from "./generateJsonSchemaDescriptionText.ts";
-import { generateJsonSchemaForRecordTypeProperty } from "./generateJsonSchemaForRecordTypeProperty.ts";
 
 /**
  * Generates a record where each key is a record property and the
@@ -12,7 +11,6 @@ import { generateJsonSchemaForRecordTypeProperty } from "./generateJsonSchemaFor
  * @param componentSchemasPath The path to the component schemas,
  * defaults to #/components/schemas which is the path found in OpenApi
  * specifications.
- * @returns
  */
 export function generateJsonSchemaSetForRecordTypePropertiesBlock(
   recordType: RecordTypeDef<string>,
@@ -33,14 +31,11 @@ export function generateJsonSchemaSetForRecordTypePropertiesBlock(
             recordProp.deprecated,
           ),
           deprecated: Boolean(recordProp.deprecated),
-          items: generateJsonSchemaForRecordTypeProperty(
-            recordProp.summary,
-            recordProp.deprecated,
-            recordPropType,
-            Boolean(recordProp.isNullable),
-            false,
-            componentSchemasPath,
-          ),
+          items: {
+            $ref: `${componentSchemasPath}${recordPropType.system}${
+              capitalizeFirstLetter(recordPropType.name)
+            }`,
+          },
         };
       } else {
         objectProperties[recordProp.name] =
@@ -49,7 +44,6 @@ export function generateJsonSchemaSetForRecordTypePropertiesBlock(
             recordProp.deprecated,
             recordPropType,
             Boolean(recordProp.isNullable),
-            true,
             componentSchemasPath,
           );
       }
@@ -57,4 +51,52 @@ export function generateJsonSchemaSetForRecordTypePropertiesBlock(
   }
 
   return objectProperties;
+}
+
+/**
+ * Generates a JSON schema that either directly describes a simple
+ * JSON type (e.g. string, number) or generates a reference to a
+ * complex type that is expected to be found in the
+ * #/components/schemas section.
+ * @param summary The summary of the field.
+ * @param deprecated If populated, this indicates the field is
+ * no longer in use and what to use instead.
+ * @param jsonotronTypeDef A jsonotron type definition.
+ * @param isNullable True if the field can be null.
+ * @param includeDocumentationProps True if the documentation properties
+ * should be included.
+ * @param componentSchemasPath The path to the component schemas,
+ * defaults to #/components/schemas which is the path found in OpenApi
+ * specifications.
+ */
+function generateJsonSchemaForRecordTypeProperty(
+  summary: string,
+  deprecated: string | undefined,
+  jsonotronTypeDef: JsonotronTypeDef,
+  isNullable: boolean,
+  componentSchemasPath: string,
+) {
+  const documentationProps = {
+    title: jsonotronTypeDef.summary,
+    description: generateJsonSchemaDescriptionText(
+      summary,
+      deprecated,
+    ),
+    deprecated: Boolean(deprecated),
+  };
+
+  const nullableProps = isNullable
+    ? {
+      nullable: true,
+    }
+    : {};
+
+  return {
+    $ref: `${componentSchemasPath}${jsonotronTypeDef.system}${
+      capitalizeFirstLetter(jsonotronTypeDef.name)
+    }
+    }`,
+    ...nullableProps,
+    ...documentationProps,
+  };
 }
