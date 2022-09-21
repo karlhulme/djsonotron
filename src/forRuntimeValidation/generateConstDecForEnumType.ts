@@ -36,6 +36,7 @@ export function generateConstDecForEnumType(
         deprecated: enumType.deprecated ? true : undefined,
         enum: enumType.items.map((item) => item.value),
       },
+      referencedTypes: [],
     }),
   };
 }

@@ -43,6 +43,7 @@ export function generateConstDecForEnumTypeArray(
           enum: enumType.items.map((item) => item.value),
         },
       },
+      referencedTypes: [],
     }),
   };
 }

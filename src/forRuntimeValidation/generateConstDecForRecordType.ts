@@ -2,6 +2,7 @@ import { TypescriptTreeConstDeclaration } from "../../deps.ts";
 import { JsonotronTypeDef, RecordTypeDef } from "../interfaces/index.ts";
 import {
   capitalizeFirstLetter,
+  resolveJsonotronType,
   stringifyJRuntimeType,
 } from "../utils/index.ts";
 import { generateJsonSchemaDescriptionText } from "./generateJsonSchemaDescriptionText.ts";
@@ -32,6 +33,20 @@ export function generateConstDecForRecordType(
     .filter((p) => p.isRequired)
     .map((p) => p.name);
 
+  const referencedTypes: string[] = [];
+
+  // Build up a list of directly referenced types.
+  for (const recordProp of recordType.properties) {
+    const recordPropType = resolveJsonotronType(recordProp.propertyType, types);
+    const refTypeName = `${recordPropType.system}${
+      capitalizeFirstLetter(recordPropType.name)
+    }`;
+
+    if (!referencedTypes.includes(refTypeName)) {
+      referencedTypes.push(refTypeName);
+    }
+  }
+
   return {
     name: `${recordType.system}${capitalizeFirstLetter(recordType.name)}Type`,
     comment:
@@ -56,6 +71,7 @@ export function generateConstDecForRecordType(
           ? requiredPropertyNames
           : undefined,
       },
+      referencedTypes,
     }),
   };
 }

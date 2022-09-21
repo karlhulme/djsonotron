@@ -22,6 +22,10 @@ export function generateRuntimeTypeInterface(): TypescriptTreeInterface {
       typeName: `"string"|"number"|"boolean"|"object"|"array"`,
       comment: "The underlying type.",
     }, {
+      name: "referencedTypes",
+      typeName: "string[]",
+      comment: "The fully qualified names of the types referenced by this one.",
+    }, {
       name: "validator",
       typeName: "(value: any, valueDisplayPath: string) => ValidationError[]",
       comment:
