@@ -12,10 +12,8 @@ export function generateAllRuntimeTypesDeclaration(
   const exportedTypeNames: string[] = [];
 
   for (const type of types) {
-    const singular = `"${type.system}${capitalizeFirstLetter(type.name)}Type"`;
-    const plural = `"${type.system}${
-      capitalizeFirstLetter(type.name)
-    }ArrayType"`;
+    const singular = `${type.system}${capitalizeFirstLetter(type.name)}Type`;
+    const plural = `${type.system}${capitalizeFirstLetter(type.name)}ArrayType`;
 
     exportedTypeNames.push(singular);
     exportedTypeNames.push(plural);
