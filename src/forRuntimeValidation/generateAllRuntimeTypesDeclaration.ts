@@ -2,6 +2,10 @@ import { JsonotronTypeDef } from "../interfaces/index.ts";
 import { TypescriptTreeConstDeclaration } from "../../deps.ts";
 import { capitalizeFirstLetter } from "../utils/index.ts";
 
+/**
+ * Returns a constant declaration containins all the exported runtime types.
+ * @param types An array of jsonotron type defs.
+ */
 export function generateAllRuntimeTypesDeclaration(
   types: JsonotronTypeDef[],
 ): TypescriptTreeConstDeclaration {
