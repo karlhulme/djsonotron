@@ -11,8 +11,7 @@ export function generateRuntimeTypeInterface(): TypescriptTreeInterface {
     members: [{
       name: "name",
       typeName: "string",
-      comment:
-        "The full name of the type, e.g. stdPositiveInteger.",
+      comment: "The full name of the type, e.g. stdPositiveInteger.",
     }, {
       name: "schema",
       typeName: "unknown",
@@ -24,8 +23,7 @@ export function generateRuntimeTypeInterface(): TypescriptTreeInterface {
     }, {
       name: "referencedRuntimeTypes",
       typeName: "string[]",
-      comment:
-        "The runtime types referenced by this runtime type.",
+      comment: "The runtime types referenced by this runtime type.",
     }, {
       name: "validator",
       typeName: "(value: any, valueDisplayPath: string) => ValidationError[]",
