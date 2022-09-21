@@ -16,8 +16,8 @@ generate:
 
 ### NoSQL database definitions
 
-Define and validate objects before they are saved to a NoSQL database, you can
-then generate:
+Define your table or collection record structures using the Jsonotron format,
+you can then generate:
 
 - Typescript interfaces to support the development of code that reads or writes
   to the database.

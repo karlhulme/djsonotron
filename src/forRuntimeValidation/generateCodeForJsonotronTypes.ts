@@ -150,6 +150,7 @@ export function generateCodeForJsonotronTypes(
         ", ",
       )
     }]`,
+    outputGeneration: 1,
   });
 
   return generateTypescript(tree);
