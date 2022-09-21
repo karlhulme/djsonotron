@@ -21,7 +21,7 @@ export function generateConstDecForJsonotronTypeArray(
   return {
     name: `${typeDef.system}${capitalizeFirstLetter(typeDef.name)}ArrayType`,
     comment:
-      `The schema and validator for the ${typeDef.system}/${typeDef.name} array type.`,
+      `The runtime type information for the ${typeDef.system}/${typeDef.name} array type.`,
     exported: true,
     deprecated: Boolean(typeDef.deprecated),
     typeName: "JsonotronRuntimeType",

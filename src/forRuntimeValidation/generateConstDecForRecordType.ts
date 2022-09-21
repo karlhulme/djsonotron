@@ -50,7 +50,7 @@ export function generateConstDecForRecordType(
   return {
     name: `${recordType.system}${capitalizeFirstLetter(recordType.name)}Type`,
     comment:
-      `The JSON schema for the ${recordType.system}/${recordType.name} type.`,
+      `The runtime type information for the ${recordType.system}/${recordType.name} type.`,
     exported: true,
     deprecated: Boolean(recordType.deprecated),
     typeName: "JsonotronRuntimeType",

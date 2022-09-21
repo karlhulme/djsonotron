@@ -21,7 +21,7 @@ export function generateConstDecForRecordTypeArray(
       capitalizeFirstLetter(recordType.name)
     }ArrayType`,
     comment:
-      `The JSON schema for an array of ${recordType.system}/${recordType.name} types.`,
+      `The runtime type information for an array of ${recordType.system}/${recordType.name} types.`,
     exported: true,
     deprecated: Boolean(recordType.deprecated),
     typeName: "JsonotronRuntimeType",

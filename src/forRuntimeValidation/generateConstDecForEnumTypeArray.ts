@@ -19,7 +19,7 @@ export function generateConstDecForEnumTypeArray(
   return {
     name: `${enumType.system}${capitalizeFirstLetter(enumType.name)}ArrayType`,
     comment:
-      `The JSON schema for an array of ${enumType.system}/${enumType.name} types.`,
+      `The runtime type information for an array of ${enumType.system}/${enumType.name} types.`,
     exported: true,
     deprecated: Boolean(enumType.deprecated),
     typeName: "JsonotronRuntimeType",

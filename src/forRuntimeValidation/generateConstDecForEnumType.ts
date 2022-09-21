@@ -17,7 +17,7 @@ export function generateConstDecForEnumType(
   return {
     name: `${enumType.system}${capitalizeFirstLetter(enumType.name)}Type`,
     comment:
-      `The schema and validator for the ${enumType.system}/${enumType.name} type.`,
+      `The runtime type information for the ${enumType.system}/${enumType.name} type.`,
     exported: true,
     deprecated: Boolean(enumType.deprecated),
     typeName: "JsonotronRuntimeType",

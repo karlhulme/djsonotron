@@ -7,6 +7,7 @@ import {
   RecordTypeDef,
   StringTypeDef,
 } from "../interfaces/index.ts";
+import { capitalizeFirstLetter } from "../utils/index.ts";
 import { generateConstDecForEnumType } from "./generateConstDecForEnumType.ts";
 import { generateConstDecForEnumTypeArray } from "./generateConstDecForEnumTypeArray.ts";
 import { generateConstDecForJsonotronType } from "./generateConstDecForJsonotronType.ts";
@@ -139,6 +140,17 @@ export function generateCodeForJsonotronTypes(
   tree.stringUnions.push(
     ...generateStringUnionsForTypeSystems(types),
   );
+
+  tree.constDeclarations.push({
+    name: "allRuntimeTypes",
+    comment: "An array of runtime types.",
+    exported: true,
+    value: `[${
+      types.map((t) => `"${t.system}${capitalizeFirstLetter(t.name)}"`).join(
+        ", ",
+      )
+    }]`,
+  });
 
   return generateTypescript(tree);
 }
