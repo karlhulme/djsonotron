@@ -33,17 +33,17 @@ export function generateConstDecForRecordType(
     .filter((p) => p.isRequired)
     .map((p) => p.name);
 
-  const referencedSchemaTypes: string[] = [];
+  const referencedRuntimeTypes: string[] = [];
 
   // Build up a list of directly referenced types.
   for (const recordProp of recordType.properties) {
     const recordPropType = resolveJsonotronType(recordProp.propertyType, types);
     const refTypeName = `${recordPropType.system}${
       capitalizeFirstLetter(recordPropType.name)
-    }`;
+    }${recordProp.isArray ? "ArrayType" : "Type"}`;
 
-    if (!referencedSchemaTypes.includes(refTypeName)) {
-      referencedSchemaTypes.push(refTypeName);
+    if (!referencedRuntimeTypes.includes(refTypeName)) {
+      referencedRuntimeTypes.push(refTypeName);
     }
   }
 
@@ -71,7 +71,7 @@ export function generateConstDecForRecordType(
           ? requiredPropertyNames
           : undefined,
       },
-      referencedSchemaTypes,
+      referencedRuntimeTypes,
     }),
   };
 }

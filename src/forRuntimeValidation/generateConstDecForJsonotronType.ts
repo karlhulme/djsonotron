@@ -38,7 +38,7 @@ export function generateConstDecForJsonotronType(
         ),
         deprecated: typeDef.deprecated ? true : undefined,
       },
-      referencedSchemaTypes: [],
+      referencedRuntimeTypes: [],
     }),
   };
 }
