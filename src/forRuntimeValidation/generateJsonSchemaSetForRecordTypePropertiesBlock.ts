@@ -94,7 +94,6 @@ function generateJsonSchemaForRecordTypeProperty(
   return {
     $ref: `${componentSchemasPath}${jsonotronTypeDef.system}${
       capitalizeFirstLetter(jsonotronTypeDef.name)
-    }
     }`,
     ...nullableProps,
     ...documentationProps,
