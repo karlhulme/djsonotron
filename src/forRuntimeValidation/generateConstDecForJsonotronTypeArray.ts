@@ -44,7 +44,7 @@ export function generateConstDecForJsonotronTypeArray(
           }`,
         },
       },
-      referencedTypes: [
+      referencedSchemaTypes: [
         `${typeDef.system}${capitalizeFirstLetter(typeDef.name)}`,
       ],
     }),

@@ -47,7 +47,7 @@ export function generateConstDecForRecordTypeArray(
           }`,
         },
       },
-      referencedTypes: [
+      referencedSchemaTypes: [
         `${recordType.system}${capitalizeFirstLetter(recordType.name)}`,
       ],
     }),

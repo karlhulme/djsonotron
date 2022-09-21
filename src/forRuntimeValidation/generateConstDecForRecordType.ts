@@ -33,7 +33,7 @@ export function generateConstDecForRecordType(
     .filter((p) => p.isRequired)
     .map((p) => p.name);
 
-  const referencedTypes: string[] = [];
+  const referencedSchemaTypes: string[] = [];
 
   // Build up a list of directly referenced types.
   for (const recordProp of recordType.properties) {
@@ -42,8 +42,8 @@ export function generateConstDecForRecordType(
       capitalizeFirstLetter(recordPropType.name)
     }`;
 
-    if (!referencedTypes.includes(refTypeName)) {
-      referencedTypes.push(refTypeName);
+    if (!referencedSchemaTypes.includes(refTypeName)) {
+      referencedSchemaTypes.push(refTypeName);
     }
   }
 
@@ -71,7 +71,7 @@ export function generateConstDecForRecordType(
           ? requiredPropertyNames
           : undefined,
       },
-      referencedTypes,
+      referencedSchemaTypes,
     }),
   };
 }

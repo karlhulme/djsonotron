@@ -43,7 +43,7 @@ export function generateConstDecForEnumTypeArray(
           enum: enumType.items.map((item) => item.value),
         },
       },
-      referencedTypes: [
+      referencedSchemaTypes: [
         `${enumType.system}${capitalizeFirstLetter(enumType.name)}`,
       ],
     }),

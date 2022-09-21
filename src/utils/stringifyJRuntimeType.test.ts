@@ -9,11 +9,11 @@ Deno.test("Stringify the runtime type.", () => {
     schema: {
       type: "string",
     },
-    referencedTypes: ["stdUuid"],
+    referencedSchemaTypes: ["stdUuid"],
   });
   assertStringIncludes(output, `name: "test"`);
   assertStringIncludes(output, `underlyingType: "string"`);
   assertStringIncludes(output, `validator: validateTest`);
   assertStringIncludes(output, `schema: {"type":"string"}`);
-  assertStringIncludes(output, `referencedTypes: ["stdUuid"]`);
+  assertStringIncludes(output, `referencedSchemaTypes: ["stdUuid"]`);
 });
