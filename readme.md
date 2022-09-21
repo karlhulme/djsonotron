@@ -25,7 +25,7 @@ then generate:
 
 ## Formatting
 
-All output is left-aligned, so run `deno fmt` after generation to pretty-print.
+All output is left-aligned, so run `deno fmt` after generation to pretty print.
 
 ## Commands
 
