@@ -1,7 +1,7 @@
-// Taken from stackoverflow: https://stackoverflow.com/questions/34575635/cryptographically-secure-float
+// From stackoverflow: https://stackoverflow.com/questions/34575635/cryptographically-secure-float
 
 /**
- * Generates a random float.
+ * Generates a random float between zero and one.
  */
 export function generateRandomFloat() {
   // A buffer with just the right size to convert to Float64.
