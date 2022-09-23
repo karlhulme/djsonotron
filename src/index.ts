@@ -1,4 +1,7 @@
-export { validateJsonotronTypes } from "./designTimeValidation/index.ts";
+export {
+  ensureJsonotronTypes,
+  validateJsonotronTypes,
+} from "./designTimeValidation/index.ts";
 export * from "./interfaces/index.ts";
 export * from "./std/index.ts";
 
