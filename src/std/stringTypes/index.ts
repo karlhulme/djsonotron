@@ -10,6 +10,7 @@ export * from "./longString.ts";
 export * from "./maxString.ts";
 export * from "./mediumString.ts";
 export * from "./mediumStringDisplayable.ts";
+export * from "./oneTimePassword.ts";
 export * from "./shortString.ts";
 export * from "./shortStringDisplayable.ts";
 export * from "./time.ts";

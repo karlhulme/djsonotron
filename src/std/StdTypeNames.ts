@@ -23,6 +23,7 @@ export type StdTypeNames =
   | "std/negativeFloatOrZero"
   | "std/negativeInteger"
   | "std/negativeIntegerOrZero"
+  | "std/oneTimePassword"
   | "std/plainObject"
   | "std/positiveFloat"
   | "std/positiveFloatOrZero"
