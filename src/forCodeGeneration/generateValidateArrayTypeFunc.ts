@@ -1,5 +1,6 @@
 import { TypescriptTreeFunction } from "../../deps.ts";
-import { getJsonotronTypeFormalName, JsonotronTypeDef } from "../index.ts";
+import { getJsonotronTypeFormalName } from "../utils/index.ts";
+import { JsonotronTypeDef } from "../interfaces/index.ts";
 
 /**
  * Returns a typed typescript function definition for an array of Jsonotron types.

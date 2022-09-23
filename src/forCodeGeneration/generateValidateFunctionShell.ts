@@ -1,5 +1,6 @@
 import { TypescriptTreeFunction } from "../../deps.ts";
-import { getJsonotronTypeFormalName, JsonotronTypeDef } from "../index.ts";
+import { JsonotronTypeDef } from "../interfaces/index.ts";
+import { getJsonotronTypeFormalName } from "../utils/index.ts";
 
 /**
  * Generates the signature for a validation function.

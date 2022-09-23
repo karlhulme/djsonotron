@@ -2,7 +2,7 @@ import {
   TypescriptTreeEnumConstArray,
   TypescriptTreeFunction,
 } from "../../deps.ts";
-import { getJsonotronTypeFormalName } from "../index.ts";
+import { getJsonotronTypeFormalName } from "../utils/index.ts";
 import { EnumTypeDef } from "../interfaces/index.ts";
 import { generateEnumTypeValidation } from "../validationClauses/index.ts";
 import { generateValidateFunctionShell } from "./generateValidateFunctionShell.ts";
