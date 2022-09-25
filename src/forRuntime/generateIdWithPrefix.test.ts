@@ -1,8 +1,4 @@
-// import { assert } from "../../deps.ts";
-import {
-  assert,
-  assertThrows,
-} from "https://deno.land/std@0.156.0/testing/asserts.ts";
+import { assert, assertThrows } from "../../deps.ts";
 import { generateIdWithPrefix } from "./generateIdWithPrefix.ts";
 
 Deno.test("Reject a prefix that is too short.", () => {
