@@ -19,5 +19,7 @@ export function getJsonSchemaTypeForJsonotronTypeKind(kind: JsonotronTypeKind) {
     case "enum":
     case "string":
       return "string";
+    case "variant":
+      return "unknown";
   }
 }
