@@ -11,6 +11,11 @@ import { StringTypeDef } from "./StringTypeDef.ts";
  */
 export interface TypeLibraryDef<TypeNames extends string> {
   /**
+   * An array of verified variant type definitions.
+   */
+  variantTypeDefs: JsonotronTypeDef[];
+
+  /**
    * An array of verified bool type definitions.
    */
   boolTypeDefs: JsonotronTypeDef[];

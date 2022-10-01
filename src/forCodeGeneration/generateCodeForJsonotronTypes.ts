@@ -7,6 +7,7 @@ import {
   RecordTypeDef,
   StringTypeDef,
 } from "../interfaces/index.ts";
+import { ensureJsonotronTypes } from "../designTimeValidation/index.ts";
 import { generateAllRuntimeTypesDeclaration } from "./generateAllRuntimeTypesDeclaration.ts";
 import { generateConstDecForEnumType } from "./generateConstDecForEnumType.ts";
 import { generateConstDecForEnumTypeArray } from "./generateConstDecForEnumTypeArray.ts";
@@ -19,6 +20,7 @@ import { generateStringUnionsForTypeSystems } from "./generateStringUnionsForTyp
 import { generateValidateArrayFunc } from "./generateValidateArrayFunc.ts";
 import { generateValidateArrayTypeFunc } from "./generateValidateArrayTypeFunc.ts";
 import { generateValidateBoolTypeFunc } from "./generateValidateBoolTypeFunc.ts";
+import { generateValidateVariantTypeFunc } from "./generateValidateVariantTypeFunc.ts";
 import {
   generateEnumTypeEnumConstArray,
   generateValidateEnumTypeFunc,
@@ -44,6 +46,8 @@ export function generateCodeForJsonotronTypes(
   types: JsonotronTypeDef[],
   componentSchemasPath = "#/components/schemas/",
 ) {
+  ensureJsonotronTypes(types);
+
   const tree = newTypescriptTree();
   tree.lintDirectives.ignoreNoExplicitAny = true;
 
@@ -125,6 +129,16 @@ export function generateCodeForJsonotronTypes(
     } else if (type.kind === "string") {
       tree.functions.push(
         generateValidateStringTypeFunc(type as StringTypeDef),
+      );
+      tree.constDeclarations.push(
+        generateConstDecForJsonotronType(type),
+      );
+      tree.constDeclarations.push(
+        generateConstDecForJsonotronTypeArray(type, componentSchemasPath),
+      );
+    } else if (type.kind === "variant") {
+      tree.functions.push(
+        generateValidateVariantTypeFunc(type),
       );
       tree.constDeclarations.push(
         generateConstDecForJsonotronType(type),

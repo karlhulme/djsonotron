@@ -11,6 +11,12 @@ import { validateIntTypeDef } from "./validateIntTypeDef.ts";
 import { validateRecordTypeDef } from "./validateRecordTypeDef.ts";
 import { validateStringTypeDef } from "./validateStringTypeDef.ts";
 
+/**
+ * Validates the definitions of the given Jsonotron types.  This function
+ * is concerned with validating the extending parameters of some of the
+ * most specific types, like checking the ranges on numerical types.
+ * @param types An array of Jsonotron types.
+ */
 export function validateJsonotronTypes<TypeNames extends string>(
   types: JsonotronTypeDef[],
 ) {

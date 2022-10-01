@@ -36,5 +36,6 @@ export type StdTypeNames =
   | "std/userClaim"
   | "std/userClaimsString"
   | "std/uuid"
+  | "std/variant"
   | "std/webAddress"
   | "std/yesNo";

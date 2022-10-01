@@ -206,18 +206,6 @@ Deno.test("Generate typescript for a set of types.", () => {
   assertStringIncludes(output, "export const testFullRecordArrayType");
 });
 
-Deno.test("Generate typescript where a referenced type is missing.", () => {
-  assertThrows(
-    () =>
-      generateCodeForJsonotronTypes([
-        simpleString,
-        fullRecord,
-      ]),
-    Error,
-    "Unable to resolve type: test/simpleBool",
-  );
-});
-
 Deno.test("Generate typescript for invalid type.", () => {
   const invalidType: JsonotronTypeDef = {
     system: "test",

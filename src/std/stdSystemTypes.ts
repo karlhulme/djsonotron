@@ -42,6 +42,7 @@ import {
   uuid,
   webAddress,
 } from "./stringTypes/index.ts";
+import { variant } from "./variantTypes/index.ts";
 
 export const stdSystemTypes: JsonotronTypeDef[] = [
   bool,
@@ -81,6 +82,7 @@ export const stdSystemTypes: JsonotronTypeDef[] = [
   userClaim,
   userClaimsString,
   uuid,
+  variant,
   webAddress,
   yesNo,
 ];

@@ -5,4 +5,5 @@ export type JsonotronTypeKind =
   | "float"
   | "string"
   | "record"
-  | "object";
+  | "object"
+  | "variant";
