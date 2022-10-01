@@ -2,6 +2,7 @@ import { TypescriptTreeConstDeclaration } from "../../deps.ts";
 import {
   capitalizeFirstLetter,
   getJsonSchemaTypeForJsonotronTypeKind,
+  getUnderlyingTypeForJsonotronTypeKind,
   stringifyJRuntimeType,
 } from "../utils/index.ts";
 import { JsonotronTypeDef } from "../interfaces/index.ts";
@@ -26,7 +27,7 @@ export function generateConstDecForJsonotronType(
     typeName: "JsonotronRuntimeType",
     value: stringifyJRuntimeType({
       name: `${typeDef.system}${capitalizeFirstLetter(typeDef.name)}`,
-      underlyingType: getJsonSchemaTypeForJsonotronTypeKind(typeDef.kind),
+      underlyingType: getUnderlyingTypeForJsonotronTypeKind(typeDef.kind),
       validator: `validate${capitalizeFirstLetter(typeDef.system)}${
         capitalizeFirstLetter(typeDef.name)
       }`,

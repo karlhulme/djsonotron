@@ -1,11 +1,10 @@
 import { JsonotronTypeKind } from "../interfaces/index.ts";
 
 /**
- * Returns the equivalent JSON schema type value for the
- * given jsonotron type.
+ * Returns the underlying Typescript type for the given jsonotron type.
  * @param kind The kind of jsonotron type.
  */
-export function getJsonSchemaTypeForJsonotronTypeKind(kind: JsonotronTypeKind) {
+export function getUnderlyingTypeForJsonotronTypeKind(kind: JsonotronTypeKind) {
   switch (kind) {
     case "bool":
       return "boolean";
@@ -20,6 +19,6 @@ export function getJsonSchemaTypeForJsonotronTypeKind(kind: JsonotronTypeKind) {
     case "string":
       return "string";
     case "variant":
-      return {};
+      return "unknown";
   }
 }

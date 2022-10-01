@@ -18,7 +18,7 @@ export function generateRuntimeTypeInterface(): TypescriptTreeInterface {
       comment: "A JSON schema object.",
     }, {
       name: "underlyingType",
-      typeName: `"string"|"number"|"boolean"|"object"|"array"`,
+      typeName: `"string"|"number"|"boolean"|"object"|"array"|"unknown"`,
       comment: "The underlying type.",
     }, {
       name: "referencedSchemaTypes",
