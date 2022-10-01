@@ -83,6 +83,14 @@ const simpleString: StringTypeDef = {
   regex: "^[a-z]+$",
 };
 
+const simpleVariant: JsonotronTypeDef = {
+  kind: "variant",
+  system: "test",
+  name: "simpleVariant",
+  pluralName: "simpleVariants",
+  summary: "A type used for testing.",
+};
+
 Deno.test("Generate a record type property validation.", () => {
   const types = [
     simpleBool,
@@ -92,6 +100,7 @@ Deno.test("Generate a record type property validation.", () => {
     simpleObject,
     simpleRecord,
     simpleString,
+    simpleVariant,
   ];
 
   for (const type of types) {

@@ -12,6 +12,7 @@ import { generateFloatTypeValidation } from "./generateFloatTypeValidation.ts";
 import { generateIntTypeValidation } from "./generateIntTypeValidation.ts";
 import { generateObjectTypeValidation } from "./generateObjectTypeValidation.ts";
 import { generateStringTypeValidation } from "./generateStringTypeValidation.ts";
+import { generateVariantTypeValidation } from "./generateVariantTypeValidation.ts";
 
 interface RecordTypePropertyValidationProps {
   valuePath: string;
@@ -64,6 +65,12 @@ export function generateRecordTypePropertyValidation(
     case "string":
       return generateStringTypeValidation({
         def: props.def as StringTypeDef,
+        valuePath: props.valuePath,
+        valueDisplayPath: props.valueDisplayPath,
+      });
+    case "variant":
+      return generateVariantTypeValidation({
+        def: props.def,
         valuePath: props.valuePath,
         valueDisplayPath: props.valueDisplayPath,
       });
