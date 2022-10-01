@@ -12,7 +12,7 @@ Deno.test("Convert from jsonotron type kinds to json schema types.", () => {
   assertStrictEquals(getJsonSchemaTypeForJsonotronTypeKind("string"), "string");
   assertEquals(
     getJsonSchemaTypeForJsonotronTypeKind("variant"),
-    {},
+    ["string", "number", "boolean", "object"],
   );
   assertStrictEquals(
     getJsonSchemaTypeForJsonotronTypeKind(

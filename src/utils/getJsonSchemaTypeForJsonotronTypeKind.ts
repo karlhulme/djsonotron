@@ -20,6 +20,6 @@ export function getJsonSchemaTypeForJsonotronTypeKind(kind: JsonotronTypeKind) {
     case "string":
       return "string";
     case "variant":
-      return {};
+      return ["string", "number", "boolean", "object"];
   }
 }
