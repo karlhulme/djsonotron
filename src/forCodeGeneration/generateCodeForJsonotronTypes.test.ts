@@ -20,6 +20,7 @@ type TypeNames =
   | "test/simpleObject"
   | "test/simpleString"
   | "test/simpleRecord"
+  | "test/simpleVariant"
   | "test/fullRecord";
 
 const simpleBool: JsonotronTypeDef = {
@@ -121,6 +122,14 @@ const simpleRecord: RecordTypeDef<TypeNames> = {
   }],
 };
 
+const simpleVariant: JsonotronTypeDef = {
+  kind: "variant",
+  system: "test",
+  name: "simpleVariant",
+  pluralName: "simpleVariant",
+  summary: "A type used for testing.",
+};
+
 const fullRecord: RecordTypeDef<TypeNames> = {
   system: "test",
   name: "fullRecord",
@@ -159,6 +168,10 @@ const fullRecord: RecordTypeDef<TypeNames> = {
     summary: "A field",
     propertyType: "test/simpleString",
     isArray: true,
+  }, {
+    name: "variantProp",
+    summary: "A field",
+    propertyType: "test/simpleVariant",
   }],
 };
 
@@ -173,6 +186,7 @@ Deno.test("Generate typescript for a set of types.", () => {
     simpleObject,
     simpleString,
     simpleRecord,
+    simpleVariant,
     fullRecord,
   ];
 

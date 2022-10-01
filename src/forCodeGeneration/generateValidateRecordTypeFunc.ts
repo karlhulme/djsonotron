@@ -89,6 +89,8 @@ function getTypescriptTypeForJsonotronTypeDef(def: JsonotronTypeDef) {
       }`;
     case "string":
       return "string";
+    case "variant":
+      return "unknown";
     default:
       return "never";
   }
