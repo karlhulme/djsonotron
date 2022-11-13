@@ -17,6 +17,7 @@ export function createSengiStandardProperties(docTypeName: string) {
     generateDocTypeProperty(docTypeName),
     generateDocStatusProperty(),
     generateDocOpIdsProperty(),
+    generateDocDigestsProperty(),
     generateDocVersionProperty(),
     generateDocCreatedByUserId(),
     generateDocCreatedMillisecondsSinceEpoch(),
@@ -83,6 +84,21 @@ export function generateDocOpIdsProperty(): RecordTypeDefProperty<
   return {
     name: "docOpIds",
     summary: "The ids of the recently completed operations.",
+    propertyType: "std/mediumString",
+    isArray: true,
+    isRequired: true,
+  };
+}
+
+/**
+ * Returns a Sengi docDigests property definition.
+ */
+export function generateDocDigestsProperty(): RecordTypeDefProperty<
+  "std/mediumString"
+> {
+  return {
+    name: "docDigests",
+    summary: "The digests of the recently completed operations.",
     propertyType: "std/mediumString",
     isArray: true,
     isRequired: true,
