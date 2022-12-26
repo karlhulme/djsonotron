@@ -50,8 +50,11 @@
             "type": "string"
           },
           "propertyType": {
-            "type": "string",
-            "enum": ["std/positiveInteger", "std/integer"]
+            "oneOf": [{
+              "enum": ["std/positiveInteger", "std/integer"]
+            }, {
+              "type": "string"
+            }]
           },
           "isRequired": {
             "type": "boolean"
