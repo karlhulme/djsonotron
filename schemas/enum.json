@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://github.com/karlhulme/djsonotron/schemas/enum.json",
+  "title": "A jsonotron enum schema.",
+  "description": "An enum.",
+  "type": "object",
+  "properties": {
+    "system": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "pluralName": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "deprecated": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "value": "string"
+          }
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "deprecated": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+    }
+  },
+  "required": [
+    "system",
+    "name",
+    "pluralName",
+    "summary",
+    "items"
+  ]
+}
