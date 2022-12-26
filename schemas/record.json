@@ -50,7 +50,8 @@
             "type": "string"
           },
           "propertyType": {
-            "type": "string"
+            "type": "string",
+            "enum": ["std/positiveInteger", "std/integer"]
           },
           "isRequired": {
             "type": "boolean"
