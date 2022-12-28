@@ -246,9 +246,6 @@
           "items": {
             "type": "object",
             "properties": {
-              "system": {
-                "type": "string"
-              },
               "name": {
                 "type": "string"
               },
