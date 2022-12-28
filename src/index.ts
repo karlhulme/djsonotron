@@ -5,7 +5,10 @@ export {
 export * from "./interfaces/index.ts";
 export * from "./std/index.ts";
 
-export { generateCodeForJsonotronTypes } from "./forCodeGeneration/index.ts";
+export {
+  appendJsonotronTypesToTree,
+  generateCodeForJsonotronTypes,
+} from "./forCodeGeneration/index.ts";
 export {
   formatDate,
   formatDateTimeUtc,
