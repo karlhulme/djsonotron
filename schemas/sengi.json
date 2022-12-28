@@ -360,7 +360,6 @@
             },
             "additionalProperties": false,
             "required": [
-              "system",
               "name",
               "pluralName",
               "summary",
