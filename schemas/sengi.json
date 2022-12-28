@@ -59,14 +59,7 @@
           "fieldName": {
             "type": "string"
           },
-          "value": {
-            "oneOf": [
-              {
-                "enum": ["*"]
-              },
-              {}
-            ]
-          }
+          "value": {}
         },
         "additionalProperties": false
       }
@@ -162,7 +155,8 @@
                 "std/variant"
               ]
             }, {
-              "type": "string"
+              "type": "string",
+              "pattern": "^(?!std\/).+"
             }]
           },
           "isRequired": {
@@ -345,7 +339,8 @@
                         "std/variant"
                       ]
                     }, {
-                      "type": "string"
+                      "type": "string",
+                      "pattern": "^(?!std\/).+"
                     }]
                   },
                   "isRequired": {
