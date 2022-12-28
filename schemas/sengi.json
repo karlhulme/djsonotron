@@ -45,12 +45,6 @@
         "additionalProperties": false
       }
     },
-    "readOnlyFieldNames": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
     "redactFields": {
       "type": "array",
       "items": {
