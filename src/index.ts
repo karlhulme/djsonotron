@@ -20,3 +20,4 @@ export {
   parseDateTimeUtc,
 } from "./forRuntime/index.ts";
 export { createSengiStandardProperties } from "./forSengi/index.ts";
+export { capitalizeFirstLetter } from "./utils/index.ts";
