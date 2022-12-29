@@ -19,5 +19,8 @@ export {
   parseDate,
   parseDateTimeUtc,
 } from "./forRuntime/index.ts";
-export { createSengiStandardProperties } from "./forSengi/index.ts";
+export {
+  createSengiStandardProperties,
+  generateCodeForCosmosDatabase,
+} from "./forSengi/index.ts";
 export { capitalizeFirstLetter } from "./utils/index.ts";
