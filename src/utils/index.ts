@@ -5,5 +5,6 @@ export * from "./getSystemFromTypeString.ts";
 export * from "./getTypeFromTypeString.ts";
 export * from "./getUnderlyingTypeForJsonotronTypeKind.ts";
 export * from "./isValidRegex.ts";
+export * from "./readJsonResourcesFromDirectory.ts";
 export * from "./resolveJsonotronType.ts";
 export * from "./stringifyJRuntimeType.ts";

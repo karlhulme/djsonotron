@@ -23,4 +23,7 @@ export {
   createSengiStandardProperties,
   generateCodeForCosmosDatabase,
 } from "./forSengi/index.ts";
-export { capitalizeFirstLetter } from "./utils/index.ts";
+export {
+  capitalizeFirstLetter,
+  readJsonResourcesFromDirectory,
+} from "./utils/index.ts";
