@@ -90,6 +90,7 @@ Deno.test("Ensure that code can be generated for interacting with a cosmos datab
         },
       ],
     }],
+    depsPath: "../deps.ts",
   });
 
   assertStringIncludes(sourceCode, "patchDbMovie");
@@ -107,6 +108,7 @@ Deno.test("Fail to generate cosmos database code for an invalid document collect
       collections: [{
         not: "valid",
       }],
+      depsPath: "../deps.ts",
     })
   );
 });

@@ -63,6 +63,11 @@ interface Props {
    * variable is not defined.
    */
   defaultCosmosDb: string;
+
+  /**
+   * The path to the deps.ts file.
+   */
+  depsPath: string;
 }
 
 /**
@@ -88,7 +93,7 @@ export function generateCodeForCosmosDatabase(props: Props) {
       "CosmosDbDocStoreQuery",
       "generateIdWithPrefix",
       "Sengi",
-    ].map((impt) => ({ name: impt, path: "../deps.ts" })),
+    ].map((impt) => ({ name: impt, path: props.depsPath })),
   );
 
   // Add the Sengi constants
@@ -186,7 +191,9 @@ export function generateCodeForCosmosDatabase(props: Props) {
           "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/sengi.json"
       ) {
         throw new Error(
-          "The $schema property was not found on the collection definition.",
+          `The $schema property on the collection was not recognised.\n${
+            col["$schema"]
+          }`,
         );
       }
 

@@ -8,6 +8,9 @@
     "$schema": {
       "type": "string"
     },
+    "system": {
+      "type": "string"
+    },
     "urlPattern": {
       "type": "string"
     },
@@ -259,12 +262,12 @@
           "responseBodyTypeArray": {
             "type": "boolean"
           },
-          "responseFailureCodes": {
+          "responseFailureDefinitions": {
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
-                "code": {
+                "status": {
                   "type": "number"
                 },
                 "summary": {
@@ -280,5 +283,6 @@
         "required": ["method", "name", "operationId"]
       }
     }
-  }
+  },
+  "required": ["urlPattern", "methods"]
 }
