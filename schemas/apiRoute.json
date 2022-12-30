@@ -11,6 +11,23 @@
     "urlPattern": {
       "type": "string"
     },
+    "urlParams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "propertyType": {
+            "$ref": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/types.json"
+          }
+        }
+      }
+    },
     "operationId": {
       "type": "string"
     },
