@@ -28,12 +28,6 @@
         }
       }
     },
-    "operationId": {
-      "type": "string"
-    },
-    "name": {
-      "type": "string"
-    },
     "tags": {
       "type": "array",
       "items": {
@@ -45,6 +39,12 @@
       "items": {
         "type": "object",
         "properties": {
+          "name": {
+            "type": "string"
+          },
+          "operationId": {
+            "type": "string"
+          },
           "method": {
             "enum": ["DELETE", "GET", "PATCH", "POST", "PUT"]
           },
@@ -60,29 +60,35 @@
               "type": "string"
             }
           },
-          "requestBody": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
+          "requestBodyProperties": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "propertyType": {
+                  "$ref": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/types.json"
+                },
+                "isRequired": {
+                  "type": "boolean"
+                },
+                "isArray": {
+                  "type": "boolean"
+                },
+                "isNullable": {
+                  "type": "boolean"
+                },
+                "deprecated": {
+                  "type": "string"
+                }
               },
-              "summary": {
-                "type": "string"
-              },
-              "propertyType": {
-                "$ref": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/types.json"
-              },
-              "isRequired": {
-                "type": "boolean"
-              },
-              "isArray": {
-                "type": "boolean"
-              },
-              "deprecated": {
-                "type": "string"
-              }
-            },
-            "required": ["name", "summary", "propertyType"]
+              "required": ["name", "summary", "propertyType"]
+            }
           },
           "responseSuccessCode": {
             "type": "number"
@@ -95,6 +101,9 @@
           },
           "responseBodyType": {
             "$ref": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/types.json"
+          },
+          "responseBodyTypeArray": {
+            "type": "boolean"
           },
           "responseFailureCodes": {
             "type": "array",
@@ -113,7 +122,8 @@
           "deprecated": {
             "type": "string"
           }
-        }
+        },
+        "required": ["method", "name", "operationId"]
       }
     }
   }
