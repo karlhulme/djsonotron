@@ -25,7 +25,7 @@
           "summary": {
             "type": "string"
           },
-          "propertyType": {
+          "type": {
             "$ref": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/types.json"
           }
         }
