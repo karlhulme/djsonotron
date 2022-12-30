@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/oa-header.json",
-  "title": "OpenAPI header schema.",
-  "description": "The type and description of an OpenAPI header.",
+  "$id": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/apiOutboundHeader.json",
+  "title": "OpenAPI outbound header schema.",
+  "description": "The type and description of an OpenAPI outbound header.",
   "type": "object",
   "properties": {
     "$schema": {
@@ -17,7 +17,7 @@
     "type": {
       "$ref": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/types.json"
     },
-    "isRequired": {
+    "isGuaranteed": {
       "type": "boolean"
     },
     "isDeprecated": {

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/apiRoute.json",
+  "title": "OpenAPI route schema.",
+  "description": "The url pattern and methods available of an OpenAPI route.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "urlPattern": {
+      "type": "string"
+    },
+    "operationId": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "methods": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "enum": ["DELETE", "GET", "PATCH", "POST", "PUT"]
+          },
+          "headerNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "queryParamNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "requestBody": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "summary": {
+                "type": "string"
+              },
+              "propertyType": {
+                "$ref": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/types.json"
+              },
+              "isRequired": {
+                "type": "boolean"
+              },
+              "isArray": {
+                "type": "boolean"
+              },
+              "deprecated": {
+                "type": "string"
+              }
+            },
+            "required": ["name", "summary", "propertyType"]
+          },
+          "responseSuccessCode": {
+            "type": "number"
+          },
+          "responseHeaderNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "responseBodyType": {
+            "$ref": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/types.json"
+          },
+          "responseFailureCodes": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "deprecated": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

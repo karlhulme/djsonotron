@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/sengi.json",
-  "title": "Sengi document collection schema.",
-  "description": "A document collection that is managed by Sengi.",
+  "$id": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/apiOutboundRecord.json",
+  "title": "OpenAPI outbound record schema.",
+  "description": "The name and set of properties that make up a record that is returned from an OpenAPI route.",
   "type": "object",
   "properties": {
     "$schema": {
@@ -15,9 +15,6 @@
       "type": "string"
     },
     "pluralName": {
-      "type": "string"
-    },
-    "idPrefix": {
       "type": "string"
     },
     "summary": {
@@ -44,55 +41,6 @@
         },
         "additionalProperties": false
       }
-    },
-    "redactFields": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "fieldName": {
-            "type": "string"
-          },
-          "value": {}
-        },
-        "additionalProperties": false
-      }
-    },
-    "changeFieldNames": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "useSinglePartition": {
-      "type": "boolean"
-    },
-    "storePatches": {
-      "type": "boolean"
-    },
-    "trackChanges": {
-      "type": "boolean"
-    },
-    "policy": {
-      "type": "object",
-      "properties": {
-        "canDeleteDocuments": {
-          "type": "boolean"
-        },
-        "canFetchWholeCollection": {
-          "type": "boolean"
-        },
-        "canReplaceDocuments": {
-          "type": "boolean"
-        },
-        "maxDigests": {
-          "type": "number"
-        },
-        "maxOpIds": {
-          "type": "number"
-        }
-      },
-      "additionalProperties": false
     },
     "properties": {
       "type": "array",
@@ -286,7 +234,6 @@
     "system",
     "name",
     "pluralName",
-    "idPrefix",
     "summary",
     "properties"
   ]
