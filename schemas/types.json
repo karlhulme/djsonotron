@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "https://github.com/karlhulme/djsonotron/schemas/types.json",
+  "$id": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/types.json",
   "title": "Types definition.",
   "description": "The definition of a Jsonotron type.",
   "oneOf": [{

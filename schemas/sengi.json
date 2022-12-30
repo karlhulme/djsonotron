@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "https://github.com/karlhulme/djsonotron/schemas/sengi.json",
+  "$id": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/sengi.json",
   "title": "Sengi document collection schema.",
   "description": "A document collection that is managed by Sengi.",
   "type": "object",

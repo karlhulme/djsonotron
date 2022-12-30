@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "https://github.com/karlhulme/djsonotron/schemas/oa-outboundHeader.json",
+  "$id": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/oa-outboundHeader.json",
   "title": "OpenAPI outbound header schema.",
   "description": "The type and description of an OpenAPI outbound header.",
   "type": "object",

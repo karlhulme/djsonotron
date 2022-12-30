@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "https://github.com/karlhulme/djsonotron/schemas/oa-header.json",
+  "$id": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/oa-header.json",
   "title": "OpenAPI header schema.",
   "description": "The type and description of an OpenAPI header.",
   "type": "object",
@@ -15,7 +15,7 @@
       "type": "string"
     },
     "type": {
-      "$ref": "https://github.com/karlhulme/djsonotron/schemas/types.json"
+      "$ref": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/types.json"
     },
     "isRequired": {
       "type": "boolean"
