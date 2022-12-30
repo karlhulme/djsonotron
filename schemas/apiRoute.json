@@ -99,7 +99,15 @@
           "responseFailureCodes": {
             "type": "array",
             "items": {
-              "type": "number"
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "number"
+                },
+                "summary": {
+                  "type": "string"
+                }
+              }
             }
           },
           "deprecated": {
