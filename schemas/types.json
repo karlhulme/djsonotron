@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://github.com/karlhulme/djsonotron/schemas/types.json",
+  "title": "Types definition.",
+  "description": "The definition of a Jsonotron type.",
+  "oneOf": [{
+    "enum": [
+      "std/bool",
+      "std/dayOfWeek",
+      "std/monthOfYear",
+      "std/yesNo",
+      "std/float",
+      "std/latitudeFloat",
+      "std/longitudeFloat",
+      "std/negativeFloat",
+      "std/negativeFloatOrZero",
+      "std/positiveFloat",
+      "std/positiveFloatOrZero",
+      "std/integer",
+      "std/negativeInteger",
+      "std/negativeIntegerOrZero",
+      "std/positiveInteger",
+      "std/positiveIntegerOrZero",
+      "std/timestamp",
+      "std/plainObject",
+      "std/longLat",
+      "std/date",
+      "std/dateTimeTz",
+      "std/dateTimeUtc",
+      "std/hugeString",
+      "std/idWithPrefix",
+      "std/ipv4",
+      "std/ipv6",
+      "std/longString",
+      "std/maxString",
+      "std/mediumString",
+      "std/mediumStringDisplayable",
+      "std/oneTimePassword",
+      "std/shortString",
+      "std/shortStringDisplayable",
+      "std/time",
+      "std/userClaim",
+      "std/userClaimsString",
+      "std/uuid",
+      "std/webAddress",
+      "std/variant"
+    ]
+  }, {
+    "type": "string",
+    "pattern": "^(?!std\/).+"
+  }]
+}
