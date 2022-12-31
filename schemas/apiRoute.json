@@ -222,7 +222,7 @@
                           "isArray": {
                             "type": "boolean"
                           },
-                          "isNull": {
+                          "isNullable": {
                             "type": "boolean"
                           },
                           "deprecated": {
