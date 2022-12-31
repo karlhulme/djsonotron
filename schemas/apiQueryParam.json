@@ -17,8 +17,8 @@
     "type": {
       "$ref": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/types.json"
     },
-    "isDeprecated": {
-      "type": "boolean"
+    "deprecated": {
+      "type": "string"
     }
   },
   "required": ["name", "summary", "type"]

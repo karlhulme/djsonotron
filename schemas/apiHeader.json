@@ -20,8 +20,8 @@
     "isRequired": {
       "type": "boolean"
     },
-    "isDeprecated": {
-      "type": "boolean"
+    "deprecated": {
+      "type": "string"
     }
   },
   "required": ["name", "summary", "type"]
