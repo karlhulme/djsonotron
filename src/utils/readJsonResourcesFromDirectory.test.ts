@@ -3,8 +3,9 @@ import { readJsonResourcesFromDirectory } from "./readJsonResourcesFromDirectory
 
 Deno.test("Read json files, using the schemas directory for practice.", async () => {
   const testDir = new URL(".", import.meta.url).pathname;
-  const schemaDir = testDir.replace("/src/utils", "/schemas");
-  console.log(schemaDir);
+  // We use the root, rather than the schemas folder, so that we can
+  // exercise the recursive search as well.
+  const schemaDir = testDir.replace("/src/utils", "");
   const resources = await readJsonResourcesFromDirectory(schemaDir);
   assert(resources.length > 0);
 });
