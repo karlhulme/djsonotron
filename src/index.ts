@@ -5,6 +5,7 @@ export {
 export * from "./interfaces/index.ts";
 export * from "./std/index.ts";
 
+export { generateCodeForApiRouter } from "./forApiRouter/index.ts";
 export {
   appendJsonotronTypesToTree,
   generateCodeForJsonotronTypes,
