@@ -17,20 +17,32 @@ export function createOperationConst(
   method: any,
   allResources: any[],
 ): TypescriptTreeConstDeclaration {
-  const requestBodyType = Array.isArray(method.requestBodyProperties)
-    ? `${capitalizeFirstLetter(resource.system)}${
-      capitalizeFirstLetter(method.operationId)
-    }RequestBody`
-    : "void";
+  let requestBodyTypeParam = "void";
+  let requestBodyTypeLine = "";
 
-  let responseBodyType = "void";
+  if (Array.isArray(method.requestBodyProperties)) {
+    requestBodyTypeParam = `${capitalizeFirstLetter(resource.system)}${
+      capitalizeFirstLetter(method.operationId)
+    }RequestBody`;
+
+    requestBodyTypeLine = `requestBodyType: ${resource.system}${
+      capitalizeFirstLetter(method.operationId)
+    }RequestBodyType,`;
+  }
+
+  let responseBodyTypeParam = "void";
+  let responseBodyTypeLine = "";
 
   if (typeof method.responseBodyType === "string") {
     const rbtSys = getSystemFromTypeString(method.responseBodyType);
     const rbtType = getTypeFromTypeString(method.responseBodyType);
-    responseBodyType = `${capitalizeFirstLetter(rbtSys)}${
+    responseBodyTypeParam = `${capitalizeFirstLetter(rbtSys)}${
       capitalizeFirstLetter(rbtType)
     }${method.responseBodyTypeArray ? "[]" : ""}`;
+
+    responseBodyTypeLine = `responseBodyType: ${rbtSys}${
+      capitalizeFirstLetter(rbtType)
+    }${method.responseBodyTypeArray ? "Array" : ""}Type,`;
   }
 
   const responseSuccessCodeLine = method.responseSuccessCode
@@ -155,8 +167,8 @@ export function createOperationConst(
     exported: true,
     outputGeneration: 2,
     typeName: `Operation<
-      ${requestBodyType},
-      ${responseBodyType},
+      ${requestBodyTypeParam},
+      ${responseBodyTypeParam},
       ${stringArrayToTypescriptUnion(urlParamNames)},
       ${stringArrayToTypescriptUnion(headerNames)},
       ${stringArrayToTypescriptUnion(queryParamNames)},
@@ -171,6 +183,8 @@ export function createOperationConst(
       requestUrlParams: ${urlParams},
       requestHeaders: ${headers},
       requestQueryParams: ${queryParams},
+      ${requestBodyTypeLine}
+      ${responseBodyTypeLine}
       responseHeaders: ${outHeaders},
       ${responseSuccessCodeLine}
       ${responseFailureDefsLine}
