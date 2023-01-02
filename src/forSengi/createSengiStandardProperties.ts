@@ -25,7 +25,6 @@ export function createSengiStandardProperties(docTypeName: string) {
     generateDocLastUpdatedMillisecondsSinceEpoch(),
     generateDocArchivedByUserId(),
     generateDocArchivedMillisecondsSinceEpoch(),
-    generateDocLastSyncedMillisecondsSinceEpoch(),
   ];
 }
 
@@ -200,20 +199,6 @@ export function generateDocArchivedMillisecondsSinceEpoch(): RecordTypeDefProper
     name: "docArchivedMillisecondsSinceEpoch",
     summary:
       "The number of milliseconds since the epoch when the document was archived.",
-    propertyType: "std/timestamp",
-  };
-}
-
-/**
- * Returns a Sengi lastSyncedMillisecondsSinceEpoch property definition.
- */
-export function generateDocLastSyncedMillisecondsSinceEpoch(): RecordTypeDefProperty<
-  "std/timestamp"
-> {
-  return {
-    name: "docLastSyncedMillisecondsSinceEpoch",
-    summary:
-      "The number of milliseconds since the epoch when the document was last synchronised.",
     propertyType: "std/timestamp",
   };
 }
