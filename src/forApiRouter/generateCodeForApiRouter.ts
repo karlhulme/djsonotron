@@ -41,7 +41,7 @@ export function generateCodeForApiRouter(props: Props) {
   tree.imports.push(
     ...[
       "Operation",
-      "OperationError",
+      "HttpError",
     ].map((impt) => ({ name: impt, path: props.depsPath })),
   );
 

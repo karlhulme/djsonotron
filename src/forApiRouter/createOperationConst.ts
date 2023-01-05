@@ -190,7 +190,7 @@ export function createOperationConst(
       ${responseFailureDefsLine}
       ${deprecatedLine}
       handler: () => {
-        throw new OperationError(
+        throw new HttpError(
           501,
           "NOT_IMPLEMENTED",
           "This route has not been implemented."
