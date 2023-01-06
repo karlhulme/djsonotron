@@ -124,6 +124,7 @@ Deno.test("Convert populated array into typescript union.", () => {
           "type": "std/idWithPrefix",
         }],
         "tags": ["Testing"],
+        "flags": ["FlagTesting"],
         "methods": [{
           "method": "GET",
           "name": "Get test",

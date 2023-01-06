@@ -196,7 +196,8 @@ export function createOperationConst(
           "This route has not been implemented."
         )
       },
-      tags: ${JSON.stringify(resource.tags || [])}
+      tags: ${JSON.stringify(resource.tags || [])},
+      flags: ${JSON.stringify(method.flags || [])}
     }`,
   };
 }
