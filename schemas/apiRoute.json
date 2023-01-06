@@ -54,6 +54,21 @@
           "method": {
             "enum": ["DELETE", "GET", "PATCH", "POST", "PUT"]
           },
+          "flags": {
+            "type": "array",
+            "items": {
+              "oneOf": [{
+                "enum": [
+                  "std/anonymous",
+                  "std/sensitive",
+                  "std/critical"
+                ]
+              }, {
+                "type": "string",
+                "pattern": "^(?!std\/).+"
+              }]
+            }
+          },
           "headerNames": {
             "type": "array",
             "items": {
