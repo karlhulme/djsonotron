@@ -291,7 +291,8 @@
                 "summary": {
                   "type": "string"
                 }
-              }
+              },
+              "required": ["code", "summary"]
             }
           },
           "deprecated": {
