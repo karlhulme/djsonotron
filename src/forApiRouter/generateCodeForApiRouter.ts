@@ -71,15 +71,15 @@ export function generateCodeForApiRouter(props: Props) {
         typeof resource.types === "object" &&
         Array.isArray(resource.types.enums)
       ) {
-        for (const sengiEnum of resource.types.enums) {
+        for (const resEnum of resource.types.enums) {
           types.push({
             system: resource.system,
             kind: "enum",
-            name: sengiEnum.name,
-            pluralName: sengiEnum.pluralName,
-            summary: sengiEnum.summary,
+            name: resEnum.name,
+            pluralName: resEnum.pluralName,
+            summary: resEnum.summary,
             deprecated: resource.deprecated,
-            items: sengiEnum.items,
+            items: resEnum.items,
           } as EnumTypeDef);
         }
       }
@@ -89,15 +89,15 @@ export function generateCodeForApiRouter(props: Props) {
         typeof resource.types === "object" &&
         Array.isArray(resource.types.records)
       ) {
-        for (const sengiRecord of resource.types.records) {
+        for (const resRecord of resource.types.records) {
           types.push({
             system: resource.system,
             kind: "record",
-            name: sengiRecord.name,
-            pluralName: sengiRecord.pluralName,
-            summary: sengiRecord.summary,
+            name: resRecord.name,
+            pluralName: resRecord.pluralName,
+            summary: resRecord.summary,
             deprecated: resource.deprecated,
-            properties: sengiRecord.properties,
+            properties: resRecord.properties,
           } as RecordTypeDef<string>);
         }
       }
