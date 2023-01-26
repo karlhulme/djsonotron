@@ -285,7 +285,7 @@
             "items": {
               "type": "object",
               "properties": {
-                "status": {
+                "code": {
                   "type": "number"
                 },
                 "summary": {
