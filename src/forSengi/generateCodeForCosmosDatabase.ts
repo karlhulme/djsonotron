@@ -44,27 +44,6 @@ interface Props {
   svcName: string;
 
   /**
-   * The default url for the cosmos instance.
-   * This will be used if the *_COSMOS_URL environment
-   * variable is not defined.
-   */
-  defaultCosmosUrl: string;
-
-  /**
-   * The default key for the cosmos instance.
-   * This will be used if the *_COSMOS_KEY environment
-   * variable is not defined.
-   */
-  defaultCosmosKey: string;
-
-  /**
-   * The default url for the cosmos instance.
-   * This will be used if the *_COSMOS_DB environment
-   * variable is not defined.
-   */
-  defaultCosmosDb: string;
-
-  /**
    * The path to the deps.ts file.
    */
   depsPath: string;
@@ -106,18 +85,15 @@ export function generateCodeForCosmosDatabase(props: Props) {
   // Add the Cosmos constants
   tree.constDeclarations.push({
     name: `${props.appName}CosmosUrl`,
-    value:
-      `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_URL") || "${props.defaultCosmosUrl}"`,
+    value: `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_URL")`,
   });
   tree.constDeclarations.push({
     name: `${props.appName}CosmosKey`,
-    value:
-      `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_KEY") || "${props.defaultCosmosKey}"`,
+    value: `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_KEY")`,
   });
   tree.constDeclarations.push({
     name: `${props.appName}CosmosDbName`,
-    value:
-      `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_DB") || "${props.defaultCosmosDb}"`,
+    value: `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_DB")`,
   });
 
   // Add the type definitions needed for the functions for

@@ -11,9 +11,6 @@ Deno.test("Ensure that code can be generated for interacting with a cosmos datab
   const sourceCode = generateCodeForCosmosDatabase({
     appName: "test",
     svcName: "run",
-    defaultCosmosDb: "testDb",
-    defaultCosmosKey: "abcd",
-    defaultCosmosUrl: "https://db.test.local",
     collections: [{
       "$schema":
         "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/sengi.json",
@@ -102,9 +99,6 @@ Deno.test("Fail to generate cosmos database code for an invalid document collect
     generateCodeForCosmosDatabase({
       appName: "test",
       svcName: "run",
-      defaultCosmosDb: "testDb",
-      defaultCosmosKey: "abcd",
-      defaultCosmosUrl: "https://db.test.local",
       collections: [{
         not: "valid",
       }],
