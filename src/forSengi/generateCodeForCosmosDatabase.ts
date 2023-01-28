@@ -85,15 +85,18 @@ export function generateCodeForCosmosDatabase(props: Props) {
   // Add the Cosmos constants
   tree.constDeclarations.push({
     name: `${props.appName}CosmosUrl`,
-    value: `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_URL")`,
+    value:
+      `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_URL") || "<BLANK_COSMOS_URL>"`,
   });
   tree.constDeclarations.push({
     name: `${props.appName}CosmosKey`,
-    value: `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_KEY")`,
+    value:
+      `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_KEY") || "<BLANK_COSMOS_KEY>"`,
   });
   tree.constDeclarations.push({
     name: `${props.appName}CosmosDbName`,
-    value: `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_DB")`,
+    value:
+      `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_DB") || "<BLANK_COSMOS_DB>`,
   });
 
   // Add the type definitions needed for the functions for
