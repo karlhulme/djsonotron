@@ -69,6 +69,12 @@ export function createOperationConst(
     summaryLine = `summary: "${method.summary}",`;
   }
 
+  let apiKeyLine = "";
+
+  if (method.requiresApiKey) {
+    apiKeyLine = `requiresApiKey: true,`;
+  }
+
   let deprecatedLine = "";
 
   if (method.deprecated) {
@@ -188,6 +194,7 @@ export function createOperationConst(
       responseHeaders: ${outHeaders},
       ${responseSuccessCodeLine}
       ${responseFailureDefsLine}
+      ${apiKeyLine}
       ${deprecatedLine}
       handler: () => {
         throw new HttpError(

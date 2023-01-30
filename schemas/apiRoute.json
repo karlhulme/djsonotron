@@ -295,6 +295,9 @@
               "required": ["code", "summary"]
             }
           },
+          "requiresApiKey": {
+            "type": "boolean"
+          },
           "deprecated": {
             "type": "string"
           }

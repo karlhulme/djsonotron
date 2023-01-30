@@ -9,6 +9,7 @@ Deno.test("Convert populated array into typescript union.", () => {
   // * headers: defined or undefined
   // * responseHeaders: defined or undefined
   // * queryParams: defined or undefined
+  // * requiresApiKey: true or undefined
   // * deprecated: true or undefined
 
   const sourceCode = generateCodeForApiRouter({
@@ -110,6 +111,7 @@ Deno.test("Convert populated array into typescript union.", () => {
           "queryParamNames": ["query-param", "unused-query-param"],
           "responseBodyType": "svc/test",
           "responseBodyTypeArray": true,
+          "requiresApiKey": true,
           "deprecated": "Not in use.",
         }],
       },
