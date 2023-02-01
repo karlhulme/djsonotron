@@ -298,11 +298,14 @@
           "requiresApiKey": {
             "type": "boolean"
           },
+          "apiVersion": {
+            "type": "string"
+          },
           "deprecated": {
             "type": "string"
           }
         },
-        "required": ["method", "name", "operationId"]
+        "required": ["method", "name", "operationId", "apiVersion"]
       }
     }
   },
