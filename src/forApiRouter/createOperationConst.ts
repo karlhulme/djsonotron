@@ -194,7 +194,7 @@ export function createOperationConst(
       responseHeaders: ${outHeaders},
       ${responseSuccessCodeLine}
       ${responseFailureDefsLine}
-      apiVersion: ${method.apiVersion},
+      apiVersion: "${method.apiVersion}",
       ${apiKeyLine}
       ${deprecatedLine}
       handler: () => {
