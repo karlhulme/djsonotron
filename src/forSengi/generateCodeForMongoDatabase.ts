@@ -84,7 +84,7 @@ export function generateCodeForMongoDatabase(props: Props) {
 
   // Add the Mongo constants
   tree.constDeclarations.push({
-    name: `${props.appName}MongoUrl`,
+    name: `${props.appName}ConnectionString`,
     value:
       `Deno.env.get("${props.appName.toUpperCase()}_MONGO_URL") || "<BLANK_MONGO_URL>"`,
   });
@@ -331,7 +331,7 @@ export function generateCodeForMongoDatabase(props: Props) {
     name: "docStore",
     outputGeneration: 1,
     value: `new MongoDbDocStore({
-      mongoUrl: ${props.appName}MongoUrl,
+      connectionString: ${props.appName}ConnectionString,
       strict: ${props.appName}MongoStrict,
       generateDocVersionFunc: () => {
         const len = 16
