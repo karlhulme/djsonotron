@@ -1,18 +1,18 @@
-import { generateCodeForCosmosDatabase } from "./generateCodeForCosmosDatabase.ts";
+import { generateCodeForMongoDatabase } from "./generateCodeForMongoDatabase.ts";
 import { assertStringIncludes, assertThrows } from "../../deps.ts";
 import {
   createCollectionWithSubTypes,
   createSimpleCollection,
 } from "./shared.test.ts";
 
-Deno.test("Ensure that code can be generated for interacting with a cosmos database.", () => {
+Deno.test("Ensure that code can be generated for interacting with a mongo database.", () => {
   // To cover code generation we need document collections that are:
   // * useSinglePartition: true / false
   // * policy: defined or undefined
   // * records: defined or undefined
   // * enums: defined or undefined
 
-  const sourceCode = generateCodeForCosmosDatabase({
+  const sourceCode = generateCodeForMongoDatabase({
     appName: "test",
     svcName: "run",
     collections: [
@@ -26,9 +26,9 @@ Deno.test("Ensure that code can be generated for interacting with a cosmos datab
   assertStringIncludes(sourceCode, "selectDbAlbumsByFilter");
 });
 
-Deno.test("Fail to generate cosmos database code for an invalid document collection.", () => {
+Deno.test("Fail to generate mongo database code for an invalid document collection.", () => {
   assertThrows(() =>
-    generateCodeForCosmosDatabase({
+    generateCodeForMongoDatabase({
       appName: "test",
       svcName: "run",
       collections: [{

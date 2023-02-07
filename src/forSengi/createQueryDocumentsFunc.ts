@@ -6,11 +6,13 @@ import { capitalizeFirstLetter } from "../utils/index.ts";
  * the type belongs.  This is typically 'db'.
  * @param name The name of the document collection.
  * @param pluralName The plural name of the document collection.
+ * @param queryType The name of the query typescript type.
  */
 export function createQueryDocumentsFunc(
   system: string,
   name: string,
   pluralName: string,
+  queryType: string,
 ) {
   return {
     name: `query${capitalizeFirstLetter(system)}${
@@ -20,7 +22,7 @@ export function createQueryDocumentsFunc(
     params: [{
       name: "props",
       typeName:
-        `{ query: CosmosDbDocStoreQuery, coerceResult: (queryRawResult: unknown) => QueryResult }`,
+        `{ query: ${queryType}, coerceResult: (queryRawResult: unknown) => QueryResult }`,
     }],
     outputGeneration: 2,
     exported: true,

@@ -9,12 +9,14 @@ import { capitalizeFirstLetter } from "../utils/index.ts";
  * @param useSinglePartition True if the documents are stored
  * in a single partition, or false if a partition will need
  * to be supplied when using this document collection.
+ * @param filterType The name of the filter typescript type.
  */
 export function createSelectDocumentsByFilterFunc(
   system: string,
   name: string,
   pluralName: string,
   useSinglePartition: boolean,
+  filterType: string,
 ) {
   return {
     name: `select${capitalizeFirstLetter(system)}${
@@ -22,7 +24,7 @@ export function createSelectDocumentsByFilterFunc(
     }ByFilter`,
     params: [{
       name: "props",
-      typeName: `{ filter: CosmosDbDocStoreFilter, ${
+      typeName: `{ filter: ${filterType}, ${
         useSinglePartition ? "" : "partition: string,"
       } includeArchived?: boolean }`,
     }],

@@ -19,7 +19,7 @@ import { createSengiStandardProperties } from "./createSengiStandardProperties.t
 
 /**
  * The properties for generating a typed interface to
- * a Cosmos database.
+ * a Mongo database.
  */
 interface Props {
   /**
@@ -51,14 +51,14 @@ interface Props {
 
 /**
  * Generates a series of strongly typed functions for
- * interacting with a Cosmos database based on a set of
+ * interacting with a Mongo database based on a set of
  * document collection definitions.  The definitions must
  * adhere to the schema defined at
  * https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/sengi.json
  * and will typically be loaded from JSON files in a db
  * folder in the root of a service repository.
  */
-export function generateCodeForCosmosDatabase(props: Props) {
+export function generateCodeForMongoDatabase(props: Props) {
   // Create the typescript tree for all the types and functions
   // that we're going to define.
   const tree = newTypescriptTree();
@@ -66,10 +66,10 @@ export function generateCodeForCosmosDatabase(props: Props) {
   // Add the imports that are expected to be in the deps file.
   tree.imports.push(
     ...[
-      "CosmosDbDocStore",
-      "CosmosDbDocStoreFilter",
-      "CosmosDbDocStoreParams",
-      "CosmosDbDocStoreQuery",
+      "MongoDbDocStore",
+      "MongoDbDocStoreFilter",
+      "MongoDbDocStoreParams",
+      "MongoDbDocStoreQuery",
       "generateIdWithPrefix",
       "Sengi",
     ].map((impt) => ({ name: impt, path: props.depsPath })),
@@ -82,21 +82,21 @@ export function generateCodeForCosmosDatabase(props: Props) {
     exported: true,
   });
 
-  // Add the Cosmos constants
+  // Add the Mongo constants
   tree.constDeclarations.push({
-    name: `${props.appName}CosmosUrl`,
+    name: `${props.appName}MongoUrl`,
     value:
-      `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_URL") || "<BLANK_COSMOS_URL>"`,
+      `Deno.env.get("${props.appName.toUpperCase()}_MONGO_URL") || "<BLANK_MONGO_URL>"`,
   });
   tree.constDeclarations.push({
-    name: `${props.appName}CosmosKey`,
+    name: `${props.appName}MongoStrict`,
     value:
-      `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_KEY") || "<BLANK_COSMOS_KEY>"`,
+      `Boolean(Deno.env.get("${props.appName.toUpperCase()}_MONGO_STRICT"))`,
   });
   tree.constDeclarations.push({
-    name: `${props.appName}CosmosDbName`,
+    name: `${props.appName}MongoDbName`,
     value:
-      `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_DB") || "<BLANK_COSMOS_DB>`,
+      `Deno.env.get("${props.appName.toUpperCase()}_MONGO_DB") || "<BLANK_MONGO_DB>`,
   });
 
   // Add the type definitions needed for the functions for
@@ -180,7 +180,7 @@ export function generateCodeForCosmosDatabase(props: Props) {
       sengiDocTypes.push(`{
         name: "${col.name}",
         docStoreParams: {
-          databaseName: ${props.appName}CosmosDbName,
+          databaseName: ${props.appName}MongoDbName,
           collectionName: "${props.svcName}_${col.pluralName}",
         },
         useSinglePartition: ${col.useSinglePartition ? "true" : "false"},
@@ -278,7 +278,7 @@ export function generateCodeForCosmosDatabase(props: Props) {
         col.system,
         col.name,
         col.pluralName,
-        "CosmosDbDocStoreQuery",
+        "MongoDbDocStoreQuery",
       ));
       tree.functions.push(createRedactDocumentFunc(
         col.system,
@@ -306,7 +306,7 @@ export function generateCodeForCosmosDatabase(props: Props) {
         col.name,
         col.pluralName,
         col.useSinglePartition,
-        "CosmosDbDocStoreFilter",
+        "MongoDbDocStoreFilter",
       ));
       tree.functions.push(createSelectDocumentsByIdsFunc(
         col.system,
@@ -326,27 +326,37 @@ export function generateCodeForCosmosDatabase(props: Props) {
   // Append all the type definitions to the tree.
   appendJsonotronTypesToTree(tree, types, "#/components/schemas/");
 
-  // Declare the sengi instance based on Cosmos.
+  // Declare the sengi instance based on Mongo.
   tree.constDeclarations.push({
     name: "sengi",
     outputGeneration: 1,
     value: `new Sengi<
       DbTypeNames,
-      CosmosDbDocStoreParams,
-      CosmosDbDocStoreFilter,
-      CosmosDbDocStoreQuery
+      MongoDbDocStoreParams,
+      MongoDbDocStoreFilter,
+      MongoDbDocStoreQuery
     >({
-      docStore: new CosmosDbDocStore({
-        cosmosUrl: ${props.appName}CosmosUrl,
-        cosmosKey: ${props.appName}CosmosKey,
+      docStore: new MongoDbDocStore({
+        mongoUrl: ${props.appName}MongoUrl,
+        strict: ${props.appName}MongoStrict,
+        generateDocVersionFunc: () => {
+          const len = 16
+          const buf = new Uint8Array(len / 2);
+          crypto.getRandomValues(buf);
+          let ret = "";
+          for (let i = 0; i < buf.length; ++i) {
+            ret += ("0" + buf[i].toString(16)).slice(-2);
+          }
+          return ret;
+        }
       }),
       docTypes: [${sengiDocTypes.join(", ")}],
       patchDocStoreParams: {
-        databaseName: ${props.appName}CosmosDbName,
+        databaseName: ${props.appName}MongoDbName,
         collectionName: "${props.svcName}_patches",
       },
       changeDocStoreParams: {
-        databaseName: ${props.appName}CosmosDbName,
+        databaseName: ${props.appName}MongoDbName,
         collectionName: "${props.svcName}_changes",
       },
       validateUserId: validateErrorsToString(validateStdIdWithPrefix),
