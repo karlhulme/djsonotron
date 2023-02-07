@@ -326,6 +326,26 @@ export function generateCodeForMongoDatabase(props: Props) {
   // Append all the type definitions to the tree.
   appendJsonotronTypesToTree(tree, types, "#/components/schemas/");
 
+  // Declare the doc store instance based on Mongo.
+  tree.constDeclarations.push({
+    name: "docStore",
+    outputGeneration: 1,
+    value: `new MongoDbDocStore({
+      mongoUrl: ${props.appName}MongoUrl,
+      strict: ${props.appName}MongoStrict,
+      generateDocVersionFunc: () => {
+        const len = 16
+        const buf = new Uint8Array(len / 2);
+        crypto.getRandomValues(buf);
+        let ret = "";
+        for (let i = 0; i < buf.length; ++i) {
+          ret += ("0" + buf[i].toString(16)).slice(-2);
+        }
+        return ret;
+      }
+    })`,
+  });
+
   // Declare the sengi instance based on Mongo.
   tree.constDeclarations.push({
     name: "sengi",
@@ -336,20 +356,7 @@ export function generateCodeForMongoDatabase(props: Props) {
       MongoDbDocStoreFilter,
       MongoDbDocStoreQuery
     >({
-      docStore: new MongoDbDocStore({
-        mongoUrl: ${props.appName}MongoUrl,
-        strict: ${props.appName}MongoStrict,
-        generateDocVersionFunc: () => {
-          const len = 16
-          const buf = new Uint8Array(len / 2);
-          crypto.getRandomValues(buf);
-          let ret = "";
-          for (let i = 0; i < buf.length; ++i) {
-            ret += ("0" + buf[i].toString(16)).slice(-2);
-          }
-          return ret;
-        }
-      }),
+      docStore,
       docTypes: [${sengiDocTypes.join(", ")}],
       patchDocStoreParams: {
         databaseName: ${props.appName}MongoDbName,
@@ -361,6 +368,16 @@ export function generateCodeForMongoDatabase(props: Props) {
       },
       validateUserId: validateErrorsToString(validateStdIdWithPrefix),
     });`,
+  });
+
+  // Add a close function for the Mongo doc store.
+  tree.functions.push({
+    name: "closeMongoConnection",
+    params: [],
+    exported: true,
+    comment: "Close the connection to the Mongo database.",
+    outputGeneration: 2,
+    lines: "return docStore.close();",
   });
 
   // Convert the Typescript tree to code.
