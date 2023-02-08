@@ -98,6 +98,11 @@ export function generateCodeForMongoDatabase(props: Props) {
     value:
       `Deno.env.get("${props.appName.toUpperCase()}_MONGO_DB") || "<BLANK_MONGO_DB>`,
   });
+  tree.constDeclarations.push({
+    name: `${props.appName}MongoPerfLogging`,
+    value:
+      `Boolean(Deno.env.get("${props.appName.toUpperCase()}_MONGO_PERF_LOG"))`,
+  });
 
   // Add the type definitions needed for the functions for
   // creating, patching and replacing documents.
@@ -367,6 +372,7 @@ export function generateCodeForMongoDatabase(props: Props) {
         collectionName: "${props.svcName}_changes",
       },
       validateUserId: validateErrorsToString(validateStdIdWithPrefix),
+      logPerformance: ${props.appName}MongoPerfLogging
     });`,
   });
 
