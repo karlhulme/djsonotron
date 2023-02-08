@@ -98,6 +98,11 @@ export function generateCodeForCosmosDatabase(props: Props) {
     value:
       `Deno.env.get("${props.appName.toUpperCase()}_COSMOS_DB") || "<BLANK_COSMOS_DB>`,
   });
+  tree.constDeclarations.push({
+    name: `${props.appName}CosmosPerfLogging`,
+    value:
+      `Boolean(Deno.env.get("${props.appName.toUpperCase()}_COSMOS_PERF_LOG"))`,
+  });
 
   // Add the type definitions needed for the functions for
   // creating, patching and replacing documents.
@@ -350,6 +355,7 @@ export function generateCodeForCosmosDatabase(props: Props) {
         collectionName: "${props.svcName}_changes",
       },
       validateUserId: validateErrorsToString(validateStdIdWithPrefix),
+      logPerformance: ${props.appName}CosmosPerfLogging
     });`,
   });
 
