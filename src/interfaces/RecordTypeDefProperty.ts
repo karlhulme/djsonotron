@@ -28,7 +28,7 @@ export interface RecordTypeDefProperty<JsonotronTypeNames extends string> {
   isArray?: boolean;
 
   /**
-   * Specifies if a value must be suppplied for this property
+   * Specifies if a value must be supplied for this property
    * or whether it can be undefined.
    */
   isRequired?: boolean;
