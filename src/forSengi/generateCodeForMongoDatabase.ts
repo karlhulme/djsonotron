@@ -351,6 +351,16 @@ export function generateCodeForMongoDatabase(props: Props) {
     })`,
   });
 
+  // Add a close function for the Mongo doc store.
+  tree.functions.push({
+    name: "closeMongoConnection",
+    params: [],
+    exported: true,
+    comment: "Close the connection to the Mongo database.",
+    outputGeneration: 2,
+    lines: "return docStore.close();",
+  });
+
   // Declare the sengi instance based on Mongo.
   tree.constDeclarations.push({
     name: "sengi",
@@ -376,14 +386,18 @@ export function generateCodeForMongoDatabase(props: Props) {
     });`,
   });
 
-  // Add a close function for the Mongo doc store.
+  // Add a function for retrieving document patches.
   tree.functions.push({
-    name: "closeMongoConnection",
-    params: [],
+    name: "selectPatches",
+    params: [{
+      name: "documentId",
+      typeName: "string",
+      comment: "The id of a document.",
+    }],
     exported: true,
-    comment: "Close the connection to the Mongo database.",
+    comment: "Retrieve the patches for a given document id.",
     outputGeneration: 2,
-    lines: "return docStore.close();",
+    lines: "return sengi.getPatches(documentId);",
   });
 
   // Convert the Typescript tree to code.
