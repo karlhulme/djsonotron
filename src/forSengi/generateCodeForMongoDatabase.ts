@@ -390,6 +390,7 @@ export function generateCodeForMongoDatabase(props: Props) {
           ],
         },
       }),
+      patchNewId: () => generateIdWithPrefix("patch"),
       changeDocStoreParams: {
         databaseName: ${props.appName}MongoDbName,
         collectionName: "${props.svcName}_changes",
