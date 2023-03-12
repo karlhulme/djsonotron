@@ -390,14 +390,15 @@ export function generateCodeForMongoDatabase(props: Props) {
   tree.functions.push({
     name: "selectPatches",
     params: [{
-      name: "documentId",
-      typeName: "string",
-      comment: "The id of a document.",
+      name: "props",
+      typeName: "{ documentId: string }",
     }],
     exported: true,
-    comment: "Retrieve the patches for a given document id.",
+    comment: "Retrieve the patches for a document.",
     outputGeneration: 2,
-    lines: "return sengi.getPatches(documentId);",
+    lines: `return sengi.selectPatches({
+      documentId: props.documentId,
+    });`,
   });
 
   // Convert the Typescript tree to code.
