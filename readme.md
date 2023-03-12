@@ -1,7 +1,7 @@
 # djsonotron
 
 Define schemas and then convert them into Typescript source code containing
-interfaces, parsers, validators and JSON schemas.
+interfaces, parsers, validators and JSON schemas..
 
 ## Common uses
 
