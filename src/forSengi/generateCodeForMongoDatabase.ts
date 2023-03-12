@@ -377,6 +377,19 @@ export function generateCodeForMongoDatabase(props: Props) {
         databaseName: ${props.appName}MongoDbName,
         collectionName: "${props.svcName}_patches",
       },
+      patchSelectionFilter: (_partition, documentId, from, limit) => ({
+        limit,
+        orderByFields: [{
+          fieldName: "id",
+          direction: "descending",
+        }],
+        whereClause: {
+          $and: [
+            { patchedDocId: documentId },
+            { id: { $gt: from || "" } },
+          ],
+        },
+      }),
       changeDocStoreParams: {
         databaseName: ${props.appName}MongoDbName,
         collectionName: "${props.svcName}_changes",
@@ -391,13 +404,17 @@ export function generateCodeForMongoDatabase(props: Props) {
     name: "selectPatches",
     params: [{
       name: "props",
-      typeName: "{ documentId: string }",
+      typeName:
+        "{ partition: string, documentId: string, from?: string, limit?: number }",
     }],
     exported: true,
     comment: "Retrieve the patches for a document.",
     outputGeneration: 2,
     lines: `return sengi.selectPatches({
+      partition: props.partition,
       documentId: props.documentId,
+      from: props.from,
+      limit: props.limit
     });`,
   });
 
