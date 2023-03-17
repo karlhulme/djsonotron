@@ -65,6 +65,12 @@ const simpleRecord: RecordTypeDef<TestTypeNames> = {
     isArray: true,
     isRequired: true,
   }, {
+    name: "nullableArrayProp",
+    propertyType: "test/simpleInt",
+    summary: "A type used for testing.",
+    isArray: true,
+    isNullable: true,
+  }, {
     name: "errorProp",
     propertyType: "test/unknown",
     summary: "A type used for testing.",
@@ -94,6 +100,7 @@ function generateValidRecord() {
     constProp: "foo",
     arrayProp: [3, 4, 5],
     reqArrayProp: [],
+    nullableArrayProp: [] as number[] | null,
   };
 }
 
@@ -107,6 +114,7 @@ Deno.test("Validate a record with null properties.", () => {
   const fn = generateRecordValidationFunction(simpleRecord, allTypes);
   const record = generateValidRecord();
   record.nullProp = null;
+  record.nullableArrayProp = null;
   assertEquals(fn(record), []);
 });
 

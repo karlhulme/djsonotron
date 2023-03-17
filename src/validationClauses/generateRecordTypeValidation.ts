@@ -99,12 +99,12 @@ export function generateRecordTypeValidation<TypeNames extends string>(
       propertyValueChecks.push(typeFailCheck);
     } else if (property.isArray) {
       const arrayCheck = `
-        if (typeof ${props.valuePath}.${property.name} !== "object" || !Array.isArray(${props.valuePath}.${property.name})) {
+        if (${props.valuePath}.${property.name} !== null && typeof ${props.valuePath}.${property.name} !== "undefined" && !Array.isArray(${props.valuePath}.${property.name})) {
           errors.push({
             valuePath: \`${props.valueDisplayPath}.${property.name}\`,
             value: ${props.valuePath}.${property.name},
             msg: "Value must be an array of objects.",
-            type: "${props.def.system}/${props.def.name}[]",
+            type: "${property.propertyType}[]",
           })
         }
       `;
