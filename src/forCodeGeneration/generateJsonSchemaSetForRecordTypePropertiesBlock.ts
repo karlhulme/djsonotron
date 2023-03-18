@@ -56,10 +56,11 @@ function generateJsonSchemaForRecordTypeProperty(
   componentSchemasPath: string,
 ) {
   const documentationProps = {
-    title: recordPropType.summary,
     description: generateJsonSchemaDescriptionText(
       recordProp.summary,
-      recordProp.deprecated,
+      recordProp.deprecated || null,
+      recordPropType.summary,
+      recordProp.isArray || false,
     ),
     deprecated: Boolean(recordProp.deprecated),
   };

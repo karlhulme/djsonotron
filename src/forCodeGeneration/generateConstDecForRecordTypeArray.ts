@@ -37,7 +37,9 @@ export function generateConstDecForRecordTypeArray(
         type: "array",
         description: generateJsonSchemaDescriptionText(
           `An array of ${recordType.system}/${recordType.name} types.`,
-          recordType.deprecated,
+          recordType.deprecated || null,
+          recordType.summary,
+          true,
         ),
         items: {
           $ref: `${componentSchemasPath}${recordType.system}${

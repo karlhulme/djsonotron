@@ -32,8 +32,10 @@ export function generateConstDecForEnumTypeArray(
       schema: {
         type: "array",
         description: generateJsonSchemaDescriptionText(
-          `An array of ${enumType.system}/${enumType.name} types`,
-          enumType.deprecated,
+          `An array of ${enumType.system}/${enumType.name} types.`,
+          enumType.deprecated || null,
+          enumType.summary,
+          true,
         ),
         deprecated: enumType.deprecated ? true : undefined,
         items: {

@@ -35,7 +35,9 @@ export function generateConstDecForJsonotronTypeArray(
         type: "array",
         description: generateJsonSchemaDescriptionText(
           `An array of ${typeDef.system}/${typeDef.name} types.`,
-          typeDef.deprecated,
+          typeDef.deprecated || null,
+          typeDef.summary,
+          true,
         ),
         deprecated: typeDef.deprecated ? true : undefined,
         items: {

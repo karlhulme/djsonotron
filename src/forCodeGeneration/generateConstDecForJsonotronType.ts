@@ -35,7 +35,9 @@ export function generateConstDecForJsonotronType(
         type: getJsonSchemaTypeForJsonotronTypeKind(typeDef.kind),
         description: generateJsonSchemaDescriptionText(
           typeDef.summary,
-          typeDef.deprecated,
+          typeDef.deprecated || null,
+          null,
+          false,
         ),
         deprecated: typeDef.deprecated ? true : undefined,
       },
