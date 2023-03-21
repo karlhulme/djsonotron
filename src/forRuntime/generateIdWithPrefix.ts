@@ -2,14 +2,14 @@ import { generateRandomHexString } from "./generateRandomHexString.ts";
 import { intToUint8Array } from "./intToUint8Array.ts";
 
 /**
- * Returns an id that consists of a prefix, a timestamp element (8 characters)
+ * Returns a hex-based id that consists of a prefix, a timestamp element (8 characters)
  * and a series of random characters (8 characters).
  * @param prefix A 2 to 5 character prefix.
  */
 export function generateIdWithPrefix(prefix: string) {
   if (prefix.length < 2 || prefix.length > 5) {
     throw new Error(
-      "The prefix of the id must be between 2 and 5 characters in length.",
+      "The prefix of the id must be at least 2 in length.",
     );
   }
 

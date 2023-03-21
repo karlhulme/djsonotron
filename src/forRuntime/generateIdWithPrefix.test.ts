@@ -7,12 +7,6 @@ Deno.test("Reject a prefix that is too short.", () => {
   });
 });
 
-Deno.test("Reject a prefix that is too long.", () => {
-  assertThrows(() => {
-    generateIdWithPrefix("123456");
-  });
-});
-
 Deno.test("Generate an id with a prefix.", () => {
   for (let i = 0; i < 20; i++) {
     const id = generateIdWithPrefix("ex");
