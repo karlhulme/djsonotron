@@ -120,10 +120,14 @@
                   "type": "object",
                   "properties": {
                     "name": {
-                      "type": "string"
+                      "type": "string",
+                      "pattern": ".+_.+",
+                      "description": "Prefix this value with the operationId and an underscore."
                     },
                     "pluralName": {
-                      "type": "string"
+                      "type": "string",
+                      "pattern": ".+_.+",
+                      "description": "Prefix this value with the operationId and an underscore."
                     },
                     "summary": {
                       "type": "string"
@@ -187,10 +191,14 @@
                   "type": "object",
                   "properties": {
                     "name": {
-                      "type": "string"
+                      "type": "string",
+                      "pattern": ".+_.+",
+                      "description": "Prefix this value with the operationId and an underscore."
                     },
                     "pluralName": {
-                      "type": "string"
+                      "type": "string",
+                      "pattern": ".+_.+",
+                      "description": "Prefix this value with the operationId and an underscore."
                     },
                     "summary": {
                       "type": "string"
