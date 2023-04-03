@@ -6,6 +6,7 @@ Deno.test("Generate typescript for jsonotron standard types.", () => {
   assertStringIncludes(sourceCode, "export interface ValidationError");
   assertStringIncludes(sourceCode, "export const allStdDayOfWeekValues");
   assertStringIncludes(sourceCode, "export type StdDayOfWeek");
+  assertStringIncludes(sourceCode, "export type StdRecordStatus");
   assertStringIncludes(sourceCode, "export interface StdLongLat");
   assertStringIncludes(sourceCode, "export function validateStdLongLat");
 });

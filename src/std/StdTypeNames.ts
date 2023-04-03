@@ -29,6 +29,7 @@ export type StdTypeNames =
   | "std/positiveFloatOrZero"
   | "std/positiveInteger"
   | "std/positiveIntegerOrZero"
+  | "std/recordStatus"
   | "std/shortString"
   | "std/shortStringDisplayable"
   | "std/time"

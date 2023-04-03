@@ -1,6 +1,11 @@
 import { JsonotronTypeDef } from "../interfaces/index.ts";
 import { bool } from "./boolTypes/index.ts";
-import { dayOfWeek, monthOfYear, yesNo } from "./enumTypes/index.ts";
+import {
+  dayOfWeek,
+  monthOfYear,
+  recordStatus,
+  yesNo,
+} from "./enumTypes/index.ts";
 import {
   float,
   latitudeFloat,
@@ -75,6 +80,7 @@ export const stdSystemTypes: JsonotronTypeDef[] = [
   positiveFloatOrZero,
   positiveInteger,
   positiveIntegerOrZero,
+  recordStatus,
   shortString,
   shortStringDisplayable,
   time,
