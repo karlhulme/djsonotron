@@ -26,7 +26,7 @@ export function createSelectDocumentsByFilterFunc(
       name: "props",
       typeName: `{ filter: ${filterType}, ${
         useSinglePartition ? "" : "partition: string,"
-      } includeArchived?: boolean }`,
+      } statuses?: 'all'|'active'|'archived' }`,
     }],
     outputGeneration: 2,
     exported: true,
@@ -38,7 +38,7 @@ export function createSelectDocumentsByFilterFunc(
         ${
       useSinglePartition ? "partition: null," : "partition: props.partition,"
     }
-        includeArchived: props.includeArchived
+        statuses: props.statuses
       })`,
   };
 }

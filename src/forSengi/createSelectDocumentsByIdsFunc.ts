@@ -24,7 +24,7 @@ export function createSelectDocumentsByIdsFunc(
       name: "props",
       typeName: `{ ids: string[], cacheMilliseconds?: number, ${
         useSinglePartition ? "" : "partition: string,"
-      } includeArchived?: boolean }`,
+      }}`,
     }],
     outputGeneration: 2,
     exported: true,
@@ -36,8 +36,6 @@ export function createSelectDocumentsByIdsFunc(
         cacheMilliseconds: props.cacheMilliseconds,
         ${
       useSinglePartition ? "partition: null," : "partition: props.partition,"
-    }
-        includeArchived: props.includeArchived
-      })`,
+    }})`,
   };
 }

@@ -24,7 +24,7 @@ export function createSelectDocumentsFunc(
       name: "props",
       typeName: `{ ${
         useSinglePartition ? "" : "partition: string,"
-      } includeArchived?: boolean }`,
+      } statuses?: 'all'|'active'|'archived' }`,
     }],
     outputGeneration: 2,
     exported: true,
@@ -35,7 +35,7 @@ export function createSelectDocumentsFunc(
         ${
       useSinglePartition ? "partition: null," : "partition: props.partition,"
     }
-        includeArchived: props.includeArchived
+        statuses: props.statuses
       })`,
   };
 }
