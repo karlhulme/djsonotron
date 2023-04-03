@@ -10,5 +10,6 @@ export const recordStatus: EnumTypeDef = {
   items: [
     { value: "active", summary: "The record is active." },
     { value: "archived", summary: "The record has been archived." },
+    { value: "deleted", summary: "The record has been (soft) deleted." },
   ],
 };
