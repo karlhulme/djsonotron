@@ -9,6 +9,7 @@
 
       "std/dayOfWeek",
       "std/monthOfYear",
+      "std/recordStatus",
       "std/yesNo",
 
       "std/float",
