@@ -1,4 +1,4 @@
-import { TypescriptTreeFunction } from "https://raw.githubusercontent.com/karlhulme/dtoasty/main/mod.ts";
+import { TypescriptTreeFunction } from "../../deps.ts";
 
 /**
  * Returns a typescript function definition for an array that
