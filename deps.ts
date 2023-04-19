@@ -21,9 +21,9 @@ export type {
   TypescriptTreeFunction,
   TypescriptTreeInterface,
   TypescriptTreeStringUnion,
-} from "https://raw.githubusercontent.com/karlhulme/dtoasty/main/mod.ts";
+} from "https://raw.githubusercontent.com/karlhulme/dtoasty/v1.0.0/mod.ts";
 
 export {
   generateTypescript,
   newTypescriptTree,
-} from "https://raw.githubusercontent.com/karlhulme/dtoasty/main/mod.ts";
+} from "https://raw.githubusercontent.com/karlhulme/dtoasty/v1.0.0/mod.ts";
