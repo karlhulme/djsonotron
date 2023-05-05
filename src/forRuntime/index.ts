@@ -6,4 +6,3 @@ export * from "./generateRandomFloat.ts";
 export * from "./generateRandomHexString.ts";
 export * from "./intToUint8Array.ts";
 export * from "./parseDate.ts";
-export * from "./parseDateTimeUtc.ts";

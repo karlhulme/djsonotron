@@ -18,7 +18,6 @@ export {
   generateRandomFloat,
   generateRandomHexString,
   parseDate,
-  parseDateTimeUtc,
 } from "./forRuntime/index.ts";
 export {
   createSengiStandardProperties,

@@ -1,7 +1,7 @@
 export {
   format as formatDate,
   parse as parseDate,
-} from "https://deno.land/std@0.156.0/datetime/mod.ts";
+} from "https://deno.land/std@0.186.0/datetime/mod.ts";
 
 export {
   assert,
@@ -11,7 +11,7 @@ export {
   assertStrictEquals,
   assertStringIncludes,
   assertThrows,
-} from "https://deno.land/std@0.156.0/testing/asserts.ts";
+} from "https://deno.land/std@0.186.0/testing/asserts.ts";
 
 export type {
   TypescriptTree,
