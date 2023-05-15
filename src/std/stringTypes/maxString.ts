@@ -6,6 +6,7 @@ export const maxString: StringTypeDef = {
   system: stdSystemName,
   name: "maxString",
   pluralName: "maxStrings",
-  summary: "A string with up to 10 million unicode characters.",
-  maximumLength: 10000000, // 10 Million characters
+  summary:
+    "A string with up to 1 million unicode characters.  A full string will require around 2MB of storage.",
+  maximumLength: 1000000, // 1 Million characters
 };

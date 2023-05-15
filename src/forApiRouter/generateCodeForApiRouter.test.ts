@@ -49,21 +49,6 @@ Deno.test("Convert populated array into typescript union.", () => {
       },
       {
         "$schema":
-          "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/apiQueryParam.json",
-        "name": "query-param",
-        "summary": "The test query param.",
-        "type": "std/idWithPrefix",
-      },
-      {
-        "$schema":
-          "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/apiQueryParam.json",
-        "name": "unused-query-param",
-        "summary": "The test query param.",
-        "type": "std/idWithPrefix",
-        "deprecated": "Not in use.",
-      },
-      {
-        "$schema":
           "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/apiOutboundRecord.json",
         "system": "svc",
         "name": "test",
@@ -108,7 +93,19 @@ Deno.test("Convert populated array into typescript union.", () => {
           "method": "GET",
           "name": "Get tests",
           "operationId": "getClubs",
-          "queryParamNames": ["query-param", "unused-query-param"],
+          "queryParams": [
+            {
+              "name": "query-param",
+              "summary": "The test query param.",
+              "type": "std/idWithPrefix",
+            },
+            {
+              "name": "unused-query-param",
+              "summary": "The test query param.",
+              "type": "std/idWithPrefix",
+              "deprecated": "Not in use.",
+            },
+          ],
           "responseBodyType": "svc/test",
           "responseBodyTypeArray": true,
           "requiresApiKey": true,
@@ -226,26 +223,6 @@ Deno.test("Fail to generate api router code when an unknown outbound header is r
           "name": "Get test",
           "operationId": "getTest",
           "responseHeaderNames": ["unknown-header"],
-        }],
-      }],
-    })
-  );
-});
-
-Deno.test("Fail to generate api router code when an unknown query param is referenced.", () => {
-  assertThrows(() =>
-    generateCodeForApiRouter({
-      depsPath: "../deps.ts",
-      resources: [{
-        "$schema":
-          "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/apiRoute.json",
-        "system": "svc",
-        "urlPattern": "/tests",
-        "methods": [{
-          "method": "GET",
-          "name": "Get test",
-          "operationId": "getTest",
-          "queryParamNames": ["unknown-qp"],
         }],
       }],
     })

@@ -11,6 +11,7 @@ Deno.test("Ensure that code can be generated for interacting with a cosmos datab
   // * policy: defined or undefined
   // * records: defined or undefined
   // * enums: defined or undefined
+  // * systemUserId: defined or undefined
 
   const sourceCode = generateCodeForCosmosDatabase({
     appName: "test",
@@ -20,6 +21,7 @@ Deno.test("Ensure that code can be generated for interacting with a cosmos datab
       createCollectionWithSubTypes(),
     ],
     depsPath: "../deps.ts",
+    systemUserId: "user_bespokeSysUser",
   });
 
   assertStringIncludes(sourceCode, "patchDbMovie");

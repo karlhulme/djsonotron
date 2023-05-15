@@ -6,11 +6,7 @@ import {
   getTypeFromTypeString,
 } from "../utils/index.ts";
 import { stringArrayToTypescriptUnion } from "./stringArrayToTypescriptUnion.ts";
-import {
-  headerSchemaUrl,
-  outboundHeaderSchemaUrl,
-  queryParamSchemaUrl,
-} from "./schemaUrls.ts";
+import { headerSchemaUrl, outboundHeaderSchemaUrl } from "./schemaUrls.ts";
 
 export function createOperationConst(
   resource: any,
@@ -83,9 +79,7 @@ export function createOperationConst(
 
   const urlParamNames = (resource.urlParams || [])
     .map((urlp: any) => urlp.name);
-
   const headerNames = method.headerNames || [];
-  const queryParamNames = method.queryParamNames || [];
   const responseHeaderNames = method.responseHeaderNames || [];
 
   // build headers declaration
@@ -123,23 +117,13 @@ export function createOperationConst(
   }).join(", ") + "]";
 
   // build query parameters declaration
-  const queryParams = "[" + queryParamNames.map((qp: any) => {
-    const qpResource = allResources.find((r) =>
-      r["$schema"] === queryParamSchemaUrl && r.name === qp
-    );
-    if (!qpResource) {
-      throw new Error(
-        `Cannot find query param ${qp} on ${method.operationId}.`,
-      );
-    }
-    const qpSystem = getSystemFromTypeString(qpResource.type);
-    const qpType = getTypeFromTypeString(qpResource.type);
-    const depLine = qpResource.deprecated
-      ? `deprecated: "${qpResource.deprecated}",`
-      : "";
+  const queryParams = "[" + (method.queryParams || []).map((qp: any) => {
+    const qpSystem = getSystemFromTypeString(qp.type);
+    const qpType = getTypeFromTypeString(qp.type);
+    const depLine = qp.deprecated ? `deprecated: "${qp.deprecated}",` : "";
     return `{
-      name: "${qpResource.name}",
-      summary: "${qpResource.summary}",
+      name: "${qp.name}",
+      summary: "${qp.summary}",
       ${depLine}
       type: ${qpSystem}${capitalizeFirstLetter(qpType)}Type,
     }`;
@@ -177,7 +161,11 @@ export function createOperationConst(
       ${responseBodyTypeParam},
       ${stringArrayToTypescriptUnion(urlParamNames)},
       ${stringArrayToTypescriptUnion(headerNames)},
-      ${stringArrayToTypescriptUnion(queryParamNames)},
+      ${
+      stringArrayToTypescriptUnion((method.queryParams || []).map((qp: any) =>
+        qp.name
+      ))
+    },
       ${stringArrayToTypescriptUnion(responseHeaderNames)}
     >`,
     value: `{

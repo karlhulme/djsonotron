@@ -8,7 +8,6 @@ import {
   headerSchemaUrl,
   outboundHeaderSchemaUrl,
   outboundRecordSchemaUrl,
-  queryParamSchemaUrl,
   routeSchemaUrl,
 } from "./schemaUrls.ts";
 
@@ -168,7 +167,6 @@ export function generateCodeForApiRouter(props: Props) {
       [
         headerSchemaUrl,
         outboundHeaderSchemaUrl,
-        queryParamSchemaUrl,
       ].includes(resource["$schema"])
     ) {
       // No types are defined in these resources.

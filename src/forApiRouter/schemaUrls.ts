@@ -17,12 +17,6 @@ export const outboundRecordSchemaUrl =
   "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/apiOutboundRecord.json";
 
 /**
- * The url of the apiQueryParam schema.
- */
-export const queryParamSchemaUrl =
-  "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/apiQueryParam.json";
-
-/**
  * The url of the apiRoute schema.
  */
 export const routeSchemaUrl =

@@ -47,6 +47,12 @@ interface Props {
    * The path to the deps.ts file.
    */
   depsPath: string;
+
+  /**
+   * The name to be given to the system user id.  If not supplied
+   * then a value of 'user_system' will be used.
+   */
+  systemUserId?: string;
 }
 
 /**
@@ -78,7 +84,7 @@ export function generateCodeForCosmosDatabase(props: Props) {
   // Add the Sengi constants
   tree.constDeclarations.push({
     name: "SYSTEM_USER_ID",
-    value: `"user_system"`,
+    value: props.systemUserId ? `"${props.systemUserId}"` : `"user_system"`,
     exported: true,
   });
 

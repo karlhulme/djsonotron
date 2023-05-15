@@ -75,10 +75,26 @@
               "type": "string"
             }
           },
-          "queryParamNames": {
+          "queryParams": {
             "type": "array",
             "items": {
-              "type": "string"
+              "description": "The type and description of a query param.",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "type": {
+                  "$ref": "https://raw.githubusercontent.com/karlhulme/djsonotron/main/schemas/types.json"
+                },
+                "deprecated": {
+                  "type": "string"
+                }
+              },
+              "required": ["name", "summary", "type"]
             }
           },
           "requestBodyProperties": {
