@@ -188,7 +188,8 @@ export function createOperationConst(
       handler: () => {
         throw new HttpError(
           501,
-          "NOT_IMPLEMENTED",
+          "/common",
+          "not-implemented",
           "This route has not been implemented."
         )
       },
