@@ -62,8 +62,15 @@ export function createOperationConst(
 
   let markdownLine = "";
 
+  // If using YAML, define the property as markdown: >-
+  // Block scalar > replaces newlines with spaces (folded) unless double newline encountered.
+  // Block chomping - removes newlines from the end.
   if (method.markdown) {
-    markdownLine = `markdown: "${method.markdown.replaceAll(/\"/g, '\\"')}",`;
+    markdownLine = `markdown: "${
+      method.markdown
+        .replaceAll(/\"/g, '\\"')
+        .replaceAll(/\n/g, "\\n")
+    }",`;
   }
 
   let apiKeyLine = "";
