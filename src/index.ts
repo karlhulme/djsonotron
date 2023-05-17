@@ -27,4 +27,5 @@ export {
 export {
   capitalizeFirstLetter,
   readJsonResourcesFromDirectory,
+  readYamlResourcesFromDirectory,
 } from "./utils/index.ts";
