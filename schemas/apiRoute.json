@@ -45,7 +45,7 @@
           "name": {
             "type": "string"
           },
-          "summary": {
+          "markdown": {
             "type": "string"
           },
           "operationId": {
@@ -312,11 +312,14 @@
                 "code": {
                   "type": "number"
                 },
+                "localType": {
+                  "type": "string"
+                },
                 "summary": {
                   "type": "string"
                 }
               },
-              "required": ["code", "summary"]
+              "required": ["code", "localType", "summary"]
             }
           },
           "requiresApiKey": {

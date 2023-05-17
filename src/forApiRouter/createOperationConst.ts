@@ -52,6 +52,7 @@ export function createOperationConst(
       .map((rfc: any) => `
         {
           code: ${rfc.code},
+          localType: "${rfc.localType}",
           summary: "${rfc.summary}"
         }`)
       .join(", ");
@@ -62,7 +63,7 @@ export function createOperationConst(
   let summaryLine = "";
 
   if (method.summary) {
-    summaryLine = `summary: "${method.summary}",`;
+    summaryLine = `markdown: "${method.markdown}",`;
   }
 
   let apiKeyLine = "";
@@ -188,8 +189,7 @@ export function createOperationConst(
       handler: () => {
         throw new HttpError(
           501,
-          "/common",
-          "not-implemented",
+          "/errors/common/notImplemented",
           "This route has not been implemented."
         )
       },
