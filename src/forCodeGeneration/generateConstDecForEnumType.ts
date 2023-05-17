@@ -32,8 +32,6 @@ export function generateConstDecForEnumType(
         description: generateJsonSchemaDescriptionText(
           enumType.summary,
           enumType.deprecated || null,
-          null,
-          false,
         ),
         deprecated: enumType.deprecated ? true : undefined,
         enum: enumType.items.map((item) => item.value),

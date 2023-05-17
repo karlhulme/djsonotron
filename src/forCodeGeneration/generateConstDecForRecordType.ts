@@ -65,8 +65,6 @@ export function generateConstDecForRecordType(
         description: generateJsonSchemaDescriptionText(
           recordType.summary,
           recordType.deprecated || null,
-          null,
-          false,
         ),
         properties: objectProperties,
         required: requiredPropertyNames.length > 0

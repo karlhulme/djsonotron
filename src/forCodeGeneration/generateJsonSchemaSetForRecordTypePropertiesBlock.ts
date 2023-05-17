@@ -59,8 +59,6 @@ function generateJsonSchemaForRecordTypeProperty(
     description: generateJsonSchemaDescriptionText(
       recordProp.summary,
       recordProp.deprecated || null,
-      recordPropType.summary,
-      recordProp.isArray || false,
     ),
     deprecated: Boolean(recordProp.deprecated),
   };

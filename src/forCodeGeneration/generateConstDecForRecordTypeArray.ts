@@ -36,10 +36,10 @@ export function generateConstDecForRecordTypeArray(
       schema: {
         type: "array",
         description: generateJsonSchemaDescriptionText(
-          `An array of ${recordType.system}/${recordType.name} types.`,
+          `An array of ${recordType.system}${
+            capitalizeFirstLetter(recordType.name)
+          } types.`,
           recordType.deprecated || null,
-          recordType.summary,
-          true,
         ),
         items: {
           $ref: `${componentSchemasPath}${recordType.system}${

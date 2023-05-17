@@ -34,10 +34,10 @@ export function generateConstDecForJsonotronTypeArray(
       schema: {
         type: "array",
         description: generateJsonSchemaDescriptionText(
-          `An array of ${typeDef.system}/${typeDef.name} types.`,
+          `An array of ${typeDef.system}${
+            capitalizeFirstLetter(typeDef.name)
+          } types.`,
           typeDef.deprecated || null,
-          typeDef.summary,
-          true,
         ),
         deprecated: typeDef.deprecated ? true : undefined,
         items: {
