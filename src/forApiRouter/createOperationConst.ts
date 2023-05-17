@@ -153,6 +153,12 @@ export function createOperationConst(
     }`;
   }).join(", ") + "]";
 
+  const queryParamNames = (method.queryParams || []).map((qp: any) => qp.name);
+
+  const failureTypeNames = (method.responseFailureDefinitions || []).map((
+    rfd: any,
+  ) => rfd.localType);
+
   return {
     name: method.operationId,
     exported: true,
@@ -162,12 +168,9 @@ export function createOperationConst(
       ${responseBodyTypeParam},
       ${stringArrayToTypescriptUnion(urlParamNames)},
       ${stringArrayToTypescriptUnion(headerNames)},
-      ${
-      stringArrayToTypescriptUnion((method.queryParams || []).map((qp: any) =>
-        qp.name
-      ))
-    },
-      ${stringArrayToTypescriptUnion(responseHeaderNames)}
+      ${stringArrayToTypescriptUnion(queryParamNames)},
+      ${stringArrayToTypescriptUnion(responseHeaderNames)},
+      ${stringArrayToTypescriptUnion(failureTypeNames)}
     >`,
     value: `{
       method: "${method.method}",
