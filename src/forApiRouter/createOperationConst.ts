@@ -62,8 +62,9 @@ export function createOperationConst(
 
   let markdownLine = "";
 
-  // If using YAML, define the property as markdown: >-
-  // Block scalar > replaces newlines with spaces (folded) unless double newline encountered.
+  // If using YAML, define the property as markdown: |-
+  // Block scalar | retains the newlines as typed, which is fine because unwanted newlines will
+  //   be removed when the markdown is rendered as html.
   // Block chomping - removes newlines from the end.
   if (method.markdown) {
     markdownLine = `markdown: "${
