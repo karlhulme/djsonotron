@@ -191,13 +191,6 @@ export function createOperationConst(
       apiVersion: "${method.apiVersion}",
       ${apiKeyLine}
       ${deprecatedLine}
-      handler: () => {
-        throw new HttpError(
-          501,
-          "/errors/common/notImplemented",
-          "This route has not been implemented."
-        )
-      },
       tags: ${JSON.stringify(resource.tags || [])},
       flags: ${JSON.stringify(method.flags || [])}
     }`,
