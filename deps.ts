@@ -3,6 +3,8 @@ export {
   parse as parseDate,
 } from "https://deno.land/std@0.186.0/datetime/mod.ts";
 
+export { parse as parseYaml } from "https://deno.land/std@0.186.0/yaml/mod.ts";
+
 export {
   assert,
   assertEquals,
