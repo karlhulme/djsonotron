@@ -13,7 +13,7 @@ export async function readYamlResourcesFromDirectory(dir: string) {
   const resources: unknown[] = [];
 
   for await (const dirEntry of Deno.readDir(dir)) {
-    if (dirEntry.isFile && dirEntry.name.endsWith(".json")) {
+    if (dirEntry.isFile && dirEntry.name.endsWith(".yaml")) {
       const filename = dir + "/" + dirEntry.name;
       const fileContents = await Deno.readTextFile(filename);
       resources.push(parseYaml(fileContents, {}));
