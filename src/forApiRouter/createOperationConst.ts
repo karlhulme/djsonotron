@@ -83,7 +83,7 @@ export function createOperationConst(
   const headerNames = method.headerNames || [];
   const responseHeaderNames = method.responseHeaderNames || [];
 
-  // build headers declaration
+  // Build headers declaration.
   const headers = "[" + headerNames.map((h: any) => {
     const headerResource = allResources.find((r) =>
       r["$schema"] === headerSchemaUrl && r.name === h
@@ -106,7 +106,7 @@ export function createOperationConst(
     }`;
   }).join(", ") + "]";
 
-  // build url parameters declaration
+  // Build url parameters declaration.
   const urlParams = "[" + (resource.urlParams || []).map((urlResource: any) => {
     const uSystem = getSystemFromTypeString(urlResource.type);
     const uType = getTypeFromTypeString(urlResource.type);
@@ -117,7 +117,7 @@ export function createOperationConst(
     }`;
   }).join(", ") + "]";
 
-  // build query parameters declaration
+  // Build query parameters declaration.
   const queryParams = "[" + (method.queryParams || []).map((qp: any) => {
     const qpSystem = getSystemFromTypeString(qp.type);
     const qpType = getTypeFromTypeString(qp.type);
@@ -130,7 +130,7 @@ export function createOperationConst(
     }`;
   }).join(", ") + "]";
 
-  // build outbound headers declaration
+  // Build outbound headers declaration.
   const outHeaders = "[" + responseHeaderNames.map((h: any) => {
     const outHeaderResource = allResources.find((r) =>
       r["$schema"] === outboundHeaderSchemaUrl && r.name === h
@@ -153,8 +153,10 @@ export function createOperationConst(
     }`;
   }).join(", ") + "]";
 
+  // Get the names of the parameters.
   const queryParamNames = (method.queryParams || []).map((qp: any) => qp.name);
 
+  // Get the local types of the failures.
   const failureTypeNames = (method.responseFailureDefinitions || []).map((
     rfd: any,
   ) => rfd.localType);
