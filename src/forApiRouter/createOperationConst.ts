@@ -60,10 +60,10 @@ export function createOperationConst(
     responseFailureDefsLine = `responseFailureDefinitions: [${rfcs}],`;
   }
 
-  let summaryLine = "";
+  let markdownLine = "";
 
-  if (method.summary) {
-    summaryLine = `markdown: "${method.markdown}",`;
+  if (method.markdown) {
+    markdownLine = `markdown: "${method.markdown.replaceAll(/"/g, '"')}",`;
   }
 
   let apiKeyLine = "";
@@ -177,7 +177,7 @@ export function createOperationConst(
     value: `{
       method: "${method.method}",
       name: "${method.name}",
-      ${summaryLine}
+      ${markdownLine}
       operationId: "${method.operationId}",
       urlPattern: "${resource.urlPattern}",
       requestUrlParams: ${urlParams},

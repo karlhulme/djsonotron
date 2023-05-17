@@ -127,7 +127,7 @@ Deno.test("Convert populated array into typescript union.", () => {
         "methods": [{
           "method": "GET",
           "name": "Get test",
-          "summary": "Get the test record.",
+          "markdown": "Get the test record.",
           "operationId": "getTest",
           "responseBodyType": "svc/test",
         }, {
