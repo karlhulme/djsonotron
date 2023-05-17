@@ -63,7 +63,7 @@ export function createOperationConst(
   let markdownLine = "";
 
   if (method.markdown) {
-    markdownLine = `markdown: "${method.markdown.replaceAll(/\"/g, '"')}",`;
+    markdownLine = `markdown: "${method.markdown.replaceAll(/\"/g, '\\"')}",`;
   }
 
   let apiKeyLine = "";
