@@ -20,8 +20,9 @@ export function generateConstDecForJsonotronType(
 ): TypescriptTreeConstDeclaration {
   return {
     name: `${typeDef.system}${capitalizeFirstLetter(typeDef.name)}Type`,
-    comment:
-      `The runtime type information for the ${typeDef.system}/${typeDef.name} type.`,
+    comment: `The runtime type information for the ${typeDef.system}${
+      capitalizeFirstLetter(typeDef.name)
+    } type.`,
     exported: true,
     deprecated: Boolean(typeDef.deprecated),
     typeName: "JsonotronRuntimeType",

@@ -16,8 +16,9 @@ export function generateConstDecForEnumType(
 ): TypescriptTreeConstDeclaration {
   return {
     name: `${enumType.system}${capitalizeFirstLetter(enumType.name)}Type`,
-    comment:
-      `The runtime type information for the ${enumType.system}/${enumType.name} type.`,
+    comment: `The runtime type information for the ${enumType.system}${
+      capitalizeFirstLetter(enumType.name)
+    } type.`,
     exported: true,
     deprecated: Boolean(enumType.deprecated),
     typeName: "JsonotronRuntimeType",

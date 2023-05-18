@@ -40,8 +40,7 @@ export function generateJsonSchemaSetForRecordTypePropertiesBlock(
 }
 
 /**
- * Generates a JSON schema that either directly describes a simple
- * JSON type (e.g. string, number) or generates a reference to a
+ * Generates a JSON schema that references a
  * complex type that is expected to be found in the
  * #/components/schemas section.
  * @param recordProp A property on a jsonotron record.
@@ -70,10 +69,12 @@ function generateJsonSchemaForRecordTypeProperty(
     : {};
 
   return {
-    $ref: `${componentSchemasPath}${recordPropType.system}${
-      capitalizeFirstLetter(recordPropType.name)
-    }${recordProp.isArray ? "Array" : ""}`,
-    ...nullableProps,
     ...documentationProps,
+    ...nullableProps,
+    allOf: [{
+      $ref: `${componentSchemasPath}${recordPropType.system}${
+        capitalizeFirstLetter(recordPropType.name)
+      }${recordProp.isArray ? "Array" : ""}`,
+    }],
   };
 }
