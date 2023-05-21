@@ -86,24 +86,6 @@ export function createOperationConst(
     cookieAuthLine = `requiresCookieAuth: true,`;
   }
 
-  let usesSetCookieLine = "";
-
-  if (method.usesSetCookie) {
-    usesSetCookieLine = `usesSetCookie: true,`;
-  }
-
-  let acceptIdempotencyKeyLine = "";
-
-  if (method.acceptIdempotencyKey) {
-    acceptIdempotencyKeyLine = `acceptIdempotencyKey: true,`;
-  }
-
-  let usesUserAgentLine = "";
-
-  if (method.usesUserAgent) {
-    usesUserAgentLine = `usesUserAgent: true,`;
-  }
-
   let deprecatedLine = "";
 
   if (method.deprecated) {
@@ -237,9 +219,6 @@ export function createOperationConst(
       apiVersion: "${method.apiVersion}",
       ${apiKeyLine}
       ${cookieAuthLine}
-      ${usesSetCookieLine}
-      ${acceptIdempotencyKeyLine}
-      ${usesUserAgentLine}
       ${deprecatedLine}
       tags: ${JSON.stringify(resource.tags || [])},
       flags: ${JSON.stringify(method.flags || [])}
