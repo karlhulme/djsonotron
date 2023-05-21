@@ -113,6 +113,7 @@ Deno.test("Convert populated array into typescript union.", () => {
           "requiresCookieAuth": true,
           "usesSetCookie": true,
           "acceptIdempotencyKey": true,
+          "usesUserAgent": true,
           "deprecated": "Not in use.",
         }],
       },

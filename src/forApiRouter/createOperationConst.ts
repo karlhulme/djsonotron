@@ -98,6 +98,12 @@ export function createOperationConst(
     acceptIdempotencyKeyLine = `acceptIdempotencyKey: true,`;
   }
 
+  let usesUserAgentLine = "";
+
+  if (method.usesUserAgent) {
+    usesUserAgentLine = `usesUserAgent: true,`;
+  }
+
   let deprecatedLine = "";
 
   if (method.deprecated) {
@@ -219,6 +225,7 @@ export function createOperationConst(
       ${cookieAuthLine}
       ${usesSetCookieLine}
       ${acceptIdempotencyKeyLine}
+      ${usesUserAgentLine}
       ${deprecatedLine}
       tags: ${JSON.stringify(resource.tags || [])},
       flags: ${JSON.stringify(method.flags || [])}

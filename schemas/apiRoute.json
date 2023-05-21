@@ -328,6 +328,9 @@
           "requiresCookieAuth": {
             "type": "boolean"
           },
+          "usesUserAgent": {
+            "type": "boolean"
+          },
           "usesSetCookie": {
             "type": "boolean"
           },
