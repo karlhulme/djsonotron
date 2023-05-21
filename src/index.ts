@@ -20,11 +20,6 @@ export {
   parseDate,
 } from "./forRuntime/index.ts";
 export {
-  createSengiStandardProperties,
-  generateCodeForCosmosDatabase,
-  generateCodeForMongoDatabase,
-} from "./forSengi/index.ts";
-export {
   capitalizeFirstLetter,
   readJsonResourcesFromDirectory,
   readYamlResourcesFromDirectory,
