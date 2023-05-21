@@ -112,8 +112,16 @@ export function createOperationConst(
 
   const urlParamNames = (resource.urlParams || [])
     .map((urlp: any) => urlp.name);
+
   const headerNames = method.headerNames || [];
-  const responseHeaderNames = method.responseHeaderNames || [];
+
+  if (method.acceptIdempotencyKey) {
+    headerNames.push("idempotency-key");
+  }
+
+  if (method.usesUserAgent) {
+    headerNames.push("user-agent");
+  }
 
   // Build headers declaration.
   const headers = "[" + headerNames.map((h: any) => {
@@ -163,6 +171,12 @@ export function createOperationConst(
   }).join(", ") + "]";
 
   // Build outbound headers declaration.
+  const responseHeaderNames = method.responseHeaderNames || [];
+
+  if (method.usesSetCookie) {
+    responseHeaderNames.push("set-cookie");
+  }
+
   const outHeaders = "[" + responseHeaderNames.map((h: any) => {
     const outHeaderResource = allResources.find((r) =>
       r["$schema"] === outboundHeaderSchemaUrl && r.name === h
