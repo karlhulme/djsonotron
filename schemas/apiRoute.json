@@ -325,6 +325,9 @@
           "requiresApiKey": {
             "type": "boolean"
           },
+          "requiresCookieAuth": {
+            "type": "boolean"
+          },
           "apiVersion": {
             "type": "string"
           },

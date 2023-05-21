@@ -80,6 +80,12 @@ export function createOperationConst(
     apiKeyLine = `requiresApiKey: true,`;
   }
 
+  let cookieAuthLine = "";
+
+  if (method.requiresCookieAuth) {
+    cookieAuthLine = `requiresCookieAuth: true,`;
+  }
+
   let deprecatedLine = "";
 
   if (method.deprecated) {
@@ -198,6 +204,7 @@ export function createOperationConst(
       ${responseFailureDefsLine}
       apiVersion: "${method.apiVersion}",
       ${apiKeyLine}
+      ${cookieAuthLine}
       ${deprecatedLine}
       tags: ${JSON.stringify(resource.tags || [])},
       flags: ${JSON.stringify(method.flags || [])}
