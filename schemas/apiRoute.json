@@ -328,6 +328,12 @@
           "requiresCookieAuth": {
             "type": "boolean"
           },
+          "usesSetCookie": {
+            "type": "boolean"
+          },
+          "acceptIdempotencyKey": {
+            "type": "boolean"
+          },
           "apiVersion": {
             "type": "string"
           },
