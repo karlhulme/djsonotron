@@ -21,6 +21,8 @@ export {
 } from "./forRuntime/index.ts";
 export {
   capitalizeFirstLetter,
+  getSystemFromTypeString,
+  getTypeFromTypeString,
   readJsonResourcesFromDirectory,
   readYamlResourcesFromDirectory,
 } from "./utils/index.ts";
